@@ -1,7 +1,7 @@
 ---
 name: Feature request issue
 about: 프로젝트에 새로운 기능 추가
-title: "[Feat]"
+title: "[FEAT]"
 labels: ''
 assignees: ''
 
