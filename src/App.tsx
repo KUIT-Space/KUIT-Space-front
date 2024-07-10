@@ -1,28 +1,26 @@
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
-import Header from "./components/Header";
-import BottomNavBar from "./components/BottomNavBar";
-import LoginPage from "./pages/LoginPage/LoginPage";
-import HomePage from "./pages/HomePage";
+import BottomNavBar from "@/components/BottomNavBar";
+import LoginPage from "@/pages/LoginPage/LoginPage";
+import HomePage from "@/pages/HomePage";
+import VoiceRoomListPage from "@/pages/VoiceRoomPage/VoiceRoomListPage";
 
 function Layout() {
-  return (
-      <>
-        <Header />
-        <Outlet />
-        <BottomNavBar />
-      </>
-  );
+	return (
+		<>
+			<Outlet />
+			<BottomNavBar />
+		</>
+	);
 }
 
 function App() {
 	const routes = [
 		{
-			element: (
-					<Layout />
-			),
+			element: <Layout />,
 			children: [
 				{ path: "/", element: <HomePage /> },
 				{ path: "/login", element: <LoginPage /> },
+				{ path: "/voiceroom", element: <VoiceRoomListPage /> },
 			],
 		},
 	];
