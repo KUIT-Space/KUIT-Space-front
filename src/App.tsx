@@ -1,15 +1,12 @@
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
-import Header from "./components/Header";
-import BottomNavBar from "./components/BottomNavBar";
-import LoginPage from "./pages/LoginPage/LoginPage";
-import HomePage from "./pages/HomePage";
-import VoiceRoomListPage from "./pages/VoiceRoomPage/VoiceRoomListPage";
-import GlobalStyles from "./styles/GlobalStyles"
+import BottomNavBar from "@/components/BottomNavBar";
+import LoginPage from "@/pages/LoginPage/LoginPage";
+import HomePage from "@/pages/HomePage";
+import VoiceRoomListPage from "@/pages/VoiceRoomPage/VoiceRoomListPage";
 
 function Layout() {
 	return (
 		<>
-			<GlobalStyles />
 			<Outlet />
 			<BottomNavBar />
 		</>
@@ -19,9 +16,7 @@ function Layout() {
 function App() {
 	const routes = [
 		{
-			element: (
-				<Layout />
-			),
+			element: <Layout />,
 			children: [
 				{ path: "/", element: <HomePage /> },
 				{ path: "/login", element: <LoginPage /> },
