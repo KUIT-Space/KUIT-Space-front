@@ -22,13 +22,15 @@ const MenuDiv = styled.div`
 `
 const BottomNavBar = () => {
   return (
-    <StyledDiv>
-      <MenuDiv><img src={voice} />보이스룸</MenuDiv>
-      <MenuDiv><img src={chat} />채팅</MenuDiv>
-      <MenuDiv><img src={home} />홈</MenuDiv>
-      <MenuDiv><img src={pay} />정산</MenuDiv>
-      <MenuDiv><img src={board} />게시판</MenuDiv>
-    </StyledDiv>
+    <div style={{display:"flex", alignItems:"center", justifyContent:"center"}}>
+      <StyledDiv>
+        <MenuDiv><img src={voice} />보이스룸</MenuDiv>
+        <MenuDiv><img src={chat} />채팅</MenuDiv>
+        <MenuDiv><img src={home} />홈</MenuDiv>
+        <MenuDiv><img src={pay} />정산</MenuDiv>
+        <MenuDiv><img src={board} />게시판</MenuDiv>
+      </StyledDiv>
+    </div>
   )
 }
 
