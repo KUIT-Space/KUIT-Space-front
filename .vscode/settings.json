@@ -1,6 +1,12 @@
 {
   "editor.codeActionsOnSave": {
-  "source.fixAll": true,
-},
-"editor.formatOnSave": true,
+    "source.fixAll": "always",
+  },
+  "editor.formatOnSave": true,
+  "editor.tabSize": 2,
+  
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
 }
