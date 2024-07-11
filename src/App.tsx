@@ -3,13 +3,22 @@ import BottomNavBar from "@/components/BottomNavBar";
 import LoginPage from "@/pages/LoginPage/LoginPage";
 import HomePage from "@/pages/HomePage";
 import VoiceRoomListPage from "@/pages/VoiceRoomPage/VoiceRoomListPage";
+import ChatPage from "@/pages/ChatPage/ChatPage";
+import styled from "styled-components";
+
+const LayoutContainer = styled.div`
+	display: flex;
+	justify-content: center;
+`;
 
 function Layout() {
 	return (
-		<>
-			<Outlet />
-			<BottomNavBar />
-		</>
+		<LayoutContainer>
+			<div>
+				<Outlet />
+				<BottomNavBar />
+			</div>
+		</LayoutContainer>
 	);
 }
 
@@ -21,6 +30,7 @@ function App() {
 				{ path: "/", element: <HomePage /> },
 				{ path: "/login", element: <LoginPage /> },
 				{ path: "/voiceroom", element: <VoiceRoomListPage /> },
+				{ path: "/chat", element: <ChatPage /> },
 			],
 		},
 	];

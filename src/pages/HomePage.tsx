@@ -1,13 +1,19 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
+
+const LinkContainer = styled.div`
+	display: flex;
+	flex-direction: column;
+`;
 
 const HomePage = () => {
-	const navigate = useNavigate();
 	return (
 		//test Link
-		<div>
+		<LinkContainer>
 			<h1>Home page link 모음 입니다</h1>
 			<Link to="/voiceroom">voiceroom link</Link>
-		</div>
+			<Link to="/chat">chatting room link</Link>
+		</LinkContainer>
 	);
 };
 
