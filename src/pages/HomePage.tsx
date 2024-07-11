@@ -1,16 +1,12 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const HomePage = () => {
 	const navigate = useNavigate();
 	return (
-		//test onClick
-		<div
-			onClick={() => {
-				navigate("/voiceroom");
-			}}
-		>
-			{" "}
-			HomePage
+		//test Link
+		<div>
+			<h1>Home page link 모음 입니다</h1>
+			<Link to="/voiceroom">voiceroom link</Link>
 		</div>
 	);
 };

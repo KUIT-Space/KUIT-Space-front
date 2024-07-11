@@ -3,7 +3,11 @@
   background-color: #171719;
 }
 
-body{
+body {
+  color: white;
+}
+
+a {
   color: white;
 }
 
