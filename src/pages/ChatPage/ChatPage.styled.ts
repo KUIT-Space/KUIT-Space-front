@@ -18,7 +18,7 @@ export const ChatContainer = styled.div`
 	}}
 
 	&:active {
-		background-color: ${(props) => props.theme.colors.BG800};
+		background-color: ${({ theme }) => theme.colors.BG800};
 	}
 
 	.chat-btn-img {
