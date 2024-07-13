@@ -1,13 +1,15 @@
 import TopBarText, { LeftEnum } from "@/components/TopBarText";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { ChatListContainer, ChatContainer } from "./ChatPage.styled";
 
 const ChatPage = () => {
+	const navigate = useNavigate();
 	const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
 	useEffect(() => {
 		//admin 확인 부분
-		setIsAdmin(false);
+		setIsAdmin(true);
 	}, []);
 
 	const tempJson = {
@@ -24,7 +26,12 @@ const ChatPage = () => {
 			<ChatListContainer>
 				{tempJson.chatList.map((chat) => {
 					return (
-						<ChatContainer key={chat.id}>
+						<ChatContainer
+							key={chat.id}
+							onClick={() => {
+								navigate(`/chat/${chat.id}`);
+							}}
+						>
 							<img className="chat-btn-img" alt="chat-btn-img" src={chat.image} />
 							<div className="chat--container">
 								<div className="chat-btn--title-time--container">

@@ -4,6 +4,7 @@ export const ChatListContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	gap: 8px;
+	user-select: none;
 `;
 
 export const ChatContainer = styled.div`
@@ -12,14 +13,20 @@ export const ChatContainer = styled.div`
 	align-items: center;
 	gap: 12px;
 
+	${(props) => {
+		return props.onClick && "cursor: pointer;";
+	}}
+
+	&:active {
+		background-color: ${(props) => props.theme.colors.BG800};
+	}
+
 	.chat-btn-img {
 		width: 40px;
 		height: 40px;
 		flex-shrink: 0;
 		border-radius: 8px;
-		background:
-			lightgray 50% / cover no-repeat,
-			#dfdfdf;
+		background: lightgray 50% / cover no-repeat;
 	}
 
 	.chat--container {

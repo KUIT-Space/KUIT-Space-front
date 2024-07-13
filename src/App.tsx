@@ -6,6 +6,7 @@ import VoiceRoomListPage from "@/pages/VoiceRoomPage/VoiceRoomListPage";
 import ChatPage from "@/pages/ChatPage/ChatPage";
 import styled, { ThemeProvider } from "styled-components";
 import theme from "@/styles/Theme";
+import ChattingPage from "./pages/ChatPage/ChattingPage/ChattingPage";
 
 const LayoutContainer = styled.div`
 	display: flex;
@@ -34,6 +35,7 @@ function App() {
 				{ path: "/login", element: <LoginPage /> },
 				{ path: "/voiceroom", element: <VoiceRoomListPage /> },
 				{ path: "/chat", element: <ChatPage /> },
+				{ path: "/chat/:id", element: <ChattingPage /> },
 			],
 		},
 	];
