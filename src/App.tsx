@@ -4,8 +4,7 @@ import LoginPage from "@/pages/LoginPage/LoginPage";
 import HomePage from "@/pages/HomePage";
 import VoiceRoomListPage from "@/pages/VoiceRoomPage/VoiceRoomListPage";
 import ChatPage from "@/pages/ChatPage/ChatPage";
-import styled from "styled-components";
-import { ThemeProvider } from "styled-components";
+import styled, { ThemeProvider } from "styled-components";
 import theme from "@/styles/Theme";
 
 const LayoutContainer = styled.div`
