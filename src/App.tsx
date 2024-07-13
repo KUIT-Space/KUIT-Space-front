@@ -5,6 +5,8 @@ import HomePage from "@/pages/HomePage";
 import VoiceRoomListPage from "@/pages/VoiceRoomPage/VoiceRoomListPage";
 import ChatPage from "@/pages/ChatPage/ChatPage";
 import styled from "styled-components";
+import { ThemeProvider } from "styled-components";
+import theme from "@/styles/Theme";
 
 const LayoutContainer = styled.div`
 	display: flex;
@@ -13,12 +15,14 @@ const LayoutContainer = styled.div`
 
 function Layout() {
 	return (
-		<LayoutContainer>
-			<div>
-				<Outlet />
-				<BottomNavBar />
-			</div>
-		</LayoutContainer>
+		<ThemeProvider theme={theme}>
+			<LayoutContainer>
+				<div>
+					<Outlet />
+					<BottomNavBar />
+				</div>
+			</LayoutContainer>
+		</ThemeProvider>
 	);
 }
 
