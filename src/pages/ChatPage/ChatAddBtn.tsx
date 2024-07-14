@@ -11,6 +11,12 @@ export const AddChatBtn = styled(AddChatButtonSVG)`
 	cursor: pointer;
 	border-radius: 100%;
 
+	position: absolute;
+	right: 21px;
+	bottom: 89px;
+	//left: 50%;
+	//transform: translateX(-50%);
+
 	&:active .circle {
 		fill: ${({ theme }) => theme.colors.normal_active};
 	}

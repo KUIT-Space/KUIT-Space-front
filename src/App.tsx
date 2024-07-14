@@ -17,7 +17,7 @@ function Layout() {
 	return (
 		<ThemeProvider theme={theme}>
 			<LayoutContainer>
-				<div>
+				<div style={{ position: "relative" }}>
 					<Outlet />
 					<BottomNavBar />
 				</div>
