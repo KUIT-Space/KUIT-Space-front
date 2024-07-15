@@ -5,8 +5,7 @@
 
 ## eslint, prettier, github issue/PR template 적용 완료
 
-[기본 브랜치 전략] 
-
+### <기본 브랜치 전략>
 각자 기능 구현 시,
 1. 어떤 기능을 구현해야 하는지 설명하는 issue 생성하기  
 2. 해당하는 issue 번호에 맞는 branch 생성하기  
@@ -15,6 +14,11 @@
 4. 1인 이상 approve review 후 merge
 5. review 완료되었고 문제 없으면 issue close
 
+### <추가 사항>
+- PR review는 두 명 이상 approve review 받고, PR 올린 사람이 merge 하기
+- 360px 기준으로 개발하되, **반응형**을 위해 width 등은 %를 최대한 사용하고, 나머지 px들(padding, margin, font)은 rem 단위를 사용할 것!!
+- color 는 변수화를 위해 hex color만 넣지 말고, 최소한 `background: var(--Foundation-Gray-gray900_background, #171719);` 이런 방식으로 넣기
+  - 시간 나면 다크모드, 추가 color style 대응을 위한 styled-compoent의 {theme} => theme.color... 방식 사용하기
 
 ## 기본 폴더 구조 (src/)
 - assets : 이미지 파일들이 들어가는 곳입니다. 특정 페이지/컴포넌트에서만 쓰이는 것은 폴더로 묶어주세요.
@@ -32,3 +36,4 @@
 ## Routing
 - App.tsx에 router도 함께 정의되어 있습니다.
 - children : [] 안에 원하는 경로와 보여줄 component를 작성합니다.
+- 
