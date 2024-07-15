@@ -3,13 +3,26 @@ import BottomNavBar from "@/components/BottomNavBar";
 import LoginPage from "@/pages/LoginPage/LoginPage";
 import HomePage from "@/pages/HomePage";
 import VoiceRoomListPage from "@/pages/VoiceRoomPage/VoiceRoomListPage";
+import ChatPage from "@/pages/ChatPage/ChatPage";
+import styled, { ThemeProvider } from "styled-components";
+import theme from "@/styles/Theme";
+import ChattingPage from "./pages/ChatPage/ChattingPage/ChattingPage";
+
+const LayoutContainer = styled.div`
+	display: flex;
+	justify-content: center;
+`;
 
 function Layout() {
 	return (
-		<>
-			<Outlet />
-			<BottomNavBar />
-		</>
+		<ThemeProvider theme={theme}>
+			<LayoutContainer>
+				<div style={{ position: "relative" }}>
+					<Outlet />
+					<BottomNavBar />
+				</div>
+			</LayoutContainer>
+		</ThemeProvider>
 	);
 }
 
@@ -21,6 +34,8 @@ function App() {
 				{ path: "/", element: <HomePage /> },
 				{ path: "/login", element: <LoginPage /> },
 				{ path: "/voiceroom", element: <VoiceRoomListPage /> },
+				{ path: "/chat", element: <ChatPage /> },
+				{ path: "/chat/:id", element: <ChattingPage /> },
 			],
 		},
 	];

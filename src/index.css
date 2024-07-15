@@ -1,9 +1,14 @@
 :root {
   box-sizing: border-box;
   background-color: #171719;
+  font-family: 'Freesentation R';
 }
 
-body{
+body {
+  color: white;
+}
+
+a {
   color: white;
 }
 
