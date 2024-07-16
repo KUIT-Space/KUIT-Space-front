@@ -4,23 +4,18 @@ export const StyledTopBarDiv = styled.div`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	text-align: center;
 `;
 
 export const StyledLeftDiv = styled.div`
 	${(props) => props.onClick && "cursor: pointer;"}
-
-	img {
-		width: 120px;
-	}
+	margin-right: auto;
 `;
 
-export const StyledCenterDiv = styled.div`
-	width: 160px;
-	text-align: center;
-`;
+export const StyledCenterDiv = styled.div``;
 
 export const StyledRightDiv = styled.div`
-	width: 160px;
+	margin-left: auto;
 `;
 
 export const StyledCenterP = styled.p`
