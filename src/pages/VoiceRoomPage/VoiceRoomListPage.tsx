@@ -16,7 +16,7 @@ function voiceRoomList() {
 const VoiceRoomListPage = () => {
 	const navigate = useNavigate();
 	return (
-		<div style={{ width: "640px", margin: "auto" }}>
+		<div style={{ width: "100%", margin: "auto" }}>
 			<TopBarText left={LeftEnum.Logo} center="보이스룸" right="" />
 			<s.ActiveP> 활동 중인 보이스룸 </s.ActiveP>
 			<s.BGdiv>
