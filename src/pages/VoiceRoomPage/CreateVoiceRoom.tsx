@@ -22,7 +22,7 @@ const CreateVoiceRoomPage = () => {
 				<s.TitleDiv>이름</s.TitleDiv>
 				<s.InputName id="inputName" type="text" placeholder="보이스룸 이름" onChange={handleSpaceName} />
 			</s.ContentDiv>
-			<s.CreateBtn>생성하기</s.CreateBtn>
+			<s.CreateBtn disabled={spaceName === "" ? true : false}>생성하기</s.CreateBtn>
 		</div>
 	);
 };
