@@ -7,12 +7,12 @@ export const ActiveP = styled.p`
 	font-family: "Freesentation SB";
 	font-size: 1.125rem;
 `;
-export const VRTitleP = styled.p`
+export const VRTitleDiv = styled.div`
 	font-family: "Freesentation SB";
 	font-size: 1.25rem;
 	color: black;
 	position: absolute;
-	margin-left: 1rem;
+	margin: 1rem;
 `;
 export const BGdiv = styled.div`
 	display: flex;
@@ -35,9 +35,21 @@ export const BGdiv2 = styled.div`
 export const RoundDiv = styled.div`
 	background-color: #222226;
 	border-radius: 1.25rem;
-	padding: 0.25rem 0.5rem 0.25rem 0.5rem;
+	padding: 0.25rem;
 	font-size: 0.875rem;
 	font-family: "Freesentation M";
+	color: "#767681";
+	margin: 0.625rem 0rem 0.625rem 0rem;
+`;
+
+export const RoundDiv2 = styled.div`
+	background-color: #222226;
+	border-radius: 1.25rem;
+	padding: 0.875rem 1rem 0.875rem 1rem;
+	font-size: 0.875rem;
+	font-family: "Freesentation M";
+	color: "#767681";
+	margin: 0.625rem 0rem 0.625rem 0rem;
 `;
 
 export const StyledButton = styled.button`
@@ -51,4 +63,9 @@ export const StyledButton = styled.button`
 	width: 100%;
 	font-size: 1.5rem;
 	font-family: "Freesentation M";
+`;
+
+export const StyledDiv = styled.div`
+	width: "100%";
+	margin: "auto";
 `;
