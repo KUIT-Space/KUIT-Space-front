@@ -1,7 +1,7 @@
 import { FC } from "react";
 import logo from "@/assets/logo_space.svg";
 import back from "@/assets/icon_back.svg";
-import * as sty from "@/styles/TopBarText.styled";
+import * as sty from "@/components/TopBarText.styled";
 import { useNavigate } from "react-router-dom";
 
 export enum LeftEnum {

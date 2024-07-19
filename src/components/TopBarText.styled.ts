@@ -5,7 +5,6 @@ export const StyledTopBarDiv = styled.div`
 	justify-content: space-between;
 	align-items: center;
 	text-align: center;
-
 	width: 100%;
 `;
 
