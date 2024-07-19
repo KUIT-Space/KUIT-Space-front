@@ -23,7 +23,12 @@ const VoiceRoomListPage = () => {
 			<s.BGdiv>
 				<div>
 					<s.VRTitleDiv> {"보이스룸 1"} </s.VRTitleDiv>
-					<div style={{ display: "flex", alignItems: "center", width: "640px", height: "124px", marginLeft: "16px" }}>
+					<div
+						onClick={() => {
+							navigate("/joinvoiceroom");
+						}}
+						style={{ display: "flex", alignItems: "center", width: "640px", height: "124px", marginLeft: "16px" }}
+					>
 						<s.RoundDiv>대화 중인 스페이서 6명</s.RoundDiv>
 					</div>
 				</div>

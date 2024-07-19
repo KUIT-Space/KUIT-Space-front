@@ -3,6 +3,7 @@ import { LeftEnum } from "@/components/TopBarText";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as s from "@/pages/VoiceRoomPage/CreateVoiceRoomPage.styled";
+import { BottomBtn } from "@/components/BottonBtn";
 
 const CreateVoiceRoomPage = () => {
 	const [step, setStep] = useState(1);
@@ -22,7 +23,7 @@ const CreateVoiceRoomPage = () => {
 				<s.TitleDiv>이름</s.TitleDiv>
 				<s.InputName id="inputName" type="text" placeholder="보이스룸 이름" onChange={handleSpaceName} />
 			</s.ContentDiv>
-			<s.CreateBtn disabled={spaceName === "" ? true : false}>생성하기</s.CreateBtn>
+			<BottomBtn disabled={spaceName === "" ? true : false}>생성하기</BottomBtn>
 		</div>
 	);
 };

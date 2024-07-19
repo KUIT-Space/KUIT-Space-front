@@ -9,6 +9,7 @@ import styled, { ThemeProvider } from "styled-components";
 import theme from "@/styles/Theme";
 import ChattingPage from "./pages/ChatPage/ChattingPage/ChattingPage";
 import CreateVoiceRoomPage from "./pages/VoiceRoomPage/CreateVoiceRoom";
+import JoinVoiceRoomPage from "./pages/VoiceRoomPage/JoinVoiceRoomPage";
 
 const LayoutContainer = styled.div`
 	display: flex;
@@ -38,6 +39,7 @@ function App() {
 				{ path: "/", element: <HomePage /> },
 				{ path: "/voiceroom", element: <VoiceRoomListPage /> },
 				{ path: "/createvoiceroom", element: <CreateVoiceRoomPage /> },
+				{ path: "/joinvoiceroom", element: <JoinVoiceRoomPage /> },
 				{ path: "/chat", element: <ChatPage /> },
 				{ path: "/chat/:id", element: <ChattingPage /> },
 			],
