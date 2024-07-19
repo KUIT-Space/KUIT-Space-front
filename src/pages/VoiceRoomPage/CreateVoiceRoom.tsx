@@ -3,7 +3,9 @@ import { LeftEnum } from "@/components/TopBarText";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as s from "@/pages/VoiceRoomPage/CreateVoiceRoomPage.styled";
-import { BottomBtn } from "@/components/BottonBtn";
+
+import { BottomBtn } from "@/components/BottomBtn";
+s;
 
 const CreateVoiceRoomPage = () => {
 	const [step, setStep] = useState(1);
