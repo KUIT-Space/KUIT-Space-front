@@ -6,7 +6,7 @@ import HomePage from "@/pages/HomePage";
 import VoiceRoomListPage from "@/pages/VoiceRoomPage/VoiceRoomListPage";
 import ChatPage from "@/pages/ChatPage/ChatPage";
 import styled, { ThemeProvider } from "styled-components";
-import theme from "@/styles/Theme";
+import { theme } from "@/styles/Theme";
 import ChattingPage from "./pages/ChatPage/ChattingPage/ChattingPage";
 
 const LayoutContainer = styled.div`
