@@ -6,7 +6,8 @@ import redo from "@/assets/icon_redo.svg";
 
 //임시로 적용하는 프로필 이미지
 import reactLogo from "@/assets/react.svg";
-import { BottomBtn } from "@/components/BottonBtn";
+import { BottomBtn } from "@/components/BottomBtn";
+
 const ProfileDiv = styled.div`
 	margin-top: 51px;
 `;
