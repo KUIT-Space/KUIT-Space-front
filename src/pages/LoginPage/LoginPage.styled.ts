@@ -31,24 +31,24 @@ export const Container = styled.div`
 
 export const Logo = styled.div`
 	display: flex;
-	width: 38.89%; /* 140px of 360px */
+	width: 38.89%;
 `;
 
 export const Input = styled.input`
 	display: flex;
-	width: 88.89%; /* 320px of 360px */
-	height: 3.25rem; /* 52px */
-	border-radius: 0.75rem; /* 12px */
-	padding: 0.9375rem; /* 15px */
-	padding-left: 1rem; /* 16px */
+	width: 88.89%;
+	height: 3.25rem;
+	border-radius: 0.75rem;
+	padding: 0.9375rem;
+	padding-left: 1rem;
 	border: 1px solid transparent;
 	background-color: #222226;
 	font-family: Freesentation;
-	font-size: 1rem; /* 16px */
+	font-size: 1rem;
 	font-style: normal;
 	font-weight: 400;
 	line-height: 140%;
-	letter-spacing: 0.04rem; /* 0.64px */
+	letter-spacing: 0.04rem;
 	color: #ffffff;
 	caret-color: #48ffbd;
 	margin-top: 1rem;
@@ -69,21 +69,21 @@ interface LoginButtonProps {
 
 export const LoginButton = styled.button<LoginButtonProps>`
 	display: flex;
-	width: 88.89%; /* 320px of 360px */
-	height: 3.25rem; /* 52px */
-	padding: 0.875rem 0 0.8125rem 0; /* 14px 0 13px 0 */
+	width: 88.89%;
+	height: 3.25rem;
+	padding: 0.875rem 0 0.8125rem 0;
 	justify-content: center;
 	align-items: center;
-	margin-top: 2rem; /* 32px */
+	margin-top: 2rem;
 	background-color: ${({ $isActive }) => ($isActive ? "#48FFBD" : "#45454B")};
 	color: ${({ $isActive }) => ($isActive ? "#171719" : "#ACACB5")};
-	border-radius: 0.75rem; /* 12px */
+	border-radius: 0.75rem;
 	font-family: Freesentation;
-	font-size: 1.125rem; /* 18px */
+	font-size: 1.125rem;
 	font-style: normal;
 	font-weight: 700;
 	line-height: 140%;
-	letter-spacing: 0.045rem; /* 0.72px */
+	letter-spacing: 0.045rem;
 	cursor: ${({ $isActive }) => ($isActive ? "pointer" : "default")};
 `;
 
@@ -91,24 +91,24 @@ export const BtContainer = styled.div`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	margin-top: 0.25rem; /* 4px */
-	width: 83.33%; /* 300px of 360px */
+	margin-top: 0.25rem;
+	width: 83.33%;
 `;
 
 export const Button = styled.button`
 	display: flex;
-	width: 6.25rem; /* 100px of 360px */
-	height: 2.75rem; /* 44px */
+	width: 6.25rem;
+	height: 2.75rem;
 	justify-content: center;
 	align-items: center;
 	color: #767681;
 	text-align: center;
 	font-family: Freesentation;
-	font-size: 0.875rem; /* 14px */
+	font-size: 0.875rem;
 	font-style: normal;
 	font-weight: 400;
 	line-height: 140%;
-	letter-spacing: 0.035rem; /* 0.56px */
+	letter-spacing: 0.035rem;
 	cursor: pointer;
 `;
 
@@ -116,16 +116,16 @@ export const ScContainer = styled.div`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	margin-top: 1.6875rem; /* 27px */
-	width: 45.56%; /* 164px of 360px */
-	gap: 1rem; /* 16px */
+	margin-top: 1.6875rem;
+	width: 45.56%;
+	gap: 1rem;
 `;
 
 export const Social = styled.button`
 	display: flex;
-	width: 2.75rem; /* 44px */
-	height: 2.75rem; /* 44px */
+	width: 2.75rem;
+	height: 2.75rem;
 	cursor: pointer;
-	border-radius: 0.5rem; /* 8px */
+	border-radius: 0.5rem;
 	overflow: hidden;
 `;
