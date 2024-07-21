@@ -5,6 +5,7 @@ export const ChatListContainer = styled.div`
 	flex-direction: column;
 	gap: 8px;
 	user-select: none;
+	min-height: calc(100vh - 5.625rem - 4rem - 3.75rem); //100vh - ChatAddBtn_height - Header_height - BottomNavBar_height
 `;
 
 export const ChatContainer = styled.div`

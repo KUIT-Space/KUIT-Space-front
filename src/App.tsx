@@ -18,8 +18,7 @@ const LayoutContainer = styled.div`
 	margin: 0 auto;
 
 	#content {
-		min-height: calc(100vh - 7.5rem);
-		padding: 0 0 3.75rem;
+		min-height: calc(100vh - 3.75rem);
 	}
 `;
 
