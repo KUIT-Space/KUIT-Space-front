@@ -1,5 +1,11 @@
+import TopBarText, { LeftEnum } from "@/components/TopBarText";
+
 const ChatCreatePage = () => {
-	return <div>ChatCreatePage</div>;
+	return (
+		<>
+			<TopBarText left={LeftEnum.Back} center="새 채팅방" right="" />
+		</>
+	);
 };
 
 export default ChatCreatePage;
