@@ -49,7 +49,13 @@ const ChatPage = () => {
 				})}
 			</ChatListContainer>
 
-			{isAdmin && <AddChatBtn />}
+			{isAdmin && (
+				<AddChatBtn
+					onClick={() => {
+						navigate(`/chat/create`);
+					}}
+				/>
+			)}
 		</>
 	);
 };

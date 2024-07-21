@@ -8,6 +8,7 @@ import ChatPage from "@/pages/ChatPage/ChatPage";
 import styled, { ThemeProvider } from "styled-components";
 import theme from "@/styles/Theme";
 import ChattingPage from "./pages/ChatPage/ChattingPage/ChattingPage";
+import ChatCreatePage from "./pages/ChatPage/ChatCreatePage/ChatCreatePage";
 
 const LayoutContainer = styled.div`
 	display: flex;
@@ -38,6 +39,7 @@ function App() {
 				{ path: "/voiceroom", element: <VoiceRoomListPage /> },
 				{ path: "/chat", element: <ChatPage /> },
 				{ path: "/chat/:id", element: <ChattingPage /> },
+				{ path: "/chat/create", element: <ChatCreatePage /> },
 			],
 		},
 	];

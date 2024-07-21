@@ -3,15 +3,15 @@ import styled from "styled-components";
 export const ChatListContainer = styled.div`
 	display: flex;
 	flex-direction: column;
-	gap: 8px;
+	gap: 0.5rem;
 	user-select: none;
 `;
 
 export const ChatContainer = styled.div`
 	display: flex;
-	padding: 12px 20px;
+	padding: 0.75rem 1.25rem;
 	align-items: center;
-	gap: 12px;
+	gap: 0.75rem;
 
 	${(props) => {
 		return props.onClick && "cursor: pointer;";
@@ -22,10 +22,10 @@ export const ChatContainer = styled.div`
 	}
 
 	.chat-btn-img {
-		width: 40px;
-		height: 40px;
+		width: 2.5rem;
+		height: 2.5rem;
 		flex-shrink: 0;
-		border-radius: 8px;
+		border-radius: 0.5rem;
 		background: lightgray 50% / cover no-repeat;
 	}
 
@@ -38,31 +38,31 @@ export const ChatContainer = styled.div`
 	.chat-btn--title-time--container {
 		display: flex;
 		align-items: center;
-		gap: 8px;
+		gap: 0.5rem;
 		align-self: stretch;
 	}
 
 	.chat-btn-title {
-		max-width: 150px;
+		max-width: 9.375rem;
 		color: var(--Foundation-Gray-white, #fff);
 
 		/* text/Medium 16pt */
-		font-size: 16px;
+		font-size: 1rem;
 		font-style: normal;
 		font-weight: 500;
 		line-height: 140%; /* 22.4px */
-		letter-spacing: 0.64px;
+		letter-spacing: 0.04rem;
 	}
 
 	.chat-btn-time {
 		color: var(--Foundation-Gray-gray500, #767681);
 
 		/* text/Regular 10pt */
-		font-size: 10px;
+		font-size: 0.625rem;
 		font-style: normal;
 		font-weight: 400;
 		line-height: 140%; /* 14px */
-		letter-spacing: 0.2px;
+		letter-spacing: 0.0125rem;
 	}
 
 	.chat-btn--detail-chatNum--container {
@@ -73,22 +73,22 @@ export const ChatContainer = styled.div`
 	}
 
 	.chat-btn-detail {
-		max-width: 216px;
+		max-width: 13.5rem;
 		color: var(--Foundation-Gray-gray300, var(--GRAY-300, #d4d4d9));
 
 		/* text/Regular 14pt */
-		font-size: 14px;
+		font-size: 0.875rem;
 		font-style: normal;
 		font-weight: 400;
 		line-height: 140%; /* 19.6px */
-		letter-spacing: 0.56px;
+		letter-spacing: 0.035rem;
 	}
 
 	.chat-btn-chatNum {
 		display: flex;
-		height: 17px;
-		max-width: 33px;
-		padding: 0px 6px;
+		height: 1.0625rem;
+		max-width: 2.0625rem;
+		padding: 0 0.375rem;
 		justify-content: flex-end;
 		align-items: center;
 		border-radius: 100px;
@@ -99,10 +99,10 @@ export const ChatContainer = styled.div`
 		color: var(--Foundation-Gray-white, #fff);
 		text-align: center;
 
-		font-size: 12px;
+		font-size: 0.75rem;
 		font-style: normal;
 		font-weight: 400;
 		line-height: 140%; /* 16.8px */
-		letter-spacing: 0.24px;
+		letter-spacing: 0.015rem;
 	}
 `;
