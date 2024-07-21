@@ -1,4 +1,4 @@
-import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, matchPath, Outlet, RouterProvider, useLocation } from "react-router-dom";
 import styled, { ThemeProvider } from "styled-components";
 import { theme } from "@/styles/Theme";
 import GlobalStyle from "@/styles/GlobalStyles";
@@ -12,6 +12,19 @@ import ChattingPage from "@/pages/ChatPage/ChattingPage/ChattingPage";
 import PayPage from "@/pages/PayPage/PayPage";
 import BoardPage from "@/pages/BoardPage/BoardPage";
 
+// will we need constant path in later..?
+// const PATH = {
+// 	HOME: "/",
+// 	LOGIN: "/login",
+// 	SIGNUP: "/signUp",
+// 	VOICEROOM: "/voiceroom",
+// 	CHAT: "/chat",
+// 	CHAT_ID: "/chat/:id",
+// 	CHAT_CREATE: "/chat/create",
+// 	PAY: "/pay",
+// 	BOARD: "/board",
+// };
+
 const LayoutContainer = styled.div`
 	position: relative;
 	min-width: 360px;
@@ -24,7 +37,15 @@ const LayoutContainer = styled.div`
 	}
 `;
 
-function Layout() {
+interface RouteChildren {
+	path: string;
+	element: JSX.Element;
+	hasBottomBar?: boolean;
+}
+
+function Layout({ routes_children }: { routes_children: RouteChildren[] }) {
+	const { pathname } = useLocation();
+
 	return (
 		<ThemeProvider theme={theme}>
 			<GlobalStyle />
@@ -32,26 +53,28 @@ function Layout() {
 				<div id="content">
 					<Outlet />
 				</div>
-				<BottomNavBar />
+				{routes_children.find((child) => matchPath(child.path, pathname))?.hasBottomBar && <BottomNavBar />}
 			</LayoutContainer>
 		</ThemeProvider>
 	);
 }
 
 function App() {
+	const routes_children = [
+		{ path: "/", element: <HomePage />, hasBottomBar: true },
+		{ path: "/voiceroom", element: <VoiceRoomListPage />, hasBottomBar: true },
+		{ path: "/chat", element: <ChatPage />, hasBottomBar: true },
+		{ path: "/chat/:id", element: <ChattingPage /> },
+		{ path: "/pay", element: <PayPage />, hasBottomBar: true },
+		{ path: "/board", element: <BoardPage />, hasBottomBar: true },
+	];
+
 	const routes = [
 		{ path: "/login", element: <LoginPage /> },
 		{ path: "/signUp", element: <SignUpPage /> },
 		{
-			element: <Layout />,
-			children: [
-				{ path: "/", element: <HomePage /> },
-				{ path: "/voiceroom", element: <VoiceRoomListPage /> },
-				{ path: "/chat", element: <ChatPage /> },
-				{ path: "/chat/:id", element: <ChattingPage /> },
-				{ path: "/pay", element: <PayPage /> },
-				{ path: "/board", element: <BoardPage /> },
-			],
+			element: <Layout routes_children={routes_children} />,
+			children: routes_children,
 		},
 	];
 	const router = createBrowserRouter(routes);
