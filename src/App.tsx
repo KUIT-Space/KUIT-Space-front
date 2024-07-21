@@ -1,27 +1,37 @@
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
+import styled, { ThemeProvider } from "styled-components";
 import BottomNavBar from "@/components/BottomNavBar";
 import LoginPage from "@/pages/LoginPage/LoginPage";
 import SignUpPage from "@/pages/LoginPage/SignUpPage";
 import HomePage from "@/pages/HomePage";
 import VoiceRoomListPage from "@/pages/VoiceRoomPage/VoiceRoomListPage";
 import ChatPage from "@/pages/ChatPage/ChatPage";
-import styled, { ThemeProvider } from "styled-components";
+import ChattingPage from "@/pages/ChatPage/ChattingPage/ChattingPage";
 import { theme } from "@/styles/Theme";
-import ChattingPage from "./pages/ChatPage/ChattingPage/ChattingPage";
+import GlobalStyle from "@/styles/GlobalStyles";
 
 const LayoutContainer = styled.div`
-	display: flex;
-	justify-content: center;
+	position: relative;
+	min-width: 360px;
+	max-width: 720px;
+	width: 100%;
+	margin: 0 auto;
+
+	#content {
+		min-height: calc(100vh - 7.5rem);
+		padding: 0 0 3.75rem;
+	}
 `;
 
 function Layout() {
 	return (
 		<ThemeProvider theme={theme}>
+			<GlobalStyle />
 			<LayoutContainer>
-				<div style={{ position: "relative" }}>
+				<div id="content">
 					<Outlet />
-					<BottomNavBar />
 				</div>
+				<BottomNavBar />
 			</LayoutContainer>
 		</ThemeProvider>
 	);
