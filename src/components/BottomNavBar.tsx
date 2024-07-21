@@ -13,6 +13,7 @@ const MenuContainer = styled.div`
 	background-color: ${({ theme }) => theme.colors.BG800};
 	position: sticky;
 	bottom: 0;
+	user-select: none;
 `;
 
 const Menu = styled(Link)`
