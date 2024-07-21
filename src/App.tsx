@@ -1,5 +1,7 @@
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import styled, { ThemeProvider } from "styled-components";
+import { theme } from "@/styles/Theme";
+import GlobalStyle from "@/styles/GlobalStyles";
 import BottomNavBar from "@/components/BottomNavBar";
 import LoginPage from "@/pages/LoginPage/LoginPage";
 import SignUpPage from "@/pages/LoginPage/SignUpPage";
@@ -7,8 +9,8 @@ import HomePage from "@/pages/HomePage";
 import VoiceRoomListPage from "@/pages/VoiceRoomPage/VoiceRoomListPage";
 import ChatPage from "@/pages/ChatPage/ChatPage";
 import ChattingPage from "@/pages/ChatPage/ChattingPage/ChattingPage";
-import { theme } from "@/styles/Theme";
-import GlobalStyle from "@/styles/GlobalStyles";
+import PayPage from "@/pages/PayPage/PayPage";
+import BoardPage from "@/pages/BoardPage/BoardPage";
 
 const LayoutContainer = styled.div`
 	position: relative;
@@ -47,6 +49,8 @@ function App() {
 				{ path: "/voiceroom", element: <VoiceRoomListPage /> },
 				{ path: "/chat", element: <ChatPage /> },
 				{ path: "/chat/:id", element: <ChattingPage /> },
+				{ path: "/pay", element: <PayPage /> },
+				{ path: "/board", element: <BoardPage /> },
 			],
 		},
 	];

@@ -1,10 +1,6 @@
-import styled from "styled-components";
-import board from "@/assets/icon_board.svg";
-import chat from "@/assets/icon_chat.svg";
-import home from "@/assets/icon_home.svg";
-import pay from "@/assets/icon_pay.svg";
-import voice from "@/assets/icon_voice.svg";
-import { Link } from "react-router-dom";
+import styled, { useTheme } from "styled-components";
+import { BoardIcon, ChatIcon, HomeIcon, PayIcon, VoiceIcon } from "@/assets/BottomNavBar/BottomNavBarIcon";
+import { Link, matchPath, useLocation } from "react-router-dom";
 
 const MenuContainer = styled.div`
 	height: 3.75rem;
@@ -26,25 +22,30 @@ const Menu = styled(Link)`
 `;
 
 const BottomNavBar = () => {
+	const { pathname } = useLocation();
+	const theme = useTheme();
+
+	const getFillColor = (path: string) => (matchPath(`${path}/*`, pathname) !== null ? theme.colors.normal : theme.colors.BG400);
+
 	return (
 		<MenuContainer>
 			<Menu to="/voiceroom">
-				<img src={voice} />
+				<VoiceIcon fill={getFillColor("/voiceroom")} />
 				보이스룸
 			</Menu>
 			<Menu to="/chat">
-				<img src={chat} />
+				<ChatIcon fill={getFillColor("/chat")} />
 				채팅
 			</Menu>
 			<Menu to="/">
-				<img src={home} />홈
+				<HomeIcon fill={getFillColor("/")} />홈
 			</Menu>
-			<Menu to="/voiceroom">
-				<img src={pay} />
+			<Menu to="/pay">
+				<PayIcon fill={getFillColor("/pay")} />
 				정산
 			</Menu>
-			<Menu to="/voiceroom">
-				<img src={board} />
+			<Menu to="/board">
+				<BoardIcon fill={getFillColor("/board")} />
 				게시판
 			</Menu>
 		</MenuContainer>
