@@ -15,7 +15,7 @@ const GridContainer = styled.div`
 const GridItem = styled.div`
 	width: 100px;
 	height: 100px;
-	background-color:;
+	background-color: var(--Foundation-Gray-gray500, #767681);
 	display: flex;
 	justify-content: center;
 	align-items: center;
