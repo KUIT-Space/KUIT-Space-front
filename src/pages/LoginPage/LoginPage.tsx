@@ -24,7 +24,7 @@ const LoginPage = () => {
 				<Logo>
 					<img src={logoSpace} style={{ width: "100%" }} alt="Logo" />
 				</Logo>
-				<Input type="text" placeholder="아이디" value={id} onChange={(e) => setId(e.target.value)} />
+				<Input type="id" placeholder="아이디" value={id} onChange={(e) => setId(e.target.value)} style={{ marginTop: "10.37rem" }} />
 				<Input type="password" placeholder="비밀번호" value={password} onChange={(e) => setPassword(e.target.value)} />
 				<LoginButton $isActive={isButtonActive}>로그인</LoginButton>
 				<BtContainer>

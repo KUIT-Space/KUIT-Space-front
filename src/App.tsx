@@ -1,7 +1,7 @@
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import BottomNavBar from "@/components/BottomNavBar";
 import LoginPage from "@/pages/LoginPage/LoginPage";
-import SignUpPage from "@/pages/LoginPage/SignUpPage";
+import SignUpPage from "@/pages/LoginPage/SignUpPage_ID";
 import HomePage from "@/pages/HomePage";
 import VoiceRoomListPage from "@/pages/VoiceRoomPage/VoiceRoomListPage";
 import ChatPage from "@/pages/ChatPage/ChatPage";
