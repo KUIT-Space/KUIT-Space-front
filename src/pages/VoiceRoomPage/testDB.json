@@ -1,0 +1,14 @@
+{
+  "users":[
+      {
+          "id":0,
+          "name":"양석준",
+          "profile":"https://velog.velcdn.com/images/ysj7191/profile/98c537e3-9171-4d4d-aed9-abbe82d6ad62/image.png"
+      },
+      {
+          "id":1,
+          "name":"김하진",
+          "profile":"https://velog.velcdn.com/images/yuuuye/profile/6fe19230-cda6-11e9-ae48-6f298a94e165/yy.png"
+      }
+  ]
+}
