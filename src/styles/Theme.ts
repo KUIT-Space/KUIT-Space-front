@@ -1,7 +1,9 @@
+import { DefaultTheme } from "styled-components";
+
 const windowSize = {
-	small: "screen and (max-width: `600px`)",
-	base: "screen and (max-width: `768px`)",
-	large: "screen and (max-width: `1024px`)",
+	small: "screen and (max-width: 450px)",
+	base: "screen and (max-width: 768px)",
+	large: "screen and (max-width: 1024px)",
 };
 
 const fontSize = {
@@ -41,10 +43,12 @@ const colors = {
 	char_red: "#FF5656",
 };
 
-const theme = {
+export type windowSizeTypes = typeof windowSize;
+export type fontSizeTypes = typeof fontSize;
+export type colorsTypes = typeof colors;
+
+export const theme: DefaultTheme = {
 	windowSize,
 	fontSize,
 	colors,
 };
-
-export default theme;

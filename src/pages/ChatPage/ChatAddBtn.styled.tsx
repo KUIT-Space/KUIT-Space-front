@@ -10,12 +10,10 @@ const AddChatButtonSVG: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
 export const AddChatBtn = styled(AddChatButtonSVG)`
 	cursor: pointer;
 	border-radius: 100%;
-
-	position: absolute;
-	right: 21px;
-	bottom: 89px;
-	//left: 50%;
-	//transform: translateX(-50%);
+	position: sticky;
+	bottom: 5.625rem;
+	left: 100%;
+	margin-right: 3rem;
 
 	&:active .circle {
 		fill: ${({ theme }) => theme.colors.normal_active};

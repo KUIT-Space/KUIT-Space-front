@@ -5,6 +5,8 @@ export const StyledTopBarDiv = styled.div`
 	justify-content: space-between;
 	align-items: center;
 	text-align: center;
+	width: 100%;
+	user-select: none;
 `;
 
 export const StyledLeftDiv = styled.div`
