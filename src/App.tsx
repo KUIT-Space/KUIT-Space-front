@@ -70,8 +70,8 @@ function App() {
 		{ path: "/chat/:id", element: <ChattingPage /> },
 		{ path: "/pay", element: <PayPage />, hasBottomBar: true },
 		{ path: "/board", element: <BoardPage />, hasBottomBar: true },
-		{ path: "/createvoiceroom", element: <CreateVoiceRoomPage /> },
-		{ path: "/joinvoiceroom", element: <JoinVoiceRoomPage /> },
+		{ path: "/createvoiceroom", element: <CreateVoiceRoomPage />, hasBottomBar: false },
+		{ path: "/joinvoiceroom", element: <JoinVoiceRoomPage />, hasBottombar: false },
 	];
 
 	const routes = [
