@@ -3,7 +3,9 @@ import { LeftEnum } from "@/components/TopBarText";
 import plus from "@/assets/VoiceRoom/icon_plus.svg";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Data from "@/pages/VoiceRoomPage/testDB.json";
 import * as s from "@/pages/VoiceRoomPage/VoiceRoomListPage.styled";
+import VoiceRoomUser from "./VoiceRoomUser";
 
 function memberList() {}
 
@@ -21,17 +23,22 @@ const VoiceRoomListPage = () => {
 			<TopBarText left={LeftEnum.Logo} center="보이스룸" right="" />
 			<s.ActiveP> 활동 중인 보이스룸 </s.ActiveP>
 			<s.BGdiv>
-				<div>
-					<s.VRTitleDiv> {"보이스룸 1"} </s.VRTitleDiv>
-					<div
+				<s.VRTitleDiv> {"보이스룸 1"} </s.VRTitleDiv>
+				{/* <div
 						onClick={() => {
 							navigate("/joinvoiceroom");
 						}}
 						style={{ display: "flex", alignItems: "center", width: "640px", height: "124px", marginLeft: "16px" }}
-					>
-						<s.RoundDiv>대화 중인 스페이서 6명</s.RoundDiv>
-					</div>
-				</div>
+					> */}
+				<s.InfoDiv>
+					<s.RoundDiv>대화 중인 스페이서 6명</s.RoundDiv>
+					<s.DropdownDiv>
+						{Data.users.map((value, index) => {
+							return <VoiceRoomUser key={value.id} props={value} />;
+						})}
+					</s.DropdownDiv>
+				</s.InfoDiv>
+				{/* </div> */}
 			</s.BGdiv>
 			<s.BGdiv2 style={{ marginTop: "12px" }}>
 				<div>
