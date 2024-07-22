@@ -9,14 +9,14 @@ import { useNavigate } from "react-router-dom";
 import * as s from "@/pages/VoiceRoomPage/VoiceRoomListPage.styled";
 import * as sty from "@/components/TopBarText.styled";
 
-const VoiceRoomPage = ({ VoiceRoomName }: { VoiceRoomName: string }) => {
+const VoiceRoomPage = ({ VoiceRoomName, setJoin }: { VoiceRoomName: string; setJoin: React.Dispatch<React.SetStateAction<boolean>> }) => {
 	const navigate = useNavigate();
 	return (
 		<div>
 			<sty.StyledTopBarDiv>
 				<sty.StyledLeftDiv
 					onClick={() => {
-						navigate(-1);
+						setJoin(false);
 					}}
 				>
 					<img src={back}></img>

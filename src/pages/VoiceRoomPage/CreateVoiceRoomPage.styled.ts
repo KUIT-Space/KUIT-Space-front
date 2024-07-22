@@ -8,7 +8,6 @@ export const ContentDiv = styled.div`
 export const TitleDiv = styled.div`
 	color: var(--Foundation-Gray-gray200, #efeff0);
 	margin: 0rem 0rem 0.5rem 0rem;
-
 	/* text/Regular 16pt */
 	font-family: Freesentation R;
 	font-size: 16px;

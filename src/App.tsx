@@ -10,6 +10,7 @@ import theme from "@/styles/Theme";
 import ChattingPage from "./pages/ChatPage/ChattingPage/ChattingPage";
 import CreateVoiceRoomPage from "./pages/VoiceRoomPage/CreateVoiceRoom";
 import JoinVoiceRoomPage from "./pages/VoiceRoomPage/JoinVoiceRoomPage";
+import VoiceRoomPage from "./pages/VoiceRoomPage/VoiceRoomPage";
 
 const LayoutContainer = styled.div`
 	display: flex;
