@@ -13,6 +13,7 @@ const HomePage = () => {
 			<h1>Home page link 모음 입니다</h1>
 			<Link to="/voiceroom">voiceroom link</Link>
 			<Link to="/chat">chatting room link</Link>
+			<Link to="/space">space room link</Link>
 		</LinkContainer>
 	);
 };

@@ -8,6 +8,7 @@ import ChatPage from "@/pages/ChatPage/ChatPage";
 import styled, { ThemeProvider } from "styled-components";
 import theme from "@/styles/Theme";
 import ChattingPage from "./pages/ChatPage/ChattingPage/ChattingPage";
+import SpacePage from "./pages/SpacePage/SpacePage";
 
 const LayoutContainer = styled.div`
 	display: flex;
@@ -31,6 +32,7 @@ function App() {
 	const routes = [
 		{ path: "/login", element: <LoginPage /> },
 		{ path: "/signUp", element: <SignUpPage /> },
+		{ path: "/space", element: <SpacePage /> },
 		{
 			element: <Layout />,
 			children: [
