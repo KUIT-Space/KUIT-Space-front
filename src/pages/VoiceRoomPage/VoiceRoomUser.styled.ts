@@ -5,11 +5,11 @@ export const VRuserA = styled.a`
 
 	/* text/Regular 14pt */
 	font-family: Freesentation;
-	font-size: 14px;
+	font-size: 0.875rem;
 	font-style: normal;
 	font-weight: 400;
 	line-height: 140%; /* 19.6px */
-	letter-spacing: 0.56px;
+	letter-spacing: 0.035rem;
 `;
 
 export const VRuserListDiv = styled.div`

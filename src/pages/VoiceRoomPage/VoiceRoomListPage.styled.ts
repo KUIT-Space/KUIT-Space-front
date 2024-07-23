@@ -21,7 +21,7 @@ export const DropdownDiv = styled.div`
 	font-weight: 400;
 	line-height: 140%; /* 19.6px */
 	letter-spacing: 0.035rem;
-	border-radius: 12px;
+	border-radius: 0.75rem;
 	background: var(--GRAY-800, #222226);
 `;
 
@@ -83,9 +83,9 @@ export const RoundDiv2 = styled.div`
 
 export const StyledButton = styled.button`
 	background-color: #171719;
-	border-radius: 12px;
-	border: 1px solid #767681;
-	padding: 1rem 0px 1rem 0px;
+	border-radius: 0.75rem;
+	border: 0.0625rem solid #767681;
+	padding: 1rem 0rem 1rem 0rem;
 	margin: 0.875rem 0rem 1.25rem 0rem;
 	color: #d4d4d9;
 
