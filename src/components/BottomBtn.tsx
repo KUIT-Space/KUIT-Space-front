@@ -2,12 +2,16 @@ import styled from "styled-components";
 import React from "react";
 
 export const BottomBtn = styled.button`
-	margin: auto 1.25rem 0rem 1.25rem;
+	margin: 0rem 1.25rem 0rem 1.25rem;
 	padding: 0.875rem;
 
-	position: absolute;
-	bottom: 0;
-	width: 100%;
+	left: 50%;
+	bottom: 1.25rem;
+
+	width: 40rem;
+
+	position: fixed;
+	transform: translateX(-50%);
 
 	border: none;
 	border-radius: 0.75rem;
