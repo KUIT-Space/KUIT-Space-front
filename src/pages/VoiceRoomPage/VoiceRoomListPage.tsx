@@ -40,14 +40,6 @@ const VoiceRoomListPage = () => {
 				</s.InfoDiv>
 				{/* </div> */}
 			</s.BGdiv>
-			<s.BGdiv2 style={{ marginTop: "12px" }}>
-				<div>
-					<s.VRTitleDiv> {"보이스룸 1"} </s.VRTitleDiv>
-					<div style={{ display: "flex", alignItems: "center", width: "640px", height: "124px", marginLeft: "16px" }}>
-						<s.RoundDiv>대화 중인 스페이서 6명</s.RoundDiv>
-					</div>
-				</div>
-			</s.BGdiv2>
 			<s.ActiveP> 아무도 없어요! </s.ActiveP>
 			<s.RoundDiv2>보이스룸 3</s.RoundDiv2>
 			<s.RoundDiv2>보이스룸 4</s.RoundDiv2>

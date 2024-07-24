@@ -22,3 +22,9 @@ export const VRuserImg = styled.img`
 	height: 1.5rem;
 	margin-right: 0.75rem;
 `;
+
+export const MicImg = styled.img`
+	width: 1.5rem;
+	height: 1.5rem;
+	margin-left: auto;
+`;

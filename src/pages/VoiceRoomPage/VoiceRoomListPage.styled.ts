@@ -10,7 +10,7 @@ export const DropdownDiv = styled.div`
 	visibility: hidden;
 	z-index: 1;
 	color: var(--Foundation-Gray-white, #fff);
-	margin: 0.25rem 0rem 0.5rem 1rem;
+	margin: 0rem 0rem 0.5rem 1rem;
 	padding: 1rem;
 	width: 7.5rem;
 
