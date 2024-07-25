@@ -21,6 +21,17 @@ a:hover, a:active {
   color: ${({ theme }) => theme.colors.white};
   text-decoration: none;
 }
+
+button {
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: none;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
 `;
 
 export default GlobalStyle;
