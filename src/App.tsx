@@ -14,6 +14,7 @@ import BoardPage from "@/pages/BoardPage/BoardPage";
 import CreateVoiceRoomPage from "./pages/VoiceRoomPage/CreateVoiceRoom";
 import JoinVoiceRoomPage from "./pages/VoiceRoomPage/JoinVoiceRoomPage";
 import VoiceRoomPage from "./pages/VoiceRoomPage/VoiceRoomPage";
+import EditVoiceRoomPage from "./pages/VoiceRoomPage/EditVoiceRoomPage";
 
 // will we need constant path in later..?
 // const PATH = {
@@ -72,6 +73,7 @@ function App() {
 		{ path: "/board", element: <BoardPage />, hasBottomBar: true },
 		{ path: "/createvoiceroom", element: <CreateVoiceRoomPage />, hasBottomBar: false },
 		{ path: "/joinvoiceroom", element: <JoinVoiceRoomPage />, hasBottombar: false },
+		{ path: "/editvoiceroom", element: <EditVoiceRoomPage />, hasBottombar: false },
 	];
 
 	const routes = [
