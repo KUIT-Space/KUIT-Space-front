@@ -1,6 +1,9 @@
 import { createGlobalStyle } from "styled-components";
+import reset from "styled-reset";
 
 const GlobalStyle = createGlobalStyle`
+${reset}
+
 :root {
   background-color: ${({ theme }) => theme.colors.BG900};
   font-family: 'Freesentation R';
