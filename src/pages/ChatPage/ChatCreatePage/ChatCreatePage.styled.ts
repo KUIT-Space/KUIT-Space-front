@@ -18,6 +18,7 @@ export const ChatCreateContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	gap: 2rem;
+	margin: 0 1.25rem;
 
 	.input--container {
 		display: flex;
@@ -28,7 +29,7 @@ export const ChatCreateContainer = styled.div`
 
 export const InputContainer = styled.div``;
 
-export const ChatroomName = styled.div<{ nameLength: number }>`
+export const ChatroomName = styled.div<{ $nameLength: number }>`
 	position: relative;
 
 	span {
@@ -49,9 +50,9 @@ export const ChatroomName = styled.div<{ nameLength: number }>`
 	}
 
 	input {
-		caret-color: ${(props) => (props.nameLength >= 15 ? props.theme.colors.char_red : props.theme.colors.normal)};
+		caret-color: ${(props) => (props.$nameLength >= 15 ? props.theme.colors.char_red : props.theme.colors.normal)};
 		&:focus {
-			border-color: ${(props) => (props.nameLength >= 15 ? props.theme.colors.char_red : props.theme.colors.normal)};
+			border-color: ${(props) => (props.$nameLength >= 15 ? props.theme.colors.char_red : props.theme.colors.normal)};
 		}
 	}
 `;

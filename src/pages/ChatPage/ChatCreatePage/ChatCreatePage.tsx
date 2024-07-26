@@ -16,7 +16,7 @@ const ChatCreatePage = () => {
 			<ChatCreateContainer>
 				<div className="input--container">
 					<p>채팅방 이름</p>
-					<ChatroomName nameLength={nameLength}>
+					<ChatroomName $nameLength={nameLength}>
 						<Input
 							placeholder="채팅방 이름"
 							maxLength={15}
