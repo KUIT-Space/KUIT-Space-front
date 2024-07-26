@@ -1,6 +1,5 @@
 import BigRoundDiv from "@/components/BigRoundDiv";
 import TopBarText, { LeftEnum } from "@/components/TopBarText";
-import styled from "styled-components";
 import * as s from "@/pages/VoiceRoomPage/JoinVoiceRoom.styled";
 import redo from "@/assets/icon_redo.svg";
 
@@ -8,7 +7,7 @@ import redo from "@/assets/icon_redo.svg";
 import reactLogo from "@/assets/react.svg";
 import { BottomBtn } from "@/components/BottomBtn";
 import { useNavigate } from "react-router-dom";
-import { SetStateAction, useState } from "react";
+import { useState } from "react";
 import VoiceRoomPage from "./VoiceRoomPage";
 
 const JoinVoiceRoomPage = () => {
