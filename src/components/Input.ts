@@ -2,10 +2,9 @@ import styled from "styled-components";
 
 export const Input = styled.input`
 	display: block;
-	width: calc(100% - 2.5rem);
+	width: 100%;
 	height: 3.25rem;
 	padding: 0.9375rem 1rem;
-	margin: 0 1.25rem;
 
 	border-radius: 0.75rem;
 	background: ${({ theme }) => theme.colors.BG800};

@@ -96,7 +96,6 @@ export const ChatContainer = styled.div`
 		background: var(--RED, #ff5656);
 
 		/* text/Regular 12pt */
-		max-width: 1.3125rem;
 		color: var(--Foundation-Gray-white, #fff);
 		text-align: center;
 
