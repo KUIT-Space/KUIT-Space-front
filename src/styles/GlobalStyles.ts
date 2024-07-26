@@ -1,6 +1,9 @@
 import { createGlobalStyle } from "styled-components";
+import reset from "styled-reset";
 
 const GlobalStyle = createGlobalStyle`
+${reset}
+
 :root {
   box-sizing: border-box;
   background-color: ${({ theme }) => theme.colors.BG900};
