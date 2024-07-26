@@ -2,13 +2,16 @@ import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
 :root {
-  box-sizing: border-box;
   background-color: ${({ theme }) => theme.colors.BG900};
   font-family: 'Freesentation R';
 }
 
-body {
+* {
+  box-sizing: border-box;
   color: ${({ theme }) => theme.colors.white};
+}
+
+body {
   margin: 0;
 }
 

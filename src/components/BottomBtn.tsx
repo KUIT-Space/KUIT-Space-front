@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import React from "react";
 
 export const BottomBtn = styled.button`
 	margin: 0rem 1.25rem 0rem 1.25rem;
