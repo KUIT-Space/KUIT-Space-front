@@ -30,6 +30,7 @@ export const InnerContentDiv = styled.div`
 
 export const IconImg = styled.img`
 	padding: 0.375rem;
+	margin-right: 0.75rem;
 `;
 
 export const NameDiv = styled.div`
@@ -55,11 +56,11 @@ export const NameInput = styled.input`
 	border: none;
 
 	&:focus {
-		border: 1px solid var(--Foundation-Main-color-Normal, #48ffbd);
+		border: 1px solid red;
 	}
 `;
 
-export const ClearBtn = styled.button`
+export const ClearImg = styled.img`
 	padding: 0.5625rem;
 	position: absolute;
 	top: 50%;
