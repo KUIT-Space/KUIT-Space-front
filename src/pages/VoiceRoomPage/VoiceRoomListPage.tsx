@@ -22,12 +22,14 @@ const VoiceRoomListPage = () => {
 		<div style={{}}>
 			<TopBarText left={LeftEnum.Logo} center="보이스룸" right="" />
 			<s.ActiveP> 활동 중인 보이스룸 </s.ActiveP>
-			<s.BGdiv>
+			<s.BGdiv
+				onClick={() => {
+					navigate("/joinvoiceroom");
+				}}
+			>
 				<s.VRTitleDiv> {"보이스룸 1"} </s.VRTitleDiv>
 				{/* <div
-						onClick={() => {
-							navigate("/joinvoiceroom");
-						}}
+
 						style={{ display: "flex", alignItems: "center", width: "640px", height: "124px", marginLeft: "16px" }}
 					> */}
 				<s.InfoDiv>

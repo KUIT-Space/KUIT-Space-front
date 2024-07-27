@@ -46,10 +46,8 @@ export const BGdiv = styled.div`
 	display: flex;
 	flex-direction: column;
 	background-image: url(${yellow});
-	background-repeat: no-repeat;
-	background-size: cover;
+
 	width: 100%;
-	height: 7.75rem;
 `;
 export const BGdiv2 = styled.div`
 	display: flex;
