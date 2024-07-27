@@ -28,7 +28,7 @@ const JoinVoiceRoomPage = () => {
 				</>
 			) : (
 				<>
-					<TopBarText left={LeftEnum.Back} center="" right=""></TopBarText>
+					<TopBarText left={LeftEnum.Back} center="보이스룸 참여" right=""></TopBarText>
 					<s.ContentDiv>
 						<s.InnerDiv>
 							<s.TitleDiv>{title}</s.TitleDiv>
