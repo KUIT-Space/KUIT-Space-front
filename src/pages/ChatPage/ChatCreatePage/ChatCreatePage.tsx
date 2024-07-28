@@ -37,6 +37,10 @@ const ChatCreatePage = () => {
 	// 	console.log(invitedMemberList);
 	// }, [invitedMemberList]);
 
+	const handleChatCreate = () => {
+		//채팅방 생성 API 호출
+	};
+
 	return (
 		<>
 			<TopBarText left={LeftEnum.Back} center="새 채팅방" right="" />
@@ -88,7 +92,9 @@ const ChatCreatePage = () => {
 							</Member>
 						))}
 				</div>
-				<ChatCreateBottomBtn disabled={nameLength === 0 || invitedMemberList.length === 0}>생성하기</ChatCreateBottomBtn>
+				<ChatCreateBottomBtn onClick={handleChatCreate} disabled={nameLength === 0 || invitedMemberList.length === 0}>
+					생성하기
+				</ChatCreateBottomBtn>
 			</ChatCreateContainer>
 		</>
 	);

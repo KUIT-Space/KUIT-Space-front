@@ -27,6 +27,6 @@ export const BottomBtn = styled.button`
 	cursor: ${(props) => (props.disabled ? "default" : "pointer")};
 
 	&:active {
-		background-color: ${({ theme }) => theme.colors.normal_active};
+		background-color: ${(props) => !props.disabled && props.theme.colors.normal_active};
 	}
 `;
