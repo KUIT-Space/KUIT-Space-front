@@ -2,8 +2,10 @@ import TopBarText, { LeftEnum } from "@/components/TopBarText";
 import { NormalBtn } from "@/pages/PayPage/NormalBtn";
 import right from "@/assets/PayPage/arrow_right.svg";
 import * as s from "@/pages/PayPage/PayPage.styled";
+import { useNavigate } from "react-router-dom";
 
 const PayPage = () => {
+	const navigator = useNavigate();
 	return (
 		<>
 			<TopBarText left={LeftEnum.Logo} center="정산하기" right=""></TopBarText>
@@ -15,6 +17,7 @@ const PayPage = () => {
 					<s.TitleDiv>
 						<s.TitleContentDiv>요청한 정산</s.TitleContentDiv>
 						<img src={right}></img>
+						{/* <img src={right} onClick={navigator("요청정산페이지")}></img> */}
 					</s.TitleDiv>
 
 					{/* 컴포넌트화 예정 */}
@@ -31,6 +34,7 @@ const PayPage = () => {
 					<s.TitleDiv>
 						<s.TitleContentDiv>요청받은 정산</s.TitleContentDiv>
 						<img src={right}></img>
+						{/* <img src={right} onClick={navigator("요청받은정산페이지")}></img> */}
 					</s.TitleDiv>
 
 					{/* 컴포넌트화 예정 */}
