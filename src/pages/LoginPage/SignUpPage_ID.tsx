@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import SignUpHeader from "@/components/SignUpHeader";
-import { GlobalStyle, StyledText, Container, Input, NextButton } from "./SignUpPage_ID.styled";
+import { StyledText, Container, Input, NextButton } from "./SignUpPage_ID.styled";
 import StopSignUpModal from "@/components/StopSignUpModal";
 import { useNavigate } from "react-router-dom";
 
@@ -29,8 +29,7 @@ const SignUp: React.FC = () => {
 	};
 
 	return (
-		<div>
-			<GlobalStyle />
+		<>
 			<SignUpHeader title="회원가입" onBackClick={handleBackClick} />
 			<Container>
 				<StyledText style={{ alignSelf: "flex-start" }}>아이디로 사용될</StyledText>
@@ -41,7 +40,7 @@ const SignUp: React.FC = () => {
 				</NextButton>
 				<StopSignUpModal isOpen={isModalOpen} onClose={handleCloseModal} onConfirm={handleConfirmModal} />
 			</Container>
-		</div>
+		</>
 	);
 };
 
