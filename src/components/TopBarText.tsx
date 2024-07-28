@@ -30,9 +30,7 @@ const TopBarText: FC<topbarProps> = ({ left, center, right, rightHandler }) => {
 					>
 						<img src={logo}></img>
 					</sty.StyledLeftDiv>
-					<sty.StyledCenterDiv>
-						<sty.StyledCenterP>{center}</sty.StyledCenterP>
-					</sty.StyledCenterDiv>
+					<sty.StyledCenterDiv>{center}</sty.StyledCenterDiv>
 					<sty.StyledRightDiv
 						onClick={() => {
 							if (typeof rightHandler == "function") {
