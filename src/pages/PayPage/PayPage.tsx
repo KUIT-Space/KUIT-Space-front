@@ -10,9 +10,7 @@ const PayPage = () => {
 		<>
 			<TopBarText left={LeftEnum.Logo} center="정산하기" right=""></TopBarText>
 			<s.ContainerDiv>
-				<div>
-					<NormalBtn>정산 시작하기</NormalBtn>
-				</div>
+				<NormalBtn>정산 시작하기</NormalBtn>
 				<s.RoundDiv>
 					<s.TitleDiv>
 						<s.TitleContentDiv>요청한 정산</s.TitleContentDiv>
