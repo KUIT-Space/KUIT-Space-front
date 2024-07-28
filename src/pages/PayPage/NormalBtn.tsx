@@ -5,8 +5,6 @@ export const NormalBtn = styled.button`
 	margin: 0.75rem;
 	padding: 0.875rem 0rem 0.8125rem 0rem;
 
-	width: 40rem;
-
 	border: none;
 	border-radius: 0.75rem;
 	background: var(--Foundation-Main-color-Sub-color-gradient02, linear-gradient(76deg, #5ad7fe -1.06%, #48ffbd 96.33%));
