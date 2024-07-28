@@ -4,10 +4,9 @@ export const Container = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	min-height: 100vh;
 	width: 100%;
-	max-width: 22.5rem;
-	margin: auto;
+	max-width: 40rem;
+	margin: 0 auto;
 `;
 
 export const Logo = styled.div`
@@ -18,8 +17,9 @@ export const Logo = styled.div`
 
 export const Input = styled.input`
 	display: flex;
-	width: 88.89%;
+	width: calc(100% - 2.5rem);
 	height: 3.25rem;
+	box-sizing: border-box;
 	border-radius: 0.75rem;
 	padding: 0.9375rem;
 	padding-left: 1rem;
@@ -51,9 +51,10 @@ interface LoginButtonProps {
 
 export const LoginButton = styled.button<LoginButtonProps>`
 	display: flex;
-	width: 88.89%;
+	width: calc(100% - 2.5rem);
 	height: 3.25rem;
 	padding: 0.875rem 0 0.8125rem 0;
+	box-sizing: border-box;
 	justify-content: center;
 	align-items: center;
 	margin-top: 2rem;

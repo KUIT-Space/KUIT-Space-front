@@ -14,9 +14,10 @@ interface topbarProps {
 	left: LeftEnum;
 	center: string;
 	right: string;
+	rightHandler?: Function;
 }
 
-const TopBarText: FC<topbarProps> = ({ left, center, right }) => {
+const TopBarText: FC<topbarProps> = ({ left, center, right, rightHandler }) => {
 	const navigate = useNavigate();
 	switch (left) {
 		case "logo":
@@ -29,10 +30,14 @@ const TopBarText: FC<topbarProps> = ({ left, center, right }) => {
 					>
 						<img src={logo}></img>
 					</sty.StyledLeftDiv>
-					<sty.StyledCenterDiv>
-						<sty.StyledCenterP>{center}</sty.StyledCenterP>
-					</sty.StyledCenterDiv>
-					<sty.StyledRightDiv>
+					<sty.StyledCenterDiv>{center}</sty.StyledCenterDiv>
+					<sty.StyledRightDiv
+						onClick={() => {
+							if (typeof rightHandler == "function") {
+								rightHandler();
+							}
+						}}
+					>
 						<sty.StyledRightP>{right}</sty.StyledRightP>
 					</sty.StyledRightDiv>
 				</sty.StyledTopBarDiv>
@@ -51,7 +56,13 @@ const TopBarText: FC<topbarProps> = ({ left, center, right }) => {
 					<sty.StyledCenterDiv>
 						<sty.StyledCenterP>{center}</sty.StyledCenterP>
 					</sty.StyledCenterDiv>
-					<sty.StyledRightDiv>
+					<sty.StyledRightDiv
+						onClick={() => {
+							if (typeof rightHandler == "function") {
+								rightHandler();
+							}
+						}}
+					>
 						<sty.StyledRightP>{right}</sty.StyledRightP>
 					</sty.StyledRightDiv>
 				</sty.StyledTopBarDiv>
@@ -64,7 +75,13 @@ const TopBarText: FC<topbarProps> = ({ left, center, right }) => {
 					<sty.StyledCenterDiv>
 						<sty.StyledCenterP>{center}</sty.StyledCenterP>
 					</sty.StyledCenterDiv>
-					<sty.StyledRightDiv>
+					<sty.StyledRightDiv
+						onClick={() => {
+							if (typeof rightHandler == "function") {
+								rightHandler();
+							}
+						}}
+					>
 						<sty.StyledRightP>{right}</sty.StyledRightP>
 					</sty.StyledRightDiv>
 				</sty.StyledTopBarDiv>

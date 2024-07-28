@@ -11,6 +11,8 @@ const HeaderContainer = styled.div`
 	height: 3.25rem;
 	padding: 0.5rem 0;
 	position: relative;
+	max-width: 40rem;
+	margin: 0 auto;
 `;
 
 const Back = styled.button`

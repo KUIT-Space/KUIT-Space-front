@@ -11,6 +11,10 @@ import ChatPage from "@/pages/ChatPage/ChatPage";
 import ChattingPage from "@/pages/ChatPage/ChattingPage/ChattingPage";
 import PayPage from "@/pages/PayPage/PayPage";
 import BoardPage from "@/pages/BoardPage/BoardPage";
+import CreateVoiceRoomPage from "./pages/VoiceRoomPage/CreateVoiceRoom";
+import JoinVoiceRoomPage from "./pages/VoiceRoomPage/JoinVoiceRoomPage";
+import VoiceRoomPage from "./pages/VoiceRoomPage/VoiceRoomPage";
+import EditVoiceRoomPage from "./pages/VoiceRoomPage/EditVoiceRoomPage";
 
 // will we need constant path in later..?
 // const PATH = {
@@ -67,8 +71,11 @@ function App() {
 		{ path: "/chat/:id", element: <ChattingPage /> },
 		{ path: "/pay", element: <PayPage />, hasBottomBar: true },
 		{ path: "/board", element: <BoardPage />, hasBottomBar: true },
-		{ path: "/login", element: <LoginPage /> },
-		{ path: "/signUp", element: <SignUpPage /> },
+		{ path: "/createvoiceroom", element: <CreateVoiceRoomPage />, hasBottomBar: false },
+		{ path: "/joinvoiceroom", element: <JoinVoiceRoomPage />, hasBottombar: false },
+		{ path: "/editvoiceroom", element: <EditVoiceRoomPage />, hasBottombar: false },
+		{ path: "/login", element: <LoginPage />, hasBottombar: false },
+		{ path: "/signUp", element: <SignUpPage />, hasBottombar: false },
 	];
 
 	const routes = [

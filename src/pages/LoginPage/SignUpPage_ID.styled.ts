@@ -2,9 +2,11 @@ import styled from "styled-components";
 
 export const Container = styled.div`
 	display: flex;
-	margin: 2.5rem 1.25rem 3.25rem 1.25rem;
 	flex-direction: column;
 	align-items: center;
+	max-width: 40rem;
+	margin: 0 auto;
+	box-sizing: border-box;
 `;
 
 export const StyledText = styled.div`
@@ -15,11 +17,12 @@ export const StyledText = styled.div`
 	font-weight: 600;
 	line-height: 140%;
 	letter-spacing: 0.03rem;
+	width: calc(100% - 2.5rem);
 `;
 
 export const Input = styled.input`
 	display: flex;
-	width: 100%;
+	width: calc(100% - 2.5rem);
 	height: 3.25rem;
 	border-radius: 0.75rem;
 	padding: 0.9375rem;
@@ -35,6 +38,7 @@ export const Input = styled.input`
 	color: #ffffff;
 	caret-color: #48ffbd;
 	margin-top: 3.25rem;
+	box-sizing: border-box;
 
 	&::placeholder {
 		color: #767681;
@@ -54,6 +58,7 @@ interface NextButtonProps {
 export const NextButton = styled.button<NextButtonProps>`
 	display: flex;
 	width: calc(100% - 2.5rem);
+	max-width: 37.5rem;
 	height: 3.25rem;
 	position: fixed;
 	bottom: ${({ $isInputFocused }) => ($isInputFocused ? "0" : "0.75rem")};

@@ -1,6 +1,9 @@
 import { createGlobalStyle } from "styled-components";
+import reset from "styled-reset";
 
 const GlobalStyle = createGlobalStyle`
+${reset}
+
 :root {
   margin: 0;
   padding: 0;

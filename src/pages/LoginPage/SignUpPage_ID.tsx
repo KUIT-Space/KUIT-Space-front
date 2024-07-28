@@ -32,8 +32,8 @@ const SignUp: React.FC = () => {
 		<>
 			<SignUpHeader title="회원가입" onBackClick={handleBackClick} />
 			<Container>
-				<StyledText style={{ alignSelf: "flex-start" }}>아이디로 사용될</StyledText>
-				<StyledText style={{ alignSelf: "flex-start" }}>이메일을 입력해주세요</StyledText>
+				<StyledText>아이디로 사용될</StyledText>
+				<StyledText>이메일을 입력해주세요</StyledText>
 				<Input type="email" placeholder="이메일" value={email} onChange={(e) => setEmail(e.target.value)} onFocus={() => setIsInputFocused(true)} onBlur={() => setIsInputFocused(false)} />
 				<NextButton $isActive={isButtonActive} $isInputFocused={isInputFocused}>
 					다음

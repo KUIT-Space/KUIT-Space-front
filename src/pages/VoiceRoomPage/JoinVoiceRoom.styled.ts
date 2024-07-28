@@ -1,17 +1,31 @@
 import styled from "styled-components";
-import React from "react";
 
-export const BottomBtn = styled.button`
-	margin: 0rem 1.25rem 0rem 1.25rem;
+export const ProfileDiv = styled.div`
+	margin-top: 3.1875rem;
+`;
+export const InnerDiv = styled.div`
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	align-items: center;
+`;
+export const ContentDiv = styled.div`
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	text-align: center;
+	width: 100%;
+	margin: 4rem 4.8125rem 4.8125rem 0rem;
+`;
+
+export const TitleDiv = styled.div`
+	text-align: center;
+	margin: 0rem 0rem 0.375rem 0rem;
+`;
+
+export const CreateBtn = styled.button`
+	margin: auto 1.25rem 0rem 1.25rem;
 	padding: 0.875rem;
-
-	left: 50%;
-	bottom: 1.25rem;
-
-	width: 40rem;
-
-	position: fixed;
-	transform: translateX(-50%);
 
 	border: none;
 	border-radius: 0.75rem;
