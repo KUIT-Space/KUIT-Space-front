@@ -1,4 +1,6 @@
+import { Input } from "@/components/Input";
 import styled from "styled-components";
+import SearchIcon from "@/assets/ChatPage/icon_search.svg";
 
 export const ChatroomAddImgBtn = styled.button`
 	display: flex;
@@ -25,9 +27,22 @@ export const ChatCreateContainer = styled.div`
 		flex-direction: column;
 		gap: 0.5rem;
 	}
+
+	.invite {
+		margin-right: 0.5rem;
+	}
+
+	.member--number {
+		color: ${({ theme }) => theme.colors.normal};
+	}
 `;
 
-export const InputContainer = styled.div``;
+export const InviteInput = styled(Input)`
+	background-position: 1rem;
+	background-image: url(${SearchIcon});
+	background-repeat: no-repeat;
+	padding-left: 2.5rem;
+`;
 
 export const ChatroomName = styled.div<{ $nameLength: number }>`
 	position: relative;
@@ -54,5 +69,55 @@ export const ChatroomName = styled.div<{ $nameLength: number }>`
 		&:focus {
 			border-color: ${(props) => (props.$nameLength >= 15 ? props.theme.colors.char_red : props.theme.colors.normal)};
 		}
+	}
+`;
+
+export const Member = styled.label`
+	display: flex;
+	user-select: none;
+	padding: 0.5rem 0rem;
+	align-items: center;
+	justify-content: space-between;
+	cursor: pointer;
+
+	section {
+		display: flex;
+		align-items: center;
+	}
+
+	input {
+	}
+
+	.name {
+		padding-left: 1rem;
+		color: var(--Foundation-Gray-white, #fff);
+
+		/* text/Regular 16pt */
+		font-family: Freesentation;
+		font-size: 1rem;
+		font-style: normal;
+		font-weight: 400;
+		line-height: 140%; /* 1.4rem */
+		letter-spacing: 0.04rem;
+	}
+
+	.admin {
+		padding-left: 0.5rem;
+		color: var(--Foundation-Main-color-Normal, var(--normal, #48ffbd));
+		text-align: center;
+
+		/* text/Regular 14pt */
+		font-family: Freesentation;
+		font-size: 0.875rem;
+		font-style: normal;
+		font-weight: 400;
+		line-height: 140%; /* 1.225rem */
+		letter-spacing: 0.035rem;
+	}
+
+	img {
+		width: 2.5rem;
+		height: 2.5rem;
+		border-radius: 6.25rem;
 	}
 `;
