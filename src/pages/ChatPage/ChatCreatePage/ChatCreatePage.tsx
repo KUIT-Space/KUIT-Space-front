@@ -4,6 +4,7 @@ import { ChatCreateContainer, ChatroomAddImgBtn, ChatroomName, InviteInput, Memb
 import { Input } from "@/components/Input";
 import { useEffect, useState } from "react";
 import { hangulIncludes, choseongIncludes } from "es-hangul";
+import CheckBox from "@/components/CheckBox";
 
 interface member {
 	userId: number;
@@ -29,7 +30,12 @@ const ChatCreatePage = () => {
 			{ userId: 7, name: "greenjoa", isAdmin: false, profileImg: "https://placehold.co/100x100" },
 			{ userId: 8, name: "blue an joa", isAdmin: false, profileImg: "https://placehold.co/100x100" },
 		]);
+		setInvitedMemberList([]);
 	}, []);
+
+	// useEffect(() => {
+	// 	console.log(invitedMemberList);
+	// }, [invitedMemberList]);
 
 	return (
 		<>
@@ -65,9 +71,12 @@ const ChatCreatePage = () => {
 						.map((member, index) => (
 							<Member
 								key={index}
-								onClick={() => {
-									setInvitedMemberList([...invitedMemberList, member]);
-									console.log(invitedMemberList);
+								onClick={(e) => {
+									e.preventDefault();
+
+									invitedMemberList.some((invitedMember) => invitedMember.userId === member.userId)
+										? setInvitedMemberList(invitedMemberList.filter((invitedMember) => invitedMember.userId !== member.userId))
+										: setInvitedMemberList([...invitedMemberList, member]);
 								}}
 							>
 								<section>
@@ -75,7 +84,7 @@ const ChatCreatePage = () => {
 									<span className="name">{member.name}</span>
 									{member.isAdmin && <span className="admin">관리자</span>}
 								</section>
-								<input type="checkbox" />
+								<CheckBox checked={invitedMemberList.some((invitedMember) => invitedMember.userId === member.userId)} />
 							</Member>
 						))}
 				</div>

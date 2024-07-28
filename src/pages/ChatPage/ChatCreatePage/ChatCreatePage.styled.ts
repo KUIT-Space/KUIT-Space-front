@@ -85,9 +85,6 @@ export const Member = styled.label`
 		align-items: center;
 	}
 
-	input {
-	}
-
 	.name {
 		padding-left: 1rem;
 		color: var(--Foundation-Gray-white, #fff);
