@@ -3,7 +3,7 @@ import styled from "styled-components";
 import SearchIcon from "@/assets/ChatPage/icon_search.svg";
 import { BottomBtn } from "@/components/BottomBtn";
 
-export const ChatroomAddImgBtn = styled.button`
+export const ChatroomAddImgBtn = styled.label<{ $backgroundImage: string | null | undefined }>`
 	display: flex;
 	width: 8.5rem;
 	height: 8.5rem;
@@ -12,9 +12,11 @@ export const ChatroomAddImgBtn = styled.button`
 	justify-content: center;
 	align-items: center;
 	flex-shrink: 0;
+	cursor: pointer;
 
 	border-radius: 0.75rem;
-	background: var(--Foundation-Gray-gray500, #767681);
+	background: ${(props) => (props.$backgroundImage ? `url(${props.$backgroundImage}) no-repeat center` : "var(--Foundation-Gray-gray500, #767681)")};
+	background-size: cover;
 `;
 
 export const ChatCreateContainer = styled.div`

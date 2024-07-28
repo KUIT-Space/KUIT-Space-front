@@ -41,11 +41,20 @@ const ChatCreatePage = () => {
 		//채팅방 생성 API 호출
 	};
 
+	const [uploadedImage, setUploadedImage] = useState<string | null>();
+
+	const handleImageImport = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const files = e.target.files;
+		const imageUrl = files && URL.createObjectURL(files[0]);
+		setUploadedImage(imageUrl);
+	};
+
 	return (
 		<>
 			<TopBarText left={LeftEnum.Back} center="새 채팅방" right="" />
-			<ChatroomAddImgBtn>
+			<ChatroomAddImgBtn $backgroundImage={uploadedImage}>
 				<img src={ChatroomImg} />
+				<input type="file" accept="image/*" onChange={handleImageImport} />
 			</ChatroomAddImgBtn>
 			<ChatCreateContainer>
 				<div className="input--container">
