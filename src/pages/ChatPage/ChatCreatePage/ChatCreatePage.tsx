@@ -1,6 +1,6 @@
 import TopBarText, { LeftEnum } from "@/components/TopBarText";
 import ChatroomImg from "@/assets/ChatPage/btn_chatroom_img.svg";
-import { ChatCreateContainer, ChatroomAddImgBtn, ChatroomName, InviteInput, Member } from "./ChatCreatePage.styled";
+import { ChatCreateContainer, ChatroomAddImgBtn, ChatroomName, InviteInput, Member, ChatCreateBottomBtn } from "./ChatCreatePage.styled";
 import { Input } from "@/components/Input";
 import { useEffect, useState } from "react";
 import { hangulIncludes, choseongIncludes } from "es-hangul";
@@ -88,6 +88,7 @@ const ChatCreatePage = () => {
 							</Member>
 						))}
 				</div>
+				<ChatCreateBottomBtn disabled={nameLength === 0 || invitedMemberList.length === 0}>생성하기</ChatCreateBottomBtn>
 			</ChatCreateContainer>
 		</>
 	);

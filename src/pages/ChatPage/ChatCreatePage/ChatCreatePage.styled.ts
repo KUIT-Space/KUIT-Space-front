@@ -1,6 +1,7 @@
 import { Input } from "@/components/Input";
 import styled from "styled-components";
 import SearchIcon from "@/assets/ChatPage/icon_search.svg";
+import { BottomBtn } from "@/components/BottomBtn";
 
 export const ChatroomAddImgBtn = styled.button`
 	display: flex;
@@ -20,7 +21,7 @@ export const ChatCreateContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	gap: 2rem;
-	margin: 0 1.25rem;
+	margin: 0 1.25rem 6rem 1.25rem;
 
 	.input--container {
 		display: flex;
@@ -117,4 +118,8 @@ export const Member = styled.label`
 		height: 2.5rem;
 		border-radius: 6.25rem;
 	}
+`;
+
+export const ChatCreateBottomBtn = styled(BottomBtn)`
+	margin: 0;
 `;
