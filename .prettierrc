@@ -3,7 +3,7 @@
   "parser": "typescript",
   "semi": true,
   "tabWidth": 2,
+  "useTabs": false,
   "trailingComma": "all",
-  "useTabs": true,
-  "printWidth": 200
+  "printWidth": 100
 }

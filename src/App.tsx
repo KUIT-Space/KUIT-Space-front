@@ -9,6 +9,7 @@ import HomePage from "@/pages/HomePage";
 import VoiceRoomListPage from "@/pages/VoiceRoomPage/VoiceRoomListPage";
 import ChatPage from "@/pages/ChatPage/ChatPage";
 import ChattingPage from "@/pages/ChatPage/ChattingPage/ChattingPage";
+import ChatCreatePage from "@/pages/ChatPage/ChatCreatePage/ChatCreatePage";
 import PayPage from "@/pages/PayPage/PayPage";
 import BoardPage from "@/pages/BoardPage/BoardPage";
 import CreateVoiceRoomPage from "./pages/VoiceRoomPage/CreateVoiceRoom";
@@ -69,6 +70,7 @@ function App() {
 		{ path: "/voiceroom", element: <VoiceRoomListPage />, hasBottomBar: true },
 		{ path: "/chat", element: <ChatPage />, hasBottomBar: true },
 		{ path: "/chat/:id", element: <ChattingPage /> },
+		{ path: "/chat/create", element: <ChatCreatePage /> },
 		{ path: "/pay", element: <PayPage />, hasBottomBar: true },
 		{ path: "/board", element: <BoardPage />, hasBottomBar: true },
 		{ path: "/createvoiceroom", element: <CreateVoiceRoomPage />, hasBottomBar: false },
