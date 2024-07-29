@@ -16,6 +16,7 @@ import JoinVoiceRoomPage from "./pages/VoiceRoomPage/JoinVoiceRoomPage";
 import VoiceRoomPage from "./pages/VoiceRoomPage/VoiceRoomPage";
 import EditVoiceRoomPage from "./pages/VoiceRoomPage/EditVoiceRoomPage";
 import MyRequestPayPage from "./pages/PayPage/MyRequestPayPage";
+import RequestedPayPage from "./pages/PayPage/RequestedPayPage";
 
 // will we need constant path in later..?
 // const PATH = {
@@ -67,12 +68,13 @@ function Layout({ routes_children }: { routes_children: RouteChildren[] }) {
 function App() {
 	const routes_children = [
 		{ path: "/", element: <HomePage />, hasBottomBar: true },
-		{ path: "/voiceroom", element: <VoiceRoomListPage />, hasBottomBar: true },
 		{ path: "/chat", element: <ChatPage />, hasBottomBar: true },
 		{ path: "/chat/:id", element: <ChattingPage /> },
 		{ path: "/pay", element: <PayPage />, hasBottomBar: true },
-		{ path: "/mypay", element: <MyRequestPayPage />, hasBottomBar: true },
+		{ path: "/requestingpay", element: <MyRequestPayPage />, hasBottomBar: true },
+		{ path: "/requestedpay", element: <RequestedPayPage />, hasBottomBar: true },
 		{ path: "/board", element: <BoardPage />, hasBottomBar: true },
+		{ path: "/voiceroom", element: <VoiceRoomListPage />, hasBottomBar: true },
 		{ path: "/createvoiceroom", element: <CreateVoiceRoomPage />, hasBottomBar: false },
 		{ path: "/joinvoiceroom", element: <JoinVoiceRoomPage />, hasBottombar: false },
 		{ path: "/editvoiceroom", element: <EditVoiceRoomPage />, hasBottombar: false },
