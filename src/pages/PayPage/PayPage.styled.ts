@@ -105,3 +105,25 @@ export const GrayRoundDiv = styled.div`
 	padding: 0.875rem;
 	margin: 0.75rem;
 `;
+
+export const GrayTextDiv = styled.div`
+	color: var(--Foundation-Gray-gray500, #767681);
+
+	/* text/Regular 14pt */
+	font-family: Freesentation;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 140%; /* 19.6px */
+	letter-spacing: 0.56px;
+`;
+
+export const GrayBTextDiv = styled.div`
+	color: var(--Foundation-Gray-gray500, #767681);
+	font-family: Freesentation;
+	font-size: 20px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: 100%; /* 20px */
+	letter-spacing: 0.4px;
+`;
