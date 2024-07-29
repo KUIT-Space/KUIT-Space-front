@@ -13,7 +13,7 @@ interface ModalProps {
 	onConfirm: () => void;
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onConfirm }) => {
+const StopSignUpModal: React.FC<ModalProps> = ({ isOpen, onClose, onConfirm }) => {
 	if (!isOpen) return null;
 
 	return (
@@ -34,4 +34,4 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onConfirm }) => {
 	);
 };
 
-export default Modal;
+export default StopSignUpModal;

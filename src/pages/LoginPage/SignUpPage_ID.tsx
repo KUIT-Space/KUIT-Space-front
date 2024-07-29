@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import SignUpHeader from "@/components/SignUpHeader";
-import { StyledText, Container, Input, NextButton } from "./SignUpPage_ID.styled";
+import { StyledText, Container, Input, NextButton } from "@/pages/LoginPage/SignUpPage.styled";
 import StopSignUpModal from "@/components/StopSignUpModal";
 import { useNavigate } from "react-router-dom";
 
