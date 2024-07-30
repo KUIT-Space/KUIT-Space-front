@@ -70,7 +70,7 @@ export const CancelButton = styled.button`
 	letter-spacing: 0.045rem;
 `;
 
-export const ConfirmButton = styled.button`
+export const ConfirmButton = styled.button<{ confirmButtonColor: string }>`
 	display: flex;
 	width: 8.125rem;
 	height: 3.25rem;
@@ -79,7 +79,7 @@ export const ConfirmButton = styled.button`
 	align-items: center;
 	gap: 0.625rem;
 	border-radius: 0.75rem;
-	background: #48ffbd;
+	background: ${({ confirmButtonColor }) => confirmButtonColor};
 	color: #171719;
 	text-align: center;
 	font-family: Freesentation;

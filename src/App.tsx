@@ -75,7 +75,7 @@ function App() {
 		{ path: "/joinvoiceroom", element: <JoinVoiceRoomPage />, hasBottombar: false },
 		{ path: "/editvoiceroom", element: <EditVoiceRoomPage />, hasBottombar: false },
 		{ path: "/login", element: <LoginPage />, hasBottombar: false },
-		{ path: "/signUp", element: <SignUpPage />, hasBottombar: false },
+		{ path: "/signup", element: <SignUpPage />, hasBottombar: false },
 	];
 
 	const routes = [

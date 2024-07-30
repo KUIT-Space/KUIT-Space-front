@@ -102,6 +102,7 @@ export const ScContainer = styled.div`
 	margin-top: 1.6875rem;
 	width: 45.56%;
 	gap: 1rem;
+	margin-bottom: 1.75rem;
 `;
 
 export const Social = styled.button`

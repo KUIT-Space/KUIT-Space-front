@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Container, Logo, Input, LoginButton, BtContainer, Button, ScContainer, Social } from "./LoginPage.styled.ts";
+import { Container, Logo, Input, LoginButton, BtContainer, Button, ScContainer, Social } from "@/pages/LoginPage/LoginPage.styled.ts";
 import logoSpace from "@/assets/logo_space.svg";
 import kakao from "@/assets/Login/icon_kakao.svg";
 import google from "@/assets/Login/icon_google.svg";
