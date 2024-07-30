@@ -3,6 +3,7 @@ import * as s from "@/pages/PayPage/PayPage.styled";
 import reactIcon from "@/assets/react.svg";
 import { NormalBtn } from "./NormalBtn";
 import { GrayBtn } from "./GrayBtn";
+import ReqDataDiv from "./ReqDataDiv";
 
 const RequestedPayPage = () => {
 	return (
@@ -10,17 +11,7 @@ const RequestedPayPage = () => {
 			<TopBarText left={LeftEnum.Back} center="요청받은 정산" right=""></TopBarText>
 			<s.ContainerDiv>
 				<s.TitleContentDiv>진행 중인 정산</s.TitleContentDiv>
-				<s.RoundDiv style={{ marginBottom: "2.75rem" }}>
-					<s.RowFlexDiv style={{ alignItems: "center" }}>
-						<img src={reactIcon} width={"40px"} height={"40px"} style={{ marginRight: "10px" }}></img>
-						<s.TextDiv style={{ color: "white" }}>박규환</s.TextDiv>
-						<s.NowPriceDiv style={{ position: "absolute", right: 0, transform: "translate(-50%,0%)" }}>15,000원</s.NowPriceDiv>
-					</s.RowFlexDiv>
-					<div style={{ width: "100%", display: "flex" }}>
-						<NormalBtn style={{ flexGrow: 1 }}>송금하기</NormalBtn>
-					</div>
-				</s.RoundDiv>
-
+				<ReqDataDiv></ReqDataDiv>
 				<s.TitleContentDiv>완료된 정산</s.TitleContentDiv>
 				<s.GrayRoundDiv>
 					<s.RowFlexDiv style={{ alignItems: "center" }}>
