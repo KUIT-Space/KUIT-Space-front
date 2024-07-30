@@ -4,6 +4,8 @@ import reactIcon from "@/assets/react.svg";
 import { NormalBtn } from "./NormalBtn";
 import { GrayBtn } from "./GrayBtn";
 import ReqDataDiv from "./ReqDataDiv";
+import { ToastContainer } from "react-toastify";
+import { Transform } from "stream";
 
 const RequestedPayPage = () => {
 	return (
@@ -23,6 +25,19 @@ const RequestedPayPage = () => {
 						<GrayBtn style={{ flexGrow: 1 }}>송금하기</GrayBtn>
 					</div>
 				</s.GrayRoundDiv>
+				<ToastContainer
+					style={{ width: "50%", left: "50%", transform: "translateX(-50%)" }}
+					position="top-center"
+					autoClose={3000}
+					hideProgressBar={false}
+					newestOnTop={false}
+					closeOnClick
+					rtl={false}
+					pauseOnFocusLoss
+					draggable
+					pauseOnHover
+					theme="dark"
+				/>
 			</s.ContainerDiv>
 		</>
 	);
