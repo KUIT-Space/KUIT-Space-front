@@ -1,10 +1,16 @@
 import * as s from "@/pages/PayPage/PayPage.styled";
 import { NormalBtn } from "./NormalBtn";
 import reactIcon from "@/assets/react.svg";
+import { useState } from "react";
+import { DarkNormalBtn } from "./DarkNormalBtn";
 
 const ReqDataDiv = () => {
-	const onClick = () => {
-		alert("클릭!");
+	// true : 송금하기 false : 송금완료
+	const [chk, setChk] = useState(true);
+	const onPayClick = () => {
+		setChk(!chk);
+		//모달 생성
+		//클립보드 복사
 	};
 	return (
 		<s.RoundDiv style={{ marginBottom: "2.75rem" }}>
@@ -14,9 +20,15 @@ const ReqDataDiv = () => {
 				<s.NowPriceDiv style={{ position: "absolute", right: 0, transform: "translate(-50%,0%)" }}>15,000원</s.NowPriceDiv>
 			</s.RowFlexDiv>
 			<div style={{ width: "100%", display: "flex" }}>
-				<NormalBtn style={{ flexGrow: 1 }} onClick={onClick}>
-					송금하기
-				</NormalBtn>
+				{chk ? (
+					<NormalBtn style={{ flexGrow: 1 }} onClick={onPayClick}>
+						송금하기
+					</NormalBtn>
+				) : (
+					<DarkNormalBtn style={{ flexGrow: 1 }} onClick={onPayClick}>
+						송금완료
+					</DarkNormalBtn>
+				)}
 			</div>
 		</s.RoundDiv>
 	);
