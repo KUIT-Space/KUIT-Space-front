@@ -1,4 +1,10 @@
 /* font */
+@font-face {
+  font-family: Freesentation;
+  font-weight: normal;
+  font-style: normal;
+  src: url(./static/fonts/Freesentation-4Regular.ttf);
+}
 
 @font-face {
   font-family: 'Freesentation R';
