@@ -182,6 +182,7 @@ export const TabMenu = styled.ul`
     line-height: 140%; /* 19.6px */
     letter-spacing: 0.56px;
 
+    border-bottom: 1px solid #48ffbd;
     justify-content: center;
     cursor: pointer;
   }
