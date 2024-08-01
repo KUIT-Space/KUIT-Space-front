@@ -6,7 +6,14 @@ import GrayMyReqDataDiv from "./GrayMyReqDataDiv";
 import { useParams } from "react-router-dom";
 
 const MyRequestPayPage = () => {
-  const [index, setIndex] = useState(-1);
+  const [tabIndex, setTabIndex] = useState(0);
+  const menuArr = [
+    { name: "미정산", content: "Tab menu ONE" },
+    { name: "정산완료", content: "Tab menu TWO" },
+  ];
+  const selectMenuHandler = (index: number) => {
+    setTabIndex(index);
+  };
   let { id } = useParams();
   return (
     <>
@@ -23,7 +30,26 @@ const MyRequestPayPage = () => {
           </div>
         </s.ContainerDiv>
       ) : (
-        <div>{id}</div>
+        <>
+          <s.CompletePayDiv style={{ padding: "2.5rem 1rem 0.75rem 1rem", margin: "0.75rem" }}>
+            <s.TextDiv style={{ marginBottom: "0.5rem" }}>정산 완료된 금액</s.TextDiv>
+            <s.RowFlexDiv style={{ alignItems: "end", marginBottom: "1.75rem" }}>
+              <s.NowPriceDiv>30000원</s.NowPriceDiv>
+              <s.AllPriceDiv> / 60000원</s.AllPriceDiv>
+            </s.RowFlexDiv>
+            <s.GrayTextDiv>요청 날짜 2024.06.12</s.GrayTextDiv>
+          </s.CompletePayDiv>
+          <s.TabMenu>
+            {menuArr.map((el, index) => (
+              <li
+                className={index === tabIndex ? "submenu focused" : "submenu"}
+                onClick={() => selectMenuHandler(index)}
+              >
+                {el.name}
+              </li>
+            ))}
+          </s.TabMenu>
+        </>
       )}
     </>
   );
