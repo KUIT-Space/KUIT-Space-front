@@ -127,3 +127,16 @@ export const GrayBTextDiv = styled.div`
 	line-height: 100%; /* 20px */
 	letter-spacing: 0.4px;
 `;
+
+export const LargeTxt = styled.div`
+	color: #fff;
+	text-align: center;
+
+	/* text/SemiBold 24pt */
+	font-family: Freesentation;
+	font-size: 24px;
+	font-style: normal;
+	font-weight: 600;
+	line-height: 140%; /* 33.6px */
+	letter-spacing: 0.48px;
+`;
