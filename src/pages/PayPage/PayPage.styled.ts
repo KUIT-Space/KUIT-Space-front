@@ -153,7 +153,7 @@ export const TabMenu = styled.ul`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-
+  margin: 1.25rem;
   .submenu {
     display: flex;
     width: calc(100% / 2);
@@ -186,4 +186,17 @@ export const TabMenu = styled.ul`
     justify-content: center;
     cursor: pointer;
   }
+`;
+
+export const BoldText = styled.div`
+  color: var(--Foundation-Gray-white, #fff);
+  text-align: center;
+
+  /* text/Bold 16pt */
+  font-family: Freesentation;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 140%; /* 1.4rem */
+  letter-spacing: 0.02rem;
 `;

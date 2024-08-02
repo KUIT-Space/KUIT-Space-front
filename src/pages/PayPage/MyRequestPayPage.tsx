@@ -5,11 +5,17 @@ import MyReqDataDiv from "./MyReqDataDiv";
 import GrayMyReqDataDiv from "./GrayMyReqDataDiv";
 import { useParams } from "react-router-dom";
 
+import PayResult from "./PayResult";
+
 const MyRequestPayPage = () => {
   const [tabIndex, setTabIndex] = useState(0);
   const menuArr = [
     { name: "미정산", content: "Tab menu ONE" },
     { name: "정산완료", content: "Tab menu TWO" },
+  ];
+  const dataArr = [
+    { image: "aa", name: "박규환", amount: "15000원", chk: true },
+    { image: "aa", name: "박규환", amount: "15000원", chk: true },
   ];
   const selectMenuHandler = (index: number) => {
     setTabIndex(index);
@@ -40,15 +46,20 @@ const MyRequestPayPage = () => {
             <s.GrayTextDiv>요청 날짜 2024.06.12</s.GrayTextDiv>
           </s.CompletePayDiv>
           <s.TabMenu>
-            {menuArr.map((el, index) => (
+            {menuArr.map((value, index) => (
               <li
                 className={index === tabIndex ? "submenu focused" : "submenu"}
                 onClick={() => selectMenuHandler(index)}
               >
-                {el.name}
+                {value.name}
               </li>
             ))}
           </s.TabMenu>
+          <s.RoundDiv style={{ margin: "0.75rem 1.25rem 0.75rem 1.25rem" }}>
+            {dataArr.map((value, index) => (
+              <PayResult props={value}></PayResult>
+            ))}
+          </s.RoundDiv>
         </>
       )}
     </>
