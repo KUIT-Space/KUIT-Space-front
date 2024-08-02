@@ -12,6 +12,11 @@ import ChattingPage from "@/pages/ChatPage/ChattingPage/ChattingPage";
 import PayPage from "@/pages/PayPage/PayPage";
 import BoardPage from "@/pages/BoardPage/BoardPage";
 import SpacePage from "./pages/SpacePage/SpacePage";
+import AddSpacePage from "./pages/SpacePage/AddSpacePage";
+import SpaceOption from "./pages/SpacePage/SpaceOption";
+import AccountManage from "./pages/SpacePage/AccountManage";
+import ProfileManage from "./pages/SpacePage/ProfileManage";
+import AlarmManage from "./pages/SpacePage/AlarmManage";
 
 // will we need constant path in later..?
 // const PATH = {
@@ -68,12 +73,17 @@ function App() {
 		{ path: "/chat/:id", element: <ChattingPage /> },
 		{ path: "/pay", element: <PayPage />, hasBottomBar: true },
 		{ path: "/board", element: <BoardPage />, hasBottomBar: true },
+		{ path: "/space", element: <SpacePage /> },
+		{ path: "/space/addspace", element: <AddSpacePage /> },
+		{ path: "/space/spaceoption", element: <SpaceOption /> },
+		{ path: "/space/spaceoption/accountmanage", element: <AccountManage /> },
+		{ path: "/space/spaceoption/profilemanage", element: <ProfileManage /> },
+		{ path: "/space/spaceoption/alarmmanage", element: <AlarmManage /> },
 	];
 
 	const routes = [
 		{ path: "/login", element: <LoginPage /> },
 		{ path: "/signUp", element: <SignUpPage /> },
-		{ path: "/space", element: <SpacePage /> },
 		{
 			element: <Layout routes_children={routes_children} />,
 			children: routes_children,

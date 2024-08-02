@@ -15,10 +15,15 @@ const GridContainer = styled.div`
 const GridItem = styled.div`
 	width: 100px;
 	height: 100px;
-	background-color: var(--Foundation-Gray-gray500, #767681);
+	background-color: ${({ theme }) => theme.colors.BG800};
 	display: flex;
 	justify-content: center;
 	align-items: center;
+`;
+
+const SettingBtn = styled.img`
+	display: absolute;
+	right: 0;
 `;
 
 const SpacePage = () => {
@@ -76,7 +81,10 @@ const SpacePage = () => {
 	return (
 		<>
 			<div style={{ width: "320px", margin: "auto" }}>
-				<TopBarText left={LeftEnum.Logo} center="" right={setting} />
+				<div>
+					<TopBarText left={LeftEnum.Logo} center="" right="" />
+					<SettingBtn src={setting} alt="setting" onClick={() => handleNavigate("/space/spaceoption")} />
+				</div>
 				<div style={{ width: "320px", height: "202px", margin: "auto" }}>
 					<h1>{tempJson.spaceList[0].userName}의 스페이스</h1>
 					<h3>{tempJson.spaceList[0].lastUserSpaceId}개의 스페이스</h3>
@@ -88,10 +96,10 @@ const SpacePage = () => {
 						<img src={info.image} alt={`Space ${info.id}`} onClick={() => handleNavigate("/")} />
 					</GridItem>
 				))}
-				<GridItem key="additional">
-					<img src={add} onClick={() => handleNavigate("/")} />
+				<GridItem onClick={() => handleNavigate("/space/addspace")}>
+					<img src={add} />
 				</GridItem>
-				{images.length < 9 && Array.from({ length: 9 - images.length }).map((_, index) => <GridItem key={`empty-${index}`} onClick={() => handleNavigate("/")} />)}
+				{images.length < 9 && Array.from({ length: 9 - images.length }).map((_, index) => <GridItem key={`empty-${index}`} />)}
 			</GridContainer>
 		</>
 	);
