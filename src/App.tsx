@@ -25,6 +25,7 @@ import EditVoiceRoomPage from "./pages/VoiceRoomPage/EditVoiceRoomPage";
 import MyRequestPayPage from "./pages/PayPage/MyRequestPayPage";
 import RequestedPayPage from "./pages/PayPage/RequestedPayPage";
 import CompletePay from "./pages/PayPage/CompletePay";
+import CreateRequestPage from "./pages/PayPage/CreateRequestPage";
 
 // will we need constant path in later..?
 // const PATH = {
@@ -82,6 +83,7 @@ function App() {
     { path: "/chat/:id", element: <ChattingPage /> },
     { path: "/chat/create", element: <ChatCreatePage /> },
     { path: "/pay", element: <PayPage />, hasBottomBar: true },
+    { path: "/pay/create", element: <CreateRequestPage />, hasBottomBar: true },
     { path: "/requestingpay", element: <MyRequestPayPage />, hasBottomBar: false },
     { path: "/requestingpay/:id", element: <MyRequestPayPage />, hasBottomBar: false },
     { path: "/requestedpay", element: <RequestedPayPage />, hasBottomBar: false },
