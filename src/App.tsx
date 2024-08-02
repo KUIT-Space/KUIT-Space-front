@@ -4,7 +4,7 @@ import { theme } from "@/styles/Theme";
 import GlobalStyle from "@/styles/GlobalStyles";
 import BottomNavBar from "@/components/BottomNavBar";
 import LoginPage from "@/pages/LoginPage/LoginPage";
-import SignUpPage from "@/pages/LoginPage/SignUpPage_ID";
+import SignUpPage from "@/pages/LoginPage/SignUpPage";
 import HomePage from "@/pages/HomePage";
 import VoiceRoomListPage from "@/pages/VoiceRoomPage/VoiceRoomListPage";
 import ChatPage from "@/pages/ChatPage/ChatPage";

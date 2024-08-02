@@ -18,11 +18,41 @@ export const StyledText = styled.div`
 	line-height: 140%;
 	letter-spacing: 0.03rem;
 	width: calc(100% - 2.5rem);
+	margin-top: 2.5rem;
 `;
 
-export const Input = styled.input`
-	display: flex;
+interface ExplanationProps {
+	$state?: "empty" | "invalid" | "valid";
+	$isValid?: boolean;
+}
+
+export const Explanation = styled.div<ExplanationProps>`
+	color: ${({ $state, $isValid }) => {
+		if ($state === "empty") return "#767681";
+		if ($isValid === false) return "#FF5656";
+		if ($isValid === true) return "#48FFBD";
+		return "#767681";
+	}};
+	font-family: Freesentation;
+	font-size: 0.875rem;
+	font-style: normal;
+	font-weight: 300;
+	line-height: 140%;
+	letter-spacing: 0.0175rem;
+	margin-top: 0.38rem;
 	width: calc(100% - 2.5rem);
+`;
+
+export const InputContainer = styled.div`
+	display: flex;
+	position: relative;
+	width: calc(100% - 2.5rem);
+	max-width: 40rem;
+`;
+
+export const Input = styled.input<{ $state?: "empty" | "invalid" | "valid"; $isValid?: boolean; $isOverMaxLength?: boolean }>`
+	display: flex;
+	width: 100%;
 	height: 3.25rem;
 	border-radius: 0.75rem;
 	padding: 0.9375rem;
@@ -45,7 +75,7 @@ export const Input = styled.input`
 	}
 
 	&:focus {
-		border-color: #48ffbd;
+		border-color: ${({ $state, $isValid }) => ($isValid ? "#48FFBD" : $state === "invalid" ? "#FF5656" : "#48FFBD")};
 		outline: none;
 	}
 `;
@@ -75,4 +105,19 @@ export const NextButton = styled.button<NextButtonProps>`
 	line-height: 140%;
 	letter-spacing: 0.045rem;
 	cursor: ${({ $isActive }) => ($isActive ? "pointer" : "default")};
+`;
+
+export const NameCount = styled.span`
+	position: absolute;
+	top: 0.94rem;
+	right: 1rem;
+	color: #767681;
+	font-family: Freesentation;
+	font-size: 1rem;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 140%;
+	letter-spacing: 0.04rem;
+	padding: 0 0.25rem;
+	z-index: 300;
 `;
