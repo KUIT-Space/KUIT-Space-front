@@ -121,11 +121,11 @@ export const GrayTextDiv = styled.div`
 export const GrayBTextDiv = styled.div`
   color: var(--Foundation-Gray-gray500, #767681);
   font-family: Freesentation;
-  font-size: 20px;
+  font-size: 1.25rem;
   font-style: normal;
   font-weight: 700;
-  line-height: 100%; /* 20px */
-  letter-spacing: 0.4px;
+  line-height: 100%; /* 1.25rem */
+  letter-spacing: 0.025rem;
 `;
 
 export const LargeTxt = styled.div`
@@ -134,17 +134,17 @@ export const LargeTxt = styled.div`
 
   /* text/SemiBold 24pt */
   font-family: Freesentation;
-  font-size: 24px;
+  font-size: 1.5rem;
   font-style: normal;
   font-weight: 600;
-  line-height: 140%; /* 33.6px */
-  letter-spacing: 0.48px;
+  line-height: 140%; /* 2.1rem */
+  letter-spacing: 0.03rem;
 `;
 
 export const CompletePayDiv = styled.div`
   display: flex;
   flex-direction: column;
-  border-radius: 12px;
+  border-radius: 0.75rem;
   background: var(--Foundation-Gray-gray850, #1b1b1d);
 `;
 
@@ -162,11 +162,11 @@ export const TabMenu = styled.ul`
 
     /* text/Regular 14pt */
     font-family: Freesentation;
-    font-size: 14px;
+    font-size: 0.875rem;
     font-style: normal;
     font-weight: 400;
-    line-height: 140%; /* 19.6px */
-    letter-spacing: 0.56px;
+    line-height: 140%; /* 1.225rem */
+    letter-spacing: 0.035rem;
 
     justify-content: center;
     cursor: pointer;
@@ -176,11 +176,11 @@ export const TabMenu = styled.ul`
 
     /* text/Medium 14pt */
     font-family: Freesentation;
-    font-size: 14px;
+    font-size: 0.875rem;
     font-style: normal;
     font-weight: 500;
-    line-height: 140%; /* 19.6px */
-    letter-spacing: 0.56px;
+    line-height: 140%; /* 1.225rem */
+    letter-spacing: 0.035rem;
 
     border-bottom: 1px solid #48ffbd;
     justify-content: center;
@@ -199,4 +199,19 @@ export const BoldText = styled.div`
   font-weight: 700;
   line-height: 140%; /* 1.4rem */
   letter-spacing: 0.02rem;
+`;
+
+export const inputText = styled.input`
+  border-radius: 12px;
+  background: var(--Foundation-Gray-gray800, #222226);
+
+  color: var(--Foundation-Gray-gray500, #767681);
+
+  /* text/Regular 16pt */
+  font-family: Freesentation;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 140%; /* 1.4rem */
+  letter-spacing: 0.04rem;
 `;
