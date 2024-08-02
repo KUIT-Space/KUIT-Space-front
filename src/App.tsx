@@ -9,6 +9,7 @@ import HomePage from "@/pages/HomePage";
 import VoiceRoomListPage from "@/pages/VoiceRoomPage/VoiceRoomListPage";
 import ChatPage from "@/pages/ChatPage/ChatPage";
 import ChattingPage from "@/pages/ChatPage/ChattingPage/ChattingPage";
+import ChatCreatePage from "@/pages/ChatPage/ChatCreatePage/ChatCreatePage";
 import PayPage from "@/pages/PayPage/PayPage";
 import BoardPage from "@/pages/BoardPage/BoardPage";
 import SpacePage from "./pages/SpacePage/SpacePage";
@@ -17,6 +18,10 @@ import SpaceOption from "./pages/SpacePage/SpaceOption";
 import AccountManage from "./pages/SpacePage/AccountManage";
 import ProfileManage from "./pages/SpacePage/ProfileManage";
 import AlarmManage from "./pages/SpacePage/AlarmManage";
+import CreateVoiceRoomPage from "./pages/VoiceRoomPage/CreateVoiceRoom";
+import JoinVoiceRoomPage from "./pages/VoiceRoomPage/JoinVoiceRoomPage";
+import VoiceRoomPage from "./pages/VoiceRoomPage/VoiceRoomPage";
+import EditVoiceRoomPage from "./pages/VoiceRoomPage/EditVoiceRoomPage";
 
 // will we need constant path in later..?
 // const PATH = {
@@ -71,6 +76,7 @@ function App() {
 		{ path: "/voiceroom", element: <VoiceRoomListPage />, hasBottomBar: true },
 		{ path: "/chat", element: <ChatPage />, hasBottomBar: true },
 		{ path: "/chat/:id", element: <ChattingPage /> },
+		{ path: "/chat/create", element: <ChatCreatePage /> },
 		{ path: "/pay", element: <PayPage />, hasBottomBar: true },
 		{ path: "/board", element: <BoardPage />, hasBottomBar: true },
 		{ path: "/space", element: <SpacePage /> },
@@ -79,6 +85,9 @@ function App() {
 		{ path: "/space/spaceoption/accountmanage", element: <AccountManage /> },
 		{ path: "/space/spaceoption/profilemanage", element: <ProfileManage /> },
 		{ path: "/space/spaceoption/alarmmanage", element: <AlarmManage /> },
+		{ path: "/createvoiceroom", element: <CreateVoiceRoomPage />, hasBottomBar: false },
+		{ path: "/joinvoiceroom", element: <JoinVoiceRoomPage />, hasBottombar: false },
+		{ path: "/editvoiceroom", element: <EditVoiceRoomPage />, hasBottombar: false },
 	];
 
 	const routes = [
