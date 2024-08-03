@@ -12,8 +12,12 @@ ${reset}
   font-family: 'Freesentation R';
 }
 
-body {
+* {
+  box-sizing: border-box;
   color: ${({ theme }) => theme.colors.white};
+}
+
+body {
   margin: 0;
 }
 
