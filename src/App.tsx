@@ -12,6 +12,12 @@ import ChattingPage from "@/pages/ChatPage/ChattingPage/ChattingPage";
 import ChatCreatePage from "@/pages/ChatPage/ChatCreatePage/ChatCreatePage";
 import PayPage from "@/pages/PayPage/PayPage";
 import BoardPage from "@/pages/BoardPage/BoardPage";
+import SpacePage from "./pages/SpacePage/SpacePage";
+import AddSpacePage from "./pages/SpacePage/AddSpacePage";
+import SpaceOption from "./pages/SpacePage/SpaceOption";
+import AccountManage from "./pages/SpacePage/AccountManage";
+import ProfileManage from "./pages/SpacePage/ProfileManage";
+import AlarmManage from "./pages/SpacePage/AlarmManage";
 import CreateVoiceRoomPage from "./pages/VoiceRoomPage/CreateVoiceRoom";
 import JoinVoiceRoomPage from "./pages/VoiceRoomPage/JoinVoiceRoomPage";
 import VoiceRoomPage from "./pages/VoiceRoomPage/VoiceRoomPage";
@@ -73,6 +79,12 @@ function App() {
 		{ path: "/chat/create", element: <ChatCreatePage /> },
 		{ path: "/pay", element: <PayPage />, hasBottomBar: true },
 		{ path: "/board", element: <BoardPage />, hasBottomBar: true },
+		{ path: "/space", element: <SpacePage /> },
+		{ path: "/space/addspace", element: <AddSpacePage /> },
+		{ path: "/space/spaceoption", element: <SpaceOption /> },
+		{ path: "/space/spaceoption/accountmanage", element: <AccountManage /> },
+		{ path: "/space/spaceoption/profilemanage", element: <ProfileManage /> },
+		{ path: "/space/spaceoption/alarmmanage", element: <AlarmManage /> },
 		{ path: "/createvoiceroom", element: <CreateVoiceRoomPage />, hasBottomBar: false },
 		{ path: "/joinvoiceroom", element: <JoinVoiceRoomPage />, hasBottombar: false },
 		{ path: "/editvoiceroom", element: <EditVoiceRoomPage />, hasBottombar: false },
