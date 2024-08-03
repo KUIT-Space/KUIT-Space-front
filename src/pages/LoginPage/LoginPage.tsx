@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { GlobalStyle, Container, Logo, Input, LoginButton, BtContainer, Button, ScContainer, Social } from "./LoginPage.styled.ts";
+import { Container, Logo, Input, LoginButton, BtContainer, Button, ScContainer, Social } from "@/pages/LoginPage/LoginPage.styled.ts";
 import logoSpace from "@/assets/logo_space.svg";
 import kakao from "@/assets/Login/icon_kakao.svg";
 import google from "@/assets/Login/icon_google.svg";
@@ -19,12 +19,11 @@ const LoginPage = () => {
 
 	return (
 		<>
-			<GlobalStyle />
 			<Container>
 				<Logo>
 					<img src={logoSpace} style={{ width: "100%" }} alt="Logo" />
 				</Logo>
-				<Input type="text" placeholder="아이디" value={id} onChange={(e) => setId(e.target.value)} />
+				<Input type="id" placeholder="아이디" value={id} onChange={(e) => setId(e.target.value)} style={{ marginTop: "10.37rem" }} />
 				<Input type="password" placeholder="비밀번호" value={password} onChange={(e) => setPassword(e.target.value)} />
 				<LoginButton $isActive={isButtonActive}>로그인</LoginButton>
 				<BtContainer>

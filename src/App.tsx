@@ -76,11 +76,11 @@ function App() {
 		{ path: "/createvoiceroom", element: <CreateVoiceRoomPage />, hasBottomBar: false },
 		{ path: "/joinvoiceroom", element: <JoinVoiceRoomPage />, hasBottombar: false },
 		{ path: "/editvoiceroom", element: <EditVoiceRoomPage />, hasBottombar: false },
+		{ path: "/login", element: <LoginPage />, hasBottombar: false },
+		{ path: "/signup", element: <SignUpPage />, hasBottombar: false },
 	];
 
 	const routes = [
-		{ path: "/login", element: <LoginPage /> },
-		{ path: "/signUp", element: <SignUpPage /> },
 		{
 			element: <Layout routes_children={routes_children} />,
 			children: routes_children,
