@@ -201,10 +201,13 @@ export const BoldText = styled.div`
   letter-spacing: 0.02rem;
 `;
 
-export const inputText = styled.input`
-  border-radius: 12px;
+export const InputText = styled.input`
+  border-radius: 0.75rem;
   background: var(--Foundation-Gray-gray800, #222226);
 
+  border: none;
+  width: 100%;
+  padding: 1rem;
   color: var(--Foundation-Gray-gray500, #767681);
 
   /* text/Regular 16pt */
@@ -214,4 +217,43 @@ export const inputText = styled.input`
   font-weight: 400;
   line-height: 140%; /* 1.4rem */
   letter-spacing: 0.04rem;
+
+  &:focus {
+    outline: none;
+    box-shadow: 0rem 0rem 0.25rem var(--Foundation-Main-color-Normal, #48ffbd);
+  }
+`;
+
+export const BankSelect = styled.select`
+  width: 100%;
+  padding: 1rem 1rem 1rem 0.75rem;
+  margin-top: 0.75rem;
+  border: none;
+
+  color: var(--Foundation-Gray-gray500, #767681);
+  border-radius: 0.75rem;
+  background: var(--Foundation-Gray-gray800, #222226);
+  /* text/Regular 16pt */
+  font-family: Freesentation;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 140%; /* 1.4rem */
+  letter-spacing: 0.04rem;
+`;
+
+export const BankOption = styled.option`
+  border-radius: 0.75rem 0.75rem 0rem 0rem;
+`;
+
+export const RegularText = styled.div`
+  color: var(--WHITE, #fff);
+
+  /* text/Medium 16pt */
+  font-family: Freesentation;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 140%; /* 22.4px */
+  letter-spacing: 0.64px;
 `;
