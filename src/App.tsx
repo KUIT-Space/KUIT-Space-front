@@ -83,7 +83,7 @@ function App() {
     { path: "/chat/:id", element: <ChattingPage /> },
     { path: "/chat/create", element: <ChatCreatePage /> },
     { path: "/pay", element: <PayPage />, hasBottomBar: true },
-    { path: "/pay/create", element: <CreateRequestPage />, hasBottomBar: true },
+    { path: "/pay/create", element: <CreateRequestPage />, hasBottomBar: false },
     { path: "/requestingpay", element: <MyRequestPayPage />, hasBottomBar: false },
     { path: "/requestingpay/:id", element: <MyRequestPayPage />, hasBottomBar: false },
     { path: "/requestedpay", element: <RequestedPayPage />, hasBottomBar: false },
