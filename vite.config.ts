@@ -16,4 +16,5 @@ export default defineConfig({
       // external: ["react", "react-dom", "styled-components"],
     },
   },
+  base: "/KUIT-Space-front/",
 });
