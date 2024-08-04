@@ -1,7 +1,8 @@
-import { Input } from "@/components/Input";
 import styled from "styled-components";
+
 import SearchIcon from "@/assets/ChatPage/icon_search.svg";
 import { BottomBtn } from "@/components/BottomBtn";
+import { Input } from "@/components/Input";
 
 export const ChatroomAddImgBtn = styled.label<{ $backgroundImage: string | null | undefined }>`
   display: flex;

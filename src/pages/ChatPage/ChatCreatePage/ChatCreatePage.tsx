@@ -1,17 +1,19 @@
-import TopBarText, { LeftEnum } from "@/components/TopBarText";
+import { useEffect, useState } from "react";
+import { choseongIncludes, hangulIncludes } from "es-hangul";
+
 import ChatroomImg from "@/assets/ChatPage/btn_chatroom_img.svg";
+import CheckBox from "@/components/CheckBox";
+import { Input } from "@/components/Input";
+import TopBarText, { LeftEnum } from "@/components/TopBarText";
+
 import {
+  ChatCreateBottomBtn,
   ChatCreateContainer,
   ChatroomAddImgBtn,
   ChatroomName,
   InviteInput,
   Member,
-  ChatCreateBottomBtn,
 } from "./ChatCreatePage.styled";
-import { Input } from "@/components/Input";
-import { useEffect, useState } from "react";
-import { hangulIncludes, choseongIncludes } from "es-hangul";
-import CheckBox from "@/components/CheckBox";
 
 interface member {
   userId: number;
