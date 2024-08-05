@@ -6,6 +6,9 @@ import { useState } from "react";
 import CompletePay from "./CompletePay";
 import CompleteCreatePay from "./CompleteCreatePay";
 import CheckBox from "@/components/CheckBox";
+import { Member } from "../ChatPage/ChatCreatePage/ChatCreatePage.styled";
+import ReactImg from "@/assets/react.svg";
+import { PayChatDiv } from "./CreatePayComponents";
 
 const RecentAccountDiv = () => {
   return (
@@ -18,6 +21,7 @@ const RecentAccountDiv = () => {
     </s.RowFlexDiv>
   );
 };
+
 type NextPageType = {
   nextPage: Function;
 };
@@ -52,10 +56,7 @@ const CreateRequestPage1 = ({ nextPage }: NextPageType) => {
 };
 const CreateRequestPage2 = ({ nextPage }: NextPageType) => {
   const [tabIndex, setTabIndex] = useState(0);
-  const [flag, setFlag] = useState(false);
-  const controlFlag = () => {
-    setFlag(!flag);
-  };
+
   const selectMenuHandler = (index: number) => {
     setTabIndex(index);
   };
@@ -66,6 +67,10 @@ const CreateRequestPage2 = ({ nextPage }: NextPageType) => {
   const dataArr = [
     { image: "aa", name: "박규환", amount: "15000원", chk: true },
     { image: "aa", name: "박규환", amount: "15000원", chk: true },
+  ];
+  const chatroomArr = [
+    { img: "aa", name: "GreenJoa 방", cnt: 37 },
+    { img: "aa", name: "작업 안 하면 죽는 방", cnt: 24 },
   ];
 
   return (
@@ -83,26 +88,11 @@ const CreateRequestPage2 = ({ nextPage }: NextPageType) => {
             </li>
           ))}
         </s.TabMenu>
-        {flag ? (
-          <CheckBox
-            checked={true}
-            onClick={() => {
-              controlFlag();
-            }}
-          ></CheckBox>
-        ) : (
-          <CheckBox
-            checked={false}
-            onClick={() => {
-              controlFlag();
-            }}
-          ></CheckBox>
-        )}
-
-        {/* <s.RoundDiv style={{ margin: "0.75rem 1.25rem 0.75rem 1.25rem" }}>
-          {dataArr.map((value, index) => (            
+        <div>
+          {chatroomArr.map((value, index) => (
+            <PayChatDiv img={value.img} name={value.name} cnt={value.cnt}></PayChatDiv>
           ))}
-        </s.RoundDiv> */}
+        </div>
       </s.ContainerDiv>
       <BottomBtn onClick={() => nextPage()}>다음으로</BottomBtn>
     </>
