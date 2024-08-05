@@ -1,6 +1,7 @@
 import { BottomBtn } from "@/components/BottomBtn";
 import Check from "@/assets/PayPage/check.svg";
 import * as s from "@/pages/PayPage/PayPage.styled";
+import { useNavigate } from "react-router-dom";
 
 export type CompletePayType = {
   money?: number;
@@ -8,6 +9,7 @@ export type CompletePayType = {
 };
 
 const CompletePay = ({ money, account }: CompletePayType) => {
+  const navigator = useNavigate();
   console.log(money);
   console.log(account);
   return (
@@ -34,7 +36,13 @@ const CompletePay = ({ money, account }: CompletePayType) => {
           </s.ColumnFlexDiv>
         </s.RoundDiv>
 
-        <BottomBtn>정산 홈으로</BottomBtn>
+        <BottomBtn
+          onClick={() => {
+            navigator("/pay");
+          }}
+        >
+          정산 홈으로
+        </BottomBtn>
       </s.ContainerDiv>
     </>
   );
