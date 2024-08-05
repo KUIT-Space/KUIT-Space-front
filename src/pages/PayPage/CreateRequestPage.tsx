@@ -5,6 +5,7 @@ import { BottomBtn } from "@/components/BottomBtn";
 import { useState } from "react";
 import CompletePay from "./CompletePay";
 import CompleteCreatePay from "./CompleteCreatePay";
+import CheckBox from "@/components/CheckBox";
 
 const RecentAccountDiv = () => {
   return (
@@ -50,11 +51,58 @@ const CreateRequestPage1 = ({ nextPage }: NextPageType) => {
   );
 };
 const CreateRequestPage2 = ({ nextPage }: NextPageType) => {
+  const [tabIndex, setTabIndex] = useState(0);
+  const [flag, setFlag] = useState(false);
+  const controlFlag = () => {
+    setFlag(!flag);
+  };
+  const selectMenuHandler = (index: number) => {
+    setTabIndex(index);
+  };
+  const menuArr = [
+    { name: "미정산", content: "Tab menu ONE" },
+    { name: "정산완료", content: "Tab menu TWO" },
+  ];
+  const dataArr = [
+    { image: "aa", name: "박규환", amount: "15000원", chk: true },
+    { image: "aa", name: "박규환", amount: "15000원", chk: true },
+  ];
+
   return (
     <>
       <TopBarText left={LeftEnum.Back} center="" right=""></TopBarText>
       <s.ContainerDiv>
         <s.NowPriceDiv>정산할 멤버를 선택해주세요</s.NowPriceDiv>
+        <s.TabMenu>
+          {menuArr.map((value, index) => (
+            <li
+              className={index === tabIndex ? "submenu focused" : "submenu"}
+              onClick={() => selectMenuHandler(index)}
+            >
+              {value.name}
+            </li>
+          ))}
+        </s.TabMenu>
+        {flag ? (
+          <CheckBox
+            checked={true}
+            onClick={() => {
+              controlFlag();
+            }}
+          ></CheckBox>
+        ) : (
+          <CheckBox
+            checked={false}
+            onClick={() => {
+              controlFlag();
+            }}
+          ></CheckBox>
+        )}
+
+        {/* <s.RoundDiv style={{ margin: "0.75rem 1.25rem 0.75rem 1.25rem" }}>
+          {dataArr.map((value, index) => (            
+          ))}
+        </s.RoundDiv> */}
       </s.ContainerDiv>
       <BottomBtn onClick={() => nextPage()}>다음으로</BottomBtn>
     </>
