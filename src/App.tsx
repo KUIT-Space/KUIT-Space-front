@@ -6,28 +6,30 @@ import {
   useLocation,
 } from "react-router-dom";
 import styled, { ThemeProvider } from "styled-components";
-import { theme } from "@/styles/Theme";
-import GlobalStyle from "@/styles/GlobalStyles";
+
 import BottomNavBar from "@/components/BottomNavBar";
-import LoginPage from "@/pages/LoginPage/LoginPage";
-import SignUpPage from "@/pages/LoginPage/SignUpPage";
-import HomePage from "@/pages/HomePage/HomePage";
-import VoiceRoomListPage from "@/pages/VoiceRoomPage/VoiceRoomListPage";
+import BoardPage from "@/pages/BoardPage/BoardPage";
+import ChatCreatePage from "@/pages/ChatPage/ChatCreatePage/ChatCreatePage";
 import ChatPage from "@/pages/ChatPage/ChatPage";
 import ChattingPage from "@/pages/ChatPage/ChattingPage/ChattingPage";
-import ChatCreatePage from "@/pages/ChatPage/ChatCreatePage/ChatCreatePage";
+import HomePage from "@/pages/HomePage/HomePage";
+import LoginPage from "@/pages/LoginPage/LoginPage";
+import SignUpPage from "@/pages/LoginPage/SignUpPage";
 import PayPage from "@/pages/PayPage/PayPage";
-import BoardPage from "@/pages/BoardPage/BoardPage";
-import SpacePage from "./pages/SpacePage/SpacePage";
-import AddSpacePage from "./pages/SpacePage/AddSpacePage";
-import SpaceOption from "./pages/SpacePage/SpaceOption";
+import VoiceRoomListPage from "@/pages/VoiceRoomPage/VoiceRoomListPage";
+import GlobalStyle from "@/styles/GlobalStyles";
+import { theme } from "@/styles/Theme";
+
 import AccountManage from "./pages/SpacePage/AccountManage";
-import ProfileManage from "./pages/SpacePage/ProfileManage";
+import AddSpacePage from "./pages/SpacePage/AddSpacePage";
 import AlarmManage from "./pages/SpacePage/AlarmManage";
+import ProfileManage from "./pages/SpacePage/ProfileManage";
+import SpaceOption from "./pages/SpacePage/SpaceOption";
+import SpacePage from "./pages/SpacePage/SpacePage";
 import CreateVoiceRoomPage from "./pages/VoiceRoomPage/CreateVoiceRoom";
+import EditVoiceRoomPage from "./pages/VoiceRoomPage/EditVoiceRoomPage";
 import JoinVoiceRoomPage from "./pages/VoiceRoomPage/JoinVoiceRoomPage";
 import VoiceRoomPage from "./pages/VoiceRoomPage/VoiceRoomPage";
-import EditVoiceRoomPage from "./pages/VoiceRoomPage/EditVoiceRoomPage";
 
 // will we need constant path in later..?
 // const PATH = {
@@ -106,8 +108,8 @@ function App() {
       children: routes_children,
     },
   ];
-  const router = createBrowserRouter(routes);
 
+  const router = createBrowserRouter(routes, { basename: "/KUIT-Space-front/" });
   return <RouterProvider router={router} />;
 }
 

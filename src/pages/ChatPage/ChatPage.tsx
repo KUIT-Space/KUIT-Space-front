@@ -1,8 +1,10 @@
-import TopBarText, { LeftEnum } from "@/components/TopBarText";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ChatListContainer, ChatContainer } from "./ChatPage.styled";
+
+import TopBarText, { LeftEnum } from "@/components/TopBarText";
+
 import { AddChatBtn } from "./ChatAddBtn.styled";
+import { ChatContainer, ChatListContainer } from "./ChatPage.styled";
 
 const ChatPage = () => {
   const navigate = useNavigate();
