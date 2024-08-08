@@ -6,22 +6,30 @@ import {
   useLocation,
 } from "react-router-dom";
 import styled, { ThemeProvider } from "styled-components";
-import { theme } from "@/styles/Theme";
-import GlobalStyle from "@/styles/GlobalStyles";
+
 import BottomNavBar from "@/components/BottomNavBar";
-import LoginPage from "@/pages/LoginPage/LoginPage";
-import SignUpPage from "@/pages/LoginPage/SignUpPage";
-import HomePage from "@/pages/HomePage";
-import VoiceRoomListPage from "@/pages/VoiceRoomPage/VoiceRoomListPage";
+import BoardPage from "@/pages/BoardPage/BoardPage";
+import ChatCreatePage from "@/pages/ChatPage/ChatCreatePage/ChatCreatePage";
 import ChatPage from "@/pages/ChatPage/ChatPage";
 import ChattingPage from "@/pages/ChatPage/ChattingPage/ChattingPage";
-import ChatCreatePage from "@/pages/ChatPage/ChatCreatePage/ChatCreatePage";
+import HomePage from "@/pages/HomePage";
+import LoginPage from "@/pages/LoginPage/LoginPage";
+import SignUpPage from "@/pages/LoginPage/SignUpPage";
 import PayPage from "@/pages/PayPage/PayPage";
-import BoardPage from "@/pages/BoardPage/BoardPage";
+import VoiceRoomListPage from "@/pages/VoiceRoomPage/VoiceRoomListPage";
+import GlobalStyle from "@/styles/GlobalStyles";
+import { theme } from "@/styles/Theme";
+
+import AccountManage from "./pages/SpacePage/AccountManage";
+import AddSpacePage from "./pages/SpacePage/AddSpacePage";
+import AlarmManage from "./pages/SpacePage/AlarmManage";
+import ProfileManage from "./pages/SpacePage/ProfileManage";
+import SpaceOption from "./pages/SpacePage/SpaceOption";
+import SpacePage from "./pages/SpacePage/SpacePage";
 import CreateVoiceRoomPage from "./pages/VoiceRoomPage/CreateVoiceRoom";
+import EditVoiceRoomPage from "./pages/VoiceRoomPage/EditVoiceRoomPage";
 import JoinVoiceRoomPage from "./pages/VoiceRoomPage/JoinVoiceRoomPage";
 import VoiceRoomPage from "./pages/VoiceRoomPage/VoiceRoomPage";
-import EditVoiceRoomPage from "./pages/VoiceRoomPage/EditVoiceRoomPage";
 import MyRequestPayPage from "./pages/PayPage/MyRequestPayPage";
 import RequestedPayPage from "./pages/PayPage/RequestedPayPage";
 import CompletePay from "./pages/PayPage/CompletePay";
@@ -96,15 +104,27 @@ function App() {
   ];
 
   const routes = [
-    { path: "/login", element: <LoginPage /> },
-    { path: "/signUp", element: <SignUpPage /> },
+    { path: "/board", element: <BoardPage />, hasBottomBar: true },
+    { path: "/space", element: <SpacePage /> },
+    { path: "/space/addspace", element: <AddSpacePage /> },
+    { path: "/space/spaceoption", element: <SpaceOption /> },
+    { path: "/space/spaceoption/accountmanage", element: <AccountManage /> },
+    { path: "/space/spaceoption/profilemanage", element: <ProfileManage /> },
+    { path: "/space/spaceoption/alarmmanage", element: <AlarmManage /> },
+    { path: "/createvoiceroom", element: <CreateVoiceRoomPage />, hasBottomBar: false },
+    { path: "/joinvoiceroom", element: <JoinVoiceRoomPage />, hasBottombar: false },
+    { path: "/editvoiceroom", element: <EditVoiceRoomPage />, hasBottombar: false },
+    { path: "/login", element: <LoginPage />, hasBottombar: false },
+    { path: "/signup", element: <SignUpPage />, hasBottombar: false },
+  ];
+
+  const routes = [
     {
       element: <Layout routes_children={routes_children} />,
       children: routes_children,
     },
   ];
-  const router = createBrowserRouter(routes);
-
+  const router = createBrowserRouter(routes, { basename: "/KUIT-Space-front/" });
   return <RouterProvider router={router} />;
 }
 

@@ -1,13 +1,14 @@
 import TopBarText from "@/components/TopBarText";
 import { LeftEnum } from "@/components/TopBarText";
+import yellow from "@/assets/VoiceRoom/yellow_gradient.svg";
+import purple from "@/assets/VoiceRoom/purple_gradient.svg";
 import plus from "@/assets/VoiceRoom/icon_plus.svg";
+import styled from "styled-components";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Data from "@/pages/VoiceRoomPage/testDB.json";
 import * as s from "@/pages/VoiceRoomPage/VoiceRoomListPage.styled";
 import VoiceRoomUser from "./VoiceRoomUser";
-
-function memberList() {}
 
 function voiceRoomList() {
 	const [arr, setArr] = useState([]);
@@ -16,6 +17,7 @@ function voiceRoomList() {
 	};
 }
 
+function memberList() {}
 const VoiceRoomListPage = () => {
 	const navigate = useNavigate();
 	return (

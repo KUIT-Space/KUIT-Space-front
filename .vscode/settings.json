@@ -1,12 +1,27 @@
 {
+  // vscode
   "editor.codeActionsOnSave": {
-    "source.fixAll": "always",
+    "source.fixAll": "never",
+    "source.fixAll.eslint": "explicit",
   },
+  "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+  "editor.formatOnPaste": true,
   "editor.formatOnSave": true,
-  "editor.tabSize": 2,
+  "files.insertFinalNewline": true,
+
+  // ESLint
+  // ref: https://github.com/microsoft/vscode-eslint
+  // plugin: https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint
+  "eslint.codeActionsOnSave.mode": "problems",
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact", 
+    "typescript",
+    "typescriptreact"
+  ],
   
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
+  // "editor.defaultFormatter": "esbenp.prettier-vscode",
+  // "[javascript]": {
+  //   "editor.defaultFormatter": "esbenp.prettier-vscode"
+  // },
 }

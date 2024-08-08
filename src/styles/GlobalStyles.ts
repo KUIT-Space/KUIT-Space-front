@@ -5,6 +5,9 @@ const GlobalStyle = createGlobalStyle`
 ${reset}
 
 :root {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
   background-color: ${({ theme }) => theme.colors.BG900};
   font-family: 'Freesentation R';
 }
@@ -37,7 +40,6 @@ button {
   color: inherit;
   cursor: pointer;
 }
-
 `;
 
 export default GlobalStyle;
