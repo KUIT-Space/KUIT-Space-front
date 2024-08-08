@@ -9,6 +9,7 @@ import CheckBox from "@/components/CheckBox";
 import { Member } from "../ChatPage/ChatCreatePage/ChatCreatePage.styled";
 import ReactImg from "@/assets/react.svg";
 import { PayChatDiv } from "./CreatePayComponents";
+import SearchIcon from "@/assets/PayPage/search_icon.svg";
 
 const RecentAccountDiv = () => {
   return (
@@ -56,13 +57,20 @@ const CreateRequestPage1 = ({ nextPage }: NextPageType) => {
 };
 const CreateRequestPage2 = ({ nextPage }: NextPageType) => {
   const [tabIndex, setTabIndex] = useState(0);
+  const [search, setSearch] = useState("");
+
+  const onKeywordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(search);
+    setSearch(e.target.value);
+  };
 
   const selectMenuHandler = (index: number) => {
     setTabIndex(index);
+    console.log(index);
   };
   const menuArr = [
-    { name: "미정산", content: "Tab menu ONE" },
-    { name: "정산완료", content: "Tab menu TWO" },
+    { name: "채팅방", content: "Tab menu ONE" },
+    { name: "멤버", content: "Tab menu TWO" },
   ];
   const dataArr = [
     { image: "aa", name: "박규환", amount: "15000원", chk: true },
@@ -88,13 +96,29 @@ const CreateRequestPage2 = ({ nextPage }: NextPageType) => {
             </li>
           ))}
         </s.TabMenu>
-        <div>
-          {chatroomArr.map((value, index) => (
-            <PayChatDiv img={value.img} name={value.name} cnt={value.cnt}></PayChatDiv>
-          ))}
-        </div>
+        {tabIndex == 0 ? (
+          <div>
+            {chatroomArr.map((value, index) => (
+              <PayChatDiv img={value.img} name={value.name} cnt={value.cnt}></PayChatDiv>
+            ))}
+          </div>
+        ) : (
+          <s.ColumnFlexDiv style={{ width: "100%" }}>
+            <s.SearchBarDiv>
+              <s.SearchIconImg src={SearchIcon}></s.SearchIconImg>
+              <s.SearchBar type="text" value={search} onChange={onKeywordChange}></s.SearchBar>
+            </s.SearchBarDiv>
+            <Member>
+              <section>
+                <img src={ReactImg} />
+                <span className="name">dd</span>
+              </section>
+              <CheckBox></CheckBox>
+            </Member>
+          </s.ColumnFlexDiv>
+        )}
       </s.ContainerDiv>
-      <BottomBtn onClick={() => nextPage()}>다음으로</BottomBtn>
+      <BottomBtn onClick={() => nextPage()}>{0}명 선택</BottomBtn>
     </>
   );
 };
@@ -104,9 +128,37 @@ const CreateRequestPage3 = ({ nextPage }: NextPageType) => {
     <>
       <TopBarText left={LeftEnum.Back} center="" right=""></TopBarText>
       <s.ContainerDiv>
-        <s.NowPriceDiv>정산할 멤버를 선택해주세요</s.NowPriceDiv>
+        <s.NowPriceDiv>이렇게 정산을 요청할까요?</s.NowPriceDiv>
+        <s.GrayRoundDiv>
+          <s.RowFlexDiv style={{ margin: "0.75rem 0rem 0.75rem 0rem", alignItems: "center" }}>
+            <div>정산 총 금액</div>
+            <s.NowPriceDiv style={{ marginLeft: "auto" }}> 20000원</s.NowPriceDiv>
+          </s.RowFlexDiv>
+          <hr style={{ border: "0.0625rem solid var(--GRAY-700, #45454B)" }}></hr>
+          <Member>
+            <section>
+              <img src={ReactImg} />
+              <span className="name">dd</span>
+            </section>
+            <div>4,000</div>
+          </Member>
+          <Member>
+            <section>
+              <img src={ReactImg} />
+              <span className="name">dd</span>
+            </section>
+            <div>4,000</div>
+          </Member>
+          <Member>
+            <section>
+              <img src={ReactImg} />
+              <span className="name">dd</span>
+            </section>
+            <div>4,000</div>
+          </Member>
+        </s.GrayRoundDiv>
       </s.ContainerDiv>
-      <BottomBtn onClick={() => nextPage()}>다음으로</BottomBtn>
+      <BottomBtn onClick={() => nextPage()}>정산요청</BottomBtn>
     </>
   );
 };

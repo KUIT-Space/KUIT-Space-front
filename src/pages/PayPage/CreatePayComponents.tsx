@@ -12,12 +12,12 @@ interface payChatDivtype {
 
 const PayChatMemberDiv = () => {
   return (
-    <s.RowFlexDiv>
-      <div>
-        {" "}
-        <img src={ReactImg} />
-        <span className="name">시험</span>
-      </div>
+    <s.RowFlexDiv style={{ alignItems: "center" }}>
+      <img style={{ width: "2.5rem", height: "2.5rem", marginLeft: "1.875rem" }} src={ReactImg} />
+      <span className="name" style={{ marginLeft: "0.75rem" }}>
+        시험
+      </span>
+      <CheckBox></CheckBox>
     </s.RowFlexDiv>
   );
 };
@@ -32,7 +32,7 @@ export const PayChatDiv = ({ img, name, cnt }: payChatDivtype) => {
         <section>
           <img src={ReactImg} />
           <span className="name">{name}</span>
-          <span className="count">{cnt}</span>
+          <s.CountText className="count">{cnt}</s.CountText>
         </section>
         {flag ? (
           <CheckBox
@@ -49,7 +49,7 @@ export const PayChatDiv = ({ img, name, cnt }: payChatDivtype) => {
             }}
           ></CheckBox>
         )}
-      </Member>{" "}
+      </Member>
       <PayChatMemberDiv></PayChatMemberDiv>
     </s.ColumnFlexDiv>
   );

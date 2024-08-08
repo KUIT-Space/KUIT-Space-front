@@ -257,3 +257,49 @@ export const RegularText = styled.div`
   line-height: 140%; /* 22.4px */
   letter-spacing: 0.64px;
 `;
+
+export const CountText = styled.span`
+  color: var(--GRAY-600, #767681);
+  font-family: Pretendard;
+  font-size: 0.7298rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.2164rem; /* 166.667% */
+
+  margin-left: 0.25rem;
+`;
+
+export const SearchBar = styled.input`
+  border-radius: 0.75rem;
+  background: #222226;
+  border: none;
+
+  color: var(--Foundation-Gray-gray500, #767681);
+  font-family: Pretendard;
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 140%; /* 1.225rem */
+  letter-spacing: 0.0175rem;
+
+  width: 100%;
+  padding: 0.875rem 0.875rem 0.875rem 2.5rem;
+
+  &:focus {
+    outline: none;
+  }
+`;
+
+export const SearchBarDiv = styled.div`
+  position: relative;
+  width: 100%;
+`;
+
+export const SearchIconImg = styled.img`
+  height: 1.25rem;
+  width: 1.25rem;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0.5rem;
+`;
