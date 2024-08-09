@@ -39,6 +39,7 @@ module.exports = {
       }
     ],
     "react/react-in-jsx-scope": "off",
+    "@typescript-eslint/no-unused-vars": [ "warn" ]
   },
   parserOptions: {
     sourceType: "module",
