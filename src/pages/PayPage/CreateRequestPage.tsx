@@ -88,7 +88,7 @@ const CreateRequestPage2 = ({ nextPage }: NextPageType) => {
         <s.NowPriceDiv>정산할 멤버를 선택해주세요</s.NowPriceDiv>
         <s.TabMenu>
           {menuArr.map((value, index) => (
-            <li
+            <li key={index}
               className={index === tabIndex ? "submenu focused" : "submenu"}
               onClick={() => selectMenuHandler(index)}
             >
