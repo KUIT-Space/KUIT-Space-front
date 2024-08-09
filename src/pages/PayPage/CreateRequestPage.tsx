@@ -99,7 +99,7 @@ const CreateRequestPage2 = ({ nextPage }: NextPageType) => {
         {tabIndex == 0 ? (
           <div>
             {chatroomArr.map((value, index) => (
-              <PayChatDiv img={value.img} name={value.name} cnt={value.cnt}></PayChatDiv>
+              <PayChatDiv key={index} img={value.img} name={value.name} cnt={value.cnt}></PayChatDiv>
             ))}
           </div>
         ) : (
