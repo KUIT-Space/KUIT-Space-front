@@ -57,7 +57,7 @@ const MyRequestPayPage = () => {
           </s.TabMenu>
           <s.RoundDiv style={{ margin: "0.75rem 1.25rem 0.75rem 1.25rem" }}>
             {dataArr.map((value, index) => (
-              <PayResult props={value}></PayResult>
+              <PayResult key={index} props={value}></PayResult>
             ))}
           </s.RoundDiv>
         </>
