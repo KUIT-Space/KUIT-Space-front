@@ -20,6 +20,10 @@ import VoiceRoomListPage from "@/pages/VoiceRoomPage/VoiceRoomListPage";
 import GlobalStyle from "@/styles/GlobalStyles";
 import { theme } from "@/styles/Theme";
 
+import CompletePay from "./pages/PayPage/CompletePay";
+import CreateRequestPage from "./pages/PayPage/CreateRequestPage";
+import MyRequestPayPage from "./pages/PayPage/MyRequestPayPage";
+import RequestedPayPage from "./pages/PayPage/RequestedPayPage";
 import AccountManage from "./pages/SpacePage/AccountManage";
 import AddSpacePage from "./pages/SpacePage/AddSpacePage";
 import AlarmManage from "./pages/SpacePage/AlarmManage";
@@ -30,10 +34,6 @@ import CreateVoiceRoomPage from "./pages/VoiceRoomPage/CreateVoiceRoom";
 import EditVoiceRoomPage from "./pages/VoiceRoomPage/EditVoiceRoomPage";
 import JoinVoiceRoomPage from "./pages/VoiceRoomPage/JoinVoiceRoomPage";
 import VoiceRoomPage from "./pages/VoiceRoomPage/VoiceRoomPage";
-import MyRequestPayPage from "./pages/PayPage/MyRequestPayPage";
-import RequestedPayPage from "./pages/PayPage/RequestedPayPage";
-import CompletePay from "./pages/PayPage/CompletePay";
-import CreateRequestPage from "./pages/PayPage/CreateRequestPage";
 
 // will we need constant path in later..?
 // const PATH = {
@@ -85,37 +85,50 @@ function Layout({ routes_children }: { routes_children: RouteChildren[] }) {
 }
 
 function App() {
-  const routes_children = [
-    { path: "/", element: <HomePage />, hasBottomBar: true },
+  const routes_children_chat = [
     { path: "/chat", element: <ChatPage />, hasBottomBar: true },
     { path: "/chat/:id", element: <ChattingPage /> },
     { path: "/chat/create", element: <ChatCreatePage /> },
+  ];
+
+  const routes_children_pay = [
     { path: "/pay", element: <PayPage />, hasBottomBar: true },
     { path: "/pay/create", element: <CreateRequestPage />, hasBottomBar: false },
     { path: "/requestingpay", element: <MyRequestPayPage />, hasBottomBar: false },
     { path: "/requestingpay/:id", element: <MyRequestPayPage />, hasBottomBar: false },
     { path: "/requestedpay", element: <RequestedPayPage />, hasBottomBar: false },
     { path: "/completepay", element: <CompletePay />, hasBottomBar: false },
-    { path: "/board", element: <BoardPage />, hasBottomBar: true },
+  ];
+
+  const routes_children_voice = [
     { path: "/voiceroom", element: <VoiceRoomListPage />, hasBottomBar: true },
     { path: "/createvoiceroom", element: <CreateVoiceRoomPage />, hasBottomBar: false },
     { path: "/joinvoiceroom", element: <JoinVoiceRoomPage />, hasBottombar: false },
     { path: "/editvoiceroom", element: <EditVoiceRoomPage />, hasBottombar: false },
   ];
 
-  const routes = [
-    { path: "/board", element: <BoardPage />, hasBottomBar: true },
+  const routes_children_space = [
     { path: "/space", element: <SpacePage /> },
     { path: "/space/addspace", element: <AddSpacePage /> },
     { path: "/space/spaceoption", element: <SpaceOption /> },
     { path: "/space/spaceoption/accountmanage", element: <AccountManage /> },
     { path: "/space/spaceoption/profilemanage", element: <ProfileManage /> },
     { path: "/space/spaceoption/alarmmanage", element: <AlarmManage /> },
-    { path: "/createvoiceroom", element: <CreateVoiceRoomPage />, hasBottomBar: false },
-    { path: "/joinvoiceroom", element: <JoinVoiceRoomPage />, hasBottombar: false },
-    { path: "/editvoiceroom", element: <EditVoiceRoomPage />, hasBottombar: false },
+  ];
+
+  const routes_children_login = [
     { path: "/login", element: <LoginPage />, hasBottombar: false },
     { path: "/signup", element: <SignUpPage />, hasBottombar: false },
+  ];
+
+  const routes_children = [
+    { path: "/", element: <HomePage />, hasBottomBar: true },
+    { path: "/board", element: <BoardPage />, hasBottomBar: true },
+    ...routes_children_chat,
+    ...routes_children_pay,
+    ...routes_children_voice,
+    ...routes_children_space,
+    ...routes_children_login,
   ];
 
   const routes = [
