@@ -47,7 +47,7 @@ const MyRequestPayPage = () => {
           </s.CompletePayDiv>
           <s.TabMenu>
             {menuArr.map((value, index) => (
-              <li
+              <li key={index}
                 className={index === tabIndex ? "submenu focused" : "submenu"}
                 onClick={() => selectMenuHandler(index)}
               >
