@@ -1,0 +1,100 @@
+[
+  {
+    "id": 1,
+    "user": "박솔희",
+    "profileImg": "https://example.com/profile1.jpg",
+    "time": "2024-06-08T12:30:00",
+    "message": "해장 잘했냐"
+  },
+  {
+    "id": 2,
+    "user": "박솔희",
+    "profileImg": "https://example.com/profile1.jpg",
+    "time": "2024-06-08T16:16:00",
+    "message": "우리 고기 먹은거 정산해야제 알지?/ 다들 고개를 들라"
+  },
+  {
+    "id": 3,
+    "user": "김민지",
+    "profileImg": "https://example.com/profile2.jpg",
+    "time": "2024-06-08T16:17:00",
+    "message": "네네"
+  },
+  {
+    "id": 4,
+    "user": "박솔희",
+    "profileImg": "https://example.com/profile1.jpg",
+    "time": "2024-06-08T16:17:00",
+    "message": "김민지 님이 정산을 요청했어요! 8,750 / 35,000 원"
+  },
+  {
+    "id": 5,
+    "user": "김민지",
+    "profileImg": "https://example.com/profile2.jpg",
+    "time": "2024-08-04T12:26:22.063Z",
+    "message": "ㅁㅁㅁ"
+  },
+  {
+    "id": 6,
+    "user": "김민지",
+    "profileImg": "https://example.com/profile2.jpg",
+    "time": "2024-08-04T12:26:24.283Z",
+    "message": "ㅎㅇㅎㅇ"
+  },
+  {
+    "id": 7,
+    "user": "김민지",
+    "profileImg": "https://example.com/profile2.jpg",
+    "time": "2024-08-04T12:26:32.648Z",
+    "message": "ㅎㅇㅎㅇ"
+  },
+  {
+    "id": 8,
+    "user": "김민지",
+    "profileImg": "https://example.com/profile2.jpg",
+    "time": "2024-08-04T12:26:37.301Z",
+    "message": "ㄱㄴㄷㄹ"
+  },
+  {
+    "id": 10,
+    "user": "익명(9061)",
+    "profileImg": "https://example.com/profile2.jpg",
+    "time": "2024-08-04T12:35:29.391Z",
+    "message": "123"
+  },
+  {
+    "id": 10,
+    "user": "익명(4554)",
+    "profileImg": "https://example.com/profile2.jpg",
+    "time": "2024-08-04T12:35:42.968Z",
+    "message": "123"
+  },
+  {
+    "id": 11,
+    "user": "익명(4554)",
+    "profileImg": "https://example.com/profile2.jpg",
+    "time": "2024-08-04T12:35:44.384Z",
+    "message": "1"
+  },
+  {
+    "id": 12,
+    "user": "익명(9061)",
+    "profileImg": "https://example.com/profile2.jpg",
+    "time": "2024-08-04T12:35:50.325Z",
+    "message": "123"
+  },
+  {
+    "id": 13,
+    "user": "익명(9061)",
+    "profileImg": "https://example.com/profile2.jpg",
+    "time": "2024-08-04T12:35:52.219Z",
+    "message": "123"
+  },
+  {
+    "id": 14,
+    "user": "익명(9061)",
+    "profileImg": "https://example.com/profile2.jpg",
+    "time": "2024-08-04T12:36:00.608Z",
+    "message": "ㅇㅁㄴㄹㅇㄴㄹ"
+  }
+]
