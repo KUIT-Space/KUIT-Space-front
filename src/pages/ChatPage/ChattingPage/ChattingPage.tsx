@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
+
+import SettingIcon from "@/assets/icon_setting.svg";
+import TopBarText, { LeftEnum } from "@/components/TopBarText";
 
 import "./Chatting.css";
 
@@ -13,6 +16,7 @@ interface Message {
 
 const ChattingPage = () => {
   const param = useParams();
+  const { state } = useLocation();
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState<string>("");
   const [ws, setWs] = useState<WebSocket | null>(null);
@@ -57,7 +61,7 @@ const ChattingPage = () => {
       const newMessage: Message = {
         id: messages.length + 1,
         user: username,
-        profileImg: "https://example.com/profile2.jpg",
+        profileImg: "https://placehold.co/40x40",
         time: new Date().toISOString(),
         message: inputValue,
       };
@@ -68,6 +72,15 @@ const ChattingPage = () => {
 
   return (
     <div className="chat-container">
+      <TopBarText
+        left={LeftEnum.Back}
+        center={`${state?.title}`}
+        right={
+          <Link to={`/chat/${param.id}/setting`}>
+            <img src={SettingIcon} alt="setting" />
+          </Link>
+        }
+      />
       <div className="chat-header">
         <h2>
           <div>ChattingPage {param.id}</div>

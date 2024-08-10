@@ -20,6 +20,7 @@ import VoiceRoomListPage from "@/pages/VoiceRoomPage/VoiceRoomListPage";
 import GlobalStyle from "@/styles/GlobalStyles";
 import { theme } from "@/styles/Theme";
 
+import ChatSettingPage from "./pages/ChatPage/ChatSettingPage/ChatSettingPage";
 import CompletePay from "./pages/PayPage/CompletePay";
 import CreateRequestPage from "./pages/PayPage/CreateRequestPage";
 import MyRequestPayPage from "./pages/PayPage/MyRequestPayPage";
@@ -88,6 +89,7 @@ function App() {
   const routes_children_chat = [
     { path: "/chat", element: <ChatPage />, hasBottomBar: true },
     { path: "/chat/:id", element: <ChattingPage /> },
+    { path: "/chat/:id/setting", element: <ChatSettingPage /> },
     { path: "/chat/create", element: <ChatCreatePage /> },
   ];
 
