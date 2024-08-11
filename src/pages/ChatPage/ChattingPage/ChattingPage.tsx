@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 
 import SettingIcon from "@/assets/icon_setting.svg";
 import TopBarText, { LeftEnum } from "@/components/TopBarText";
+
+import { ChattingBody, ChattingContainer } from "./ChattingPage.styled";
 
 import "./Chatting.css";
 
@@ -21,6 +23,7 @@ const ChattingPage = () => {
   const [inputValue, setInputValue] = useState<string>("");
   const [ws, setWs] = useState<WebSocket | null>(null);
   const [username, setUsername] = useState<string>("");
+  const messageEndRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     //temp test username
@@ -56,6 +59,10 @@ const ChattingPage = () => {
     };
   }, []);
 
+  useEffect(() => {
+    messageEndRef.current?.scrollIntoView();
+  }, [messages]);
+
   const sendMessage = () => {
     if (inputValue && ws) {
       const newMessage: Message = {
@@ -71,7 +78,7 @@ const ChattingPage = () => {
   };
 
   return (
-    <div className="chat-container">
+    <ChattingContainer>
       <TopBarText
         left={LeftEnum.Back}
         center={`${state?.title}`}
@@ -81,12 +88,8 @@ const ChattingPage = () => {
           </Link>
         }
       />
-      <div className="chat-header">
-        <h2>
-          <div>ChattingPage {param.id}</div>
-        </h2>
-      </div>
-      <div className="chat-body">
+
+      <ChattingBody>
         {messages.map((msg, index) => (
           <div key={index} className="message">
             <div className="message-header">
@@ -97,7 +100,8 @@ const ChattingPage = () => {
             <div className="message-content">{msg.message}</div>
           </div>
         ))}
-      </div>
+        <div ref={messageEndRef}></div>
+      </ChattingBody>
       <div className="chat-footer">
         <input
           type="text"
@@ -107,7 +111,7 @@ const ChattingPage = () => {
         />
         <button onClick={sendMessage}>Send</button>
       </div>
-    </div>
+    </ChattingContainer>
   );
 };
 
