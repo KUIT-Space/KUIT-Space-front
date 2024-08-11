@@ -4,7 +4,13 @@ import { Link, useLocation, useParams } from "react-router-dom";
 import SettingIcon from "@/assets/icon_setting.svg";
 import TopBarText, { LeftEnum } from "@/components/TopBarText";
 
-import { ChattingBody, ChattingContainer } from "./ChattingPage.styled";
+import {
+  ChattingBody,
+  ChattingContainer,
+  MessageOther,
+  MessageUser,
+  StyledMessage,
+} from "./ChattingPage.styled";
 
 import "./Chatting.css";
 
@@ -14,6 +20,7 @@ interface Message {
   profileImg: string;
   time: string;
   message: string;
+  is정산?: boolean;
 }
 
 const ChattingPage = () => {
@@ -90,16 +97,31 @@ const ChattingPage = () => {
       />
 
       <ChattingBody>
-        {messages.map((msg, index) => (
-          <div key={index} className="message">
-            <div className="message-header">
-              <img src={msg.profileImg} alt={`${msg.user}'s profile`} className="profile-img" />
-              <span className="user-name">{msg.user}</span>
-              <span className="message-time">{new Date(msg.time).toLocaleTimeString()}</span>
-            </div>
-            <div className="message-content">{msg.message}</div>
-          </div>
-        ))}
+        {messages.map((msg, index) =>
+          msg.user === username ? (
+            <StyledMessage key={index} className="message" $isUser={true}>
+              <div className="message-content-container">
+                <span className="message-time">
+                  {new Date(msg.time).toLocaleTimeString().slice(0, -3)}
+                </span>
+                <div className="message-content">{msg.message}</div>
+              </div>
+            </StyledMessage>
+          ) : (
+            <StyledMessage key={index} className="message" $isUser={false}>
+              <div className="message-header">
+                <img src={msg.profileImg} alt={`${msg.user}'s profile`} className="profile-img" />
+                <span className="user-name">{msg.user}</span>
+              </div>
+              <div className="message-content-container">
+                <div className="message-content">{msg.message}</div>
+                <span className="message-time">
+                  {new Date(msg.time).toLocaleTimeString().slice(0, -3)}
+                </span>
+              </div>
+            </StyledMessage>
+          ),
+        )}
         <div ref={messageEndRef}></div>
       </ChattingBody>
       <div className="chat-footer">
