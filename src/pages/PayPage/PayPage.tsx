@@ -21,6 +21,7 @@ type PayReceiveInfo = {
   payCreatorName: string;
   requestAmount: number;
 };
+
 const PayRequestInfo = ({ data }: { data: PayRequestInfo }) => {
   const res: number = data.totalTargetNum - data.receiveAmount;
   return (
@@ -62,8 +63,8 @@ function RequestPayInfo(
     });
 }
 const PayPage = () => {
-  const [reqData, setReqData] = useState<PayRequestInfo[]>();
-  const [recData, setRecData] = useState<PayReceiveInfo[]>();
+  const [reqData, setReqData] = useState<PayRequestInfo[]|undefined>([]);
+  const [recData, setRecData] = useState<PayReceiveInfo[]|undefined>([]);
 
   useEffect(() => {
     RequestPayInfo(setReqData, setRecData);
@@ -71,13 +72,8 @@ const PayPage = () => {
 
   const navigator = useNavigate();
 
-  //여기 어떡함?
-  if (reqData == null) {
-    return;
-  }
-  if (recData == null) {
-    return;
-  }
+
+
   return (
     <>
       <TopBarText left={LeftEnum.Logo} center="정산하기" right=""></TopBarText>
@@ -99,7 +95,7 @@ const PayPage = () => {
             <img src={right}></img>
             {/* <img src={right} onClick={navigator("요청정산페이지")}></img> */}
           </s.TitleDiv>
-          {reqData.map((value) => {
+          {reqData?.map((value) => {
             return <PayRequestInfo key={value.payRequestId} data={value}></PayRequestInfo>;
           })}
         </s.RoundDiv>
@@ -114,7 +110,7 @@ const PayPage = () => {
             {/* <img src={right} onClick={navigator("요청받은정산페이지")}></img> */}
           </s.TitleDiv>
 
-          {recData.map((value) => {
+          {recData?.map((value) => {
             return <PayReceiveInfo key={value.payRequestTargetId} data={value}></PayReceiveInfo>;
           })}
         </s.RoundDiv>
