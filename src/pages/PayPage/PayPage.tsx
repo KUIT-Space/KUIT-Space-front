@@ -3,35 +3,81 @@ import { GradientBtn } from "@/pages/PayPage/GradientBtn";
 import right from "@/assets/PayPage/arrow_right.svg";
 import * as s from "@/pages/PayPage/PayPage.styled";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
-const PayRequestInfo = () => {
+const SpaceID = "3";
+
+type PayRequestInfo = {
+  payRequestId: number;
+  receiveAmount: number;
+  receiveTargetNum: number;
+  totalAmount: number;
+  totalTargetNum: number;
+};
+
+type PayReceiveInfo = {
+  payRequestTargetId: number;
+  payCreatorName: string;
+  requestAmount: number;
+};
+const PayRequestInfo = ({ data }: { data: PayRequestInfo }) => {
+  const res: number = data.totalTargetNum - data.receiveAmount;
   return (
     <s.ContentDiv>
       <s.PriceDiv>
-        <s.NowPriceDiv>30,000원</s.NowPriceDiv>
-        <s.AllPriceDiv>/45,000원</s.AllPriceDiv>
+        <s.NowPriceDiv>{data.receiveAmount}원</s.NowPriceDiv>
+        <s.AllPriceDiv>/{data.totalAmount}원</s.AllPriceDiv>
       </s.PriceDiv>
-      <s.TextDiv>정산완료까지 1명 남았어요</s.TextDiv>
+      <s.TextDiv>정산완료까지 {res}명 남았어요</s.TextDiv>
     </s.ContentDiv>
   );
 };
 
-const PayReceiveInfo = () => {
+const PayReceiveInfo = ({ data }: { data: PayReceiveInfo }) => {
   return (
     <s.ContentDiv>
-      <s.TextDiv>김민지 님이 정산을 요청했어요</s.TextDiv>
-      <s.NowPriceDiv>15,000원</s.NowPriceDiv>
+      <s.TextDiv>{data.payCreatorName}님이 정산을 요청했어요</s.TextDiv>
+      <s.NowPriceDiv>{data.requestAmount}원</s.NowPriceDiv>
     </s.ContentDiv>
   );
 };
 
-const RequestPayInfo = () => {};
+function RequestPayInfo(
+  setReqData: React.Dispatch<React.SetStateAction<PayRequestInfo[] | undefined>>,
+  setRecData: React.Dispatch<React.SetStateAction<PayReceiveInfo[] | undefined>>,
+) {
+  const response = fetch("/api/space/3/pay", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization:
+        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MjM0NTE0MDQsImV4cCI6MTcyMzQ1NTAwNCwidXNlcklkIjo1M30.Ll9anzsR8CDd-nkr-4yWJaHNs1_uc793Mg6zPEf9r-U",
+    },
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      setReqData(data.result.payRequestInfoDtoList);
+      setRecData(data.result.payReceiveInfoDtoList);
+    });
+}
 const PayPage = () => {
+  const [reqData, setReqData] = useState<PayRequestInfo[]>();
+  const [recData, setRecData] = useState<PayReceiveInfo[]>();
+
   useEffect(() => {
-    RequestPayInfo();
-  });
+    RequestPayInfo(setReqData, setRecData);
+  }, []);
+
   const navigator = useNavigate();
+
+  //여기 어떡함?
+  if (reqData == null) {
+    return;
+  }
+  if (recData == null) {
+    return;
+  }
   return (
     <>
       <TopBarText left={LeftEnum.Logo} center="정산하기" right=""></TopBarText>
@@ -53,10 +99,9 @@ const PayPage = () => {
             <img src={right}></img>
             {/* <img src={right} onClick={navigator("요청정산페이지")}></img> */}
           </s.TitleDiv>
-
-          {/* 컴포넌트화 예정 */}
-          <PayRequestInfo></PayRequestInfo>
-          {/* 컴포넌트화 예정 */}
+          {reqData.map((value) => {
+            return <PayRequestInfo key={value.payRequestId} data={value}></PayRequestInfo>;
+          })}
         </s.RoundDiv>
         <s.RoundDiv
           onClick={() => {
@@ -69,9 +114,9 @@ const PayPage = () => {
             {/* <img src={right} onClick={navigator("요청받은정산페이지")}></img> */}
           </s.TitleDiv>
 
-          {/* 컴포넌트화 예정 */}
-          <PayReceiveInfo></PayReceiveInfo>
-          {/* 컴포넌트화 예정 */}
+          {recData.map((value) => {
+            return <PayReceiveInfo key={value.payRequestTargetId} data={value}></PayReceiveInfo>;
+          })}
         </s.RoundDiv>
       </s.ContainerDiv>
     </>
