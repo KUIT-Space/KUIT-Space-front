@@ -4,13 +4,7 @@ import { Link, useLocation, useParams } from "react-router-dom";
 import SettingIcon from "@/assets/icon_setting.svg";
 import TopBarText, { LeftEnum } from "@/components/TopBarText";
 
-import {
-  ChattingBody,
-  ChattingContainer,
-  MessageOther,
-  MessageUser,
-  StyledMessage,
-} from "./ChattingPage.styled";
+import { ChattingBody, ChattingContainer, StyledMessage } from "./ChattingPage.styled";
 
 import "./Chatting.css";
 
