@@ -3,7 +3,6 @@ import { PayRequestInfo } from "./PayPage";
 import { addComma } from "./PayPage";
 
 const GrayMyReqDataDiv = ({ data }: { data: PayRequestInfo }) => {
-  alert("");
   const num = data.totalTargetNum - data.receiveTargetNum;
   const price1 = addComma(data.receiveAmount);
   const price2 = addComma(data.totalAmount);

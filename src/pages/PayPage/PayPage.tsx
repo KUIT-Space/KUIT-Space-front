@@ -73,9 +73,10 @@ const PayPage = () => {
   const [recData, setRecData] = useState<PayReceiveInfo[] | undefined>([]);
 
   useEffect(() => {
+    //임시
     localStorage.setItem(
       "Authorization",
-      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MjM1NDI4NTcsImV4cCI6MTcyMzU0NjQ1NywidXNlcklkIjo1M30.LileNDfPBkuGq6KEZDBCHhFLMZLF14jD_-e0R8ZL5eE",
+      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MjM1NDkyMzcsImV4cCI6MTcyMzU1MjgzNywidXNlcklkIjo1M30.QlRNCWU3GMfn_O-eToHEoIYFIIFl6ub6qLqfLFwCzts",
     );
     payHomeApi(SpaceID, setReqData, setRecData);
     // RequestPayInfo(setReqData, setRecData);
@@ -112,14 +113,9 @@ const PayPage = () => {
           })}
         </s.RoundDiv>
         <s.RoundDiv
-          onClick={
-            () => {
-              payCompleteApi(1);
-            }
-
-            // payCompleteApi(2);
-            // navigator("/requestedpay");
-          }
+          onClick={() => {
+            navigator("/requestedpay");
+          }}
         >
           <s.TitleDiv>
             <s.TitleContentDiv>요청받은 정산</s.TitleContentDiv>

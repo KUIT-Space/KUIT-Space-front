@@ -22,6 +22,29 @@ export const payCompleteApi = async (payRequestTargetId: number) => {
   const response = await fetchPayApi(`/api/space/3/pay/complete`, requestOptions);
 };
 
+export const payReceiveApi = async (
+  spaceID: number,
+  setCurrentData: React.Dispatch<React.SetStateAction<PayReceiveInfo[] | undefined>>,
+  setCompleteData: React.Dispatch<React.SetStateAction<PayReceiveInfo[] | undefined>>,
+) => {
+  const requestOptions = createRequestOptionsJSON_AUTH("GET");
+  if (!requestOptions) {
+    return null;
+  }
+  const response = await fetchPayApi(
+    `https://project-space.xyz/space/${spaceID}/pay/receive`,
+    requestOptions,
+  );
+
+  if (response) {
+    response.json().then((data) => {
+      setCurrentData(data.result.payReceiveInfoDtoListIncomplete);
+      setCompleteData(data.result.payReceiveInfoDtoListComplete);
+      console.log(data.result);
+    });
+  }
+};
+
 export const payRequestApi = async (
   spaceID: number,
   setCurrentData: React.Dispatch<React.SetStateAction<PayRequestInfo[] | undefined>>,
