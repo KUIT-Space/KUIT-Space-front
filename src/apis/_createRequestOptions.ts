@@ -1,13 +1,13 @@
 export interface RequestOptions {
   method: "GET" | "POST";
-  body: BodyInit;
+  body?: BodyInit;
   headers?: HeadersInit;
   redirect?: RequestRedirect;
 }
 
 export const createRequestOptionsJSON = (
   method: RequestOptions["method"],
-  body: RequestOptions["body"],
+  body?: RequestOptions["body"],
 ): RequestOptions => {
   return {
     method: method,
@@ -32,7 +32,7 @@ export const createRequestOptionsJSON = (
 
 export const createRequestOptionsJSON_AUTH = (
   method: RequestOptions["method"],
-  body: RequestOptions["body"],
+  body?: RequestOptions["body"],
 ): RequestOptions | null => {
   const token = localStorage.getItem("Authorization");
 
