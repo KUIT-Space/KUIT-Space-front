@@ -5,6 +5,7 @@ import {
   createRequestOptionsJSON_AUTH,
 } from "@/apis/_createRequestOptions";
 import { request } from "http";
+import { BankInfo } from "@/pages/PayPage/CreateRequestPage";
 
 const fetchPayApi = async (url: string, options: RequestOptions) => {
   const response = await fetch(url, options).catch((err) => console.error(err));
@@ -31,10 +32,7 @@ export const payReceiveApi = async (
   if (!requestOptions) {
     return null;
   }
-  const response = await fetchPayApi(
-    `https://project-space.xyz/space/${spaceID}/pay/receive`,
-    requestOptions,
-  );
+  const response = await fetchPayApi(`/api/space/${spaceID}/pay/receive`, requestOptions);
 
   if (response) {
     response.json().then((data) => {
@@ -78,6 +76,23 @@ export const payHomeApi = async (
     response.json().then((data) => {
       setReqData(data.result.payRequestInfoDtoList);
       setRecData(data.result.payReceiveInfoDtoList);
+    });
+  }
+};
+
+export const recentAccountApi = async (
+  spaceID: number,
+  setBankData: React.Dispatch<React.SetStateAction<BankInfo[] | undefined>>,
+) => {
+  const requestOptions = createRequestOptionsJSON_AUTH("GET");
+  if (!requestOptions) {
+    return null;
+  }
+  const response = await fetchPayApi(`/api/space/pay/recent-bank-info`, requestOptions);
+
+  if (response) {
+    response.json().then((data) => {
+      setBankData(data.result.recentPayRequestBankInfoDtoList);
     });
   }
 };
