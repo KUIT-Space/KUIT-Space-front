@@ -2,8 +2,6 @@ import react from "@vitejs/plugin-react-swc";
 import * as path from "path";
 import { defineConfig } from "vite";
 import vitePluginSvgr from "vite-plugin-svgr";
-import basicSsl from '@vitejs/plugin-basic-ssl'
-import mkcert from 'vite-plugin-mkcert'
 
 // https://vitejs.dev/config/
 export default defineConfig({
