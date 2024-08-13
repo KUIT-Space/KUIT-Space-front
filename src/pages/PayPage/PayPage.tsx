@@ -5,9 +5,14 @@ import * as s from "@/pages/PayPage/PayPage.styled";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { payHomeApi } from "@/apis/Pay/PayPageAPI";
+import { payCompleteApi, payHomeApi } from "@/apis/Pay/PayPageAPI";
 
 const SpaceID = 3;
+
+export const addComma = (price: number) => {
+  let returnString = price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return returnString;
+};
 
 export type PayRequestInfo = {
   payRequestId: number;
@@ -70,13 +75,16 @@ const PayPage = () => {
   useEffect(() => {
     localStorage.setItem(
       "Authorization",
-      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MjM1MTI1NjgsImV4cCI6MTcyMzUxNjE2OCwidXNlcklkIjo1M30.hiZaVu0Snlb9BzX1HMiiTp8SQlY1P-krGFZmw5istBU",
+      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MjM1NDI4NTcsImV4cCI6MTcyMzU0NjQ1NywidXNlcklkIjo1M30.LileNDfPBkuGq6KEZDBCHhFLMZLF14jD_-e0R8ZL5eE",
     );
     payHomeApi(SpaceID, setReqData, setRecData);
     // RequestPayInfo(setReqData, setRecData);
   }, []);
 
   const navigator = useNavigate();
+  const data = {
+    payRequestTargetId: 1,
+  };
 
   return (
     <>
@@ -104,9 +112,14 @@ const PayPage = () => {
           })}
         </s.RoundDiv>
         <s.RoundDiv
-          onClick={() => {
-            navigator("/requestedpay");
-          }}
+          onClick={
+            () => {
+              payCompleteApi(1);
+            }
+
+            // payCompleteApi(2);
+            // navigator("/requestedpay");
+          }
         >
           <s.TitleDiv>
             <s.TitleContentDiv>요청받은 정산</s.TitleContentDiv>

@@ -11,6 +11,17 @@ const fetchPayApi = async (url: string, options: RequestOptions) => {
   return response;
 };
 
+export const payCompleteApi = async (payRequestTargetId: number) => {
+  const body = {
+    payRequestTargetId: payRequestTargetId,
+  };
+  const requestOptions = createRequestOptionsJSON_AUTH("POST", JSON.stringify(body));
+  if (!requestOptions) {
+    return null;
+  }
+  const response = await fetchPayApi(`/api/space/3/pay/complete`, requestOptions);
+};
+
 export const payRequestApi = async (
   spaceID: number,
   setCurrentData: React.Dispatch<React.SetStateAction<PayRequestInfo[] | undefined>>,
@@ -24,8 +35,8 @@ export const payRequestApi = async (
 
   if (response) {
     response.json().then((data) => {
-      setCurrentData(data.result.payRequestInfoInComplete);
-      setCompleteData(data.result.payRequestInfoComplete);
+      setCurrentData(data.result.payRequestInfoDtoListInComplete);
+      setCompleteData(data.result.payRequestInfoDtoListComplete);
     });
   }
 };

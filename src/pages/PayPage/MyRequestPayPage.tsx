@@ -32,17 +32,20 @@ const MyRequestPayPage = () => {
   let { id } = useParams();
   return (
     <>
-      {currentData}
       <TopBarText left={LeftEnum.Back} center="내가 요청한 정산" right=""></TopBarText>
       {typeof id === "undefined" ? (
         <s.ContainerDiv>
           <div>
             <s.TitleContentDiv>진행 중인 정산</s.TitleContentDiv>
-            <MyReqDataDiv></MyReqDataDiv>
+            {currentData?.map((value) => {
+              return <MyReqDataDiv key={value.payRequestId} data={value}></MyReqDataDiv>;
+            })}
           </div>
           <div style={{ marginTop: "2.75rem" }}>
             <s.TitleContentDiv>완료된 정산</s.TitleContentDiv>
-            <GrayMyReqDataDiv></GrayMyReqDataDiv>
+            {completeData?.map((value) => {
+              return <GrayMyReqDataDiv key={value.payRequestId} data={value}></GrayMyReqDataDiv>;
+            })}
           </div>
         </s.ContainerDiv>
       ) : (
