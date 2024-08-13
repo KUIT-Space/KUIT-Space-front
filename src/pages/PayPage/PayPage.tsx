@@ -5,10 +5,11 @@ import * as s from "@/pages/PayPage/PayPage.styled";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { payHomeApi } from "@/apis/Pay/PayPageAPI";
 
-const SpaceID = "3";
+const SpaceID = 3;
 
-type PayRequestInfo = {
+export type PayRequestInfo = {
   payRequestId: number;
   receiveAmount: number;
   receiveTargetNum: number;
@@ -16,7 +17,7 @@ type PayRequestInfo = {
   totalTargetNum: number;
 };
 
-type PayReceiveInfo = {
+export type PayReceiveInfo = {
   payRequestTargetId: number;
   payCreatorName: string;
   requestAmount: number;
@@ -44,35 +45,38 @@ const PayReceiveInfo = ({ data }: { data: PayReceiveInfo }) => {
   );
 };
 
-function RequestPayInfo(
-  setReqData: React.Dispatch<React.SetStateAction<PayRequestInfo[] | undefined>>,
-  setRecData: React.Dispatch<React.SetStateAction<PayReceiveInfo[] | undefined>>,
-) {
-  const response = fetch("/api/space/3/pay", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MjM0NTE0MDQsImV4cCI6MTcyMzQ1NTAwNCwidXNlcklkIjo1M30.Ll9anzsR8CDd-nkr-4yWJaHNs1_uc793Mg6zPEf9r-U",
-    },
-  })
-    .then((res) => res.json())
-    .then((data) => {
-      setReqData(data.result.payRequestInfoDtoList);
-      setRecData(data.result.payReceiveInfoDtoList);
-    });
-}
+// function RequestPayInfo(
+//   setReqData: React.Dispatch<React.SetStateAction<PayRequestInfo[] | undefined>>,
+//   setRecData: React.Dispatch<React.SetStateAction<PayReceiveInfo[] | undefined>>,
+// ) {
+//   const response = fetch("/api/space/3/pay", {
+//     method: "GET",
+//     headers: {
+//       "Content-Type": "application/json",
+//       Authorization:
+//         "Bearer eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MjM1MDcyNjYsImV4cCI6MTcyMzUxMDg2NiwidXNlcklkIjo1M30.qtOD23WXy5y4Rn6rk1mp1Q6CcgcEEdhB7Vq7udwakmk",
+//     },
+//   })
+//     .then((res) => res.json())
+//     .then((data) => {
+//       setReqData(data.result.payRequestInfoDtoList);
+//       setRecData(data.result.payReceiveInfoDtoList);
+//     });
+// }
 const PayPage = () => {
-  const [reqData, setReqData] = useState<PayRequestInfo[]|undefined>([]);
-  const [recData, setRecData] = useState<PayReceiveInfo[]|undefined>([]);
+  const [reqData, setReqData] = useState<PayRequestInfo[] | undefined>([]);
+  const [recData, setRecData] = useState<PayReceiveInfo[] | undefined>([]);
 
   useEffect(() => {
-    RequestPayInfo(setReqData, setRecData);
+    localStorage.setItem(
+      "Authorization",
+      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MjM1MTI1NjgsImV4cCI6MTcyMzUxNjE2OCwidXNlcklkIjo1M30.hiZaVu0Snlb9BzX1HMiiTp8SQlY1P-krGFZmw5istBU",
+    );
+    payHomeApi(SpaceID, setReqData, setRecData);
+    // RequestPayInfo(setReqData, setRecData);
   }, []);
 
   const navigator = useNavigate();
-
-
 
   return (
     <>

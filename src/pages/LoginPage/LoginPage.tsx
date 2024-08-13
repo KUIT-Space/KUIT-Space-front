@@ -6,6 +6,18 @@ import kakao from "@/assets/Login/icon_kakao.svg";
 import google from "@/assets/Login/icon_google.svg";
 import naver from "@/assets/Login/icon_naver.svg";
 
+const fetchLogin = () => {
+	const body = { email : "test@test.com",    password : "ABCdef123!"}
+	const response = fetch("/api/user/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+	body: JSON.stringify(body)
+}).then((res)=>{
+	console.log(res)
+  })
+}
 const LoginPage = () => {
 	const navigate = useNavigate();
 
@@ -15,6 +27,7 @@ const LoginPage = () => {
 
 	useEffect(() => {
 		setIsButtonActive(id.trim() !== "" && password.trim() !== "");
+		fetchLogin();
 	}, [id, password]);
 
 	return (
