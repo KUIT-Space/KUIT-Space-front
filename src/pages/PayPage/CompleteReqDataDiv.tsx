@@ -10,9 +10,9 @@ import { PayReceiveInfo, addComma } from "./PayPage";
 import { GrayBtn } from "./GrayBtn";
 
 const ReqDataDiv = ({ data }: { data: PayReceiveInfo }) => {
-  useEffect(() => {
-    console.log(data);
-  }, []);
+  // useEffect(() => {
+  //   console.log(data);
+  // }, []);
   // true : 송금하기 false : 송금완료
   const [chk, setChk] = useState(true);
   const price = addComma(data.requestAmount);

@@ -1,13 +1,10 @@
 import TopBarText from "@/components/TopBarText";
 import { LeftEnum } from "@/components/TopBarText";
-import yellow from "@/assets/VoiceRoom/yellow_gradient.svg";
-import purple from "@/assets/VoiceRoom/purple_gradient.svg";
 import plus from "@/assets/VoiceRoom/icon_plus.svg";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as s from "@/pages/VoiceRoomPage/VoiceRoomListPage.styled";
-import VoiceRoomUser from "./VoiceRoomUser";
 import { VrListApi } from "@/apis/voiceroomApi";
 
 export type participantInfo = {
@@ -37,7 +34,7 @@ const VoiceRoomPortal = ({ vrList }: { vrList: VrList }) => {
     <div>
       <s.BGdiv
         onClick={() => {
-          navigate("/joinvoiceroom");
+          navigate("/joinvoiceroom", { state: vrList });
         }}
       >
         <s.VRTitleDiv> {vrList.name} </s.VRTitleDiv>

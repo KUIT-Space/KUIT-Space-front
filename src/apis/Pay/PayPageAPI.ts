@@ -19,7 +19,6 @@ export const payCompleteApi = async (TargetId: number) => {
   if (!requestOptions) {
     return null;
   }
-  console.log(JSON.stringify(body));
   const response = await fetchPayApi(
     `https://project-space.xyz/space/3/pay/complete`,
     requestOptions,

@@ -24,13 +24,23 @@ export const VrListApi = async (
       setVRList(data.result.voiceRoomList);
     });
   }
-  //   const body = {
-  //     name: "야호호호",
-  //   };
-  //   const requestOptions = createRequestOptionsJSON_AUTH("POST", JSON.stringify(body));
-  //   if (!requestOptions) {
-  //     return null;
-  //   }
-  //   console.log(JSON.stringify(body));
-  //   const response = await fetchVrApi(`https://project-space.xyz/space/3/voiceRoom`, requestOptions);
+};
+
+export const VrTokenApi = async (spaceID: number, VrID: number) => {
+  const requestOptions = createRequestOptionsJSON_AUTH("GET");
+  if (!requestOptions) {
+    return null;
+  }
+  const response = await fetchVrApi(
+    `/api/space/${spaceID}/voiceRoom/${VrID}/token`,
+    requestOptions,
+  );
+  if (response) {
+    response.json().then((data) => {
+      const tmp = response.headers.get("Authorization");
+      if (tmp) {
+        localStorage.setItem("VrToken", tmp);
+      }
+    });
+  }
 };

@@ -2,7 +2,7 @@ import { createRequestOptionsJSON, RequestOptions } from "./_createRequestOption
 
 const fetchLoginApi = async (url: string, options: RequestOptions) => {
   const response = await fetch(url, options)
-    .then((res) => res.text())
+    .then((res) => res.headers)
     .catch((err) => console.error(err));
 
   //console.log(response);
@@ -20,9 +20,11 @@ export const loginApi = async (email: string, password: string) => {
   const response = await fetchLoginApi("https://project-space.xyz/user/login", requestOptions);
 
   // Authorization token 응답에 포함되면 local storage에 저장
-  if (response && response.token) {
-    localStorage.setItem("Authorization", response.token);
-  }
+  //   if (response) {
+  //     console.log(response);
+  //     const temp = response.get("Authorization");
+  //     localStorage.setItem("Authorization", temp);
+  //   }
 
   return response;
 };

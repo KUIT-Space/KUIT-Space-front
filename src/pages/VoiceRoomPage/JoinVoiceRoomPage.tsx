@@ -6,28 +6,37 @@ import redo from "@/assets/icon_redo.svg";
 //임시로 적용하는 프로필 이미지
 import reactLogo from "@/assets/react.svg";
 import { BottomBtn } from "@/components/BottomBtn";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import VoiceRoomPage from "./VoiceRoomPage";
+import { VrList } from "./VoiceRoomListPage";
+import { VrTokenApi } from "@/apis/voiceroomApi";
 
 const JoinVoiceRoomPage = () => {
-  const title = "작업 안 하면 죽는 방";
-  const user_num = 6;
+  const location = useLocation();
+  const data: VrList = location.state;
+
+  const title = data.name;
+  const user_num = data.numParticipant;
+
+  // 프로필 수정
   const userProfile = reactLogo;
-  const userName = "박가온";
+
+  // 임시 이름
+  const userName = "임시";
 
   const [isJoined, setJoin] = useState(false);
-  const [vrCode, setvrCode] = useState("테스트 보이스룸");
 
   const onJoin = () => {
     setJoin(true);
+    VrTokenApi(3, data.id);
   };
   const navigate = useNavigate();
   return (
     <div>
       {isJoined ? (
         <>
-          <VoiceRoomPage VoiceRoomName={vrCode} setJoin={setJoin}></VoiceRoomPage>
+          <VoiceRoomPage VoiceRoomName={title} setJoin={setJoin}></VoiceRoomPage>
         </>
       ) : (
         <>

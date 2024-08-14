@@ -76,7 +76,7 @@ const PayPage = () => {
     //임시
     localStorage.setItem(
       "Authorization",
-      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MjM1OTk0OTcsImV4cCI6MTcyMzYwMzA5NywidXNlcklkIjo1M30.GthrDFe7yqc8X2XA8f-iD2qd38z8fF-vJ1UvHsN9zeQ",
+      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MjM2MTcyMjksImV4cCI6MTcyMzYyMDgyOSwidXNlcklkIjo1M30.D5EODMkyPJkfSllif-ALtOlJU355MqKWzC2FMg_nwbw",
     );
     payHomeApi(SpaceID, setReqData, setRecData);
     // RequestPayInfo(setReqData, setRecData);
@@ -124,6 +124,7 @@ const PayPage = () => {
           </s.TitleDiv>
 
           {recData?.map((value) => {
+            console.log(value);
             return <PayReceiveInfo key={value.payRequestTargetId} data={value}></PayReceiveInfo>;
           })}
         </s.RoundDiv>

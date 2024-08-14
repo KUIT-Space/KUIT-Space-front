@@ -14,6 +14,7 @@ import logoSpace from "@/assets/logo_space.svg";
 import kakao from "@/assets/Login/icon_kakao.svg";
 import google from "@/assets/Login/icon_google.svg";
 import naver from "@/assets/Login/icon_naver.svg";
+import { loginApi } from "@/apis/LoginApi";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -21,10 +22,11 @@ const LoginPage = () => {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const [isButtonActive, setIsButtonActive] = useState(false);
-
+  const handleLogin = () => {
+    loginApi(id, password);
+  };
   useEffect(() => {
     setIsButtonActive(id.trim() !== "" && password.trim() !== "");
-    fetchLogin();
   }, [id, password]);
 
   return (
@@ -46,7 +48,14 @@ const LoginPage = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <LoginButton $isActive={isButtonActive}>로그인</LoginButton>
+        <LoginButton
+          $isActive={isButtonActive}
+          onClick={() => {
+            handleLogin();
+          }}
+        >
+          로그인
+        </LoginButton>
         <BtContainer>
           <Button>아이디 찾기</Button>
           <Button>비밀번호 찾기</Button>
