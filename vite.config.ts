@@ -21,8 +21,6 @@ export default defineConfig({
   base: "/KUIT-Space-front/",
   server: {
     https: {
-      key: fs.readFileSync("localhost-key.pem"),
-      cert: fs.readFileSync("localhost.pem"),
     },
     proxy: {
       "/api": {
