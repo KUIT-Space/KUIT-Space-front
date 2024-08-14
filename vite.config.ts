@@ -20,8 +20,8 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "https://www.project-space.xyz/",
-        changeOrigin: true,
+        target: "https://project-space.xyz",
+        //changeOrigin: true, //false여야 proxy 정상 작동
         // 요청 경로에서 '/api' 제거
         rewrite: (path) => path.replace(/^\/api/, ""),
         // SSL 인증서 검증 무시
