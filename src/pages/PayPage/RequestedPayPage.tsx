@@ -6,41 +6,47 @@ import { GrayBtn } from "./GrayBtn";
 import ReqDataDiv from "./ReqDataDiv";
 import { ToastContainer } from "react-toastify";
 import { Transform } from "stream";
+import { useEffect, useState } from "react";
+import { payReceiveApi } from "@/apis/Pay/PayPageAPI";
+import { PayReceiveInfo } from "./PayPage";
+import CompleteReqDataDiv from "./CompleteReqDataDiv";
 
 const RequestedPayPage = () => {
-	return (
-		<>
-			<TopBarText left={LeftEnum.Back} center="요청받은 정산" right=""></TopBarText>
-			<s.ContainerDiv>
-				<s.TitleContentDiv>진행 중인 정산</s.TitleContentDiv>
-				<ReqDataDiv></ReqDataDiv>
-				<s.TitleContentDiv>완료된 정산</s.TitleContentDiv>
-				<s.GrayRoundDiv>
-					<s.RowFlexDiv style={{ alignItems: "center" }}>
-						<img src={reactIcon} width={"40px"} height={"40px"} style={{ marginRight: "10px" }}></img>
-						<s.TextDiv>박규환</s.TextDiv>
-						<s.GrayBTextDiv style={{ position: "absolute", right: 0, transform: "translate(-50%,0%)" }}>15,000원</s.GrayBTextDiv>
-					</s.RowFlexDiv>
-					<div style={{ width: "100%", display: "flex" }}>
-						<GrayBtn style={{ flexGrow: 1 }}>송금하기</GrayBtn>
-					</div>
-				</s.GrayRoundDiv>
-				<ToastContainer
-					style={{ width: "50%", left: "50%", transform: "translateX(-50%)" }}
-					position="top-center"
-					autoClose={3000}
-					hideProgressBar={false}
-					newestOnTop={false}
-					closeOnClick
-					rtl={false}
-					pauseOnFocusLoss
-					draggable
-					pauseOnHover
-					theme="dark"
-				/>
-			</s.ContainerDiv>
-		</>
-	);
+  const [currentData, setCurrentData] = useState<PayReceiveInfo[] | undefined>([]);
+  const [completeData, setCompleteData] = useState<PayReceiveInfo[] | undefined>([]);
+  useEffect(() => {
+    payReceiveApi(3, setCurrentData, setCompleteData);
+  }, []);
+  return (
+    <>
+      <TopBarText left={LeftEnum.Back} center="요청받은 정산" right=""></TopBarText>
+      <s.ContainerDiv>
+        <s.TitleContentDiv>진행 중인 정산</s.TitleContentDiv>
+        {currentData?.map((value) => {
+          return <ReqDataDiv key={value.payRequestTargetId} data={value}></ReqDataDiv>;
+        })}
+        <s.TitleContentDiv>완료된 정산</s.TitleContentDiv>
+        {currentData?.map((value) => {
+          return (
+            <CompleteReqDataDiv key={value.payRequestTargetId} data={value}></CompleteReqDataDiv>
+          );
+        })}
+        <ToastContainer
+          style={{ width: "50%", left: "50%", transform: "translateX(-50%)" }}
+          position="top-center"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="dark"
+        />
+      </s.ContainerDiv>
+    </>
+  );
 };
 
 export default RequestedPayPage;

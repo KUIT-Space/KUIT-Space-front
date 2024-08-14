@@ -2,7 +2,7 @@ import TopBarText, { LeftEnum } from "@/components/TopBarText";
 import * as s from "@/pages/PayPage/PayPage.styled";
 import Kookmin from "@/assets/PayPage/test_bank.svg";
 import { BottomBtn } from "@/components/BottomBtn";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CompletePay from "./CompletePay";
 import CompleteCreatePay from "./CompleteCreatePay";
 import CheckBox from "@/components/CheckBox";
@@ -10,23 +10,33 @@ import { Member } from "../ChatPage/ChatCreatePage/ChatCreatePage.styled";
 import ReactImg from "@/assets/react.svg";
 import { PayChatDiv } from "./CreatePayComponents";
 import SearchIcon from "@/assets/PayPage/search_icon.svg";
+import { recentAccountApi } from "@/apis/Pay/PayPageAPI";
 
-const RecentAccountDiv = () => {
+const RecentAccountDiv = ({ data }: { data: BankInfo }) => {
   return (
     <s.RowFlexDiv style={{ margin: "0.25rem" }}>
       <img style={{ marginRight: "0.75rem" }} src={Kookmin}></img>
       <s.ColumnFlexDiv>
-        <s.GrayTextDiv>국민은행</s.GrayTextDiv>
-        <s.RegularText>123-1234-12345</s.RegularText>
+        <s.GrayTextDiv>{data.bankName}</s.GrayTextDiv>
+        <s.RegularText>{data.bankAccountNum}</s.RegularText>
       </s.ColumnFlexDiv>
     </s.RowFlexDiv>
   );
 };
 
+export type BankInfo = {
+  bankName: String;
+  bankAccountNum: String;
+};
 type NextPageType = {
   nextPage: Function;
 };
+
 const CreateRequestPage1 = ({ nextPage }: NextPageType) => {
+  const [bankData, setBankData] = useState<BankInfo[] | undefined>([]);
+  useEffect(() => {
+    recentAccountApi(3, setBankData);
+  }, []);
   return (
     <>
       <TopBarText left={LeftEnum.Back} center="" right=""></TopBarText>
@@ -47,7 +57,9 @@ const CreateRequestPage1 = ({ nextPage }: NextPageType) => {
         <div style={{ margin: "2rem 0rem 2rem 0rem" }}>
           <s.RegularText>최근 정산받은 계좌</s.RegularText>
           <s.RoundDiv>
-            <RecentAccountDiv></RecentAccountDiv>
+            {bankData?.map((value, index) => {
+              return <RecentAccountDiv key={index} data={value}></RecentAccountDiv>;
+            })}
           </s.RoundDiv>
         </div>
       </s.ContainerDiv>
@@ -88,7 +100,8 @@ const CreateRequestPage2 = ({ nextPage }: NextPageType) => {
         <s.NowPriceDiv>정산할 멤버를 선택해주세요</s.NowPriceDiv>
         <s.TabMenu>
           {menuArr.map((value, index) => (
-            <li key={index}
+            <li
+              key={index}
               className={index === tabIndex ? "submenu focused" : "submenu"}
               onClick={() => selectMenuHandler(index)}
             >
@@ -99,7 +112,12 @@ const CreateRequestPage2 = ({ nextPage }: NextPageType) => {
         {tabIndex == 0 ? (
           <div>
             {chatroomArr.map((value, index) => (
-              <PayChatDiv key={index} img={value.img} name={value.name} cnt={value.cnt}></PayChatDiv>
+              <PayChatDiv
+                key={index}
+                img={value.img}
+                name={value.name}
+                cnt={value.cnt}
+              ></PayChatDiv>
             ))}
           </div>
         ) : (
