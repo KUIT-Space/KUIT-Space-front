@@ -11,14 +11,15 @@ const fetchPayApi = async (url: string, options: RequestOptions) => {
   return response;
 };
 
-export const payCompleteApi = async (payRequestTargetId: number) => {
+export const payCompleteApi = async (TargetId: number) => {
   const body = {
-    payRequestTargetId: payRequestTargetId,
+    payRequestTargetId: TargetId,
   };
   const requestOptions = createRequestOptionsJSON_AUTH("POST", JSON.stringify(body));
   if (!requestOptions) {
     return null;
   }
+  console.log(JSON.stringify(body));
   const response = await fetchPayApi(
     `https://project-space.xyz/space/3/pay/complete`,
     requestOptions,
