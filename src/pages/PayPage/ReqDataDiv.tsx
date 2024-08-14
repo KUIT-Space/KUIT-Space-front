@@ -7,14 +7,24 @@ import { DarkNormalBtn } from "./DarkNormalBtn";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { PayReceiveInfo, addComma } from "./PayPage";
+import { GradientBtn } from "./GradientBtn";
+import check from "@/assets/PayPage/check.svg";
+import { payCompleteApi } from "@/apis/Pay/PayPageAPI";
 
 const ReqDataDiv = ({ data }: { data: PayReceiveInfo }) => {
+  const spaceID = 3;
+
   useEffect(() => {
     console.log(data);
   }, []);
   // true : 송금하기 false : 송금완료
-  const [chk, setChk] = useState(true);
+  const [chk, setChk] = useState(0);
   const price = addComma(data.requestAmount);
+
+  const nextChk = () => {
+    setChk(chk + 1);
+    chk % 3;
+  };
 
   const copyToClipboard = async (text: string) => {
     try {
@@ -33,16 +43,45 @@ const ReqDataDiv = ({ data }: { data: PayReceiveInfo }) => {
       alert(e);
     }
   };
+
   const onPayClick = () => {
-    setChk(!chk);
+    nextChk();
     //모달 생성
     //클립보드 복사
     copyToClipboard("씨앗은행 1231109999");
   };
+
   const onCompleteClick = () => {
-    setChk(!chk);
+    nextChk();
+    payCompleteApi(data.payRequestTargetId);
     //모달 생성
     //클립보드 복사
+  };
+
+  const statusSwitch = () => {
+    switch (chk) {
+      case 0:
+        return (
+          <NormalBtn style={{ flexGrow: 1 }} onClick={onPayClick}>
+            송금하기
+          </NormalBtn>
+        );
+      case 1:
+        return (
+          <GradientBtn style={{ flexGrow: 1 }} onClick={onCompleteClick}>
+            송금완료
+          </GradientBtn>
+        );
+      case 2:
+        return (
+          <DarkNormalBtn
+            style={{ flexGrow: 1, display: "flex", alignItems: "center", justifyContent: "center" }}
+          >
+            송금완료
+            <img width={"28px"} height={"28px"} src={check}></img>
+          </DarkNormalBtn>
+        );
+    }
   };
   return (
     <s.RoundDiv style={{ marginBottom: "2.75rem" }}>
@@ -53,17 +92,7 @@ const ReqDataDiv = ({ data }: { data: PayReceiveInfo }) => {
           {price}원
         </s.NowPriceDiv>
       </s.RowFlexDiv>
-      <div style={{ width: "100%", display: "flex" }}>
-        {chk ? (
-          <NormalBtn style={{ flexGrow: 1 }} onClick={onPayClick}>
-            송금하기
-          </NormalBtn>
-        ) : (
-          <DarkNormalBtn style={{ flexGrow: 1 }} onClick={onCompleteClick}>
-            송금완료
-          </DarkNormalBtn>
-        )}
-      </div>
+      <div style={{ width: "100%", display: "flex" }}>{statusSwitch()}</div>
     </s.RoundDiv>
   );
 };

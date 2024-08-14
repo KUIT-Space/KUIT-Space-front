@@ -76,7 +76,7 @@ const PayPage = () => {
     //임시
     localStorage.setItem(
       "Authorization",
-      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MjM1NDkyMzcsImV4cCI6MTcyMzU1MjgzNywidXNlcklkIjo1M30.QlRNCWU3GMfn_O-eToHEoIYFIIFl6ub6qLqfLFwCzts",
+      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MjM1OTM1NTksImV4cCI6MTcyMzU5NzE1OSwidXNlcklkIjo1M30.kzxPLUuktyei7O8steoNxNfU7nNY7KI-bsCn8oKkKtM",
     );
     payHomeApi(SpaceID, setReqData, setRecData);
     // RequestPayInfo(setReqData, setRecData);

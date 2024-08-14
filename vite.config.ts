@@ -3,6 +3,7 @@ import * as path from "path";
 import { defineConfig } from "vite";
 import vitePluginSvgr from "vite-plugin-svgr";
 import mkcert from "vite-plugin-mkcert";
+import fs from "fs";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -19,16 +20,16 @@ export default defineConfig({
   },
   base: "/KUIT-Space-front/",
   server: {
+    https: {
+      key: fs.readFileSync("localhost-key.pem"),
+      cert: fs.readFileSync("localhost.pem"),
+    },
     proxy: {
       "/api": {
-        target: "https://www.project-space.xyz/",
+        target: "https://project-space.xyz/",
         changeOrigin: true,
         // 요청 경로에서 '/api' 제거
         rewrite: (path) => path.replace(/^\/api/, ""),
-        // SSL 인증서 검증 무시
-        secure: false,
-        // WebSocket 프로토콜 사용
-        ws: true,
       },
     },
   },

@@ -4,7 +4,6 @@ import {
   RequestOptions,
   createRequestOptionsJSON_AUTH,
 } from "@/apis/_createRequestOptions";
-import { request } from "http";
 import { BankInfo } from "@/pages/PayPage/CreateRequestPage";
 
 const fetchPayApi = async (url: string, options: RequestOptions) => {
@@ -20,7 +19,10 @@ export const payCompleteApi = async (payRequestTargetId: number) => {
   if (!requestOptions) {
     return null;
   }
-  const response = await fetchPayApi(`/api/space/3/pay/complete`, requestOptions);
+  const response = await fetchPayApi(
+    `https://project-space.xyz/space/3/pay/complete`,
+    requestOptions,
+  );
 };
 
 export const payReceiveApi = async (
@@ -38,7 +40,6 @@ export const payReceiveApi = async (
     response.json().then((data) => {
       setCurrentData(data.result.payReceiveInfoDtoListIncomplete);
       setCompleteData(data.result.payReceiveInfoDtoListComplete);
-      console.log(data.result);
     });
   }
 };
