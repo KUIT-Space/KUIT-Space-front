@@ -17,4 +17,18 @@ export default defineConfig({
     },
   },
   base: "/KUIT-Space-front/",
+  server: {
+    proxy: {
+      "/api": {
+        target: "https://project-space.xyz",
+        //changeOrigin: true, //false여야 proxy 정상 작동
+        // 요청 경로에서 '/api' 제거
+        rewrite: (path) => path.replace(/^\/api/, ""),
+        // SSL 인증서 검증 무시
+        secure: false,
+        // WebSocket 프로토콜 사용
+        ws: true,
+      },
+    },
+  },
 });
