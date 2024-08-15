@@ -29,7 +29,9 @@ const LoginPage = () => {
   }, [id, password]);
 
   const handleLogin = () => {
-    loginApi(id, password).then(res => res.status === "OK" ? navigate("/") : alert("login error: " + res.message));
+    loginApi(id, password).then((res) =>
+      res.status === "OK" ? navigate("/") : alert("login error: " + res.message),
+    );
   };
 
   return (

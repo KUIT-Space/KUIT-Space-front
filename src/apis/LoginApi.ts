@@ -26,5 +26,5 @@ export const loginApi = async (email: string, password: string) => {
   };
   const requestOptions = createRequestOptionsJSON("POST", JSON.stringify(body));
 
-  return await fetchLoginApi("/api/user/login", requestOptions);
+  return await fetchLoginApi(`${import.meta.env.VITE_API_BACK_URL}/user/login`, requestOptions);
 };
