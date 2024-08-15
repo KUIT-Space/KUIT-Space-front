@@ -1,12 +1,18 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 
+import MenuBtnImg from "@/assets/ChatPage/btn_menu.svg";
+import SendBtnImg from "@/assets/ChatPage/btn_send.svg";
 import SettingIcon from "@/assets/icon_setting.svg";
 import TopBarText, { LeftEnum } from "@/components/TopBarText";
 
-import { ChattingBody, ChattingContainer, StyledMessage } from "./ChattingPage.styled";
-
-import "./Chatting.css";
+import {
+  ChattingBody,
+  ChattingContainer,
+  ChattingFooter,
+  ChattingTextarea,
+  StyledMessage,
+} from "./ChattingPage.styled";
 
 interface Message {
   id: number;
@@ -24,7 +30,9 @@ const ChattingPage = () => {
   const [inputValue, setInputValue] = useState<string>("");
   const [ws, setWs] = useState<WebSocket | null>(null);
   const [username, setUsername] = useState<string>("");
+
   const messageEndRef = useRef<HTMLDivElement | null>(null);
+  const chattingTextareaRef = useRef<HTMLTextAreaElement | null>(null);
 
   useEffect(() => {
     //temp test username
@@ -61,8 +69,18 @@ const ChattingPage = () => {
   }, []);
 
   useEffect(() => {
+    //항상 새로운 메세지 위치로 view 스크롤 위함
     messageEndRef.current?.scrollIntoView();
   }, [messages]);
+
+  useEffect(() => {
+    //textarea에 입력된 줄 만큼 footer 키우기 위함
+    if (chattingTextareaRef?.current) {
+      chattingTextareaRef.current.style.height = "auto";
+      chattingTextareaRef.current.style.height =
+        (chattingTextareaRef.current.scrollHeight / 16).toString() + "rem";
+    }
+  }, [inputValue]);
 
   const sendMessage = () => {
     if (inputValue && ws) {
@@ -118,15 +136,21 @@ const ChattingPage = () => {
         )}
         <div ref={messageEndRef}></div>
       </ChattingBody>
-      <div className="chat-footer">
-        <input
-          type="text"
+
+      <ChattingFooter>
+        <button>
+          <img className="menu" alt="MenuBtnImg" src={MenuBtnImg} />
+        </button>
+        <ChattingTextarea
+          rows={1}
+          ref={chattingTextareaRef}
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
-          placeholder="Type a message"
         />
-        <button onClick={sendMessage}>Send</button>
-      </div>
+        <button onClick={sendMessage}>
+          <img className="send" alt="MenuBtnImg" src={SendBtnImg} />
+        </button>
+      </ChattingFooter>
     </ChattingContainer>
   );
 };

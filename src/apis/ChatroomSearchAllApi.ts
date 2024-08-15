@@ -1,8 +1,4 @@
-import {
-  createRequestOptionsJSON,
-  createRequestOptionsJSON_AUTH,
-  RequestOptions,
-} from "@/apis/_createRequestOptions";
+import { createRequestOptionsJSON_AUTH, RequestOptions } from "@/apis/_createRequestOptions";
 
 interface Chatroom {
   id: number;
