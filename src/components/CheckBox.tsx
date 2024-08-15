@@ -13,6 +13,8 @@ const StyledCheckBox = styled.div`
 		background-position: center;
 		width: 1.5rem;
 		height: 1.5rem;
+
+		cursor: pointer;
 	}
 	input[type="checkbox"]:checked {
 		background-image: url(${CheckedIcon});
