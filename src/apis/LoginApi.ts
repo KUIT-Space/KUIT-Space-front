@@ -5,7 +5,7 @@ const fetchLoginApi = async (url: string, options: RequestOptions) => {
     .then((res) => {
       // Authorization token 응답에 포함되면 local storage에 저장
       localStorage.setItem("Authorization", res.headers.get("Authorization") ?? "");
-      return res.json;
+      return res.json();
     })
     .catch((err) => console.error("[fetch error]", err));
 

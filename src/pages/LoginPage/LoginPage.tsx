@@ -29,7 +29,7 @@ const LoginPage = () => {
   }, [id, password]);
 
   const handleLogin = () => {
-    loginApi(id, password);
+    loginApi(id, password).then(res => navigate("/"));
   };
 
   return (

@@ -23,7 +23,7 @@ export const createRequestOptionsJSON = (
 //   body: RequestOptions["body"],
 // ): RequestOptions => ({
 //   method: method,
-//   body: JSON.stringify(body),
+//   body: body,
 //   redirect: "follow",
 //   headers: {
 //     "Content-Type": "application/json",
