@@ -3,6 +3,9 @@ import { Link, useLocation, useParams } from "react-router-dom";
 
 import MenuBtnImg from "@/assets/ChatPage/btn_menu.svg";
 import SendBtnImg from "@/assets/ChatPage/btn_send.svg";
+import FileBtnImg from "@/assets/ChatPage/menu_btn_file.svg";
+import PayBtnImg from "@/assets/ChatPage/menu_btn_pay.svg";
+import PictureBtnImg from "@/assets/ChatPage/menu_btn_picture.svg";
 import SettingIcon from "@/assets/icon_setting.svg";
 import TopBarText, { LeftEnum } from "@/components/TopBarText";
 
@@ -30,6 +33,7 @@ const ChattingPage = () => {
   const [inputValue, setInputValue] = useState<string>("");
   const [ws, setWs] = useState<WebSocket | null>(null);
   const [username, setUsername] = useState<string>("");
+  const [onMenu, setOnMenu] = useState<boolean>(false);
 
   const messageEndRef = useRef<HTMLDivElement | null>(null);
   const chattingTextareaRef = useRef<HTMLTextAreaElement | null>(null);
@@ -137,19 +141,37 @@ const ChattingPage = () => {
         <div ref={messageEndRef}></div>
       </ChattingBody>
 
-      <ChattingFooter>
-        <button>
-          <img className="menu" alt="MenuBtnImg" src={MenuBtnImg} />
-        </button>
-        <ChattingTextarea
-          rows={1}
-          ref={chattingTextareaRef}
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
-        />
-        <button onClick={sendMessage}>
-          <img className="send" alt="MenuBtnImg" src={SendBtnImg} />
-        </button>
+      <ChattingFooter $onMenu={onMenu}>
+        <div className="chatting-input">
+          <button onClick={() => setOnMenu(!onMenu)}>
+            <img className="menu" alt="Menu button" src={MenuBtnImg} />
+          </button>
+          <ChattingTextarea
+            rows={1}
+            ref={chattingTextareaRef}
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+          />
+          <button onClick={sendMessage}>
+            <img className="send" alt="Send button" src={SendBtnImg} />
+          </button>
+        </div>
+        {onMenu && (
+          <div className="menu-on">
+            <button>
+              <img src={PayBtnImg} alt="Pay button" />
+              <p>정산하기</p>
+            </button>
+            <button>
+              <img src={PictureBtnImg} alt="Picture button" />
+              <p>사진/동영상 첨부</p>
+            </button>
+            <button>
+              <img src={FileBtnImg} alt="File button" />
+              <p>파일 첨부</p>
+            </button>
+          </div>
+        )}
       </ChattingFooter>
     </ChattingContainer>
   );

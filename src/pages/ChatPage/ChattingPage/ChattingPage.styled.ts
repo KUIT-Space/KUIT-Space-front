@@ -81,44 +81,71 @@ export const StyledMessage = styled.div<{ $isUser: boolean }>`
   }
 `;
 
-export const ChattingFooter = styled.div`
-  display: flex;
-  width: 100%;
-  max-height: 30%;
-
-  padding: 0.5rem;
-  justify-content: center;
-  align-items: flex-end;
-  gap: 0.5rem;
-  flex-shrink: 0;
-
+export const ChattingFooter = styled.div<{ $onMenu: boolean }>`
   border-top: 1px solid var(--Foundation-Gray-gray800, #222226);
   background: var(--Foundation-Gray-gray800, #222226);
+  max-height: 30%;
 
-  .send {
-    width: 2.25rem;
-    height: 2.25rem;
-    flex-shrink: 0;
-  }
+  display: flex;
+  flex-direction: column;
 
-  .menu {
+  .chatting-input {
     display: flex;
-    width: 2.25rem;
-    height: 2.25rem;
-    padding: 0.32144rem;
+    width: 100%;
+    max-height: 100%;
+
+    padding: 0.5rem;
     justify-content: center;
-    align-items: center;
+    align-items: flex-end;
+    gap: 0.5rem;
     flex-shrink: 0;
+
+    .send {
+      width: 2.25rem;
+      height: 2.25rem;
+      flex-shrink: 0;
+    }
+
+    .menu {
+      display: flex;
+      width: 2.25rem;
+      height: 2.25rem;
+      padding: 0.32144rem;
+      justify-content: center;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    button {
+      width: 2.25rem;
+      height: 2.25rem;
+      border-radius: 0.5rem;
+    }
   }
 
-  button {
-    width: 2.25rem;
-    height: 2.25rem;
+  * button:active {
     border-radius: 0.5rem;
+    background-color: ${({ theme }) => theme.colors.BG700};
   }
 
-  button:active {
-    background-color: ${({ theme }) => theme.colors.BG700};
+  .menu-on {
+    height: 9.75rem;
+    display: inline-flex;
+    padding: 1.75rem 1.875rem;
+    justify-content: space-evenly;
+    align-items: center;
+
+    background: #222226;
+
+    button {
+      display: flex;
+      width: 6.25rem;
+      height: 6.25rem;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 0.0625rem;
+    }
   }
 `;
 
