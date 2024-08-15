@@ -23,6 +23,8 @@ export const VrListApi = async (
     response.json().then((data) => {
       setVRList(data.result.voiceRoomList);
     });
+  } else {
+    setVRList([]);
   }
 };
 

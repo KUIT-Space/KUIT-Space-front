@@ -49,33 +49,40 @@ const VoiceRoomPortal = ({ vrList }: { vrList: VrList }) => {
 };
 const VoiceRoomListPage = () => {
   const [vrList, setVrList] = useState<VrList[] | undefined>([]);
+  const [activeVrList, setActiveVrList] = useState<VrList[] | undefined>([]);
+  const [inactiveVrList, setInActiveVrList] = useState<VrList[] | undefined>([]);
 
+  const filterVrList = () => {
+    console.log(vrList);
+    vrList?.map((value, index) => {
+      {
+        value.active
+          ? setActiveVrList([...(activeVrList || []), value])
+          : setInActiveVrList([...(inactiveVrList || []), value]);
+      }
+    });
+  };
   useEffect(() => {
-    VrListApi(3, setVrList);
-    if (vrList == null) {
-      setVrList([]);
-    }
+    VrListApi(3, setVrList).then(() => {
+      filterVrList();
+    });
   }, []);
+
   const navigate = useNavigate();
+
   return (
     <>
       <TopBarText left={LeftEnum.Logo} center="보이스룸" right="" />
       <div style={{ marginLeft: "1.25rem", marginRight: "1.25rem" }}>
         <s.ActiveP> 활동 중인 보이스룸 </s.ActiveP>
-        {vrList?.map((value, index) => {
-          {
-            //여기 왜 삼항연산자 안 되지
-            if (value.active == true) {
-              return <VoiceRoomPortal key={index} vrList={value}></VoiceRoomPortal>;
-            } else {
-              return <></>;
-            }
-          }
+        {activeVrList?.map((value, index) => {
+          return <VoiceRoomPortal key={value.id} vrList={value}></VoiceRoomPortal>;
         })}
 
         <s.ActiveP> 아무도 없어요! </s.ActiveP>
-        <s.RoundDiv2>보이스룸 3</s.RoundDiv2>
-        <s.RoundDiv2>보이스룸 4</s.RoundDiv2>
+        {inactiveVrList?.map((value, index) => {
+          return <s.RoundDiv2 key={value.id}>{value.name}</s.RoundDiv2>;
+        })}
         <div>
           <s.StyledButton>
             <div
@@ -84,7 +91,7 @@ const VoiceRoomListPage = () => {
                 navigate("/createvoiceroom");
               }}
             >
-              <img src={plus} style={{ marginRight: "8px" }} />
+              <img src={plus} style={{ marginRight: "0.5rem" }} />
               새로 만들기
             </div>
           </s.StyledButton>
