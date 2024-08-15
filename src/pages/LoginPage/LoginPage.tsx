@@ -32,7 +32,7 @@ const LoginPage = () => {
 	const handleLogin = async () => {
 		if (!isButtonActive) return;
 		try {
-			const response = await axios.post('/user/login', {
+			const response = await axios.post('/api/user/login', {
 				email: email,
 				password: password,
 			});
