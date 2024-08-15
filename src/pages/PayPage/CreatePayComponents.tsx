@@ -18,7 +18,6 @@ const PayChatMemberDiv = () => {
         시험
       </span>
       <CheckBox></CheckBox>
-
     </s.RowFlexDiv>
   );
 };
