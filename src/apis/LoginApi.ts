@@ -2,9 +2,13 @@ import { createRequestOptionsJSON, RequestOptions } from "./_createRequestOption
 
 const fetchLoginApi = async (url: string, options: RequestOptions) => {
   const response = await fetch(url, options)
-    .then((res) => res)
+    .then((res) => {
+      // Authorization token 응답에 포함되면 local storage에 저장
+      localStorage.setItem("Authorization", res.headers.get("Authorization") ?? "");
+      return res.json;
+    })
     .catch((err) => console.error("[fetch error]", err));
-  //.then((res) => {localStorage.setItem("Authorization", res.headers.get("Authorization");})
+
   return response;
 };
 
@@ -13,17 +17,7 @@ export const loginApi = async (email: string, password: string) => {
     email: email,
     password: password,
   };
-
   const requestOptions = createRequestOptionsJSON("POST", JSON.stringify(body));
-  const response = await fetchLoginApi("/api/user/login", requestOptions);
 
-  // Authorization token 응답에 포함되면 local storage에 저장
-  const token = response?.headers.get("Authrization");
-  console.log(response?.json());
-  console.log(token);
-  if (response && token) {
-    localStorage.setItem("Authorization", token);
-  }
-
-  return response;
+  return await fetchLoginApi("/api/user/login", requestOptions);
 };
