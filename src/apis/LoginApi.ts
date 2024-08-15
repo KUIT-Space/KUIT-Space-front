@@ -1,4 +1,4 @@
-import { createRequestOptionsJSON, RequestOptions } from "./_createRequestOptions";
+import { createRequestOptionsJSON, RequestOptions } from "@/apis/_createRequestOptions";
 
 interface LoginApiResponseType {
   code: number;
