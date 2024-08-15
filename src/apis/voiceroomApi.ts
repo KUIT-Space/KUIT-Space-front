@@ -34,7 +34,7 @@ export const VrTokenApi = async (spaceID: number, VrID: number) => {
     return null;
   }
   const response = await fetchVrApi(
-    `/api/space/${spaceID}/voiceRoom/${VrID}/token`,
+    `https://project-space.xyz/space/${spaceID}/voiceRoom/${VrID}/token`,
     requestOptions,
   );
   if (response) {
@@ -45,4 +45,21 @@ export const VrTokenApi = async (spaceID: number, VrID: number) => {
       }
     });
   }
+};
+
+export const VrCreateApi = async (spaceID: number, name: string) => {
+  const body = {
+    name: name,
+  };
+
+  const requestOptions = createRequestOptionsJSON_AUTH("POST", JSON.stringify(body));
+  if (!requestOptions) {
+    return null;
+  }
+  const response = await fetchVrApi(
+    `https://project-space.xyz/space/${spaceID}/voiceRoom`,
+    requestOptions,
+  );
+
+  return response;
 };

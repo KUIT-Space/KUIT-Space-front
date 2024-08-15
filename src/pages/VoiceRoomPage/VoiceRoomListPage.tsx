@@ -53,26 +53,39 @@ const VoiceRoomListPage = () => {
   const [inactiveVrList, setInActiveVrList] = useState<VrList[] | undefined>([]);
 
   const filterVrList = () => {
-    console.log(vrList);
     vrList?.map((value, index) => {
       {
         value.active
-          ? setActiveVrList([...(activeVrList || []), value])
-          : setInActiveVrList([...(inactiveVrList || []), value]);
+          ? setActiveVrList((activeVrList) => [...(activeVrList || []), value])
+          : setInActiveVrList((inactiveVrList) => [...(inactiveVrList || []), value]);
       }
     });
   };
+
   useEffect(() => {
-    VrListApi(3, setVrList).then(() => {
-      filterVrList();
-    });
+    //space ID
+    VrListApi(3, setVrList);
   }, []);
 
+  useEffect(() => {
+    filterVrList();
+  }, [vrList]);
+
   const navigate = useNavigate();
+  const onClickInActiveVrRoom = (vrInfo: VrList) => {
+    navigate("/joinvoiceroom", { state: vrInfo });
+  };
 
   return (
     <>
-      <TopBarText left={LeftEnum.Logo} center="보이스룸" right="" />
+      <TopBarText
+        left={LeftEnum.Logo}
+        center="보이스룸"
+        right="편집"
+        rightHandler={() => {
+          navigate("/editvoiceroom");
+        }}
+      />
       <div style={{ marginLeft: "1.25rem", marginRight: "1.25rem" }}>
         <s.ActiveP> 활동 중인 보이스룸 </s.ActiveP>
         {activeVrList?.map((value, index) => {
@@ -81,7 +94,16 @@ const VoiceRoomListPage = () => {
 
         <s.ActiveP> 아무도 없어요! </s.ActiveP>
         {inactiveVrList?.map((value, index) => {
-          return <s.RoundDiv2 key={value.id}>{value.name}</s.RoundDiv2>;
+          return (
+            <s.RoundDiv2
+              key={value.id}
+              onClick={() => {
+                onClickInActiveVrRoom(value);
+              }}
+            >
+              {value.name}
+            </s.RoundDiv2>
+          );
         })}
         <div>
           <s.StyledButton>
