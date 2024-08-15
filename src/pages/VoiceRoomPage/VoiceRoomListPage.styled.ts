@@ -67,7 +67,7 @@ export const RoundDiv = styled.div`
   font-size: 0.875rem;
   font-family: "Freesentation M";
   color: "#767681";
-  width: 7.5rem;
+  width: 10rem;
 `;
 
 export const RoundDiv2 = styled.div`

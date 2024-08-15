@@ -3,7 +3,7 @@ import micON from "@/assets/VoiceRoom/icon_microphone_ON.svg";
 import micOFF from "@/assets/VoiceRoom/icon_microphone_OFF.svg";
 import { participantInfo } from "./VoiceRoomListPage";
 
-const VoiceRoomUser = ({ props }: { props: participantInfo[] }) => {
+export const VoiceRoomUser = ({ props }: { props: participantInfo[] }) => {
   return (
     <s.VRuserA>
       <s.VRuserListDiv>
@@ -14,5 +14,3 @@ const VoiceRoomUser = ({ props }: { props: participantInfo[] }) => {
     </s.VRuserA>
   );
 };
-
-export default VoiceRoomUser;

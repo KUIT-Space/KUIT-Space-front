@@ -73,11 +73,6 @@ const PayPage = () => {
   const [recData, setRecData] = useState<PayReceiveInfo[] | undefined>([]);
 
   useEffect(() => {
-    //임시
-    localStorage.setItem(
-      "Authorization",
-      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MjM2MTcyMjksImV4cCI6MTcyMzYyMDgyOSwidXNlcklkIjo1M30.D5EODMkyPJkfSllif-ALtOlJU355MqKWzC2FMg_nwbw",
-    );
     payHomeApi(SpaceID, setReqData, setRecData);
     // RequestPayInfo(setReqData, setRecData);
   }, []);
