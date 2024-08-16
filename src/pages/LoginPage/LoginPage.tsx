@@ -48,7 +48,6 @@ const LoginPage = () => {
 
       if (response.status === 200) {
         const token = response.headers.authorization;
-
         localStorage.setItem("jwt", token);
         navigate("/dashboard");
       } else {

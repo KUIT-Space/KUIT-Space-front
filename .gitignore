@@ -22,7 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+localhost-key.pem
+localhost.pem
 .env
-
-
 *_mockChat.tsx
