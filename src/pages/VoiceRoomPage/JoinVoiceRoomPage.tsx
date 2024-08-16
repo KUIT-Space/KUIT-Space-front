@@ -8,8 +8,8 @@ import reactLogo from "@/assets/react.svg";
 import { BottomBtn } from "@/components/BottomBtn";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import VoiceRoomPage from "./VoiceRoomPage";
-import { VrList } from "./VoiceRoomListPage";
+import VoiceRoomPage from "@/pages/VoiceRoomPage/VoiceRoomPage";
+import { VrList } from "@/pages/VoiceRoomPage/VoiceRoomListPage";
 import { VrTokenApi } from "@/apis/voiceroomApi";
 
 const JoinVoiceRoomPage = () => {

@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as s from "@/pages/VoiceRoomPage/VoiceRoomListPage.styled";
 import { VrListApi } from "@/apis/voiceroomApi";
-import { VoiceRoomUser } from "./VoiceRoomUser";
+import { VoiceRoomUser } from "@/pages/VoiceRoomPage/VoiceRoomUser";
 
 export type participantInfo = {
   name: string;

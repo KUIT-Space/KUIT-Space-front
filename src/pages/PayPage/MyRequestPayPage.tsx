@@ -1,12 +1,12 @@
 import TopBarText, { LeftEnum } from "@/components/TopBarText";
 import * as s from "@/pages/PayPage/PayPage.styled";
 import { useEffect, useState } from "react";
-import MyReqDataDiv from "./MyReqDataDiv";
-import GrayMyReqDataDiv from "./GrayMyReqDataDiv";
+import MyReqDataDiv from "@/pages/PayPage/MyReqDataDiv";
+import GrayMyReqDataDiv from "@/pages/PayPage/GrayMyReqDataDiv";
 import { useParams } from "react-router-dom";
 
-import PayResult from "./PayResult";
-import { PayRequestInfo } from "./PayPage";
+import PayResult from "@/pages/PayPage/PayResult";
+import { PayRequestInfo } from "@/pages/PayPage/PayPage";
 import { payRequestApi } from "@/apis/Pay/PayPageAPI";
 
 const MyRequestPayPage = () => {

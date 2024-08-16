@@ -3,12 +3,12 @@ import * as s from "@/pages/PayPage/PayPage.styled";
 import Kookmin from "@/assets/PayPage/test_bank.svg";
 import { BottomBtn } from "@/components/BottomBtn";
 import { useEffect, useState } from "react";
-import CompletePay from "./CompletePay";
-import CompleteCreatePay from "./CompleteCreatePay";
+import CompletePay from "@/pages/PayPage/CompletePay";
+import CompleteCreatePay from "@/pages/PayPage/CompleteCreatePay";
 import CheckBox from "@/components/CheckBox";
-import { Member } from "../ChatPage/ChatCreatePage/ChatCreatePage.styled";
+import { Member } from "@/pages/ChatPage/ChatCreatePage/ChatCreatePage.styled";
 import ReactImg from "@/assets/react.svg";
-import { PayChatDiv } from "./CreatePayComponents";
+import { PayChatDiv } from "@/pages/PayPage/CreatePayComponents";
 import SearchIcon from "@/assets/PayPage/search_icon.svg";
 import { recentAccountApi } from "@/apis/Pay/PayPageAPI";
 

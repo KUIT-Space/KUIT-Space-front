@@ -1,13 +1,13 @@
 import * as s from "@/pages/PayPage/PayPage.styled";
-import { NormalBtn } from "./NormalBtn";
+import { NormalBtn } from "@/pages/PayPage/NormalBtn";
 import reactIcon from "@/assets/react.svg";
 import { useEffect, useState } from "react";
-import { DarkNormalBtn } from "./DarkNormalBtn";
+import { DarkNormalBtn } from "@/pages/PayPage/DarkNormalBtn";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { PayReceiveInfo, addComma } from "./PayPage";
-import { GrayBtn } from "./GrayBtn";
+import { PayReceiveInfo, addComma } from "@/pages/PayPage/PayPage";
+import { GrayBtn } from "@/pages/PayPage/GrayBtn";
 
 const ReqDataDiv = ({ data }: { data: PayReceiveInfo }) => {
   // useEffect(() => {

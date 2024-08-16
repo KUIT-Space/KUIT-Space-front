@@ -1,15 +1,15 @@
 import TopBarText, { LeftEnum } from "@/components/TopBarText";
 import * as s from "@/pages/PayPage/PayPage.styled";
 import reactIcon from "@/assets/react.svg";
-import { NormalBtn } from "./NormalBtn";
-import { GrayBtn } from "./GrayBtn";
-import ReqDataDiv from "./ReqDataDiv";
+import { NormalBtn } from "@/pages/PayPage/NormalBtn";
+import { GrayBtn } from "@/pages/PayPage/GrayBtn";
+import ReqDataDiv from "@/pages/PayPage/ReqDataDiv";
 import { ToastContainer } from "react-toastify";
 import { Transform } from "stream";
 import { useEffect, useState } from "react";
 import { payReceiveApi } from "@/apis/Pay/PayPageAPI";
-import { PayReceiveInfo } from "./PayPage";
-import CompleteReqDataDiv from "./CompleteReqDataDiv";
+import { PayReceiveInfo } from "@/pages/PayPage/PayPage";
+import CompleteReqDataDiv from "@/pages/PayPage/CompleteReqDataDiv";
 
 const RequestedPayPage = () => {
   const [currentData, setCurrentData] = useState<PayReceiveInfo[] | undefined>([]);

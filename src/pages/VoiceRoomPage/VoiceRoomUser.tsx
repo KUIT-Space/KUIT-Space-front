@@ -1,7 +1,7 @@
 import * as s from "@/pages/VoiceRoomPage/VoiceRoomUser.styled";
 import micON from "@/assets/VoiceRoom/icon_microphone_ON.svg";
 import micOFF from "@/assets/VoiceRoom/icon_microphone_OFF.svg";
-import { participantInfo } from "./VoiceRoomListPage";
+import { participantInfo } from "@/pages/VoiceRoomPage/VoiceRoomListPage";
 
 export const VoiceRoomUser = ({ props }: { props: participantInfo[] }) => {
   return (

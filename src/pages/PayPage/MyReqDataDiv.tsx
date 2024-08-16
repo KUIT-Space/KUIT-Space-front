@@ -1,6 +1,6 @@
 import * as s from "@/pages/PayPage/PayPage.styled";
-import { PayRequestInfo } from "./PayPage";
-import { addComma } from "./PayPage";
+import { PayRequestInfo } from "@/pages/PayPage/PayPage";
+import { addComma } from "@/pages/PayPage/PayPage";
 
 const MyReqDataDiv = ({ data }: { data: PayRequestInfo }) => {
   const num = data.totalTargetNum - data.receiveTargetNum;
