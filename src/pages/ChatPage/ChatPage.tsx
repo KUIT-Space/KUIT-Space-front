@@ -20,7 +20,6 @@ const ChatPage = () => {
     // 임시로 LOCALSTORAGE에 spaceId 3으로 저장
     localStorage.setItem("spaceId", "3");
     //
-    setChatroomList([]);
     const spaceId = localStorage.getItem("spaceId");
     if (spaceId !== null) {
       chatroomSearchAllApi(Number.parseInt(spaceId))

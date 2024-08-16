@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { choseongIncludes, hangulIncludes } from "es-hangul";
 
+import { spaceSearchAllUserApi, UserInfoInSpace } from "@/apis/SpaceSearchAllUserApi";
 import ChatroomImg from "@/assets/ChatPage/btn_chatroom_img.svg";
 import CheckBox from "@/components/CheckBox";
 import { Input } from "@/components/Input";
@@ -15,35 +16,23 @@ import {
   Member,
 } from "./ChatCreatePage.styled";
 
-interface member {
-  userId: number;
-  name: string;
-  isAdmin: boolean;
-  profileImg: string;
-}
-
 const ChatCreatePage = () => {
   const [nameLength, setNameLength] = useState<number>(0);
-  const [invitedMemberList, setInvitedMemberList] = useState<member[]>([]);
-  const [memberList, setMemberList] = useState<member[]>([]);
+  const [invitedMemberList, setInvitedMemberList] = useState<UserInfoInSpace[]>([]);
+  const [memberList, setMemberList] = useState<UserInfoInSpace[]>([]);
   const [searchWord, setSearchWord] = useState<string>("");
 
   useEffect(() => {
-    setMemberList([
-      { userId: 1, name: "홍길동", isAdmin: false, profileImg: "https://placehold.co/100x100" },
-      { userId: 2, name: "김길동", isAdmin: false, profileImg: "https://placehold.co/100x100" },
-      { userId: 3, name: "박길동", isAdmin: true, profileImg: "https://placehold.co/40x40" },
-      { userId: 4, name: "그린조아", isAdmin: true, profileImg: "https://placehold.co/100x100" },
-      { userId: 5, name: "그린안조아", isAdmin: true, profileImg: "https://placehold.co/100x100" },
-      { userId: 6, name: "그린조아", isAdmin: false, profileImg: "https://placehold.co/100x100" },
-      { userId: 7, name: "greenjoa", isAdmin: false, profileImg: "https://placehold.co/100x100" },
-      {
-        userId: 8,
-        name: "blue an joa",
-        isAdmin: false,
-        profileImg: "https://placehold.co/100x100",
-      },
-    ]);
+    // 임시로 LOCALSTORAGE에 spaceId 3으로 저장
+    localStorage.setItem("spaceId", "3");
+    //
+    const spaceId = localStorage.getItem("spaceId");
+    if (spaceId !== null) {
+      //멤버 목록 API 호출
+      spaceSearchAllUserApi(Number.parseInt(spaceId)).then((res) => {
+        res ? setMemberList(res.result.userInfoInSpaceList) : setMemberList([]);
+      });
+    }
     setInvitedMemberList([]);
   }, []);
 
@@ -99,8 +88,8 @@ const ChatCreatePage = () => {
           {memberList
             .filter(
               (member) =>
-                hangulIncludes(member.name, searchWord) ||
-                choseongIncludes(member.name, searchWord),
+                hangulIncludes(member.userName, searchWord) ||
+                choseongIncludes(member.userName, searchWord),
             )
             .map((member, index) => (
               <Member
@@ -118,9 +107,9 @@ const ChatCreatePage = () => {
                 }}
               >
                 <section>
-                  <img src={member.profileImg} />
-                  <span className="name">{member.name}</span>
-                  {member.isAdmin && <span className="admin">관리자</span>}
+                  <img src={member.profileImgUrl ?? ""} />
+                  <span className="name">{member.userName}</span>
+                  {member.userAuth === "manager" && <span className="admin">관리자</span>}
                 </section>
                 <CheckBox
                   checked={invitedMemberList.some(
