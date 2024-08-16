@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
 import comment from "@/assets/Board/comment.svg";
@@ -6,6 +7,8 @@ import heartLiked from "@/assets/Board/heart_liked.svg";
 import heartUnliked from "@/assets/Board/heart_unliked.svg";
 import share from "@/assets/Board/share.svg";
 import TopBarText, { LeftEnum } from "@/components/TopBarText";
+
+import BoardDetailComment from "./BoardDetailComment";
 
 const BoardPostDetailContainer = styled.div`
   width: 100%;
@@ -135,7 +138,6 @@ const BoardPostItemLikeBtn = styled.div`
   }
 `;
 
-// id로 api 호출함 (props 사용 x)
 const BoardDetailPage = () => {
   const dummy = {
     id: 0,
@@ -148,7 +150,37 @@ const BoardDetailPage = () => {
     isLike: true,
     likeCount: 5,
     commentCount: 2,
+    comment: [
+      {
+        profileName: "seohyun",
+        profileImg: "",
+        elapsedTime: "10분 전",
+        content: "댓글내용내용",
+        isLike: true,
+        likeCount: 5,
+        commentCount: 2,
+      },
+      {
+        profileName: "seohyun",
+        profileImg: "",
+        elapsedTime: "10분 전",
+        content: "댓글내용내용",
+        isLike: true,
+        likeCount: 5,
+        commentCount: 2,
+      },
+      {
+        profileName: "seohyun",
+        profileImg: "",
+        elapsedTime: "10분 전",
+        content: "댓글내용내용",
+        isLike: true,
+        likeCount: 5,
+        commentCount: 2,
+      },
+    ],
   };
+  const { id } = useParams();
 
   const [isLikeNew, setIsLikeNew] = useState<boolean>(dummy.isLike);
 
@@ -195,6 +227,23 @@ const BoardDetailPage = () => {
           <img src={share} alt="공유하기" />
         </BoardPostDetailFooter>
       </BoardPostDetailContainer>
+      <div>
+        {dummy.comment.map((d, i) => {
+          return (
+            <div key={i + d.content}>
+              <BoardDetailComment
+                profileName={d.profileName}
+                profileImg={d.profileImg}
+                elapsedTime={d.elapsedTime}
+                content={d.content}
+                isLike={d.isLike}
+                likeCount={d.likeCount}
+                commentCount={d.commentCount}
+              />
+            </div>
+          );
+        })}
+      </div>
     </>
   );
 };
