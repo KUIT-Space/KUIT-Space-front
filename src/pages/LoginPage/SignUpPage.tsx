@@ -3,6 +3,7 @@ import SignUpHeader from "@/components/SignUpHeader";
 import { StyledText, Container, Input, NextButton, Explanation, NameCount, InputContainer } from "@/pages/LoginPage/SignUpPage.styled";
 import StopModal from "@/components/StopModal";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const SignUp: React.FC = () => {
 	const [email, setEmail] = useState("");
@@ -58,9 +59,33 @@ const SignUp: React.FC = () => {
 		navigate(-1);
 	};
 
-	const handleNextButtonClick = () => {
-		setCurrentStep((prevStep) => prevStep + 1);
-	};
+	const handleNextButtonClick = async () => {
+        if (currentStep === 3) {
+            try {
+                const response = await axios.post('api/user/signup', {
+                    email: email,
+                    password: password,
+                    userName: name,
+                });
+
+                if (response.status === 200) {
+                    console.log("회원가입 성공:", response.data.message);
+                    navigate('/login');
+                } else {
+                    console.error("회원가입 실패:", response.data.message);
+                }
+            } catch (error) {
+                if (error instanceof Error) {
+                    console.error("회원가입 실패:", error.message);
+                } else {
+                    console.error("회원가입 실패:", error);
+                }
+            }
+        } else {
+            setCurrentStep((prevStep) => prevStep + 1);
+        }
+    };
+	
 	const isNameOverMaxLength = name.length > 10;
 	return (
 		<>
@@ -154,8 +179,7 @@ const SignUp: React.FC = () => {
 					content={["여기서 그만두면 스페이스의", "서비스를 이용할 수 없어요!"]}
 					confirmButtonColor="#48FFBD"
 					cancelButtonText="취소"
-					confirmButtonText="확인"
-				/>
+					confirmButtonText="확인" contentColor={""} confirmButtonTextColor={""}				/>
 			</Container>
 		</>
 	);

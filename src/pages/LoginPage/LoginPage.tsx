@@ -20,10 +20,6 @@ import {
 const LoginPage = () => {
   const navigate = useNavigate();
 
-  const [id, setId] = useState("");
-  const [password, setPassword] = useState("");
-  const [isButtonActive, setIsButtonActive] = useState(false);
-
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [isButtonActive, setIsButtonActive] = useState(false);
@@ -55,7 +51,7 @@ const LoginPage = () => {
 				const token = response.headers.authorization;
 				    
 				localStorage.setItem('jwt', token);
-				navigate('/dashboard');
+				navigate('/');
 			} else {
 				console.error('로그인 실패:', response.data.message);
 			}
