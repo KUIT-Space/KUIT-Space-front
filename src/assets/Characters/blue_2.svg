@@ -1,0 +1,28 @@
+<svg width="161" height="161" viewBox="0 0 161 161" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="blue_2">
+<g id="Group 1707480683">
+<g id="Group 1707480402">
+<g id="Mask group">
+<mask id="mask0_1334_36990" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="161" height="161">
+<circle id="Ellipse 2593" cx="80.5282" cy="80.037" r="80.037" fill="white"/>
+</mask>
+<g mask="url(#mask0_1334_36990)">
+<circle id="Ellipse 2594" cx="80.5286" cy="134.288" r="65.1375" fill="#5AD7FE"/>
+</g>
+</g>
+<circle id="Ellipse 2590" cx="80.4912" cy="80" r="79.25" fill="url(#paint0_radial_1334_36990)" stroke="white" stroke-width="1.5"/>
+<rect id="Rectangle 24148" x="68.1108" y="107.737" width="8.0228" height="12.2702" rx="3.77544" fill="#061D28"/>
+<rect id="Rectangle 24149" x="84.9199" y="107.737" width="7.99341" height="12.2252" rx="3.76161" fill="#061D28"/>
+<circle id="Ellipse 2618" cx="109.698" cy="76.1896" r="12.6984" fill="#5AD7FE"/>
+<circle id="Ellipse 2620" cx="135.094" cy="101.587" r="12.6984" fill="#5AD7FE"/>
+<ellipse id="Ellipse 2619" cx="77.9501" cy="71.1115" rx="11.4286" ry="12.6984" fill="#5AD7FE"/>
+</g>
+</g>
+</g>
+<defs>
+<radialGradient id="paint0_radial_1334_36990" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(80.4912 80) rotate(90.9958) scale(158.084)">
+<stop offset="0.405" stop-color="#ECF6FF" stop-opacity="0"/>
+<stop offset="1" stop-color="#ECF6FF"/>
+</radialGradient>
+</defs>
+</svg>
