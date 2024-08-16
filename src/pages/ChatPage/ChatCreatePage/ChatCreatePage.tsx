@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { choseongIncludes, hangulIncludes } from "es-hangul";
 
+import { ChatroomCreateApi } from "@/apis";
 import { spaceSearchAllUserApi, UserInfoInSpace } from "@/apis/SpaceSearchAllUserApi";
+import { CharacterImgs } from "@/assets/Characters";
 import ChatroomImg from "@/assets/ChatPage/btn_chatroom_img.svg";
 import CheckBox from "@/components/CheckBox";
 import { Input } from "@/components/Input";
@@ -17,60 +19,83 @@ import {
 } from "./ChatCreatePage.styled";
 
 const ChatCreatePage = () => {
-  const [nameLength, setNameLength] = useState<number>(0);
+  const [name, setName] = useState<string>("");
   const [invitedMemberList, setInvitedMemberList] = useState<UserInfoInSpace[]>([]);
   const [memberList, setMemberList] = useState<UserInfoInSpace[]>([]);
   const [searchWord, setSearchWord] = useState<string>("");
+  const [spaceId, setSpaceId] = useState<number>(3);
+
+  const [defaultImage, setDefaultImage] = useState<string>(
+    CharacterImgs[Math.floor(Math.random() * CharacterImgs.length)],
+  );
+  const [uploadedImage, setUploadedImage] = useState<File>(
+    new File(
+      [
+        new Blob([defaultImage], {
+          type: "image/svg+xml",
+        }),
+      ],
+      `chatting_room_main_img.svg`,
+      { type: "image/svg+xml" },
+    ),
+  );
 
   useEffect(() => {
+    console.log(defaultImage);
+    console.log(uploadedImage);
+    console.log(URL.createObjectURL(uploadedImage));
     // 임시로 LOCALSTORAGE에 spaceId 3으로 저장
     localStorage.setItem("spaceId", "3");
     //
-    const spaceId = localStorage.getItem("spaceId");
-    if (spaceId !== null) {
+    const spaceId_LS = localStorage.getItem("spaceId");
+    if (spaceId_LS !== null) {
+      setSpaceId(Number.parseInt(spaceId_LS));
       //멤버 목록 API 호출
-      spaceSearchAllUserApi(Number.parseInt(spaceId)).then((res) => {
+      spaceSearchAllUserApi(Number.parseInt(spaceId_LS)).then((res) => {
         res ? setMemberList(res.result.userInfoInSpaceList) : setMemberList([]);
       });
     }
     setInvitedMemberList([]);
   }, []);
 
-  // useEffect(() => {
-  // 	console.log(invitedMemberList);
-  // }, [invitedMemberList]);
-
   const handleChatCreate = () => {
     //채팅방 생성 API 호출
+    ChatroomCreateApi(
+      spaceId,
+      name,
+      invitedMemberList.map((member) => member.userId),
+      uploadedImage,
+    ).then((res) => {
+      if (res) {
+        console.log(res);
+      }
+    });
   };
 
-  const [uploadedImage, setUploadedImage] = useState<string | null>();
-
   const handleImageImport = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    const imageUrl = files && URL.createObjectURL(files[0]);
-    setUploadedImage(imageUrl);
+    const image = e.target.files?.[0];
+    image && setUploadedImage(image);
   };
 
   return (
     <>
       <TopBarText left={LeftEnum.Back} center="새 채팅방" right="" />
-      <ChatroomAddImgBtn $backgroundImage={uploadedImage}>
+      <ChatroomAddImgBtn $backgroundImage={URL.createObjectURL(uploadedImage)}>
         <img src={ChatroomImg} />
         <input type="file" accept="image/*" onChange={handleImageImport} />
       </ChatroomAddImgBtn>
       <ChatCreateContainer>
         <div className="input--container">
           <p>채팅방 이름</p>
-          <ChatroomName $nameLength={nameLength}>
+          <ChatroomName $nameLength={name.length}>
             <Input
               placeholder="채팅방 이름"
               maxLength={15}
               onChange={(e) => {
-                setNameLength(e.target.value.length);
+                setName(e.target.value);
               }}
             />
-            <span>{nameLength} / 15</span>
+            <span>{name.length} / 15</span>
           </ChatroomName>
         </div>
         <div className="input--container">
@@ -107,7 +132,11 @@ const ChatCreatePage = () => {
                 }}
               >
                 <section>
-                  <img src={member.profileImgUrl ?? ""} />
+                  <img
+                    src={
+                      member.profileImgUrl ?? CharacterImgs[member.userId % CharacterImgs.length]
+                    }
+                  />
                   <span className="name">{member.userName}</span>
                   {member.userAuth === "manager" && <span className="admin">관리자</span>}
                 </section>
@@ -121,7 +150,7 @@ const ChatCreatePage = () => {
         </div>
         <ChatCreateBottomBtn
           onClick={handleChatCreate}
-          disabled={nameLength === 0 || invitedMemberList.length === 0}
+          disabled={name.length === 0 || invitedMemberList.length === 0}
         >
           생성하기
         </ChatCreateBottomBtn>
