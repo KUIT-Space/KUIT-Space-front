@@ -13,7 +13,7 @@ interface ChatroomSearchApiResponse {
   code: number;
   status: number;
   message: string;
-  result: Chatroom[];
+  result: { chatRoomList: Chatroom[] };
 }
 
 export const chatroomSearchAllApi = async (spaceId: number) => {

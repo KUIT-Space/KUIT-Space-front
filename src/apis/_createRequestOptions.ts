@@ -74,8 +74,9 @@ export const fetchApi = async <T>(url: string, options: RequestOptions): Promise
   const response: T = await fetch(url, options)
     .then((res) => {
       // 401 Unauthorized 시 재로그인 요청
-      res.status === 401 && localStorage.removeItem("Authorization");
-      console.log(alert("로그인이 필요합니다."));
+      if (res.status === 401) {
+        alert("로그인이 필요합니다.");
+      }
 
       return res.json();
     })
