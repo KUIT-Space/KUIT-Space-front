@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import arrowDown from "@/assets/Board/chevron_down.svg";
 import TopBarText, { LeftEnum } from "@/components/TopBarText";
@@ -10,6 +11,7 @@ import BoardPostItem from "./BoardPostItem";
 const BoardPage = () => {
   const dummy = [
     {
+      id: 0,
       profileName: "고양이발닦개",
       profileImg: "",
       elapsedTime: "10분 전",
@@ -21,6 +23,7 @@ const BoardPage = () => {
       commentCount: 2,
     },
     {
+      id: 1,
       profileName: "고양이발닦개",
       profileImg: "",
       elapsedTime: "10분 전",
@@ -32,6 +35,7 @@ const BoardPage = () => {
       commentCount: 2,
     },
     {
+      id: 2,
       profileName: "고양이발닦개",
       profileImg: "",
       elapsedTime: "10분 전",
@@ -43,6 +47,7 @@ const BoardPage = () => {
       commentCount: 2,
     },
   ];
+  const navigate = useNavigate();
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedOption, setSelectedOption] = useState<string>("전체");
@@ -59,7 +64,7 @@ const BoardPage = () => {
       </BoardHeader>
       {dummy.map((d, i) => {
         return (
-          <div key={i + d.title}>
+          <div key={i + d.title} onClick={() => navigate(`/board/${d.id}`)}>
             <BoardPostItem
               profileName={d.profileName}
               profileImg={d.profileImg}
