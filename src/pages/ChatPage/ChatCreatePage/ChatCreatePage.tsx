@@ -8,6 +8,7 @@ import ChatroomImg from "@/assets/ChatPage/btn_chatroom_img.svg";
 import CheckBox from "@/components/CheckBox";
 import { Input } from "@/components/Input";
 import TopBarText, { LeftEnum } from "@/components/TopBarText";
+import { getUserDefaultImageURL } from "@/utils/getUserDefaultImageURL";
 import { svgComponentToFile } from "@/utils/svgComponentToFile";
 
 import {
@@ -65,10 +66,6 @@ const ChatCreatePage = () => {
     image && setUploadedImage(image);
   };
 
-  const renderUserDefaultImage = (userId: number) => {
-    return svgComponentToFile(CharacterImgs[userId % CharacterImgs.length]);
-  };
-
   return (
     <>
       <TopBarText left={LeftEnum.Back} center="새 채팅방" right="" />
@@ -124,12 +121,7 @@ const ChatCreatePage = () => {
                 }}
               >
                 <section>
-                  <img
-                    src={
-                      member.profileImgUrl ??
-                      URL.createObjectURL(renderUserDefaultImage(member.userId))
-                    }
-                  />
+                  <img src={member.profileImgUrl ?? getUserDefaultImageURL(member.userId)} />
                   <span className="name">{member.userName}</span>
                   {member.userAuth === "manager" && <span className="admin">관리자</span>}
                 </section>
