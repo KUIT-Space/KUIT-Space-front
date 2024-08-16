@@ -11,6 +11,7 @@ const BoardPostItemContainer = styled.div`
   padding: 1.5rem 1.25rem;
   display: flex;
   flex-direction: column;
+  border-bottom: 1px solid #222226;
 
   .board-post-item-header {
     display: flex;
@@ -132,49 +133,56 @@ const BoardPostItemLikeBtn = styled.div`
   }
 `;
 
-const BoardPostItem = () => {
-  const dummy = {
-    profileName: "고양이발닦개",
-    profileImg: "",
-    elapsedTime: "10분 전",
-    title: "학생! 기말시험이 있어",
-    content: "학생! 혹시 과제도 같이.. (네? 과제도요?)\n그럼 제가 교수님 맘에...",
-    thumbnail: "img",
-    isLike: true,
-    likeCount: 5,
-    commentCount: 2,
-  };
-
-  const [isLike, setIsLike] = useState<boolean>(dummy.isLike);
+export type BoardPostItemProps = {
+  profileName: string;
+  profileImg: string;
+  elapsedTime: string;
+  title: string;
+  content: string;
+  thumbnail: string;
+  isLike: boolean;
+  likeCount: number;
+  commentCount: number;
+};
+const BoardPostItem = ({
+  profileName,
+  profileImg,
+  elapsedTime,
+  title,
+  content,
+  thumbnail,
+  isLike,
+  likeCount,
+  commentCount,
+}: BoardPostItemProps) => {
+  const [isLikeNew, setIsLikeNew] = useState<boolean>(isLike);
 
   return (
     <BoardPostItemContainer>
       <header className="board-post-item-header">
-        {dummy.profileImg ? <img src={dummy.profileImg} alt="프로필 이미지" /> : <div />}
-        <span>{dummy.profileName}</span>
-        <span>{dummy.elapsedTime}</span>
+        {profileImg ? <img src={profileImg} alt="프로필 이미지" /> : <div />}
+        <span>{profileName}</span>
+        <span>{elapsedTime}</span>
       </header>
       <BoardPostItemContent>
         <div className="board-post-item-content-text">
-          <span>{dummy.title}</span>
-          <div>{dummy.content}</div>
+          <span>{title}</span>
+          <div>{content}</div>
         </div>
-        <div className="borad-post-item-content-img">
-          {dummy.thumbnail && <img src={dummy.thumbnail} />}
-        </div>
+        <div className="borad-post-item-content-img">{thumbnail && <img src={thumbnail} />}</div>
       </BoardPostItemContent>
       <BoardPostItemFooter>
         <div>
           <BoardPostItemLikeBtn
-            className={isLike ? "liked" : ""}
-            onClick={() => setIsLike((prev) => !prev)}
+            className={isLikeNew ? "liked" : ""}
+            onClick={() => setIsLikeNew((prev) => !prev)}
           >
-            <img src={isLike ? heartLiked : heartUnliked} alt="좋아요" />
-            {dummy.likeCount}
+            <img src={isLikeNew ? heartLiked : heartUnliked} alt="좋아요" />
+            {likeCount}
           </BoardPostItemLikeBtn>
           <div className="board-post-item-footer-item">
             <img src={comment} alt="댓글" />
-            {dummy.commentCount}
+            {commentCount}
           </div>
         </div>
         <img src={share} alt="공유하기" />
