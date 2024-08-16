@@ -88,7 +88,7 @@ const BoardPage = () => {
           <br />첫 게시글을 작성해보세요!
         </BoardPostItemEmpty>
       )}
-      <BoardFloatingBtn src={floating} />
+      <BoardFloatingBtn src={floating} onClick={() => navigate("/board/register")} />
       <BoardBottomModal
         selectedOption={selectedOption}
         onSelect={setSelectedOption}

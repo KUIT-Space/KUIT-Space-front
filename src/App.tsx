@@ -21,6 +21,7 @@ import GlobalStyle from "@/styles/GlobalStyles";
 import { theme } from "@/styles/Theme";
 
 import BoardDetailPage from "./pages/BoardPage/BoardDetailpage/BoardDetailPage";
+import BoardRegisterPage from "./pages/BoardPage/BoardRegisterPage/BoardRegisterPage";
 import ChatSettingPage from "./pages/ChatPage/ChatSettingPage/ChatSettingPage";
 import CompletePay from "./pages/PayPage/CompletePay";
 import CreateRequestPage from "./pages/PayPage/CreateRequestPage";
@@ -113,6 +114,7 @@ function App() {
   const routes_children_board = [
     { path: "/board", element: <BoardPage />, hasBottomBar: true },
     { path: "/board/:id", element: <BoardDetailPage />, hasBottomBar: false },
+    { path: "/board/register", element: <BoardRegisterPage />, hasBottomBar: false },
   ];
 
   const routes_children_space = [
