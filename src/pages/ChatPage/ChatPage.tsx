@@ -1,8 +1,8 @@
+import TopBarText, { LeftEnum } from "@/components/TopBarText";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 import TopBarText, { LeftEnum } from "@/components/TopBarText";
-
+import { tempJson } from "./_testChatList";
 import { AddChatBtn } from "./ChatAddBtn.styled";
 import { ChatContainer, ChatListContainer } from "./ChatPage.styled";
 
@@ -13,84 +13,9 @@ const ChatPage = () => {
   useEffect(() => {
     //admin 확인 부분
     setIsAdmin(true);
-  }, []);
 
-  const tempJson = {
-    chatList: [
-      {
-        id: 1,
-        image: "https://placehold.co/40x40",
-        title: "작죽디수다방",
-        time: "오늘 오후 4:15",
-        detail: "채팅 내용은 이렇습니다.",
-        chat_num: "999",
-      },
-      {
-        id: 2,
-        image: "https://placehold.co/40x40",
-        title: "작죽디수다방",
-        time: "오늘 오후 4:15",
-        detail: "채팅 내용은 이렇습니다.",
-        chat_num: "999",
-      },
-      {
-        id: 3,
-        image: "https://placehold.co/40x40",
-        title: "작죽디수다방",
-        time: "오늘 오후 4:15",
-        detail: "채팅 내용은 이렇습니다.",
-        chat_num: "999",
-      },
-      {
-        id: 4,
-        image: "https://placehold.co/40x40",
-        title: "작죽디수다방",
-        time: "오늘 오후 4:15",
-        detail: "채팅 내용은 이렇습니다.",
-        chat_num: "999",
-      },
-      {
-        id: 5,
-        image: "https://placehold.co/40x40",
-        title: "작죽디수다방",
-        time: "오늘 오후 4:15",
-        detail: "채팅 내용은 이렇습니다.",
-        chat_num: "999",
-      },
-      {
-        id: 6,
-        image: "https://placehold.co/40x40",
-        title: "작죽디수다방",
-        time: "오늘 오후 4:15",
-        detail: "채팅 내용은 이렇습니다.",
-        chat_num: "999",
-      },
-      {
-        id: 7,
-        image: "https://placehold.co/40x40",
-        title: "작죽디수다방",
-        time: "오늘 오후 4:15",
-        detail: "채팅 내용은 이렇습니다.",
-        chat_num: "999",
-      },
-      {
-        id: 8,
-        image: "https://placehold.co/40x40",
-        title: "작죽디수다방",
-        time: "오늘 오후 4:15",
-        detail: "채팅 내용은 이렇습니다.",
-        chat_num: "999",
-      },
-      {
-        id: 9,
-        image: "https://placehold.co/40x40",
-        title: "작죽디수다방",
-        time: "오늘 오후 4:15",
-        detail: "채팅 내용은 이렇습니다.",
-        chat_num: "999",
-      },
-    ],
-  };
+    //fetch로 data 받아오는 부분
+  }, []);
 
   return (
     <>
@@ -101,7 +26,7 @@ const ChatPage = () => {
             <ChatContainer
               key={chat.id}
               onClick={() => {
-                navigate(`/chat/${chat.id}`);
+                navigate(`/chat/${chat.id}`, { state: { title: chat.title } });
               }}
             >
               <img className="chat-btn-img" alt="chat-btn-img" src={chat.image} />
