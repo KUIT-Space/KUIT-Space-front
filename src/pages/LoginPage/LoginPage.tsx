@@ -1,14 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Container, Logo, Input, LoginButton, BtContainer, Button, ScContainer, Social } from "@/pages/LoginPage/LoginPage.styled.ts";
-import logoSpace from "@/assets/logo_space.svg";
-import kakao from "@/assets/Login/icon_kakao.svg";
+import { loginApi } from "@/apis";
 import google from "@/assets/Login/icon_google.svg";
+import kakao from "@/assets/Login/icon_kakao.svg";
 import naver from "@/assets/Login/icon_naver.svg";
 import axios from 'axios';
+import logoSpace from "@/assets/logo_space.svg";
+import {
+  BtContainer,
+  Button,
+  Container,
+  Input,
+  LoginButton,
+  Logo,
+  ScContainer,
+  Social,
+} from "@/pages/LoginPage/LoginPage.styled.ts";
 
 const LoginPage = () => {
-	const navigate = useNavigate();
+  const navigate = useNavigate();
+
+  const [id, setId] = useState("");
+  const [password, setPassword] = useState("");
+  const [isButtonActive, setIsButtonActive] = useState(false);
 
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");

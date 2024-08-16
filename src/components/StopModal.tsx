@@ -7,22 +7,45 @@ interface ModalProps {
 	onConfirm: () => void;
 	title: string;
 	content: string[];
+	contentColor: string;
 	confirmButtonColor: string;
 	cancelButtonText: string;
 	confirmButtonText: string;
+	confirmButtonTextColor: string;
 }
 
-const StopModal: React.FC<ModalProps> = ({ isOpen, onClose, onConfirm, title, content, confirmButtonColor, cancelButtonText, confirmButtonText }) => {
+const StopModal: React.FC<ModalProps> = ({
+	isOpen,
+	onClose,
+	onConfirm,
+	title,
+	content,
+	contentColor,
+	confirmButtonColor,
+	cancelButtonText,
+	confirmButtonText,
+	confirmButtonTextColor
+}) => {
 	if (!isOpen) return null;
-	const contentLines = content.map((line, index) => <div key={index}>{line}</div>);
+
+	const contentLines = content.map((line, index) => (
+		<S.Content key={index} contentColor={contentColor}>
+			{line}
+		</S.Content>
+	));
+
 	return (
 		<S.StyledBack>
 			<S.ModalContainer>
 				<S.Title>{title}</S.Title>
-				<S.Content>{contentLines}</S.Content>
+				{contentLines}
 				<S.ButtonContainer>
 					<S.CancelButton onClick={onClose}>{cancelButtonText}</S.CancelButton>
-					<S.ConfirmButton confirmButtonColor={confirmButtonColor} onClick={onConfirm}>
+					<S.ConfirmButton
+						confirmButtonColor={confirmButtonColor}
+						confirmButtonTextColor={confirmButtonTextColor}
+						onClick={onConfirm}
+					>
 						{confirmButtonText}
 					</S.ConfirmButton>
 				</S.ButtonContainer>

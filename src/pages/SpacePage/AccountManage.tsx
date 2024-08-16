@@ -26,7 +26,7 @@ const Password = styled.div`
 
 const AccountManage = () => {
 	const navigate = useNavigate();
-
+	
 	const handleNavigate = (path: To) => {
 		navigate(path);
 	};

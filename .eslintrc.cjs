@@ -8,7 +8,7 @@ module.exports = {
     "plugin:react-hooks/recommended",
     "plugin:prettier/recommended", // eslint의 포매팅 기능을 prettier로 사용함. 항상 마지막에 세팅 되어야 함. (eslint-plugin-prettier)
   ],
-  ignorePatterns: ["dist", ".eslintrc.cjs"],
+  ignorePatterns: ["dist", ".eslintrc.cjs", "mock"],
   parser: "@typescript-eslint/parser",
   plugins: ["react-refresh", "simple-import-sort"],
   rules: {

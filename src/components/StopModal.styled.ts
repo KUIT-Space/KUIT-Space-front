@@ -30,10 +30,11 @@ export const Title = styled.div`
 	font-weight: 600;
 	line-height: 140%;
 	letter-spacing: 0.025rem;
+	padding-bottom: 0.75rem;
 `;
 
-export const Content = styled.div`
-	color: #767681;
+export const Content = styled.div<{ contentColor: string }>`
+	color: ${({ contentColor }) => contentColor || "#767681"};
 	text-align: center;
 	font-family: Freesentation;
 	font-size: 1rem;
@@ -41,7 +42,6 @@ export const Content = styled.div`
 	font-weight: 400;
 	line-height: 140%;
 	letter-spacing: 0.04rem;
-	margin-top: 0.75rem;
 `;
 
 export const ButtonContainer = styled.div`
@@ -70,7 +70,7 @@ export const CancelButton = styled.button`
 	letter-spacing: 0.045rem;
 `;
 
-export const ConfirmButton = styled.button<{ confirmButtonColor: string }>`
+export const ConfirmButton = styled.button<{ confirmButtonColor: string; confirmButtonTextColor: string }>`
 	display: flex;
 	width: 8.125rem;
 	height: 3.25rem;
@@ -80,7 +80,7 @@ export const ConfirmButton = styled.button<{ confirmButtonColor: string }>`
 	gap: 0.625rem;
 	border-radius: 0.75rem;
 	background: ${({ confirmButtonColor }) => confirmButtonColor};
-	color: #171719;
+	color: ${({ confirmButtonTextColor }) => confirmButtonTextColor};
 	text-align: center;
 	font-family: Freesentation;
 	font-size: 1.125rem;
