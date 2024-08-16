@@ -4,32 +4,53 @@ import menu from "@/assets/VoiceRoom/icon_menu_icon.svg";
 import clear from "@/assets/VoiceRoom/icon_delete_X.svg";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { VrListApi } from "@/apis/voiceroomApi";
+import { VrEditApi, VrListApi } from "@/apis/voiceroomApi";
 import { VrList } from "@/pages/VoiceRoomPage/VoiceRoomListPage";
+
+export type updateRoom = {
+  roomId: number;
+  name: string;
+  order: number;
+};
 
 const EditVoiceRoomPage = () => {
   const [vrList, setVrList] = useState<VrList[] | undefined>([]);
   const [nameArr, setNameArr] = useState<string[]>([]);
 
+  const [newRoomInfo, setRoomInfo] = useState<updateRoom[]>([]);
+
+  const pushRoomInfo = () => {
+    vrList?.map((value, index) => {
+      setRoomInfo((newRoomInfo) => [
+        ...newRoomInfo,
+        { roomId: value.id, name: value.name, order: index },
+      ]);
+    });
+  };
+
+  useEffect(() => {
+    VrEditApi(3, newRoomInfo);
+    // if (cnt >= total) {
+    //   VrEditApi(3, newRoomInfo);
+    // } else {
+    //   cnt += 1;
+    // }
+    // console.log("CHECK");
+    // console.log(`CNT : ${cnt} TOTAL : ${total}`);
+  }, [newRoomInfo]);
   const navigator = useNavigate();
 
   //_name 바뀔 이름
   const editVrList = (index: number, _name: string) => {
-    const nextVrList = vrList?.map((value, i) => {
-      if (i === index) {
-        let now = value;
-        now.name = _name;
-        return now;
-      } else {
-        return value;
-      }
-    });
-    setVrList(nextVrList);
+    if (vrList === undefined) return;
+    let temp = vrList.findIndex((value) => value.id === index);
+
+    vrList[temp].name = _name;
   };
+
   const rightClickHandler = () => {
-    console.log(vrList);
     //api 보내기
-    //navigator("/voiceroom");
+    pushRoomInfo();
   };
 
   const EditVoiceRoomDiv = ({ vrList, i }: { vrList: VrList; i: number }) => {
@@ -71,7 +92,7 @@ const EditVoiceRoomPage = () => {
       <s.TitleDiv>보이스룸 목록</s.TitleDiv>
       <s.ContentDiv>
         {vrList?.map((value, index) => {
-          return <EditVoiceRoomDiv key={value.id} vrList={value} i={index}></EditVoiceRoomDiv>;
+          return <EditVoiceRoomDiv key={value.id} vrList={value} i={value.id}></EditVoiceRoomDiv>;
         })}
       </s.ContentDiv>
     </div>

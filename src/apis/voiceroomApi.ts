@@ -4,6 +4,7 @@ import {
   RequestOptions,
   createRequestOptionsJSON_AUTH,
 } from "@/apis/_createRequestOptions";
+import { updateRoom } from "@/pages/VoiceRoomPage/EditVoiceRoomPage";
 
 const fetchVrApi = async (url: string, options: RequestOptions) => {
   const response = await fetch(url, options).catch((err) => console.error(err));
@@ -53,6 +54,23 @@ export const VrCreateApi = async (spaceID: number, name: string) => {
   };
 
   const requestOptions = createRequestOptionsJSON_AUTH("POST", JSON.stringify(body));
+  if (!requestOptions) {
+    return null;
+  }
+  const response = await fetchVrApi(
+    `https://project-space.xyz/space/${spaceID}/voiceRoom`,
+    requestOptions,
+  );
+
+  return response;
+};
+
+export const VrEditApi = async (spaceID: number, vrList: updateRoom[]) => {
+  const body = {
+    updateRoomList: vrList,
+  };
+
+  const requestOptions = createRequestOptionsJSON_AUTH("PATCH", JSON.stringify(body));
   if (!requestOptions) {
     return null;
   }

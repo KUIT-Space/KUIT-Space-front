@@ -1,5 +1,5 @@
 export interface RequestOptions {
-  method: "GET" | "POST";
+  method: "GET" | "POST" | "PATCH";
   body?: BodyInit;
   headers?: HeadersInit;
   redirect?: RequestRedirect;
