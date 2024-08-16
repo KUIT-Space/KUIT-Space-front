@@ -125,7 +125,7 @@ const BoardPostDetailFooter = styled.section`
   }
 `;
 
-const BoardPostItemLikeBtn = styled.div`
+const BoardPostDetailLikeBtn = styled.div`
   cursor: pointer;
   display: flex;
   gap: -0.125rem;
@@ -136,6 +136,18 @@ const BoardPostItemLikeBtn = styled.div`
   &.liked {
     color: #ff6600; /* 좋아요된 상태의 색상 */
   }
+`;
+
+const BoardPostCommentEmpty = styled.div`
+  margin: 6.5rem 0;
+  display: flex;
+  justify-content: center;
+  color: var(--Foundation-Gray-gray600, #45454b);
+  /* text/Regular 16pt */
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 140%; /* 1.4rem */
+  letter-spacing: 0.04rem;
 `;
 
 const BoardDetailPage = () => {
@@ -213,13 +225,13 @@ const BoardDetailPage = () => {
           </div>
         </BoardPostDetailContent>
         <BoardPostDetailFooter>
-          <BoardPostItemLikeBtn
+          <BoardPostDetailLikeBtn
             className={isLikeNew ? "liked" : ""}
             onClick={() => setIsLikeNew((prev) => !prev)}
           >
             <img src={isLikeNew ? heartLiked : heartUnliked} alt="좋아요" />
             {dummy.likeCount}
-          </BoardPostItemLikeBtn>
+          </BoardPostDetailLikeBtn>
           <div className="board-post-detail-footer-item">
             <img src={comment} alt="댓글" />
             {dummy.commentCount}
@@ -228,21 +240,28 @@ const BoardDetailPage = () => {
         </BoardPostDetailFooter>
       </BoardPostDetailContainer>
       <div>
-        {dummy.comment.map((d, i) => {
-          return (
-            <div key={i + d.content}>
-              <BoardDetailComment
-                profileName={d.profileName}
-                profileImg={d.profileImg}
-                elapsedTime={d.elapsedTime}
-                content={d.content}
-                isLike={d.isLike}
-                likeCount={d.likeCount}
-                commentCount={d.commentCount}
-              />
-            </div>
-          );
-        })}
+        {dummy.comment ? (
+          dummy.comment.map((d, i) => {
+            return (
+              <div key={i + d.content}>
+                <BoardDetailComment
+                  profileName={d.profileName}
+                  profileImg={d.profileImg}
+                  elapsedTime={d.elapsedTime}
+                  content={d.content}
+                  isLike={d.isLike}
+                  likeCount={d.likeCount}
+                  commentCount={d.commentCount}
+                />
+              </div>
+            );
+          })
+        ) : (
+          <BoardPostCommentEmpty>
+            아직 댓글이 없어요.
+            <br />첫 댓글을 남겨보세요.
+          </BoardPostCommentEmpty>
+        )}
       </div>
     </>
   );
