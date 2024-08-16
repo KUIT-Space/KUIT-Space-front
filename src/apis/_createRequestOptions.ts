@@ -66,3 +66,23 @@ export const createRequestOptionsJSON_AUTH = (
       }
     : null;
 };
+
+/** Generic fetch API
+ *
+ */
+export const fetchApi = async <T>(url: string, options: RequestOptions): Promise<T> => {
+  const response: T = await fetch(url, options)
+    .then((res) => {
+      // 401 Unauthorized 시 재로그인 요청
+      res.status === 401 && localStorage.removeItem("Authorization");
+      console.log(alert("로그인이 필요합니다."));
+
+      return res.json();
+    })
+    .catch((err) => {
+      console.error("[fetch error]", err);
+      throw err;
+    });
+
+  return response;
+};
