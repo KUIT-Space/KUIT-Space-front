@@ -186,7 +186,7 @@ const BoardDetailPage = () => {
 
   return (
     <>
-      <TopBarText left={LeftEnum.Logo} center="게시판" right={""}></TopBarText>
+      <TopBarText left={LeftEnum.Back} center="게시판" right={""}></TopBarText>
       <BoardPostDetailContainer>
         <header className="board-post-detail-header">
           {dummy.profileImg ? (
