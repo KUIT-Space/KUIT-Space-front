@@ -8,6 +8,7 @@ import ChatroomImg from "@/assets/ChatPage/btn_chatroom_img.svg";
 import CheckBox from "@/components/CheckBox";
 import { Input } from "@/components/Input";
 import TopBarText, { LeftEnum } from "@/components/TopBarText";
+import { svgComponentToFile } from "@/utils/svgComponentToFile";
 
 import {
   ChatCreateBottomBtn,
@@ -25,36 +26,23 @@ const ChatCreatePage = () => {
   const [searchWord, setSearchWord] = useState<string>("");
   const [spaceId, setSpaceId] = useState<number>(3);
 
-  const [defaultImage, setDefaultImage] = useState<string>(
+  const [uploadedImage, setUploadedImage] = useState<File | null>(null);
+  const defaultImage = svgComponentToFile(
     CharacterImgs[Math.floor(Math.random() * CharacterImgs.length)],
-  );
-  const [uploadedImage, setUploadedImage] = useState<File>(
-    new File(
-      [
-        new Blob([defaultImage], {
-          type: "image/svg+xml",
-        }),
-      ],
-      `chatting_room_main_img.svg`,
-      { type: "image/svg+xml" },
-    ),
   );
 
   useEffect(() => {
-    console.log(defaultImage);
-    console.log(uploadedImage);
-    console.log(URL.createObjectURL(uploadedImage));
-    // 임시로 LOCALSTORAGE에 spaceId 3으로 저장
-    localStorage.setItem("spaceId", "3");
-    //
     const spaceId_LS = localStorage.getItem("spaceId");
+
     if (spaceId_LS !== null) {
       setSpaceId(Number.parseInt(spaceId_LS));
+
       //멤버 목록 API 호출
       spaceSearchAllUserApi(Number.parseInt(spaceId_LS)).then((res) => {
         res ? setMemberList(res.result.userInfoInSpaceList) : setMemberList([]);
       });
     }
+
     setInvitedMemberList([]);
   }, []);
 
@@ -64,7 +52,7 @@ const ChatCreatePage = () => {
       spaceId,
       name,
       invitedMemberList.map((member) => member.userId),
-      uploadedImage,
+      uploadedImage ?? defaultImage,
     ).then((res) => {
       if (res) {
         console.log(res);
@@ -77,11 +65,15 @@ const ChatCreatePage = () => {
     image && setUploadedImage(image);
   };
 
+  const renderUserDefaultImage = (userId: number) => {
+    return svgComponentToFile(CharacterImgs[userId % CharacterImgs.length]);
+  };
+
   return (
     <>
       <TopBarText left={LeftEnum.Back} center="새 채팅방" right="" />
-      <ChatroomAddImgBtn $backgroundImage={URL.createObjectURL(uploadedImage)}>
-        <img src={ChatroomImg} />
+      <ChatroomAddImgBtn $backgroundImage={URL.createObjectURL(uploadedImage ?? defaultImage)}>
+        <img src={ChatroomImg} alt="Chatroom Image" />
         <input type="file" accept="image/*" onChange={handleImageImport} />
       </ChatroomAddImgBtn>
       <ChatCreateContainer>
@@ -134,7 +126,8 @@ const ChatCreatePage = () => {
                 <section>
                   <img
                     src={
-                      member.profileImgUrl ?? CharacterImgs[member.userId % CharacterImgs.length]
+                      member.profileImgUrl ??
+                      URL.createObjectURL(renderUserDefaultImage(member.userId))
                     }
                   />
                   <span className="name">{member.userName}</span>
