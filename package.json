@@ -14,7 +14,8 @@
   "dependencies": {
     "@livekit/components-react": "^2.4.3",
     "@livekit/components-styles": "^1.0.12",
-    "axios": "^1.7.3",
+    "@stomp/stompjs": "^7.0.0",
+    "axios": "^1.7.4",
     "choco": "^0.2.1",
     "es-hangul": "^1.4.5",
     "livekit-client": "^2.4.2",
@@ -25,7 +26,8 @@
     "styled-components": "^6.1.12",
     "styled-reset": "^4.5.2",
     "vite-plugin-mkcert": "^1.17.5",
-    "vite-plugin-svgr": "^4.2.0"
+    "vite-plugin-svgr": "^4.2.0",
+    "ws": "^8.18.0"
   },
   "devDependencies": {
     "@types/node": "^20.14.9",
