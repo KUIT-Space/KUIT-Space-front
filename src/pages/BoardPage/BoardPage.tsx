@@ -1,6 +1,9 @@
+import { useState } from "react";
+
 import arrowDown from "@/assets/Board/chevron_down.svg";
 import TopBarText, { LeftEnum } from "@/components/TopBarText";
 
+import BoardBottomModal from "./BoardBottomModal";
 import { BoardHeader } from "./BoardPage.styled";
 import BoardPostItem from "./BoardPostItem";
 
@@ -40,13 +43,17 @@ const BoardPage = () => {
       commentCount: 2,
     },
   ];
+
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [selectedOption, setSelectedOption] = useState<string>("전체");
+
   return (
     <>
       <TopBarText left={LeftEnum.Logo} center="게시판" right=""></TopBarText>
       <BoardHeader>
         <span>게시글 24개</span>
-        <div className="board-filter-section">
-          전체
+        <div className="board-filter-section" onClick={() => setIsModalOpen((prev) => !prev)}>
+          {selectedOption}
           <img src={arrowDown} />
         </div>
       </BoardHeader>
@@ -67,6 +74,12 @@ const BoardPage = () => {
           </div>
         );
       })}
+      <BoardBottomModal
+        selectedOption={selectedOption}
+        onSelect={setSelectedOption}
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </>
   );
 };
