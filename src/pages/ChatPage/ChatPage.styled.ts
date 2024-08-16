@@ -61,7 +61,7 @@ export const ChatContainer = styled.div`
     color: var(--Foundation-Gray-gray500, #767681);
 
     /* text/Regular 10pt */
-    font-size: 0.625rem;
+    font-size: 0.75rem;
     font-style: normal;
     font-weight: 400;
     line-height: 140%; /* 14px */

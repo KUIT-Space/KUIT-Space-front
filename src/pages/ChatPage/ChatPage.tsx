@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { Chatroom, chatroomSearchAllApi } from "@/apis";
+import { ChatFile, ChatImage, ChatPay, Chatroom, chatroomSearchAllApi, ChatText } from "@/apis";
 import TopBarText, { LeftEnum } from "@/components/TopBarText";
+import { formattedDateTime_convertUTC9 } from "@/utils/formattedDateTime";
 
 import { AddChatBtn } from "./ChatAddBtn.styled";
 import { ChatContainer, ChatListContainer } from "./ChatPage.styled";
@@ -40,6 +41,18 @@ const ChatPage = () => {
     }
   }, [navigate]);
 
+  const renderLastMsg = (chat: Chatroom) => {
+    if ("text" in chat.lastMsg) {
+      return (chat.lastMsg as ChatText).text;
+    } else if ("image" in chat.lastMsg) {
+      return <img src={(chat.lastMsg as ChatImage).image} alt="chat-img" />;
+    } else if ("fileName" in chat.lastMsg) {
+      return "[파일] " + (chat.lastMsg as ChatFile).fileName;
+    } else if ("myPrice" in chat.lastMsg) {
+      return `[결제] ${(chat.lastMsg as ChatPay).creator}님의 ${(chat.lastMsg as ChatPay).totalPrice}원 정산 요청!`;
+    }
+  };
+
   return (
     <>
       <TopBarText left={LeftEnum.Logo} center="채팅방" right=""></TopBarText>
@@ -56,11 +69,15 @@ const ChatPage = () => {
               <div className="chat--container">
                 <div className="chat-btn--title-time--container">
                   <div className="chat-btn-title">{chat.name}</div>
-                  <div className="chat-btn-time">{chat.lastTime}</div>
+                  <div className="chat-btn-time">
+                    {formattedDateTime_convertUTC9(chat.lastTime)}
+                  </div>
                 </div>
                 <div className="chat-btn--detail-chatNum--container">
-                  <div className="chat-btn-detail">{chat.lastMsg}</div>
-                  <div className="chat-btn-chatNum">{chat.unreadMsgCount}</div>
+                  <div className="chat-btn-detail">{renderLastMsg(chat)}</div>
+                  {chat.unreadMsgCount > 0 && (
+                    <div className="chat-btn-chatNum">{chat.unreadMsgCount}</div>
+                  )}
                 </div>
               </div>
             </ChatContainer>
