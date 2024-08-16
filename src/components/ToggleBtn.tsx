@@ -11,7 +11,7 @@ const ToggleContainer = styled.div`
 		border-radius: 30px;
 		background-color: ${({ theme }) => theme.colors.BG500};
 	}
-	//.toggle--checked 클래스가 활성화 되었을 경우의 CSS를 구현
+	// .toggle--checked 클래스가 활성화 되었을 경우의 CSS를 구현
 	> .toggle--checked {
 		background-color: ${({ theme }) => theme.colors.normal};
 		transition: 0.5s;
@@ -26,31 +26,25 @@ const ToggleContainer = styled.div`
 		border-radius: 50%;
 		background-color: ${({ theme }) => theme.colors.white};
 		transition: 0.5s;
-		//.toggle--checked 클래스가 활성화 되었을 경우의 CSS를 구현
 	}
-	> .toggle--checked {
+
+	> .toggle--checked.toggle-circle {
 		left: 22px;
 		transition: 0.5s;
 	}
 `;
 
-export const ToggleBtn = () => {
-	const [isOn, setisOn] = useState(false);
+// Props 타입 지정
+interface ToggleBtnProps {
+	isOn: boolean;
+	onToggle: () => void;
+}
 
-	const toggleHandler = () => {
-		// isOn의 상태를 변경하는 메소드를 구현
-		setisOn(!isOn);
-	};
-
+export const ToggleBtn: React.FC<ToggleBtnProps> = ({ isOn, onToggle }) => {
 	return (
-		<ToggleContainer
-			// 클릭하면 토글이 켜진 상태(isOn)를 boolean 타입으로 변경하는 메소드가 실행
-			onClick={toggleHandler}
-		>
-			{/* 아래에 div 엘리먼트 2개가 있다. 각각의 클래스를 'toggle-container', 'toggle-circle' 로 지정 */}
-			{/* Toggle Switch가 ON인 상태일 경우에만 toggle--checked 클래스를 div 엘리먼트 2개에 모두 추가. 조건부 스타일링을 활용*/}
-			<div className={`toggle-container ${isOn ? "toggle--checked" : null}`} />
-			<div className={`toggle-circle ${isOn ? "toggle--checked" : null}`} />
+		<ToggleContainer onClick={onToggle}>
+			<div className={`toggle-container ${isOn ? "toggle--checked" : ""}`} />
+			<div className={`toggle-circle ${isOn ? "toggle--checked toggle-circle" : ""}`} />
 		</ToggleContainer>
 	);
 };

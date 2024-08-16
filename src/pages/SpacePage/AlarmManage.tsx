@@ -1,6 +1,7 @@
 import TopBarText, { LeftEnum } from "@/components/TopBarText";
 import styled from "styled-components";
 import { ToggleBtn } from "@/components/ToggleBtn";
+import { useState } from "react";
 
 const AlarmContainer = styled.div`
 	display: flex;
@@ -18,37 +19,52 @@ const SpaceImg = styled.img`
 `;
 
 const AlarmManage = () => {
+	const [alarms, setAlarms]= useState([
+		{
+				spaceImg: "https://placehold.co/40x40",
+				spaceName: "스페이스 프로젝트",
+				IsAlarmOn: true,
+			},
+			{
+				spaceImg: "https://placehold.co/40x40",
+				spaceName: "작업안하면 죽음",
+				IsAlarmOn: false,
+			},
+			{
+				spaceImg: "https://placehold.co/40x40",
+				spaceName: "STACK",
+				IsAlarmOn: true,
+			},
+			{
+				spaceImg: "https://placehold.co/40x40",
+				spaceName: "사담스페",
+				IsAlarmOn: true,
+			},
+	])
+
+	const handleToggleChange = (index: number) => {
+		setAlarms((prevAlarms) => 
+			prevAlarms.map((alarm, i) =>
+				i === index ? { ...alarm, IsAlarmOn: !alarm.IsAlarmOn } : alarm
+			)
+		);
+	};
+
 	return (
 		<div style={{ width: "320px", margin: "auto" }}>
 			<TopBarText left={LeftEnum.Back} center="알림 관리" right="" />
-			<div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+			{alarms.map((alarm, index) => (
+				<div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
 				<AlarmContainer>
-					<SpaceImg src="https://placehold.co/40x40" />
-					스페이스 프로젝트
+					<SpaceImg src={alarm.spaceImg} />
+					{alarm.spaceName}
 				</AlarmContainer>
-				<ToggleBtn />
+				<ToggleBtn 
+					isOn={alarm.IsAlarmOn}
+					onToggle={()=>handleToggleChange(index)}
+				/>
 			</div>
-			<div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-				<AlarmContainer>
-					<SpaceImg src="https://placehold.co/40x40" />
-					작업안하면죽음
-				</AlarmContainer>
-				<ToggleBtn />
-			</div>
-			<div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-				<AlarmContainer>
-					<SpaceImg src="https://placehold.co/40x40" />
-					STACK
-				</AlarmContainer>
-				<ToggleBtn />
-			</div>
-			<div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-				<AlarmContainer>
-					<SpaceImg src="https://placehold.co/40x40" />
-					사담스페
-				</AlarmContainer>
-				<ToggleBtn />
-			</div>
+			))}
 		</div>
 	);
 };

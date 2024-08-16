@@ -26,6 +26,21 @@ const SettingBtn = styled.img`
 	right: 0;
 `;
 
+const Title = styled.h1`
+	font-size: 28px;
+	font-weight: bold;
+`;
+
+const Subtitle = styled.span`
+	font-size: 14px;
+	color: ${({ theme }) => theme.colors.BG500};
+`;
+
+const SpaceNumber = styled.span`
+	font-size: 14px;
+	color: ${({ theme }) => theme.colors.char_lime};
+`
+
 const SpacePage = () => {
 	const navigate = useNavigate();
 
@@ -80,14 +95,19 @@ const SpacePage = () => {
 
 	return (
 		<>
-			<div style={{ width: "320px", margin: "auto" }}>
+			<div style={{ width: "320px", margin: "auto", marginBottom: "10px" }}>
 				<div>
 					<TopBarText left={LeftEnum.Logo} center="" right="" />
 					<SettingBtn src={setting} alt="setting" onClick={() => handleNavigate("/space/spaceoption")} />
 				</div>
-				<div style={{ width: "320px", height: "202px", margin: "auto" }}>
-					<h1>{tempJson.spaceList[0].userName}의 스페이스</h1>
-					<h3>{tempJson.spaceList[0].lastUserSpaceId}개의 스페이스</h3>
+				<div style={{ height: "202px", display: "flex", flexDirection: "column" }}>
+					<div style={{ height: "39px", marginTop: "77px", display: "flex", alignItems: "center" }}>
+						<Title>{tempJson.spaceList[0].userName}의 스페이스</Title>
+					</div>
+					<div style={{ height: "36px", display: "flex", alignItems: "center" }}>
+						<SpaceNumber>{tempJson.spaceList[0].lastUserSpaceId}</SpaceNumber>
+						<Subtitle>개의 스페이스</Subtitle>
+					</div>
 				</div>
 			</div>
 			<GridContainer>
@@ -99,7 +119,7 @@ const SpacePage = () => {
 				<GridItem onClick={() => handleNavigate("/space/addspace")}>
 					<img src={add} />
 				</GridItem>
-				{images.length < 9 && Array.from({ length: 9 - images.length }).map((_, index) => <GridItem key={`empty-${index}`} />)}
+				{images.length < 9 && Array.from({ length: 8 - images.length }).map((_, index) => <GridItem key={`empty-${index}`} />)}
 			</GridContainer>
 		</>
 	);
