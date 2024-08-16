@@ -19,7 +19,10 @@ export const VrListApi = async (
   if (!requestOptions) {
     return null;
   }
-  const response = await fetchVrApi(`/api/space/${spaceID}/voiceRoom`, requestOptions);
+  const response = await fetchVrApi(
+    `${import.meta.env.VITE_API_BACK_URL}/space/${spaceID}/voiceRoom`,
+    requestOptions,
+  );
   if (response) {
     response.json().then((data) => {
       setVRList(data.result.voiceRoomList);
@@ -35,7 +38,7 @@ export const VrTokenApi = async (spaceID: number, VrID: number) => {
     return null;
   }
   const response = await fetchVrApi(
-    `https://project-space.xyz/space/${spaceID}/voiceRoom/${VrID}/token`,
+    `${import.meta.env.VITE_API_BACK_URL}/space/${spaceID}/voiceRoom/${VrID}/token`,
     requestOptions,
   );
   if (response) {
@@ -58,7 +61,7 @@ export const VrCreateApi = async (spaceID: number, name: string) => {
     return null;
   }
   const response = await fetchVrApi(
-    `https://project-space.xyz/space/${spaceID}/voiceRoom`,
+    `${import.meta.env.VITE_API_BACK_URL}/space/${spaceID}/voiceRoom`,
     requestOptions,
   );
 
@@ -75,7 +78,7 @@ export const VrEditApi = async (spaceID: number, vrList: updateRoom[]) => {
     return null;
   }
   const response = await fetchVrApi(
-    `https://project-space.xyz/space/${spaceID}/voiceRoom`,
+    `${import.meta.env.VITE_API_BACK_URL}/space/${spaceID}/voiceRoom`,
     requestOptions,
   );
 

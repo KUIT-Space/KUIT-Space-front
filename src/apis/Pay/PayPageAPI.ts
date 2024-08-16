@@ -20,7 +20,7 @@ export const payCompleteApi = async (TargetId: number) => {
     return null;
   }
   const response = await fetchPayApi(
-    `https://project-space.xyz/space/3/pay/complete`,
+    `${import.meta.env.VITE_API_BACK_URL}/space/3/pay/complete`,
     requestOptions,
   );
 };
@@ -34,7 +34,10 @@ export const payReceiveApi = async (
   if (!requestOptions) {
     return null;
   }
-  const response = await fetchPayApi(`/api/space/${spaceID}/pay/receive`, requestOptions);
+  const response = await fetchPayApi(
+    `${import.meta.env.VITE_API_BACK_URL}/space/${spaceID}/pay/receive`,
+    requestOptions,
+  );
 
   if (response) {
     response.json().then((data) => {
@@ -53,7 +56,10 @@ export const payRequestApi = async (
   if (!requestOptions) {
     return null;
   }
-  const response = await fetchPayApi(`/api/space/${spaceID}/pay/request`, requestOptions);
+  const response = await fetchPayApi(
+    `${import.meta.env.VITE_API_BACK_URL}/space/${spaceID}/pay/request`,
+    requestOptions,
+  );
 
   if (response) {
     response.json().then((data) => {
@@ -71,7 +77,10 @@ export const payHomeApi = async (
   if (!requestOptions) {
     return null;
   }
-  const response = await fetchPayApi(`/api/space/${spaceID}/pay`, requestOptions);
+  const response = await fetchPayApi(
+    `${import.meta.env.VITE_API_BACK_URL}/space/${spaceID}/pay`,
+    requestOptions,
+  );
 
   if (response) {
     response.json().then((data) => {
@@ -89,7 +98,10 @@ export const recentAccountApi = async (
   if (!requestOptions) {
     return null;
   }
-  const response = await fetchPayApi(`/api/space/pay/recent-bank-info`, requestOptions);
+  const response = await fetchPayApi(
+    `${import.meta.env.VITE_API_BACK_URL}/space/pay/recent-bank-info`,
+    requestOptions,
+  );
 
   if (response) {
     response.json().then((data) => {
