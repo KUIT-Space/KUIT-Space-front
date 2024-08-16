@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
 import { loginApi } from "@/apis";
 import google from "@/assets/Login/icon_google.svg";
 import kakao from "@/assets/Login/icon_kakao.svg";
 import naver from "@/assets/Login/icon_naver.svg";
-import axios from "axios";
 import logoSpace from "@/assets/logo_space.svg";
 import {
   BtContainer,
@@ -40,26 +41,9 @@ const LoginPage = () => {
 
   const handleLogin = async () => {
     if (!isButtonActive) return;
-    try {
-      const response = await axios.post("/api/user/login", {
-        email: email,
-        password: password,
-      });
-
-      if (response.status === 200) {
-        const token = response.headers.authorization;
-        localStorage.setItem("jwt", token);
-        navigate("/dashboard");
-      } else {
-        console.error("로그인 실패:", response.data.message);
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        console.error("로그인 실패:", error.message);
-      } else {
-        console.error("로그인 실패:", error);
-      }
-    }
+    loginApi(email, password).then((res) =>
+      res.status === "OK" ? navigate("/") : alert("login error: " + res.message),
+    );
   };
 
   return (
