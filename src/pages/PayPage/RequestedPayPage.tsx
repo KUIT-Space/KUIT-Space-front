@@ -26,7 +26,7 @@ const RequestedPayPage = () => {
           return <ReqDataDiv key={value.payRequestTargetId} data={value}></ReqDataDiv>;
         })}
         <s.TitleContentDiv>완료된 정산</s.TitleContentDiv>
-        {currentData?.map((value) => {
+        {completeData?.map((value) => {
           return (
             <CompleteReqDataDiv key={value.payRequestTargetId} data={value}></CompleteReqDataDiv>
           );

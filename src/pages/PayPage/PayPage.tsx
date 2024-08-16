@@ -30,11 +30,13 @@ export type PayReceiveInfo = {
 
 const PayRequestInfo = ({ data }: { data: PayRequestInfo }) => {
   const res: number = data.totalTargetNum - data.receiveAmount;
+  const now = addComma(data.receiveAmount);
+  const all = addComma(data.totalAmount);
   return (
-    <s.ContentDiv>
+    <s.ContentDiv style={{ marginBottom: "0.5rem" }}>
       <s.PriceDiv>
-        <s.NowPriceDiv>{data.receiveAmount}원</s.NowPriceDiv>
-        <s.AllPriceDiv>/{data.totalAmount}원</s.AllPriceDiv>
+        <s.NowPriceDiv>{now}원</s.NowPriceDiv>
+        <s.AllPriceDiv>/{all}원</s.AllPriceDiv>
       </s.PriceDiv>
       <s.TextDiv>정산완료까지 {res}명 남았어요</s.TextDiv>
     </s.ContentDiv>
@@ -42,32 +44,15 @@ const PayRequestInfo = ({ data }: { data: PayRequestInfo }) => {
 };
 
 const PayReceiveInfo = ({ data }: { data: PayReceiveInfo }) => {
+  const now = addComma(data.requestAmount);
   return (
-    <s.ContentDiv>
+    <s.ContentDiv style={{ marginBottom: "0.5rem" }}>
       <s.TextDiv>{data.payCreatorName}님이 정산을 요청했어요</s.TextDiv>
-      <s.NowPriceDiv>{data.requestAmount}원</s.NowPriceDiv>
+      <s.NowPriceDiv>{now}원</s.NowPriceDiv>
     </s.ContentDiv>
   );
 };
 
-// function RequestPayInfo(
-//   setReqData: React.Dispatch<React.SetStateAction<PayRequestInfo[] | undefined>>,
-//   setRecData: React.Dispatch<React.SetStateAction<PayReceiveInfo[] | undefined>>,
-// ) {
-//   const response = fetch("/api/space/3/pay", {
-//     method: "GET",
-//     headers: {
-//       "Content-Type": "application/json",
-//       Authorization:
-//         "Bearer eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MjM1MDcyNjYsImV4cCI6MTcyMzUxMDg2NiwidXNlcklkIjo1M30.qtOD23WXy5y4Rn6rk1mp1Q6CcgcEEdhB7Vq7udwakmk",
-//     },
-//   })
-//     .then((res) => res.json())
-//     .then((data) => {
-//       setReqData(data.result.payRequestInfoDtoList);
-//       setRecData(data.result.payReceiveInfoDtoList);
-//     });
-// }
 const PayPage = () => {
   const [reqData, setReqData] = useState<PayRequestInfo[] | undefined>([]);
   const [recData, setRecData] = useState<PayReceiveInfo[] | undefined>([]);
@@ -78,9 +63,6 @@ const PayPage = () => {
   }, []);
 
   const navigator = useNavigate();
-  const data = {
-    payRequestTargetId: 1,
-  };
 
   return (
     <>
@@ -94,6 +76,7 @@ const PayPage = () => {
           정산 시작하기
         </GradientBtn>
         <s.RoundDiv
+          style={{ cursor: "pointer" }}
           onClick={() => {
             navigator("/requestingpay");
           }}
@@ -108,6 +91,7 @@ const PayPage = () => {
           })}
         </s.RoundDiv>
         <s.RoundDiv
+          style={{ cursor: "pointer" }}
           onClick={() => {
             navigator("/requestedpay");
           }}
@@ -119,7 +103,6 @@ const PayPage = () => {
           </s.TitleDiv>
 
           {recData?.map((value) => {
-            console.log(value);
             return <PayReceiveInfo key={value.payRequestTargetId} data={value}></PayReceiveInfo>;
           })}
         </s.RoundDiv>
