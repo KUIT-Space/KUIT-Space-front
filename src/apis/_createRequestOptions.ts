@@ -1,5 +1,5 @@
 export interface RequestOptions {
-  method: "GET" | "POST";
+  method: "GET" | "POST" | "PATCH";
   body?: BodyInit;
   headers?: HeadersInit;
   redirect?: RequestRedirect;
@@ -23,7 +23,7 @@ export const createRequestOptionsJSON = (
 //   body: RequestOptions["body"],
 // ): RequestOptions => ({
 //   method: method,
-//   body: body,
+//   body: JSON.stringify(body),
 //   redirect: "follow",
 //   headers: {
 //     "Content-Type": "application/json",
