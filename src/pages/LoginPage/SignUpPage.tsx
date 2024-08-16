@@ -1,63 +1,73 @@
 import React, { useEffect, useState } from "react";
 import SignUpHeader from "@/components/SignUpHeader";
-import { StyledText, Container, Input, NextButton, Explanation, NameCount, InputContainer } from "@/pages/LoginPage/SignUpPage.styled";
+import {
+  StyledText,
+  Container,
+  Input,
+  NextButton,
+  Explanation,
+  NameCount,
+  InputContainer,
+} from "@/pages/LoginPage/SignUpPage.styled";
 import StopModal from "@/components/StopModal";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const SignUp: React.FC = () => {
-	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
-	const [name, setName] = useState("");
-	const [confirmPassword, setConfirmPassword] = useState("");
-	const [isButtonActive, setIsButtonActive] = useState(false);
-	const [isInputFocused, setIsInputFocused] = useState(false);
-	const [isModalOpen, setIsModalOpen] = useState(false);
-	const [passwordState, setPasswordState] = useState<"empty" | "invalid" | "valid">("empty");
-	const [confirmPasswordState, setConfirmPasswordState] = useState<"empty" | "invalid" | "valid">("empty");
-	const navigate = useNavigate();
-	const [currentStep, setCurrentStep] = useState(1);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [isButtonActive, setIsButtonActive] = useState(false);
+  const [isInputFocused, setIsInputFocused] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [passwordState, setPasswordState] = useState<"empty" | "invalid" | "valid">("empty");
+  const [confirmPasswordState, setConfirmPasswordState] = useState<"empty" | "invalid" | "valid">(
+    "empty",
+  );
+  const navigate = useNavigate();
+  const [currentStep, setCurrentStep] = useState(1);
 
-	useEffect(() => {
-		if (currentStep === 1) {
-			setIsButtonActive(email.trim() !== "");
-		} else if (currentStep === 2) {
-			const isValidPassword = password.length >= 8 && password.length <= 20;
-			const isValidConfirmPassword = confirmPassword === password;
-			if (password.trim() === "") {
-				setPasswordState("empty");
-			} else if (!isValidPassword) {
-				setPasswordState("invalid");
-			} else {
-				setPasswordState("valid");
-			}
+  useEffect(() => {
+    if (currentStep === 1) {
+      setIsButtonActive(email.trim() !== "");
+    } else if (currentStep === 2) {
+      const isValidPassword = password.length >= 8 && password.length <= 20;
+      const isValidConfirmPassword = confirmPassword === password;
+      if (password.trim() === "") {
+        setPasswordState("empty");
+      } else if (!isValidPassword) {
+        setPasswordState("invalid");
+      } else {
+        setPasswordState("valid");
+      }
 
-			if (confirmPassword.trim() === "") {
-				setConfirmPasswordState("empty");
-			} else if (!isValidConfirmPassword) {
-				setConfirmPasswordState("invalid");
-			} else {
-				setConfirmPasswordState("valid");
-			}
+      if (confirmPassword.trim() === "") {
+        setConfirmPasswordState("empty");
+      } else if (!isValidConfirmPassword) {
+        setConfirmPasswordState("invalid");
+      } else {
+        setConfirmPasswordState("valid");
+      }
 
-			setIsButtonActive(isValidPassword && isValidConfirmPassword);
-		} else if (currentStep === 3) {
-			setIsButtonActive(name.trim() !== "");
-		}
-	}, [email, password, confirmPassword, name, currentStep]);
+      setIsButtonActive(isValidPassword && isValidConfirmPassword);
+    } else if (currentStep === 3) {
+      setIsButtonActive(name.trim() !== "");
+    }
+  }, [email, password, confirmPassword, name, currentStep]);
 
-	const handleBackClick = () => {
-		setIsModalOpen(true);
-	};
+  const handleBackClick = () => {
+    setIsModalOpen(true);
+  };
 
-	const handleCloseModal = () => {
-		setIsModalOpen(false);
-	};
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
 
-	const handleConfirmModal = () => {
-		setIsModalOpen(false);
-		navigate(-1);
-	};
+  const handleConfirmModal = () => {
+    setIsModalOpen(false);
+    navigate(-1);
+  };
 
 	const validateEmail = (email: string) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

@@ -12,7 +12,7 @@ import BoardPage from "@/pages/BoardPage/BoardPage";
 import ChatCreatePage from "@/pages/ChatPage/ChatCreatePage/ChatCreatePage";
 import ChatPage from "@/pages/ChatPage/ChatPage";
 import ChattingPage from "@/pages/ChatPage/ChattingPage/ChattingPage";
-import HomePage from "@/pages/HomePage";
+import HomePage from "@/pages/HomePage/HomePage";
 import LoginPage from "@/pages/LoginPage/LoginPage";
 import SignUpPage from "@/pages/LoginPage/SignUpPage";
 import PayPage from "@/pages/PayPage/PayPage";
@@ -139,6 +139,7 @@ function App() {
       children: routes_children,
     },
   ];
+
   const router = createBrowserRouter(routes, { basename: "/KUIT-Space-front/" });
   return <RouterProvider router={router} />;
 }
