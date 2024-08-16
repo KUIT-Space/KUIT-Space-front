@@ -80,3 +80,98 @@ export const StyledMessage = styled.div<{ $isUser: boolean }>`
     letter-spacing: 0.025rem;
   }
 `;
+
+export const ChattingFooter = styled.div<{ $onMenu: boolean }>`
+  border-top: 1px solid var(--Foundation-Gray-gray800, #222226);
+  background: var(--Foundation-Gray-gray800, #222226);
+  max-height: 30%;
+
+  display: flex;
+  flex-direction: column;
+
+  .chatting-input {
+    display: flex;
+    width: 100%;
+    max-height: 100%;
+
+    padding: 0.5rem;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 0.5rem;
+    flex-shrink: 0;
+
+    .send {
+      width: 2.25rem;
+      height: 2.25rem;
+      flex-shrink: 0;
+    }
+
+    .menu {
+      display: flex;
+      width: 2.25rem;
+      height: 2.25rem;
+      padding: 0.32144rem;
+      justify-content: center;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    button {
+      width: 2.25rem;
+      height: 2.25rem;
+      border-radius: 0.5rem;
+    }
+  }
+
+  * button:active {
+    border-radius: 0.5rem;
+    background-color: ${({ theme }) => theme.colors.BG700};
+  }
+
+  .menu-on {
+    height: 9.75rem;
+    display: inline-flex;
+    padding: 1.75rem 1.875rem;
+    justify-content: space-evenly;
+    align-items: center;
+
+    background: #222226;
+
+    button {
+      display: flex;
+      width: 6.25rem;
+      height: 6.25rem;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 0.0625rem;
+    }
+  }
+`;
+
+export const ChattingTextarea = styled.textarea`
+  background-color: ${({ theme }) => theme.colors.BG700};
+  height: auto;
+  max-height: 100%;
+
+  width: calc(100% - 5rem);
+  border-radius: 1rem;
+  padding: calc((2.25rem - 1.25rem) / 2) 1rem;
+  /* scrollbar-width: none; */
+  /* resize: none; */
+
+  font-family: Freesentation;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.25rem;
+
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  caret-color: ${({ theme }) => theme.colors.normal};
+  &:focus {
+    border-color: ${({ theme }) => theme.colors.normal};
+    outline: none;
+  }
+`;

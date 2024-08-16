@@ -1,12 +1,14 @@
+import { SetStateAction, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+
+import alarm from "@/assets/icon_alarm.svg";
 import setting from "@/assets/icon_setting.svg";
 import logoSpace from "@/assets/logo_space.svg";
-import alarm from "@/assets/icon_alarm.svg";
+import { BottomBtn } from "@/components/BottomBtn";
 import bannerImage from "@/pages/HomePage/bannerImage.svg";
 import bannerImageCover from "@/pages/HomePage/bannerImageCover.svg";
-import next from "@/pages/HomePage/icon_next.svg";
 import * as sty from "@/pages/HomePage/HomePage.styled";
-import { SetStateAction, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import next from "@/pages/HomePage/icon_next.svg";
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -43,6 +45,10 @@ const HomePage = () => {
         <div className="bannerText">작업 안하면 죽는 방</div>
         <div className="tag">스페이서 20</div>
       </sty.MainBanner>
+
+      <BottomBtn style={{ position: "relative" }}>
+        <Link to="/login">로그인</Link>
+      </BottomBtn>
 
       <sty.NoticeContainer>
         <sty.Settlement>

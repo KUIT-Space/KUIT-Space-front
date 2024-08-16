@@ -24,3 +24,5 @@ dist-ssr
 *.sw?
 localhost-key.pem
 localhost.pem
+.env
+*_mockChat.tsx
