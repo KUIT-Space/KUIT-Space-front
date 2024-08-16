@@ -59,32 +59,61 @@ const SignUp: React.FC = () => {
 		navigate(-1);
 	};
 
-	const handleNextButtonClick = async () => {
-        if (currentStep === 3) {
-            try {
-                const response = await axios.post('api/user/signup', {
-                    email: email,
-                    password: password,
-                    userName: name,
-                });
+	const validateEmail = (email: string) => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+};
 
-                if (response.status === 200) {
-                    console.log("회원가입 성공:", response.data.message);
-                    navigate('/login');
-                } else {
-                    console.error("회원가입 실패:", response.data.message);
-                }
-            } catch (error) {
-                if (error instanceof Error) {
-                    console.error("회원가입 실패:", error.message);
-                } else {
-                    console.error("회원가입 실패:", error);
-                }
-            }
-        } else {
-            setCurrentStep((prevStep) => prevStep + 1);
+const validatePassword = (password: string) => {
+    const re = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$/;
+    return re.test(password);
+};
+
+const validateUserName = (name: string) => {
+    return name.length >= 1 && name.length <= 10;
+};
+
+const handleNextButtonClick = async () => {
+    if (currentStep === 3) {
+        if (!validateEmail(email)) {
+            console.error("Invalid email format");
+            return;
         }
-    };
+
+        if (!validatePassword(password)) {
+            console.error("Invalid password format");
+            return;
+        }
+
+        if (!validateUserName(name)) {
+            console.error("Invalid username length");
+            return;
+        }
+
+        try {
+            const response = await axios.post('/api/user/signup', {
+                email: email,
+                password: password,
+                userName: name,
+            });
+
+            if (response.status === 200) {
+                console.log("회원가입 성공:", response.data.message);
+                navigate('/login');
+            } else {
+                console.error("회원가입 실패:", response.data.message);
+            }
+        } catch (error) {
+            if (error instanceof Error) {
+                console.error("회원가입 실패:", error.message);
+            } else {
+                console.error("회원가입 실패:", error);
+            }
+        }
+    } else {
+        setCurrentStep((prevStep) => prevStep + 1);
+    }
+};
 	
 	const isNameOverMaxLength = name.length > 10;
 	return (
@@ -146,8 +175,9 @@ const SignUp: React.FC = () => {
 							{confirmPasswordState === "empty" ? "비밀번호를 한 번 더 입력해주세요." : confirmPasswordState === "valid" ? "비밀번호가 일치합니다." : "비밀번호가 일치하지 않습니다."}
 						</Explanation>
 						<NextButton $isActive={isButtonActive} $isInputFocused={isInputFocused} onClick={handleNextButtonClick} disabled={!isButtonActive}>
-							다음
+    						다음
 						</NextButton>
+
 					</>
 				)}
 				{currentStep === 3 && (
@@ -166,7 +196,7 @@ const SignUp: React.FC = () => {
 							/>
 							<NameCount style={{ marginTop: "5.5rem" }}>{`${name.length}/10`}</NameCount>
 						</InputContainer>
-						<NextButton $isActive={isButtonActive} $isInputFocused={isInputFocused} onClick={() => navigate("/login")} disabled={!isButtonActive}>
+						<NextButton $isActive={isButtonActive} $isInputFocused={isInputFocused} onClick={handleNextButtonClick} disabled={!isButtonActive}>
 							시작하기
 						</NextButton>
 					</>
