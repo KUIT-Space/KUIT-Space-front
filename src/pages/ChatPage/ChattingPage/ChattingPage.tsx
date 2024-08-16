@@ -29,9 +29,12 @@ interface Message {
 const ChattingPage = () => {
   const param = useParams();
   const { state } = useLocation();
+
+  const [ws, setWs] = useState<WebSocket | null>(null);
+
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState<string>("");
-  const [ws, setWs] = useState<WebSocket | null>(null);
+
   const [username, setUsername] = useState<string>("");
   const [onMenu, setOnMenu] = useState<boolean>(false);
 

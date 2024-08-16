@@ -15,6 +15,7 @@
     "@livekit/components-react": "^2.4.3",
     "@livekit/components-styles": "^1.0.12",
     "@stomp/stompjs": "^7.0.0",
+    "@types/sockjs-client": "^1.5.4",
     "axios": "^1.7.4",
     "choco": "^0.2.1",
     "es-hangul": "^1.4.5",
