@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import arrowDown from "@/assets/Board/chevron_down.svg";
+import search from "@/assets/Board/search.svg";
 import TopBarText, { LeftEnum } from "@/components/TopBarText";
 
 import BoardBottomModal from "./BoardBottomModal";
@@ -54,7 +55,7 @@ const BoardPage = () => {
 
   return (
     <>
-      <TopBarText left={LeftEnum.Logo} center="게시판" right=""></TopBarText>
+      <TopBarText left={LeftEnum.Logo} center="게시판" right={<img src={search} />}></TopBarText>
       <BoardHeader>
         <span>게시글 {dummy.length}개</span>
         <div className="board-filter-section" onClick={() => setIsModalOpen((prev) => !prev)}>
