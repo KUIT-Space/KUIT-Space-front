@@ -27,3 +27,15 @@ export const BoardHeader = styled.div`
     }
   }
 `;
+
+export const BoardPostItemEmpty = styled.div`
+  margin-top: 16rem;
+  display: flex;
+  justify-content: center;
+  color: var(--Foundation-Gray-gray700, #303036);
+  /* text/Regular 16pt */
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 140%; /* 1.4rem */
+  letter-spacing: 0.04rem;
+`;

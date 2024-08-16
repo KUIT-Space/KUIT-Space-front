@@ -5,7 +5,7 @@ import arrowDown from "@/assets/Board/chevron_down.svg";
 import TopBarText, { LeftEnum } from "@/components/TopBarText";
 
 import BoardBottomModal from "./BoardBottomModal";
-import { BoardHeader } from "./BoardPage.styled";
+import { BoardHeader, BoardPostItemEmpty } from "./BoardPage.styled";
 import BoardPostItem from "./BoardPostItem";
 
 const BoardPage = () => {
@@ -56,29 +56,37 @@ const BoardPage = () => {
     <>
       <TopBarText left={LeftEnum.Logo} center="게시판" right=""></TopBarText>
       <BoardHeader>
-        <span>게시글 24개</span>
+        <span>게시글 {dummy.length}개</span>
         <div className="board-filter-section" onClick={() => setIsModalOpen((prev) => !prev)}>
           {selectedOption}
           <img src={arrowDown} />
         </div>
       </BoardHeader>
-      {dummy.map((d, i) => {
-        return (
-          <div key={i + d.title} onClick={() => navigate(`/board/${d.id}`)}>
-            <BoardPostItem
-              profileName={d.profileName}
-              profileImg={d.profileImg}
-              elapsedTime={d.elapsedTime}
-              title={d.title}
-              content={d.content}
-              thumbnail={d.thumbnail}
-              isLike={d.isLike}
-              likeCount={d.likeCount}
-              commentCount={d.commentCount}
-            />
-          </div>
-        );
-      })}
+      {dummy ? (
+        dummy.map((d, i) => {
+          return (
+            <div key={i + d.title} onClick={() => navigate(`/board/${d.id}`)}>
+              <BoardPostItem
+                profileName={d.profileName}
+                profileImg={d.profileImg}
+                elapsedTime={d.elapsedTime}
+                title={d.title}
+                content={d.content}
+                thumbnail={d.thumbnail}
+                isLike={d.isLike}
+                likeCount={d.likeCount}
+                commentCount={d.commentCount}
+              />
+            </div>
+          );
+        })
+      ) : (
+        <BoardPostItemEmpty>
+          아직 게시된 글이 없어요.
+          <br />첫 게시글을 작성해보세요!
+        </BoardPostItemEmpty>
+      )}
+
       <BoardBottomModal
         selectedOption={selectedOption}
         onSelect={setSelectedOption}
