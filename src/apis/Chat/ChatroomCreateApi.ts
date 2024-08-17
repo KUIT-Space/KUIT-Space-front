@@ -10,7 +10,7 @@ interface CreateChatroomApiResponseType {
 }
 
 interface CreateChatroomApiRequestType {
-  img?: File | null; // 이미지 파일은 선택적
+  img: File;
   name: string;
   memberList: number[];
 }
@@ -19,24 +19,26 @@ const createChatroomFormData = (body: CreateChatroomApiRequestType): FormData =>
   const formData = new FormData();
   formData.append("name", body.name);
 
-  if (body.img) {
-    formData.append("img", body.img);
-  }
+  formData.append("img", body.img);
+
+  // formData.append("memberList[]", `[${body.memberList.toString()}]`);
+  // formData.append("memberList", JSON.stringify(body.memberList));
 
   body.memberList.forEach((memberId) => {
-    formData.append("memberList", memberId.toString());
+    formData.append("memberList", JSON.stringify(memberId));
+    console.log(JSON.stringify(memberId.toString()));
   });
 
   return formData;
 };
 
-export const createChatroomApi = async (
+export const ChatroomCreateApi = async (
   spaceId: number,
   name: string,
   memberList: number[],
-  img?: File | null,
+  img: File,
 ) => {
-  const formData = createChatroomFormData({ name, memberList, img: img || null });
+  const formData = createChatroomFormData({ name, memberList, img: img });
   const requestOptions = createRequestOptionsFORM_AUTH("POST", formData);
 
   if (!requestOptions) return null;

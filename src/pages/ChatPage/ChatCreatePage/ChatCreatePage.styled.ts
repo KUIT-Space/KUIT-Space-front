@@ -4,7 +4,7 @@ import SearchIcon from "@/assets/ChatPage/icon_search.svg";
 import { BottomBtn } from "@/components/BottomBtn";
 import { Input } from "@/components/Input";
 
-export const ChatroomAddImgBtn = styled.label<{ $backgroundImage: string | null | undefined }>`
+export const ChatroomAddImgBtn = styled.label<{ $backgroundImage: string | null }>`
   display: flex;
   width: 8.5rem;
   height: 8.5rem;
@@ -21,6 +21,10 @@ export const ChatroomAddImgBtn = styled.label<{ $backgroundImage: string | null 
       ? `url(${props.$backgroundImage}) no-repeat center`
       : "var(--Foundation-Gray-gray500, #767681)"};
   background-size: cover;
+
+  input {
+    display: none;
+  }
 `;
 
 export const ChatCreateContainer = styled.div`

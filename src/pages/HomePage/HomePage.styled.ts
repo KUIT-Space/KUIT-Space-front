@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { StyledButton } from "../VoiceRoomPage/VoiceRoomListPage.styled";
 
 export const TopBar = styled.div`
   display: flex;

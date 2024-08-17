@@ -1,10 +1,11 @@
+import { ChatContent } from "@/apis";
 import { createRequestOptionsJSON_AUTH, fetchApi } from "@/apis/_createRequestOptions";
 
 export interface Chatroom {
   id: number;
   name: string;
   imgUrl: string;
-  lastMsg: string;
+  lastMsg: ChatContent;
   lastTime: string;
   unreadMsgCount: number;
 }
