@@ -80,6 +80,11 @@ const VoiceRoomPage = ({
 function MyVideoConference() {
   // `useTracks` returns all camera and screen share tracks. If a user
   // joins without a published camera track, a placeholder track is returned.
+  const [mode, setMode] = useState<number>(0);
+
+  const nextMode = () => {
+    setMode((mode + 1) % 3);
+  };
   const tracks = useTracks(
     [
       { source: Track.Source.Camera, withPlaceholder: true },

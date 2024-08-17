@@ -1,4 +1,4 @@
-import { PayReceiveInfo, PayRequestInfo } from "@/pages/PayPage/PayPage";
+import { DetailPayData, PayReceiveInfo, PayRequestInfo } from "@/pages/PayPage/PayPage";
 import {
   createRequestOptionsJSON,
   RequestOptions,
@@ -71,6 +71,7 @@ export const payRequestApi = async (
     });
   }
 };
+
 export const payHomeApi = async (
   spaceID: number,
   setReqData: React.Dispatch<React.SetStateAction<PayRequestInfo[] | undefined>>,
@@ -107,6 +108,27 @@ export const recentAccountApi = async (
   if (response) {
     response.json().then((data) => {
       setBankData(data.result.recentPayRequestBankInfoDtoList);
+    });
+  }
+};
+
+export const payDetailApi = async (
+  spaceID: number,
+  payRequestId: number,
+  setDetailPayData: React.Dispatch<React.SetStateAction<DetailPayData | undefined>>,
+) => {
+  const requestOptions = createRequestOptionsJSON_AUTH("GET");
+  if (!requestOptions) {
+    return null;
+  }
+  const response = await fetchPayApi(
+    `${import.meta.env.VITE_API_BACK_URL}/space/${spaceID}/pay/${payRequestId}`,
+    requestOptions,
+  );
+
+  if (response) {
+    response.json().then((data) => {
+      setDetailPayData(data.result);
     });
   }
 };

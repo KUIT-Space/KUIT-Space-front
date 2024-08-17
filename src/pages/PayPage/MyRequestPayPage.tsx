@@ -3,21 +3,27 @@ import * as s from "@/pages/PayPage/PayPage.styled";
 import { useEffect, useState } from "react";
 import MyReqDataDiv from "@/pages/PayPage/MyReqDataDiv";
 import GrayMyReqDataDiv from "@/pages/PayPage/GrayMyReqDataDiv";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import PayResult from "@/pages/PayPage/PayResult";
-import { PayRequestInfo } from "@/pages/PayPage/PayPage";
-import { payRequestApi } from "@/apis/Pay/PayPageAPI";
+import { DetailPayData, PayRequestInfo, addComma } from "@/pages/PayPage/PayPage";
+import { payDetailApi, payRequestApi } from "@/apis/Pay/PayPageAPI";
+import { payTargetInfoDtoList } from "@/pages/PayPage/PayPage";
 
 const MyRequestPayPage = () => {
   const [tabIndex, setTabIndex] = useState(0);
   const [currentData, setCurrentData] = useState<PayRequestInfo[] | undefined>([]);
   const [completeData, setCompleteData] = useState<PayRequestInfo[] | undefined>([]);
+  const [detailData, setDetailData] = useState<DetailPayData | undefined>();
+  const [currentAmount, setCurrentAmount] = useState<string>();
+  const [totalAmount, setTotalAmount] = useState<string>();
+
+  const [completeTargetList, setCompleteTargetList] = useState<payTargetInfoDtoList[]>([]);
+  const [inCompleteTargetList, setInCompleteTargetList] = useState<payTargetInfoDtoList[]>([]);
+
+  const navigator = useNavigate();
 
   const spaceID = 3;
-  useEffect(() => {
-    payRequestApi(spaceID, setCurrentData, setCompleteData);
-  }, []);
   const menuArr = [
     { name: "미정산", content: "Tab menu ONE" },
     { name: "정산완료", content: "Tab menu TWO" },
@@ -29,11 +35,45 @@ const MyRequestPayPage = () => {
   const selectMenuHandler = (index: number) => {
     setTabIndex(index);
   };
+
+  const redirectDetailPage = (index: number) => {
+    navigator(`/requestingpay/${index}`);
+  };
   let { id } = useParams();
+  // useEffect(()=>{
+
+  // },[activeTargetList,inActiveTargetList])
+
+  useEffect(() => {
+    if (detailData !== undefined) {
+      setCompleteTargetList([]);
+      setInCompleteTargetList([]);
+
+      setCurrentAmount(addComma(detailData?.receiveAmount));
+      setTotalAmount(addComma(detailData.totalAmount));
+      if (detailData.payTargetInfoDtoList !== undefined) {
+        detailData.payTargetInfoDtoList.map((value, index) => {
+          {
+            value.isComplete
+              ? setCompleteTargetList((activeVrList) => [...(activeVrList || []), value])
+              : setInCompleteTargetList((inactiveVrList) => [...(inactiveVrList || []), value]);
+          }
+        });
+      }
+    }
+  }, [detailData]);
+
+  useEffect(() => {
+    if (id === undefined) {
+      payRequestApi(spaceID, setCurrentData, setCompleteData);
+    } else {
+      payDetailApi(spaceID, Number.parseInt(id), setDetailData);
+    }
+  }, [id]);
+
   return (
     <>
       <TopBarText left={LeftEnum.Back} center="내가 요청한 정산" right=""></TopBarText>
-
       {typeof id === "undefined" ? (
         <s.ContainerDiv>
           <div>
@@ -43,7 +83,13 @@ const MyRequestPayPage = () => {
             ) : (
               <div>
                 {currentData?.map((value) => {
-                  return <MyReqDataDiv key={value.payRequestId} data={value}></MyReqDataDiv>;
+                  return (
+                    <MyReqDataDiv
+                      key={value.payRequestId}
+                      data={value}
+                      onClick={() => redirectDetailPage(value.payRequestId)}
+                    ></MyReqDataDiv>
+                  );
                 })}
               </div>
             )}
@@ -56,7 +102,11 @@ const MyRequestPayPage = () => {
               <div>
                 {completeData?.map((value) => {
                   return (
-                    <GrayMyReqDataDiv key={value.payRequestId} data={value}></GrayMyReqDataDiv>
+                    <GrayMyReqDataDiv
+                      key={value.payRequestId}
+                      data={value}
+                      onClick={() => redirectDetailPage(value.payRequestId)}
+                    ></GrayMyReqDataDiv>
                   );
                 })}
               </div>
@@ -68,9 +118,10 @@ const MyRequestPayPage = () => {
           <s.CompletePayDiv style={{ padding: "2.5rem 1rem 0.75rem 1rem", margin: "0.75rem" }}>
             <s.TextDiv style={{ marginBottom: "0.5rem" }}>정산 완료된 금액</s.TextDiv>
             <s.RowFlexDiv style={{ alignItems: "end", marginBottom: "1.75rem" }}>
-              <s.NowPriceDiv>30000원</s.NowPriceDiv>
-              <s.AllPriceDiv> / 60000원</s.AllPriceDiv>
+              <s.NowPriceDiv>{currentAmount}원 &nbsp;</s.NowPriceDiv>
+              <s.AllPriceDiv> / {totalAmount}원</s.AllPriceDiv>
             </s.RowFlexDiv>
+            {/* TODO date */}
             <s.GrayTextDiv>요청 날짜 2024.06.12</s.GrayTextDiv>
           </s.CompletePayDiv>
           <s.TabMenu>
@@ -84,11 +135,35 @@ const MyRequestPayPage = () => {
               </li>
             ))}
           </s.TabMenu>
-          <s.RoundDiv style={{ margin: "0.75rem 1.25rem 0.75rem 1.25rem" }}>
-            {dataArr.map((value, index) => (
-              <PayResult key={index} props={value}></PayResult>
-            ))}
-          </s.RoundDiv>
+          {tabIndex ? (
+            <s.RoundDiv style={{ margin: "0.75rem 1.25rem 0.75rem 1.25rem" }}>
+              {completeTargetList.length === 0 ? (
+                <>
+                  <s.NoAlertDiv>미정산 된 유저가 없어요!</s.NoAlertDiv>
+                </>
+              ) : (
+                <>
+                  {completeTargetList.map((value, index) => (
+                    <PayResult key={index} props={value}></PayResult>
+                  ))}
+                </>
+              )}
+            </s.RoundDiv>
+          ) : (
+            <s.RoundDiv style={{ margin: "0.75rem 1.25rem 0.75rem 1.25rem" }}>
+              {inCompleteTargetList.length === 0 ? (
+                <>
+                  <s.NoAlertDiv>정산완료 된 유저가 없어요!</s.NoAlertDiv>
+                </>
+              ) : (
+                <>
+                  {inCompleteTargetList.map((value, index) => (
+                    <PayResult key={index} props={value}></PayResult>
+                  ))}
+                </>
+              )}
+            </s.RoundDiv>
+          )}
         </>
       )}
     </>

@@ -5,9 +5,7 @@ import * as s from "@/pages/PayPage/PayPage.styled";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { payCompleteApi, payHomeApi } from "@/apis/Pay/PayPageAPI";
-
-const SpaceID = 3;
+import { payCompleteApi, payDetailApi, payHomeApi } from "@/apis/Pay/PayPageAPI";
 
 export const addComma = (price: number) => {
   let returnString = price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -28,6 +26,25 @@ export type PayReceiveInfo = {
   requestAmount: number;
 };
 
+export type DetailPayData = {
+  payRequestId: number;
+  bankName: string;
+  bankAccountNum: string;
+  totalAmount: number;
+  receiveAmount: number;
+  totalTargetNum: number;
+  receiveTargetNum: number;
+  payTargetInfoDtoList: payTargetInfoDtoList[];
+  isComplete: boolean;
+};
+
+export type payTargetInfoDtoList = {
+  targetUserId: number;
+  targetUserName: string;
+  targetUserProfileImg: string;
+  requestAmount: number;
+  isComplete: boolean;
+};
 const PayRequestInfo = ({ data }: { data: PayRequestInfo }) => {
   const res: number = data.totalTargetNum - data.receiveAmount;
   const now = addComma(data.receiveAmount);
@@ -62,8 +79,13 @@ const PayPage = () => {
     // RequestPayInfo(setReqData, setRecData);
   }, [reqData]);
   useEffect(() => {
-    payHomeApi(SpaceID, setReqData, setRecData);
-    // RequestPayInfo(setReqData, setRecData);
+    // const str = localStorage.getItem("SpaceId");
+    const str = "3";
+
+    if (str !== null) {
+      const SpaceID = Number.parseInt(str);
+      payHomeApi(SpaceID, setReqData, setRecData);
+    }
   }, []);
 
   const navigator = useNavigate();

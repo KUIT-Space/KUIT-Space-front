@@ -2,12 +2,12 @@ import * as s from "@/pages/PayPage/PayPage.styled";
 import { PayRequestInfo } from "./PayPage";
 import { addComma } from "./PayPage";
 
-const GrayMyReqDataDiv = ({ data }: { data: PayRequestInfo }) => {
+const GrayMyReqDataDiv = ({ data, onClick }: { data: PayRequestInfo; onClick: () => void }) => {
   const num = data.totalTargetNum - data.receiveTargetNum;
   const price1 = addComma(data.receiveAmount);
   const price2 = addComma(data.totalAmount);
   return (
-    <s.GrayRoundDiv>
+    <s.GrayRoundDiv onClick={onClick}>
       <s.RowFlexDiv style={{ position: "relative" }}>
         <s.ColumnFlexDiv>
           <s.GrayTextDiv>{num}명 정산완료</s.GrayTextDiv>
