@@ -26,3 +26,9 @@ export interface ChatSendRequestFrame {
   content: ChatContent;
   spaceId: number;
 }
+
+export interface ChatMessageFrame extends ChatSendRequestFrame {
+  createAt: string;
+  senderImg: string | null;
+  senderName: string;
+}
