@@ -1,5 +1,6 @@
 {
   "name": "kuit-space-front",
+  "homepage": "https://kuit-space.github.io/KUIT-Space-front",
   "private": true,
   "version": "0.0.1",
   "type": "module",
@@ -13,7 +14,10 @@
   "dependencies": {
     "@livekit/components-react": "^2.4.3",
     "@livekit/components-styles": "^1.0.12",
-    "axios": "^1.7.3",
+    "@stomp/stompjs": "^7.0.0",
+    "@types/sockjs-client": "^1.5.4",
+    "@types/stompjs": "^2.3.9",
+    "axios": "^1.7.4",
     "choco": "^0.2.1",
     "es-hangul": "^1.4.5",
     "livekit-client": "^2.4.2",
@@ -21,10 +25,12 @@
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.24.1",
     "react-toastify": "^10.0.5",
+    "sockjs-client": "^1.6.1",
     "styled-components": "^6.1.12",
     "styled-reset": "^4.5.2",
     "vite-plugin-mkcert": "^1.17.5",
-    "vite-plugin-svgr": "^4.2.0"
+    "vite-plugin-svgr": "^4.2.0",
+    "ws": "^8.18.0"
   },
   "devDependencies": {
     "@types/node": "^20.14.9",
