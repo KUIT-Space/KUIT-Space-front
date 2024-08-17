@@ -133,6 +133,7 @@ function App() {
     ...routes_children_voice,
     ...routes_children_space,
     ...routes_children_login,
+    { path: "/*", element: <HomePage />, hasBottomBar: true },
   ];
 
   const routes = [
