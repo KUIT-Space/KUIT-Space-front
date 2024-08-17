@@ -20,15 +20,14 @@ import PayBtnImg from "@/assets/ChatPage/menu_btn_pay.svg";
 import PictureBtnImg from "@/assets/ChatPage/menu_btn_picture.svg";
 import SettingIcon from "@/assets/icon_setting.svg";
 import TopBarText, { LeftEnum } from "@/components/TopBarText";
-import { getUserDefaultImageURL } from "@/utils/getUserDefaultImageURL";
-
 import {
   ChattingBody,
   ChattingContainer,
   ChattingFooter,
   ChattingTextarea,
   StyledMessage,
-} from "./ChattingPage.styled";
+} from "@/pages/ChatPage/ChattingPage/ChattingPage.styled";
+import { getUserDefaultImageURL } from "@/utils/getUserDefaultImageURL";
 
 const ChattingPage = () => {
   const param = useParams();

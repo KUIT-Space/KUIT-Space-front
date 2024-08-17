@@ -1,4 +1,4 @@
-import { createRequestOptionsJSON_AUTH, fetchApi } from "./_createRequestOptions";
+import { createRequestOptionsJSON_AUTH, fetchApi } from "@/apis/_createRequestOptions";
 
 interface UserProfileResult {
   userProfileImg: string; // 프로필 이미지 URL

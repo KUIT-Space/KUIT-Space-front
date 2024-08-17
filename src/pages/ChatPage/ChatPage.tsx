@@ -3,10 +3,9 @@ import { useNavigate } from "react-router-dom";
 
 import { ChatFile, ChatImage, ChatPay, Chatroom, chatroomSearchAllApi, ChatText } from "@/apis";
 import TopBarText, { LeftEnum } from "@/components/TopBarText";
+import { AddChatBtn } from "@/pages/ChatPage/ChatAddBtn.styled";
+import { ChatContainer, ChatListContainer } from "@/pages/ChatPage/ChatPage.styled";
 import { formattedDateTime_convertUTC9 } from "@/utils/formattedDateTime";
-
-import { AddChatBtn } from "./ChatAddBtn.styled";
-import { ChatContainer, ChatListContainer } from "./ChatPage.styled";
 
 const ChatPage = () => {
   const navigate = useNavigate();

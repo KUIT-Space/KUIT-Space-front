@@ -8,9 +8,6 @@ import ChatroomImg from "@/assets/ChatPage/btn_chatroom_img.svg";
 import CheckBox from "@/components/CheckBox";
 import { Input } from "@/components/Input";
 import TopBarText, { LeftEnum } from "@/components/TopBarText";
-import { getUserDefaultImageURL } from "@/utils/getUserDefaultImageURL";
-import { svgComponentToFile } from "@/utils/svgComponentToFile";
-
 import {
   ChatCreateBottomBtn,
   ChatCreateContainer,
@@ -18,7 +15,9 @@ import {
   ChatroomName,
   InviteInput,
   Member,
-} from "./ChatCreatePage.styled";
+} from "@/pages/ChatPage/ChatCreatePage/ChatCreatePage.styled";
+import { getUserDefaultImageURL } from "@/utils/getUserDefaultImageURL";
+import { svgComponentToFile } from "@/utils/svgComponentToFile";
 
 const ChatCreatePage = () => {
   const [name, setName] = useState<string>("");
