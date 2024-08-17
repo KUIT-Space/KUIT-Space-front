@@ -4,6 +4,7 @@ import styled from "styled-components";
 import camera from "@/assets/Board/camera.svg";
 import gallery from "@/assets/Board/gallery.svg";
 import link from "@/assets/Board/link.svg";
+import CheckBox from "@/components/CheckBox";
 import TopBarText, { LeftEnum } from "@/components/TopBarText";
 
 const BoardRegisterBtn = styled.button`
@@ -14,15 +15,35 @@ const BoardRegisterBtn = styled.button`
   line-height: 140%; /* 1.4rem */
   letter-spacing: 0.04rem;
 
-  &.board-register-btn-active {
+  .board-register-btn-active {
     color: var(--Foundation-Gray-white, #fff);
   }
 `;
 
-const BoardRegsiterContainer = styled.div`
+const BoardRegisterContainer = styled.div`
   width: 100%;
   height: 100%;
   padding: 0 1.25rem;
+`;
+
+const BoardRegisterManagerTitle = styled.div`
+  width: 100%;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  padding: 0.5rem 0;
+  margin-top: 1rem;
+  border-bottom: 1px solid #222226;
+
+  color: var(--Foundation-Gray-gray600, #45454b);
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 140%;
+
+  .board-register-manager-active {
+    color: var(--Foundation-Main-color-Normal, #48ffbd);
+  }
 `;
 
 const BoardRegisterTitle = styled.input`
@@ -54,7 +75,6 @@ const BoardRegisterContent = styled.textarea`
   border: none;
   background: none;
 
-  font-family: Freesentation;
   color: var(--Foundation-Gray-white, #fff);
   /* regular/14pt */
   font-size: 0.875rem;
@@ -84,6 +104,10 @@ const BoardRegisterFooter = styled.div`
 const BoardRegisterPage = () => {
   const [titleValue, setTitleValue] = useState<string>("");
   const [contentValue, setContentValue] = useState<string>("");
+  const [isNotice, setIsNotice] = useState<boolean>(false);
+
+  // TODO: API 연동 시 수정 예정
+  const isManager = true;
 
   const inputRef = useRef<HTMLInputElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -115,19 +139,30 @@ const BoardRegisterPage = () => {
           </BoardRegisterBtn>
         }
       ></TopBarText>
-      <BoardRegsiterContainer>
+      <BoardRegisterContainer>
+        {isManager && (
+          <BoardRegisterManagerTitle>
+            <CheckBox
+              onClick={() => {
+                setIsNotice((prev) => !prev);
+                console.log(isNotice);
+              }}
+            />
+            <span className={isNotice ? "board-register-manager-active" : ""}>공지로 등록하기</span>
+          </BoardRegisterManagerTitle>
+        )}
         <BoardRegisterTitle
           ref={inputRef}
           placeholder="제목을 입력해주세요."
           onChange={(e) => setTitleValue(e.target.value)}
-        ></BoardRegisterTitle>
+        />
         <BoardRegisterContent
           ref={textareaRef}
           placeholder="내용을 입력해주세요."
           onInput={handleResizeHeight}
           onChange={(e) => setContentValue(e.target.value)}
-        ></BoardRegisterContent>
-      </BoardRegsiterContainer>
+        />
+      </BoardRegisterContainer>
       <BoardRegisterFooter>
         <img src={camera} />
         <img src={gallery} />
