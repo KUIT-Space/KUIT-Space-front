@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 
+import { ChatMessageFrame, ChatSendRequestFrame, SocketConnect, SocketDisconnect } from "@/apis";
 import MenuBtnImg from "@/assets/ChatPage/btn_menu.svg";
 import SendBtnImg from "@/assets/ChatPage/btn_send.svg";
 import FileBtnImg from "@/assets/ChatPage/menu_btn_file.svg";
@@ -17,64 +18,58 @@ import {
   StyledMessage,
 } from "./ChattingPage.styled";
 
-interface Message {
-  id: number;
-  user: string;
-  profileImg: string;
-  time: string;
-  message: string;
-  is정산?: boolean;
-}
-
 const ChattingPage = () => {
   const param = useParams();
   const { state } = useLocation();
 
-  const [ws, setWs] = useState<WebSocket | null>(null);
+  const stompClient = useRef<any>(null);
 
-  const [messages, setMessages] = useState<Message[]>([]);
+  // const [ws, setWs] = useState<WebSocket | null>(null);
+
+  const [messages, setMessages] = useState<ChatMessageFrame[]>([]);
   const [inputValue, setInputValue] = useState<string>("");
 
-  const [username, setUsername] = useState<string>("");
+  // const [username, setUsername] = useState<string>("");
   const [onMenu, setOnMenu] = useState<boolean>(false);
 
   const messageEndRef = useRef<HTMLDivElement | null>(null);
   const chattingTextareaRef = useRef<HTMLTextAreaElement | null>(null);
 
-  useEffect(() => {
-    //temp test username
-    const sessionUsername = sessionStorage.getItem("username");
-    if (sessionUsername) {
-      setUsername(sessionUsername);
-    } else {
-      const newUsername = `익명(${Math.floor(Math.random() * 10)})`;
-      sessionStorage.setItem("username", newUsername);
-      setUsername(newUsername);
+  // subscribe 시 받아온 채팅 로그 설정
+  const handleChatMessage = (message: any) => {
+    if (message.body) {
+      const msg = JSON.parse(message.body);
+      if (msg.chatMessageLog) {
+        // setLogData(msg.chatMessageLog);
+        console.log(msg.chatMessageLog);
+        setMessages((prevMessages) => [...prevMessages, msg.chatMessageLog]);
+      }
     }
+  };
 
-    //connect to websocket
-    const websocket = new WebSocket("ws://localhost:8080");
+  /** 소켓 초기 연결 및 기존 메세지 받아오기
+   *
+   */
+  useEffect(() => {
+    // //temp test username
+    // const sessionUsername = sessionStorage.getItem("username");
+    // if (sessionUsername) {
+    //   setUsername(sessionUsername);
+    // } else {
+    //   const newUsername = `익명(${Math.floor(Math.random() * 10)})`;
+    //   sessionStorage.setItem("username", newUsername);
+    //   setUsername(newUsername);
+    // }
 
-    websocket.onopen = () => {
-      console.log("Connected to WebSocket server");
-    };
+    //
+    SocketConnect(stompClient, param.id || "", handleChatMessage);
 
-    websocket.onmessage = (event) => {
-      const newMessages: Message[] = JSON.parse(event.data);
-      setMessages(newMessages);
-    };
+    return () => SocketDisconnect(stompClient);
+  }, [param.id]);
 
-    websocket.onerror = (error) => {
-      console.error("WebSocket error:", error);
-    };
-
-    setWs(websocket);
-
-    return () => {
-      websocket.close();
-    };
-  }, []);
-
+  //
+  //
+  //
   useEffect(() => {
     //항상 새로운 메세지 위치로 view 스크롤 위함
     messageEndRef.current?.scrollIntoView();
@@ -89,17 +84,44 @@ const ChattingPage = () => {
     }
   }, [inputValue]);
 
-  const sendMessage = () => {
-    if (inputValue && ws) {
-      const newMessage: Message = {
-        id: messages.length + 1,
-        user: username,
-        profileImg: "https://placehold.co/40x40",
-        time: new Date().toISOString(),
-        message: inputValue,
+  // const sendMessage = () => {
+  //   if (inputValue && ws) {
+  //     const newMessage: Message = {
+  //       id: messages.length + 1,
+  //       user: username,
+  //       profileImg: "https://placehold.co/40x40",
+  //       time: new Date().toISOString(),
+  //       message: inputValue,
+  //     };
+  //     ws.send(JSON.stringify(newMessage));
+  //     setInputValue("");
+  //   }
+  // };
+
+  //메세지 전송
+  const sendMessageS = (messageType: ChatSendRequestFrame["messageType"]) => {
+    if (stompClient.current) {
+      const spaceId = Number.parseInt(localStorage.getItem("spaceId") ?? "");
+      const body = {
+        spaceId: isNaN(spaceId) ? 3 : spaceId, // 임의로 설정한 스페이스 아이디
+        messageType: messageType, // 메시지 타입
+        content: {}, // 내용 초기화
       };
-      ws.send(JSON.stringify(newMessage));
+
+      if (messageType === "TEXT") {
+        body.content = { text: inputValue };
+      }
+      //  else if (messageType === "IMG") {
+      //   body.content.image = imgData.image; // 인코딩된 base64 이미지 url
+      //   // console.log(imgData.image);
+      // } else if (messageType === "FILE" && fileData) {
+      //   body.content = fileData; // 인코딩된 base64 파일 url
+      // }
+      // console.log(body.content);
+      //console.log(stompClient.current);
+      stompClient.current.send(`/app/chat/${param.id}`, {}, JSON.stringify(body));
       setInputValue("");
+      //setFileData(null);
     }
   };
 
@@ -117,7 +139,7 @@ const ChattingPage = () => {
 
       <ChattingBody>
         {messages.map((msg, index) =>
-          msg.user === username ? (
+          msg.senderName === username ? (
             <StyledMessage key={index} className="message" $isUser={true}>
               <div className="message-content-container">
                 <span className="message-time">
@@ -155,7 +177,7 @@ const ChattingPage = () => {
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
           />
-          <button onClick={sendMessage}>
+          <button onClick={() => sendMessageS("TEXT")}>
             <img className="send" alt="Send button" src={SendBtnImg} />
           </button>
         </div>

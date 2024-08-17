@@ -1,4 +1,4 @@
-import { createRequestOptionsJSON_AUTH } from "./_createRequestOptions";
+import { createRequestOptionsJSON_AUTH, fetchApi } from "./_createRequestOptions";
 
 interface UserProfileResponse {
   userProfileImg: string; // 프로필 이미지 URL
@@ -25,6 +25,5 @@ export const SpaceSearchUserProfile = async (spaceId: number, userId?: number) =
     url += `?userId=${userId}`;
   }
 
-  // API 호출 및 응답 처리
   return await fetchApi<UserProfileResponse>(url, requestOptions);
 };
