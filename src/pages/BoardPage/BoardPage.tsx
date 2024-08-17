@@ -5,10 +5,13 @@ import arrowDown from "@/assets/Board/chevron_down.svg";
 import floating from "@/assets/Board/floating.svg";
 import search from "@/assets/Board/search.svg";
 import TopBarText, { LeftEnum } from "@/components/TopBarText";
-
-import BoardBottomModal from "./BoardBottomModal";
-import { BoardFloatingBtn, BoardHeader, BoardPostItemEmpty } from "./BoardPage.styled";
-import BoardPostItem from "./BoardPostItem";
+import BoardBottomModal from "@/pages/BoardPage/BoardBottomModal";
+import {
+  BoardFloatingBtn,
+  BoardHeader,
+  BoardPostItemEmpty,
+} from "@/pages/BoardPage/BoardPage.styled";
+import BoardPostItem from "@/pages/BoardPage/BoardPostItem";
 
 const BoardPage = () => {
   const dummy = [

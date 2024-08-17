@@ -7,8 +7,7 @@ import heartLiked from "@/assets/Board/heart_liked.svg";
 import heartUnliked from "@/assets/Board/heart_unliked.svg";
 import share from "@/assets/Board/share.svg";
 import TopBarText, { LeftEnum } from "@/components/TopBarText";
-
-import BoardDetailComment from "./BoardDetailComment";
+import BoardDetailComment from "@/pages/BoardPage/BoardDetailpage/BoardDetailComment";
 
 const BoardPostDetailContainer = styled.div`
   width: 100%;
