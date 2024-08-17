@@ -1,8 +1,10 @@
-export const formattedDateTime_convertUTC9 = (isoString: string): string => {
+export const formattedDateTime_convertUTC9 = (isoString: string, isUtc9?: boolean): string => {
   const date = new Date(isoString);
 
   // UTC+9로 시간 변환
-  const utc9Date = new Date(date.getTime() + 9 * 60 * 60 * 1000);
+  const utc9Date = isUtc9
+    ? new Date(date.getTime() + 9 * 60 * 60 * 1000)
+    : new Date(date.getTime());
 
   // 날짜 부분 변환 (yy.mm.dd)
   const datePart = utc9Date
