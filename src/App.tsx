@@ -11,12 +11,27 @@ import BottomNavBar from "@/components/BottomNavBar";
 import BoardPage from "@/pages/BoardPage/BoardPage";
 import ChatCreatePage from "@/pages/ChatPage/ChatCreatePage/ChatCreatePage";
 import ChatPage from "@/pages/ChatPage/ChatPage";
+import ChatSettingPage from "@/pages/ChatPage/ChatSettingPage/ChatSettingPage";
 import ChattingPage from "@/pages/ChatPage/ChattingPage/ChattingPage";
 import HomePage from "@/pages/HomePage/HomePage";
 import LoginPage from "@/pages/LoginPage/LoginPage";
 import SignUpPage from "@/pages/LoginPage/SignUpPage";
+import CompletePay from "@/pages/PayPage/CompletePay";
+import CreateRequestPage from "@/pages/PayPage/CreateRequestPage";
+import MyRequestPayPage from "@/pages/PayPage/MyRequestPayPage";
 import PayPage from "@/pages/PayPage/PayPage";
+import RequestedPayPage from "@/pages/PayPage/RequestedPayPage";
+import AccountManage from "@/pages/SpacePage/AccountManage";
+import AddSpacePage from "@/pages/SpacePage/AddSpacePage";
+import AlarmManage from "@/pages/SpacePage/AlarmManage";
+import ProfileManage from "@/pages/SpacePage/ProfileManage";
+import SpaceOption from "@/pages/SpacePage/SpaceOption";
+import SpacePage from "@/pages/SpacePage/SpacePage";
+import CreateVoiceRoomPage from "@/pages/VoiceRoomPage/CreateVoiceRoom";
+import EditVoiceRoomPage from "@/pages/VoiceRoomPage/EditVoiceRoomPage";
+import JoinVoiceRoomPage from "@/pages/VoiceRoomPage/JoinVoiceRoomPage";
 import VoiceRoomListPage from "@/pages/VoiceRoomPage/VoiceRoomListPage";
+import VoiceRoomPage from "@/pages/VoiceRoomPage/VoiceRoomPage";
 import GlobalStyle from "@/styles/GlobalStyles";
 import { theme } from "@/styles/Theme";
 
@@ -36,6 +51,7 @@ import EditVoiceRoomPage from "./pages/VoiceRoomPage/EditVoiceRoomPage";
 import JoinVoiceRoomPage from "./pages/VoiceRoomPage/JoinVoiceRoomPage";
 import VoiceRoomPage from "./pages/VoiceRoomPage/VoiceRoomPage";
 import InviteSpace from "./pages/SpacePage/InviteSpace";
+import LoginModal from "./pages/LoginPage/LoginModal";
 
 // will we need constant path in later..?
 // const PATH = {
@@ -77,6 +93,7 @@ function Layout({ routes_children }: { routes_children: RouteChildren[] }) {
       <LayoutContainer>
         <div id="content">
           <Outlet />
+          <LoginModal />
         </div>
         {routes_children.find((child) => matchPath(child.path, pathname))?.hasBottomBar && (
           <BottomNavBar />

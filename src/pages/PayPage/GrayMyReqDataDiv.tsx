@@ -1,6 +1,5 @@
+import { addComma, PayRequestInfo } from "@/pages/PayPage/PayPage";
 import * as s from "@/pages/PayPage/PayPage.styled";
-import { PayRequestInfo } from "./PayPage";
-import { addComma } from "./PayPage";
 
 const GrayMyReqDataDiv = ({ data }: { data: PayRequestInfo }) => {
   const num = data.totalTargetNum - data.receiveTargetNum;
