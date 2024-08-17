@@ -39,9 +39,3 @@ export const BoardPostItemEmpty = styled.div`
   line-height: 140%; /* 1.4rem */
   letter-spacing: 0.04rem;
 `;
-
-export const BoardFloatingBtn = styled.img`
-  position: fixed;
-  bottom: 4.25rem;
-  right: 0.5rem;
-`;
