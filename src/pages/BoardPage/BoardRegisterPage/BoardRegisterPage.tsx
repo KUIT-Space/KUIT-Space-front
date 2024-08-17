@@ -76,6 +76,7 @@ const BoardRegisterContent = styled.textarea`
   background: none;
 
   color: var(--Foundation-Gray-white, #fff);
+  font-family: Freesentation;
   /* regular/14pt */
   font-size: 0.875rem;
   font-weight: 400;
