@@ -58,6 +58,10 @@ const PayPage = () => {
   const [recData, setRecData] = useState<PayReceiveInfo[] | undefined>([]);
 
   useEffect(() => {
+    console.log(reqData);
+    // RequestPayInfo(setReqData, setRecData);
+  }, [reqData]);
+  useEffect(() => {
     payHomeApi(SpaceID, setReqData, setRecData);
     // RequestPayInfo(setReqData, setRecData);
   }, []);

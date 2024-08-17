@@ -5,9 +5,12 @@ import {
   createRequestOptionsJSON_AUTH,
 } from "@/apis/_createRequestOptions";
 import { BankInfo } from "@/pages/PayPage/CreateRequestPage";
+import { useNavigate } from "react-router-dom";
 
 const fetchPayApi = async (url: string, options: RequestOptions) => {
-  const response = await fetch(url, options).catch((err) => console.error(err));
+  const response = await fetch(url, options).catch((err) => {
+    console.error(err);
+  });
   return response;
 };
 
@@ -82,12 +85,10 @@ export const payHomeApi = async (
     requestOptions,
   );
 
-  if (response) {
-    response.json().then((data) => {
-      setReqData(data.result.payRequestInfoDtoList);
-      setRecData(data.result.payReceiveInfoDtoList);
-    });
-  }
+  response.json().then((data) => {
+    setReqData(data.result.payRequestInfoDtoList);
+    setRecData(data.result.payReceiveInfoDtoList);
+  });
 };
 
 export const recentAccountApi = async (
