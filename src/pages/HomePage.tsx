@@ -14,6 +14,7 @@ const HomePage = () => {
 			<Link to="/voiceroom">voiceroom link</Link>
 			<Link to="/chat">chatting room link</Link>
 			<Link to="/space">space room link</Link>
+			<Link to="/invite">invite link</Link>
 		</LinkContainer>
 	);
 };

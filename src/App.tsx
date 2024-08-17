@@ -30,6 +30,7 @@ import CreateVoiceRoomPage from "./pages/VoiceRoomPage/CreateVoiceRoom";
 import EditVoiceRoomPage from "./pages/VoiceRoomPage/EditVoiceRoomPage";
 import JoinVoiceRoomPage from "./pages/VoiceRoomPage/JoinVoiceRoomPage";
 import VoiceRoomPage from "./pages/VoiceRoomPage/VoiceRoomPage";
+import InviteSpace from "./pages/SpacePage/InviteSpace";
 
 // will we need constant path in later..?
 // const PATH = {
@@ -95,6 +96,7 @@ function App() {
     { path: "/space/spaceoption/accountmanage", element: <AccountManage /> },
     { path: "/space/spaceoption/profilemanage", element: <ProfileManage /> },
     { path: "/space/spaceoption/alarmmanage", element: <AlarmManage /> },
+    { path: "/invite", element: <InviteSpace /> },
     { path: "/createvoiceroom", element: <CreateVoiceRoomPage />, hasBottomBar: false },
     { path: "/joinvoiceroom", element: <JoinVoiceRoomPage />, hasBottombar: false },
     { path: "/editvoiceroom", element: <EditVoiceRoomPage />, hasBottombar: false },
