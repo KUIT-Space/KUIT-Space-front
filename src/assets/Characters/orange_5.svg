@@ -1,0 +1,24 @@
+<svg width="161" height="160" viewBox="0 0 161 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="orange_5">
+<g id="Group 1707480402">
+<g id="Mask group">
+<mask id="mask0_1334_36825" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="161" height="160">
+<ellipse id="Ellipse 2593" cx="80.3847" cy="80.0001" rx="80.037" ry="80" fill="white"/>
+</mask>
+<g mask="url(#mask0_1334_36825)">
+<ellipse id="Ellipse 2594" cx="80.3875" cy="134.224" rx="65.1375" ry="65.1074" fill="#FD7D15"/>
+</g>
+</g>
+<path id="Ellipse 2590" d="M159.672 80.0001C159.672 123.768 124.174 159.25 80.3847 159.25C36.5953 159.25 1.09766 123.768 1.09766 80.0001C1.09766 36.2318 36.5953 0.750061 80.3847 0.750061C124.174 0.750061 159.672 36.2318 159.672 80.0001Z" fill="url(#paint0_radial_1334_36825)" stroke="white" stroke-width="1.5"/>
+<rect id="Rectangle 24148" x="67.967" y="107.686" width="8.0228" height="12.2645" rx="3.77544" fill="#061D28"/>
+<rect id="Rectangle 24149" x="84.7764" y="107.686" width="7.99341" height="12.2196" rx="3.76161" fill="#061D28"/>
+<path id="Vector 552" d="M106.94 71.0596C96.436 68.6315 85.652 68.7972 81.5879 69.1344C88.153 75.2047 103.751 86.4376 113.505 83.2001C123.259 79.9626 125.072 70.3851 124.76 66.001C123.197 68.6989 117.444 73.4877 106.94 71.0596Z" fill="#FD7D15"/>
+</g>
+</g>
+<defs>
+<radialGradient id="paint0_radial_1334_36825" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(80.3847 80.0001) rotate(90.9963) scale(158.085 158.158)">
+<stop offset="0.405" stop-color="white" stop-opacity="0"/>
+<stop offset="1" stop-color="white"/>
+</radialGradient>
+</defs>
+</svg>

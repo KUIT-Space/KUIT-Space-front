@@ -1,0 +1,23 @@
+<svg width="161" height="161" viewBox="0 0 161 161" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="orange_3">
+<g id="Group 1707480402">
+<g id="Mask group">
+<mask id="mask0_1334_36963" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="161" height="161">
+<circle id="Ellipse 2593" cx="80.4804" cy="80.0371" r="80.037" fill="white"/>
+</mask>
+<g mask="url(#mask0_1334_36963)">
+<circle id="Ellipse 2594" cx="80.4808" cy="134.288" r="65.1375" fill="#FD7D15"/>
+</g>
+</g>
+<circle id="Ellipse 2590" cx="80.4434" cy="80.0001" r="79.25" fill="url(#paint0_radial_1334_36963)" stroke="white" stroke-width="1.5"/>
+<rect id="Rectangle 24148" x="68.063" y="107.737" width="8.0228" height="12.2702" rx="3.77544" fill="#061D28"/>
+<rect id="Rectangle 24149" x="84.8721" y="107.737" width="7.99341" height="12.2252" rx="3.76161" fill="#061D28"/>
+</g>
+</g>
+<defs>
+<radialGradient id="paint0_radial_1334_36963" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(80.4434 80.0001) rotate(90.9958) scale(158.084)">
+<stop offset="0.405" stop-color="#ECF6FF" stop-opacity="0"/>
+<stop offset="1" stop-color="#ECF6FF"/>
+</radialGradient>
+</defs>
+</svg>

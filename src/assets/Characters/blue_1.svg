@@ -1,0 +1,18 @@
+<svg width="160" height="161" viewBox="0 0 160 161" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="blue_1">
+<g id="Group 1707480683">
+<g id="Group 1707480402">
+<path id="Intersect" fill-rule="evenodd" clip-rule="evenodd" d="M13.3047 124.242L21.2726 115.058L17.3171 94.6036L37.0088 87.8019L43.8104 68.1103L64.2647 72.0658L80.0009 58.4131L95.7371 72.0658L116.191 68.1103L122.993 87.8019L142.685 94.6036L138.729 115.058L146.739 124.29C132.4 145.859 107.879 160.074 80.0376 160.074C52.1755 160.074 27.6386 145.838 13.3047 124.242Z" fill="#5AD7FE"/>
+<circle id="Ellipse 2590" cx="80" cy="80" r="79.25" fill="url(#paint0_radial_1334_36851)" stroke="white" stroke-width="1.5"/>
+<rect id="Rectangle 24148" x="68.001" y="114.229" width="7.64076" height="3.43834" rx="1.71917" fill="#061D28"/>
+<rect id="Rectangle 24149" x="84.4287" y="114.229" width="7.64076" height="3.43834" rx="1.71917" fill="#061D28"/>
+</g>
+</g>
+</g>
+<defs>
+<radialGradient id="paint0_radial_1334_36851" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(80 80) rotate(90.9958) scale(158.084)">
+<stop offset="0.405" stop-color="#ECF6FF" stop-opacity="0"/>
+<stop offset="1" stop-color="#ECF6FF"/>
+</radialGradient>
+</defs>
+</svg>

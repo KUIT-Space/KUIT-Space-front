@@ -1,66 +1,130 @@
 import React, { useEffect, useState } from "react";
 import SignUpHeader from "@/components/SignUpHeader";
-import { StyledText, Container, Input, NextButton, Explanation, NameCount, InputContainer } from "@/pages/LoginPage/SignUpPage.styled";
+import {
+  StyledText,
+  Container,
+  Input,
+  NextButton,
+  Explanation,
+  NameCount,
+  InputContainer,
+} from "@/pages/LoginPage/SignUpPage.styled";
 import StopModal from "@/components/StopModal";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const SignUp: React.FC = () => {
-	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
-	const [name, setName] = useState("");
-	const [confirmPassword, setConfirmPassword] = useState("");
-	const [isButtonActive, setIsButtonActive] = useState(false);
-	const [isInputFocused, setIsInputFocused] = useState(false);
-	const [isModalOpen, setIsModalOpen] = useState(false);
-	const [passwordState, setPasswordState] = useState<"empty" | "invalid" | "valid">("empty");
-	const [confirmPasswordState, setConfirmPasswordState] = useState<"empty" | "invalid" | "valid">("empty");
-	const navigate = useNavigate();
-	const [currentStep, setCurrentStep] = useState(1);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [isButtonActive, setIsButtonActive] = useState(false);
+  const [isInputFocused, setIsInputFocused] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [passwordState, setPasswordState] = useState<"empty" | "invalid" | "valid">("empty");
+  const [confirmPasswordState, setConfirmPasswordState] = useState<"empty" | "invalid" | "valid">(
+    "empty",
+  );
+  const navigate = useNavigate();
+  const [currentStep, setCurrentStep] = useState(1);
 
-	useEffect(() => {
-		if (currentStep === 1) {
-			setIsButtonActive(email.trim() !== "");
-		} else if (currentStep === 2) {
-			const isValidPassword = password.length >= 8 && password.length <= 20;
-			const isValidConfirmPassword = confirmPassword === password;
-			if (password.trim() === "") {
-				setPasswordState("empty");
-			} else if (!isValidPassword) {
-				setPasswordState("invalid");
-			} else {
-				setPasswordState("valid");
-			}
+  useEffect(() => {
+    if (currentStep === 1) {
+      setIsButtonActive(email.trim() !== "");
+    } else if (currentStep === 2) {
+      const isValidPassword = password.length >= 8 && password.length <= 20;
+      const isValidConfirmPassword = confirmPassword === password;
+      if (password.trim() === "") {
+        setPasswordState("empty");
+      } else if (!isValidPassword) {
+        setPasswordState("invalid");
+      } else {
+        setPasswordState("valid");
+      }
 
-			if (confirmPassword.trim() === "") {
-				setConfirmPasswordState("empty");
-			} else if (!isValidConfirmPassword) {
-				setConfirmPasswordState("invalid");
-			} else {
-				setConfirmPasswordState("valid");
-			}
+      if (confirmPassword.trim() === "") {
+        setConfirmPasswordState("empty");
+      } else if (!isValidConfirmPassword) {
+        setConfirmPasswordState("invalid");
+      } else {
+        setConfirmPasswordState("valid");
+      }
 
-			setIsButtonActive(isValidPassword && isValidConfirmPassword);
-		} else if (currentStep === 3) {
-			setIsButtonActive(name.trim() !== "");
-		}
-	}, [email, password, confirmPassword, name, currentStep]);
+      setIsButtonActive(isValidPassword && isValidConfirmPassword);
+    } else if (currentStep === 3) {
+      setIsButtonActive(name.trim() !== "");
+    }
+  }, [email, password, confirmPassword, name, currentStep]);
 
-	const handleBackClick = () => {
-		setIsModalOpen(true);
-	};
+  const handleBackClick = () => {
+    setIsModalOpen(true);
+  };
 
-	const handleCloseModal = () => {
-		setIsModalOpen(false);
-	};
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
 
-	const handleConfirmModal = () => {
-		setIsModalOpen(false);
-		navigate(-1);
-	};
+  const handleConfirmModal = () => {
+    setIsModalOpen(false);
+    navigate(-1);
+  };
 
-	const handleNextButtonClick = () => {
-		setCurrentStep((prevStep) => prevStep + 1);
-	};
+	const validateEmail = (email: string) => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+};
+
+const validatePassword = (password: string) => {
+    const re = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$/;
+    return re.test(password);
+};
+
+const validateUserName = (name: string) => {
+    return name.length >= 1 && name.length <= 10;
+};
+
+const handleNextButtonClick = async () => {
+    if (currentStep === 3) {
+        if (!validateEmail(email)) {
+            console.error("Invalid email format");
+            return;
+        }
+
+        if (!validatePassword(password)) {
+            console.error("Invalid password format");
+            return;
+        }
+
+        if (!validateUserName(name)) {
+            console.error("Invalid username length");
+            return;
+        }
+
+        try {
+            const response = await axios.post('/api/user/signup', {
+                email: email,
+                password: password,
+                userName: name,
+            });
+
+            if (response.status === 200) {
+                console.log("회원가입 성공:", response.data.message);
+                navigate('/login');
+            } else {
+                console.error("회원가입 실패:", response.data.message);
+            }
+        } catch (error) {
+            if (error instanceof Error) {
+                console.error("회원가입 실패:", error.message);
+            } else {
+                console.error("회원가입 실패:", error);
+            }
+        }
+    } else {
+        setCurrentStep((prevStep) => prevStep + 1);
+    }
+};
+	
 	const isNameOverMaxLength = name.length > 10;
 	return (
 		<>
@@ -121,8 +185,9 @@ const SignUp: React.FC = () => {
 							{confirmPasswordState === "empty" ? "비밀번호를 한 번 더 입력해주세요." : confirmPasswordState === "valid" ? "비밀번호가 일치합니다." : "비밀번호가 일치하지 않습니다."}
 						</Explanation>
 						<NextButton $isActive={isButtonActive} $isInputFocused={isInputFocused} onClick={handleNextButtonClick} disabled={!isButtonActive}>
-							다음
+    						다음
 						</NextButton>
+
 					</>
 				)}
 				{currentStep === 3 && (
@@ -141,7 +206,7 @@ const SignUp: React.FC = () => {
 							/>
 							<NameCount style={{ marginTop: "5.5rem" }}>{`${name.length}/10`}</NameCount>
 						</InputContainer>
-						<NextButton $isActive={isButtonActive} $isInputFocused={isInputFocused} onClick={() => navigate("/login")} disabled={!isButtonActive}>
+						<NextButton $isActive={isButtonActive} $isInputFocused={isInputFocused} onClick={handleNextButtonClick} disabled={!isButtonActive}>
 							시작하기
 						</NextButton>
 					</>
@@ -154,8 +219,7 @@ const SignUp: React.FC = () => {
 					content={["여기서 그만두면 스페이스의", "서비스를 이용할 수 없어요!"]}
 					confirmButtonColor="#48FFBD"
 					cancelButtonText="취소"
-					confirmButtonText="확인"
-				/>
+					confirmButtonText="확인" contentColor={""} confirmButtonTextColor={""}				/>
 			</Container>
 		</>
 	);
