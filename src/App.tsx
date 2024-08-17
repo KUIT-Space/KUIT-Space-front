@@ -35,6 +35,8 @@ import VoiceRoomPage from "@/pages/VoiceRoomPage/VoiceRoomPage";
 import GlobalStyle from "@/styles/GlobalStyles";
 import { theme } from "@/styles/Theme";
 
+import LoginModal from "./pages/LoginPage/LoginModal";
+
 // will we need constant path in later..?
 // const PATH = {
 // 	HOME: "/",
@@ -75,6 +77,7 @@ function Layout({ routes_children }: { routes_children: RouteChildren[] }) {
       <LayoutContainer>
         <div id="content">
           <Outlet />
+          <LoginModal />
         </div>
         {routes_children.find((child) => matchPath(child.path, pathname))?.hasBottomBar && (
           <BottomNavBar />

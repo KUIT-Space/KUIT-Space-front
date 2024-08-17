@@ -25,10 +25,7 @@ const ChatPage = () => {
       chatroomSearchAllApi(Number.parseInt(spaceId))
         .then((res) => {
           if (res === null) {
-            window.confirm(
-              "채팅방 정보를 불러오는데 실패했습니다. 로그인 화면으로 이동하겠습니까?",
-            );
-            navigate("/login");
+            setChatroomList([]);
           } else {
             setChatroomList(res.result.chatRoomList);
           }
