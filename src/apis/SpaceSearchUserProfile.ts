@@ -1,10 +1,17 @@
 import { createRequestOptionsJSON_AUTH, fetchApi } from "./_createRequestOptions";
 
-interface UserProfileResponse {
+interface UserProfileResult {
   userProfileImg: string; // 프로필 이미지 URL
   userName: string; // 유저 이름
   userAuth: string; // 유저 권한 (예: manager, normal)
   userProfileMsg: string; // 유저 상태 메시지
+}
+
+interface UserProfileResponse {
+  code: number;
+  status: string;
+  message: string;
+  result: UserProfileResult;
 }
 
 /** 스페이스내의 유저 프로필 view를 조회하는 api

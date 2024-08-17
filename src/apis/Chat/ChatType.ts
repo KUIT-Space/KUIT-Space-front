@@ -19,16 +19,23 @@ export interface ChatPay {
   creator: string;
 }
 
-export type ChatContent = ChatText | ChatImage | ChatFile | ChatPay;
+export interface ChatPost {
+  title: string;
+  summary: string;
+  creator: string;
+}
+
+export type ChatContent = ChatText | ChatImage | ChatFile | ChatPay | ChatPost;
 
 export interface ChatSendRequestFrame {
   messageType: "TEXT" | "IMG" | "FILE" | "POST" | "PAY";
   content: ChatContent;
-  spaceId: number;
+  spaceId?: number;
 }
 
 export interface ChatMessageFrame extends ChatSendRequestFrame {
   createAt: string;
   senderImg: string | null;
   senderName: string;
+  senderId: number;
 }
