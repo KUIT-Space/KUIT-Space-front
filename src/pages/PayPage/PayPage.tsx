@@ -86,9 +86,15 @@ const PayPage = () => {
             <img src={right}></img>
             {/* <img src={right} onClick={navigator("요청정산페이지")}></img> */}
           </s.TitleDiv>
-          {reqData?.map((value) => {
-            return <PayRequestInfo key={value.payRequestId} data={value}></PayRequestInfo>;
-          })}
+          {reqData?.length == 0 ? (
+            <s.NoAlertDiv>요청한 정산이 없어요!</s.NoAlertDiv>
+          ) : (
+            <div>
+              {reqData?.map((value) => {
+                return <PayRequestInfo key={value.payRequestId} data={value}></PayRequestInfo>;
+              })}
+            </div>
+          )}
         </s.RoundDiv>
         <s.RoundDiv
           style={{ cursor: "pointer" }}
@@ -101,10 +107,19 @@ const PayPage = () => {
             <img src={right}></img>
             {/* <img src={right} onClick={navigator("요청받은정산페이지")}></img> */}
           </s.TitleDiv>
-
-          {recData?.map((value) => {
-            return <PayReceiveInfo key={value.payRequestTargetId} data={value}></PayReceiveInfo>;
-          })}
+          <div>
+            {recData?.length == 0 ? (
+              <s.NoAlertDiv>요청받은 정산이 없어요!</s.NoAlertDiv>
+            ) : (
+              <div>
+                {recData?.map((value) => {
+                  return (
+                    <PayReceiveInfo key={value.payRequestTargetId} data={value}></PayReceiveInfo>
+                  );
+                })}
+              </div>
+            )}
+          </div>
         </s.RoundDiv>
       </s.ContainerDiv>
     </>
