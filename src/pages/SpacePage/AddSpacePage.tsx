@@ -1,9 +1,10 @@
 import TopBarText, { LeftEnum } from "@/components/TopBarText";
 import { ChangeEvent, useState } from "react";
 import { BottomBtn } from "@/components/BottomBtn";
+import { Input } from "@/components/Input";
 import styled from "styled-components";
 import camera from "@/assets/Space/icon_camera.svg";
-import { Input } from "@/components/Input";
+import { To, useNavigate } from "react-router-dom";
 
 const ImgContainer = styled.div`
   display: flex;
@@ -13,28 +14,26 @@ const ImgContainer = styled.div`
 `;
 
 const ChooseImgBtn = styled.div`
+  display: flex;
   width: 160px;
   height: 160px;
   justify-content: center;
   border-radius: 12px;
   background-color: ${({ theme }) => theme.colors.BG500};
-  display: flex;
   align-items: center;
 `;
 
-const NameInput = styled.div`
-  height: 52px;
-  border-radius: 12px;
-  background-color: ${({ theme }) => theme.colors.BG800};
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px;
-`;
-
-const InputText = styled.span`
+const Count = styled.span`
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
   font-size: 16px;
   color: ${({ theme }) => theme.colors.BG500};
+`;
+
+const NameInput = styled(Input)`
+  padding-right: 3rem; /* Count를 위한 여유 공간 */
 `;
 
 const SpaceCreateBottomBtn = styled(BottomBtn)`
@@ -47,6 +46,7 @@ const SpaceCreateBottomBtn = styled(BottomBtn)`
 const AddSpacePage = () => {
   const [spacename, setSpacename] = useState("");
   const [newSpacename, setNewSpacename] = useState(spacename);
+  const navigate = useNavigate();
   const maxChars = 10;
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -55,9 +55,15 @@ const AddSpacePage = () => {
       setSpacename(value);
     }
   };
+
+  const handleNavigate = (path: To) => {
+		navigate(path);
+	};
+
   
   const handleSaveSpacename = () => {
     setSpacename(newSpacename);
+    handleNavigate("/");
   };
 
   return (
@@ -69,15 +75,19 @@ const AddSpacePage = () => {
           <img key="backgroundImg" />
         </ChooseImgBtn>
       </ImgContainer>
-      <NameInput>
-        <Input 
+      <div style={{ position: "relative", height: "3.25rem" }}>
+        <NameInput 
           value={spacename}
           onChange={handleInputChange}
-          placeholder=""  
+          placeholder="스페이스 공간"  
         />
-        <InputText>{spacename.length}/{maxChars}</InputText>
-      </NameInput>
-      <SpaceCreateBottomBtn onClick={handleSaveSpacename}>생성하기</SpaceCreateBottomBtn>
+        <Count>{spacename.length}/{maxChars}</Count>
+      </div>
+      <SpaceCreateBottomBtn 
+        onClick={handleSaveSpacename}
+        disabled={spacename === "" ? true : false}>
+          생성하기
+      </SpaceCreateBottomBtn>
     </div>
   );
 };

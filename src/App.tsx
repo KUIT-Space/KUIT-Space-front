@@ -35,7 +35,10 @@ import VoiceRoomPage from "@/pages/VoiceRoomPage/VoiceRoomPage";
 import GlobalStyle from "@/styles/GlobalStyles";
 import { theme } from "@/styles/Theme";
 
+import BoardDetailPage from "./pages/BoardPage/BoardDetailpage/BoardDetailPage";
+import BoardRegisterPage from "./pages/BoardPage/BoardRegisterPage/BoardRegisterPage";
 import LoginModal from "./pages/LoginPage/LoginModal";
+import InviteSpace from "./pages/SpacePage/InviteSpace";
 
 // will we need constant path in later..?
 // const PATH = {
@@ -111,6 +114,12 @@ function App() {
     { path: "/editvoiceroom", element: <EditVoiceRoomPage />, hasBottombar: false },
   ];
 
+  const routes_children_board = [
+    { path: "/board", element: <BoardPage />, hasBottomBar: true },
+    { path: "/board/:id", element: <BoardDetailPage />, hasBottomBar: false },
+    { path: "/board/register", element: <BoardRegisterPage />, hasBottomBar: false },
+  ];
+
   const routes_children_space = [
     { path: "/space", element: <SpacePage /> },
     { path: "/space/addspace", element: <AddSpacePage /> },
@@ -118,6 +127,10 @@ function App() {
     { path: "/space/spaceoption/accountmanage", element: <AccountManage /> },
     { path: "/space/spaceoption/profilemanage", element: <ProfileManage /> },
     { path: "/space/spaceoption/alarmmanage", element: <AlarmManage /> },
+    { path: "/invite", element: <InviteSpace /> },
+    { path: "/createvoiceroom", element: <CreateVoiceRoomPage />, hasBottomBar: false },
+    { path: "/joinvoiceroom", element: <JoinVoiceRoomPage />, hasBottombar: false },
+    { path: "/editvoiceroom", element: <EditVoiceRoomPage />, hasBottombar: false },
   ];
 
   const routes_children_login = [
@@ -127,12 +140,13 @@ function App() {
 
   const routes_children = [
     { path: "/", element: <HomePage />, hasBottomBar: true },
-    { path: "/board", element: <BoardPage />, hasBottomBar: true },
     ...routes_children_chat,
     ...routes_children_pay,
     ...routes_children_voice,
+    ...routes_children_board,
     ...routes_children_space,
     ...routes_children_login,
+    { path: "/*", element: <HomePage />, hasBottomBar: true },
   ];
 
   const routes = [

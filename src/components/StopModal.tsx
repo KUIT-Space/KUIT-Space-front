@@ -35,8 +35,13 @@ const StopModal: React.FC<ModalProps> = ({
     </S.Content>
   ));
 
+  const handleBackgroundClick = (e: React.MouseEvent) => {
+    e.stopPropagation(); // 배경 클릭 시 이벤트 전파를 막고 onClose 호출
+    onClose();
+  };
+
   return (
-    <S.StyledBack>
+    <S.StyledBack onClick={handleBackgroundClick}>
       <S.ModalContainer>
         <S.Title>{title}</S.Title>
         {contentLines}
