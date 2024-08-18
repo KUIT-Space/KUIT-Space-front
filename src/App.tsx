@@ -35,6 +35,24 @@ import VoiceRoomPage from "@/pages/VoiceRoomPage/VoiceRoomPage";
 import GlobalStyle from "@/styles/GlobalStyles";
 import { theme } from "@/styles/Theme";
 
+import ChatSettingPage from "./pages/ChatPage/ChatSettingPage/ChatSettingPage";
+import CompletePay from "./pages/PayPage/CompletePay";
+import CreateRequestPage from "./pages/PayPage/CreateRequestPage";
+import MyRequestPayPage from "./pages/PayPage/MyRequestPayPage";
+import RequestedPayPage from "./pages/PayPage/RequestedPayPage";
+import AccountManage from "./pages/SpacePage/AccountManage";
+import AddSpacePage from "./pages/SpacePage/AddSpacePage";
+import AlarmManage from "./pages/SpacePage/AlarmManage";
+import ProfileManage from "./pages/SpacePage/ProfileManage";
+import SpaceOption from "./pages/SpacePage/SpaceOption";
+import SpacePage from "./pages/SpacePage/SpacePage";
+import CreateVoiceRoomPage from "./pages/VoiceRoomPage/CreateVoiceRoom";
+import EditVoiceRoomPage from "./pages/VoiceRoomPage/EditVoiceRoomPage";
+import JoinVoiceRoomPage from "./pages/VoiceRoomPage/JoinVoiceRoomPage";
+import VoiceRoomPage from "./pages/VoiceRoomPage/VoiceRoomPage";
+import InviteSpace from "./pages/SpacePage/InviteSpace";
+import BoardDetailPage from "./pages/BoardPage/BoardDetailpage/BoardDetailPage";
+import BoardRegisterPage from "./pages/BoardPage/BoardRegisterPage/BoardRegisterPage";
 import LoginModal from "./pages/LoginPage/LoginModal";
 
 // will we need constant path in later..?
@@ -111,6 +129,12 @@ function App() {
     { path: "/editvoiceroom", element: <EditVoiceRoomPage />, hasBottombar: false },
   ];
 
+  const routes_children_board = [
+    { path: "/board", element: <BoardPage />, hasBottomBar: true },
+    { path: "/board/:id", element: <BoardDetailPage />, hasBottomBar: false },
+    { path: "/board/register", element: <BoardRegisterPage />, hasBottomBar: false },
+  ];
+
   const routes_children_space = [
     { path: "/space", element: <SpacePage /> },
     { path: "/space/addspace", element: <AddSpacePage /> },
@@ -118,6 +142,10 @@ function App() {
     { path: "/space/spaceoption/accountmanage", element: <AccountManage /> },
     { path: "/space/spaceoption/profilemanage", element: <ProfileManage /> },
     { path: "/space/spaceoption/alarmmanage", element: <AlarmManage /> },
+    { path: "/invite", element: <InviteSpace /> },
+    { path: "/createvoiceroom", element: <CreateVoiceRoomPage />, hasBottomBar: false },
+    { path: "/joinvoiceroom", element: <JoinVoiceRoomPage />, hasBottombar: false },
+    { path: "/editvoiceroom", element: <EditVoiceRoomPage />, hasBottombar: false },
   ];
 
   const routes_children_login = [
@@ -127,10 +155,10 @@ function App() {
 
   const routes_children = [
     { path: "/", element: <HomePage />, hasBottomBar: true },
-    { path: "/board", element: <BoardPage />, hasBottomBar: true },
     ...routes_children_chat,
     ...routes_children_pay,
     ...routes_children_voice,
+    ...routes_children_board,
     ...routes_children_space,
     ...routes_children_login,
     { path: "/*", element: <HomePage />, hasBottomBar: true },
