@@ -26,10 +26,14 @@ import {
   ChattingContainer,
   ChattingFooter,
   ChattingTextarea,
+  ImgPreview,
   StyledMessage,
 } from "@/pages/ChatPage/ChattingPage/ChattingPage.styled";
 import { decodedJWT } from "@/utils/decodedJWT";
 import { getUserDefaultImageURL } from "@/utils/getUserDefaultImageURL";
+
+const MAX_FILE_SIZE_MB = 2; // 최대 파일 크기 (메가바이트 단위)
+const MAX_FILE_SIZE = MAX_FILE_SIZE_MB * 1024 * 1024; // 바이트
 
 const ChattingPage = () => {
   const param = useParams();
@@ -46,7 +50,8 @@ const ChattingPage = () => {
   const [isManager, setIsManager] = useState<boolean>(false);
   const [onMenu, setOnMenu] = useState<boolean>(false);
 
-  const [uploadedImage, setUploadedImage] = useState<string>();
+  const [uploadedImage, setUploadedImage] = useState<string | null>();
+  const [inputKey, setInputKey] = useState<number>(0);
 
   const messageEndRef = useRef<HTMLDivElement | null>(null);
   const chattingTextareaRef = useRef<HTMLTextAreaElement | null>(null);
@@ -106,7 +111,7 @@ const ChattingPage = () => {
         body.content = { text: inputValue };
       } else if (messageType === "IMG") {
         body.content = { image: uploadedImage }; // 인코딩된 base64 이미지 url
-        // console.log(imgData.image);
+        //console.log(uploadedImage);
       }
       // else if (messageType === "FILE" && fileData) {
       //   body.content = fileData; // 인코딩된 base64 파일 url
@@ -125,11 +130,11 @@ const ChattingPage = () => {
     switch (msg.messageType) {
       case "TEXT":
         msg.content = msg.content as ChatText;
-        console.log(msg.content.text);
         return msg.content.text;
       case "IMG":
+        console.log("image: ", msg.content);
         msg.content = msg.content as ChatImage;
-        return <img src={msg.content.image} alt="img" />;
+        return <img src={msg.content.image} alt="img" width="100%" height="100%" />;
       case "FILE":
         msg.content = msg.content as ChatFile;
         return (
@@ -161,14 +166,24 @@ const ChattingPage = () => {
   };
 
   const handleImageImport = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.files);
     const image = e.target.files?.[0];
-    const reader = new FileReader();
 
-    reader.readAsDataURL(image as Blob);
-    reader.onload = () => {
-      setUploadedImage(reader.result as string);
-    };
-    // image && setUploadedImage(image);
+    if (image) {
+      // 파일 크기 검사
+      console.log(image.size);
+      if (image.size > MAX_FILE_SIZE) {
+        alert(`파일 크기가 ${MAX_FILE_SIZE_MB}MB를 초과합니다.`);
+        return;
+      }
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        setUploadedImage(reader.result as string);
+      };
+      reader.readAsDataURL(image as Blob);
+      // image && setUploadedImage(image);
+    }
   };
 
   return (
@@ -219,6 +234,20 @@ const ChattingPage = () => {
         <div ref={messageEndRef}></div>
       </ChattingBody>
 
+      {uploadedImage && (
+        <ImgPreview>
+          <img src={uploadedImage} alt="uploaded" />
+          <button
+            onClick={() => {
+              setUploadedImage(null);
+              setInputKey((prevKey) => prevKey + 1); // key를 변경하여 input을 리셋
+            }}
+          >
+            X
+          </button>
+        </ImgPreview>
+      )}
+
       <ChattingFooter $onMenu={onMenu}>
         <div className="chatting-input">
           <button onClick={() => setOnMenu(!onMenu)}>
@@ -239,7 +268,12 @@ const ChattingPage = () => {
               }
             }}
           />
-          <button onClick={() => sendMessageS("TEXT")}>
+          <button
+            onClick={(e) => {
+              inputValue !== "" && sendMessageS("TEXT");
+              uploadedImage && sendMessageS("IMG");
+            }}
+          >
             <img className="send" alt="Send button" src={SendBtnImg} />
           </button>
         </div>
@@ -249,11 +283,17 @@ const ChattingPage = () => {
               <img src={PayBtnImg} alt="Pay button" />
               <p>정산하기</p>
             </button>
-            <button>
+            <label>
               <img src={PictureBtnImg} alt="Picture button" />
-              <input type="file" accept="image/*" onChange={handleImageImport} />
+              <input
+                key={inputKey}
+                type="file"
+                accept="image/*"
+                onChange={handleImageImport}
+                style={{ display: "none" }}
+              />
               <p>사진 첨부</p>
-            </button>
+            </label>
             <button>
               <img src={FileBtnImg} alt="File button" />
               <p>파일 첨부</p>
