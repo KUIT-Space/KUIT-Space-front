@@ -28,7 +28,7 @@ export const SpaceJoinInfoApi = async (spaceId: number) => {
 
   const response = await fetchApi<SpaceJoinInfoResponse>(url, requestOptions);
 
-  if (response.status !== "OK") {
+  if (response && response.status !== "OK") {
     console.warn(response.message);
     return null;
   }
