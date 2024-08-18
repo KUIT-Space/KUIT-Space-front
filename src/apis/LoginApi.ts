@@ -5,6 +5,7 @@ interface LoginApiResponseType {
   message: string;
   status: string;
   timestamp?: string;
+  result?: { userId: number };
 }
 
 const fetchLoginApi = async (url: string, options: RequestOptions) => {
@@ -26,5 +27,13 @@ export const loginApi = async (email: string, password: string) => {
   };
   const requestOptions = createRequestOptionsJSON("POST", JSON.stringify(body));
 
-  return await fetchLoginApi(`${import.meta.env.VITE_API_BACK_URL}/user/login`, requestOptions);
+  return await fetchLoginApi(
+    `${import.meta.env.VITE_API_BACK_URL}/user/login`,
+    requestOptions,
+  ).then((res) => {
+    if (res.result) {
+      localStorage.setItem("userId", res.result.userId.toString());
+    }
+    return res;
+  });
 };
