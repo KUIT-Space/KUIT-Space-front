@@ -24,7 +24,7 @@ const HomePage = () => {
       <sty.TopBar>
         <button
           onClick={() => {
-            navigate("/");
+            navigate("/space");
           }}
         >
           <img src={logoSpace} alt="로고" />
