@@ -6,5 +6,5 @@ export * from "@/apis/Chat/ChatType";
 
 export * from "@/apis/Chat/Socket";
 
-export * from "@/apis/SpaceCreateApi";
-export * from "@/apis/SpaceSearchUserProfile";
+export * from "@/apis/Space/SpaceCreateApi";
+export * from "@/apis/Space/SpaceSearchUserProfile";
