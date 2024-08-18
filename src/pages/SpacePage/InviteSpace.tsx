@@ -1,11 +1,18 @@
-import { ChangeEvent, useState } from "react";
-import { To, useNavigate } from "react-router-dom";
+import { ChangeEvent, useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
+import { SpaceInfo as SpaceInfoType } from "@/apis/Space/SpaceSelectApi";
+import { SpaceUserJoinApi } from "@/apis/Space/SpaceUserJoinApi";
+import { CharacterImgs } from "@/assets/Characters";
+import ChatroomImg from "@/assets/ChatPage/btn_chatroom_img.svg";
 import back from "@/assets/icon_back.svg";
-import camera from "@/assets/Space/icon_camera.svg";
 import { BottomBtn } from "@/components/BottomBtn";
 import { Input } from "@/components/Input";
+import { getUserDefaultImageURL } from "@/utils/getUserDefaultImageURL";
+import { svgComponentToFile } from "@/utils/svgComponentToFile";
+
+import { ChatroomAddImgBtn } from "../ChatPage/ChatCreatePage/ChatCreatePage.styled";
 
 const TopBarContainer = styled.div`
   display: flex;
@@ -16,6 +23,7 @@ const TopBarContainer = styled.div`
 const BackBtn = styled.img`
   width: 36px;
   height: 36px;
+  cursor: pointer;
 `;
 
 const InfoContainer = styled.div`
@@ -53,7 +61,7 @@ const Count = styled.span`
 `;
 
 const NameInput = styled(Input)`
-  padding-right: 3rem; /* Count를 위한 여유 공간 */
+  padding-right: 4rem; /* Count를 위한 여유 공간 */
   margin-top: 8px;
 `;
 
@@ -64,10 +72,33 @@ const SpaceJoinBottomBtn = styled(BottomBtn)`
   margin: 0;
 `;
 
-const InviteSpace: React.FC = () => {
+const InviteSpace = () => {
+  const navigate = useNavigate();
+  const {
+    state: { spaceInfo },
+  }: { state: { spaceInfo: SpaceInfoType } } = useLocation();
+
   const [currentStep, setCurrentStep] = useState(1);
   const [spacename, setSpacename] = useState("");
+  const [spaceUserMsg, setSpaceUserMsg] = useState("");
   const maxChars = 12;
+
+  const [uploadedImage, setUploadedImage] = useState<File | null>(null);
+  const defaultImage: File = svgComponentToFile(
+    CharacterImgs[Math.floor(Math.random() * CharacterImgs.length)],
+  );
+
+  useEffect(() => {
+    //TODO: spaceInfo가 없을 때의 더미 데이터
+    if (!spaceInfo) {
+      const tempJson = {
+        image: "https://placehold.co/160x160",
+        title: "작업 안하면 죽는 방",
+        created: "2024년 06월 20일",
+        members: 20,
+      };
+    }
+  }, []);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -76,12 +107,18 @@ const InviteSpace: React.FC = () => {
     }
   };
 
-  const navigate = useNavigate();
-
   const handleNextButtonClick = () => {
     if (currentStep === 2) {
-      // 이름 저장하는 기능 필요
-      handleNavigate("/");
+      //TODO: 가입하기 API 호출 / userImg, userName
+      SpaceUserJoinApi(
+        spaceInfo.spaceId,
+        uploadedImage ?? defaultImage,
+        spacename,
+        spaceUserMsg,
+      ).then((res) => {
+        console.log(res);
+      });
+      navigate("/");
     }
     setCurrentStep((prevStep) => prevStep + 1);
   };
@@ -90,31 +127,25 @@ const InviteSpace: React.FC = () => {
     setCurrentStep((prevStep) => prevStep - 1);
   };
 
-  const handleNavigate = (path: To) => {
-    navigate(path);
-  };
-
-  const tempJson = {
-    image: "https://placehold.co/160x160",
-    title: "작업 안하면 죽는 방",
-    created: "2024년 06월 20일",
-    members: 20,
+  const handleImageImport = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const image = e.target.files?.[0];
+    image && setUploadedImage(image);
   };
 
   return (
     <div style={{ width: "320px", margin: "auto" }}>
       {currentStep === 1 && (
         <InfoContainer>
-          <SpaceImage src={tempJson.image} />
-          <SpaceTitle>{tempJson.title}</SpaceTitle>
+          <SpaceImage src={spaceInfo.profileImgUrl ?? getUserDefaultImageURL(spaceInfo.spaceId)} />
+          <SpaceTitle>{spaceInfo.spaceName}</SpaceTitle>
           <div>
-            <div>
-              <SpaceInfo style={{ marginRight: "12px" }}>개설일</SpaceInfo>
-              <SpaceInfo>{tempJson.created}</SpaceInfo>
+            <div style={{ marginBottom: "rem" }}>
+              <SpaceInfo style={{ marginRight: "0.75rem" }}>개설일</SpaceInfo>
+              <SpaceInfo>{spaceInfo.createdAt}</SpaceInfo>
             </div>
             <div>
-              <SpaceInfo style={{ marginRight: "12px" }}>멤버</SpaceInfo>
-              <SpaceInfo>{tempJson.members}명</SpaceInfo>
+              <SpaceInfo style={{ marginRight: "0.75rem" }}>멤버</SpaceInfo>
+              <SpaceInfo>{spaceInfo.memberNum}명</SpaceInfo>
             </div>
           </div>
         </InfoContainer>
@@ -125,16 +156,40 @@ const InviteSpace: React.FC = () => {
             <BackBtn src={back} onClick={handlePreviousButtonClick} />
           </TopBarContainer>
 
+          <ChatroomAddImgBtn $backgroundImage={URL.createObjectURL(uploadedImage ?? defaultImage)}>
+            <img src={ChatroomImg} alt="Chatroom Image" />
+            <input type="file" accept="image/*" onChange={handleImageImport} />
+          </ChatroomAddImgBtn>
+
           <div style={{ marginTop: "16px" }}>
             이름
             <div style={{ position: "relative" }}>
               <NameInput
                 value={spacename}
                 onChange={handleInputChange}
-                placeholder="스페이스 이름"
+                placeholder="스페이스에서 사용할 이름"
               />
               <Count>
                 {spacename.length}/{maxChars}
+              </Count>
+            </div>
+          </div>
+
+          <div style={{ marginTop: "16px" }}>
+            상태 메세지
+            <div style={{ position: "relative" }}>
+              <NameInput
+                value={spaceUserMsg}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  if (value.length <= maxChars * 5) {
+                    setSpaceUserMsg(value);
+                  }
+                }}
+                placeholder="스페이스 상태 메세지"
+              />
+              <Count>
+                {spaceUserMsg.length}/{maxChars * 5}
               </Count>
             </div>
           </div>

@@ -68,10 +68,12 @@ const ChatCreatePage = () => {
   return (
     <>
       <TopBarText left={LeftEnum.Back} center="새 채팅방" right="" />
+
       <ChatroomAddImgBtn $backgroundImage={URL.createObjectURL(uploadedImage ?? defaultImage)}>
         <img src={ChatroomImg} alt="Chatroom Image" />
         <input type="file" accept="image/*" onChange={handleImageImport} />
       </ChatroomAddImgBtn>
+
       <ChatCreateContainer>
         <div className="input--container">
           <p>채팅방 이름</p>

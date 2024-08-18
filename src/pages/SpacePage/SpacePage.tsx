@@ -295,7 +295,11 @@ const SpacePage = () => {
                 localStorage.setItem("spaceInfo", JSON.stringify(info));
                 sessionStorage.setItem("spaceInfo", JSON.stringify(info));
 
-                navigate("/");
+                if (info.isInvited) {
+                  navigate("/invite", { state: { spaceInfo: info } });
+                } else {
+                  navigate("/");
+                }
               }}
             />
             <span className="spaceId">{info.spaceId}</span>
