@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 
 import { Chatroom } from "@/apis";
+import { ChatroomDeleteApi, ChatroomExitApi } from "@/apis/Chat/ChatroomExitDelete";
 import RightArrowImg from "@/assets/Space/icon_right_arrow.svg";
 import StopModal from "@/components/StopModal";
 import { ToggleBtn } from "@/components/ToggleBtn";
@@ -107,6 +108,9 @@ const ChatSettingPage = () => {
         onClose={() => setIsExitModal(false)}
         onConfirm={() => {
           setIsExitModal(false);
+          //채팅방 나가기 API
+          const spaceId = Number(localStorage.getItem("spaceId"));
+          ChatroomExitApi(spaceId, chatroomInfo.id);
           navigate("/chat");
         }}
         title="채팅방 나가기"
@@ -122,6 +126,9 @@ const ChatSettingPage = () => {
         onClose={() => setIsDeleteModal(false)}
         onConfirm={() => {
           setIsDeleteModal(false);
+          //채팅방 삭제 API
+          const spaceId = Number(localStorage.getItem("spaceId"));
+          ChatroomDeleteApi(spaceId, chatroomInfo.id);
           navigate("/chat");
         }}
         title="채팅방 삭제하기"
