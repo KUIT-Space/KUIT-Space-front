@@ -51,6 +51,8 @@ import EditVoiceRoomPage from "./pages/VoiceRoomPage/EditVoiceRoomPage";
 import JoinVoiceRoomPage from "./pages/VoiceRoomPage/JoinVoiceRoomPage";
 import VoiceRoomPage from "./pages/VoiceRoomPage/VoiceRoomPage";
 import InviteSpace from "./pages/SpacePage/InviteSpace";
+import BoardDetailPage from "./pages/BoardPage/BoardDetailpage/BoardDetailPage";
+import BoardRegisterPage from "./pages/BoardPage/BoardRegisterPage/BoardRegisterPage";
 import LoginModal from "./pages/LoginPage/LoginModal";
 
 // will we need constant path in later..?
@@ -127,6 +129,12 @@ function App() {
     { path: "/editvoiceroom", element: <EditVoiceRoomPage />, hasBottombar: false },
   ];
 
+  const routes_children_board = [
+    { path: "/board", element: <BoardPage />, hasBottomBar: true },
+    { path: "/board/:id", element: <BoardDetailPage />, hasBottomBar: false },
+    { path: "/board/register", element: <BoardRegisterPage />, hasBottomBar: false },
+  ];
+
   const routes_children_space = [
     { path: "/space", element: <SpacePage /> },
     { path: "/space/addspace", element: <AddSpacePage /> },
@@ -147,10 +155,10 @@ function App() {
 
   const routes_children = [
     { path: "/", element: <HomePage />, hasBottomBar: true },
-    { path: "/board", element: <BoardPage />, hasBottomBar: true },
     ...routes_children_chat,
     ...routes_children_pay,
     ...routes_children_voice,
+    ...routes_children_board,
     ...routes_children_space,
     ...routes_children_login,
   ];
