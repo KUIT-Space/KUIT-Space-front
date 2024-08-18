@@ -34,7 +34,6 @@ const VoiceRoomPage = ({
     if (temp) {
       const temp2 = temp.substring(7);
       setToken(temp2);
-      console.log(temp2);
     } else {
       setToken("");
     }

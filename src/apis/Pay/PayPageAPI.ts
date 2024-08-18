@@ -3,9 +3,20 @@ import {
   createRequestOptionsJSON,
   RequestOptions,
   createRequestOptionsJSON_AUTH,
+  fetchApi,
 } from "@/apis/_createRequestOptions";
-import { BankInfo } from "@/pages/PayPage/CreateRequestPage";
+import { BankInfo, ChatUserInfoInSpace } from "@/pages/PayPage/CreateRequestPage";
 import { useNavigate } from "react-router-dom";
+import { UserInfoInSpace } from "../SpaceSearchAllUserApi";
+
+interface SpaceSearchAllUserApiResponseType {
+  code: number;
+  status: number;
+  message: string;
+  result: {
+    userList: UserInfoInSpace[];
+  };
+}
 
 const fetchPayApi = async (url: string, options: RequestOptions) => {
   const response = await fetch(url, options).catch((err) => {
@@ -129,6 +140,82 @@ export const payDetailApi = async (
   if (response) {
     response.json().then((data) => {
       setDetailPayData(data.result);
+    });
+  }
+};
+
+export const getAllMemberApi = async (
+  spaceID: number,
+  setUserInfoData: React.Dispatch<React.SetStateAction<UserInfoInSpace[] | undefined>>,
+) => {
+  const requestOptions = createRequestOptionsJSON_AUTH("GET");
+  if (!requestOptions) {
+    return null;
+  }
+  const response = await fetchPayApi(
+    `${import.meta.env.VITE_API_BACK_URL}/space/${spaceID}/all-member`,
+    requestOptions,
+  );
+
+  if (response) {
+    response.json().then((data) => {
+      setUserInfoData(data.result.userInfoInSpaceList);
+    });
+  }
+};
+
+export const getChatRoomMemberApi = async (spaceId: number, chatRoomId: number) => {
+  const requestOptions = createRequestOptionsJSON_AUTH("GET");
+  if (!requestOptions) {
+    return null;
+  }
+  return fetchApi<SpaceSearchAllUserApiResponseType>(
+    `${import.meta.env.VITE_API_BACK_URL}/space/${spaceId}/chat/${chatRoomId}/member`,
+    requestOptions,
+  );
+};
+
+export const getAllChatMemberApi = async (
+  spaceID: number,
+  setChatUserInfoData: React.Dispatch<React.SetStateAction<ChatUserInfoInSpace[] | undefined>>,
+) => {
+  type chatRoomList = {
+    id: number;
+    name: string;
+    imgUrl: string;
+    lastMsg: string;
+    lastTime: string;
+    unreadMsgCount: number;
+  };
+  const requestOptions = createRequestOptionsJSON_AUTH("GET");
+  if (!requestOptions) {
+    return null;
+  }
+  const response = await fetchPayApi(
+    `${import.meta.env.VITE_API_BACK_URL}/space/${spaceID}/chat/chatroom`,
+    requestOptions,
+  );
+  if (response) {
+    response.json().then((data) => {
+      const _temp: chatRoomList[] = data.result.chatRoomList;
+      let _temp2: ChatUserInfoInSpace[] = new Array();
+      _temp.map(async (value, index) => {
+        let _temp3: ChatUserInfoInSpace = {
+          chatRoomId: -1,
+          chatRoomName: "",
+          userList: [],
+          imgUrl: "",
+        };
+        _temp3.chatRoomId = value.id;
+        _temp3.chatRoomName = value.name;
+        _temp3.imgUrl = value.imgUrl;
+        getChatRoomMemberApi(spaceID, value.id).then((res) => {
+          res ? (_temp3.userList = res.result.userList) : (_temp3.userList = []);
+          _temp2.push(_temp3);
+        });
+      });
+
+      setChatUserInfoData(_temp2);
     });
   }
 };
