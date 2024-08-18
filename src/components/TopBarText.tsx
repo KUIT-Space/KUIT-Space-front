@@ -13,7 +13,7 @@ export enum LeftEnum {
 
 interface topbarProps {
   left: LeftEnum;
-  center: string;
+  center: string | React.ReactNode;
   right: string | React.ReactNode;
   rightHandler?: () => void;
 }

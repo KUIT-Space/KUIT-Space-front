@@ -1,7 +1,8 @@
 import { createRequestOptionsJSON_AUTH, fetchApi } from "@/apis/_createRequestOptions";
+import { User } from "@/apis/Chat/ChatroomSearchAllUserApi";
 
 // 인터페이스 정의
-export interface UserInfoInSpace {
+export interface UserInfoInSpace extends User {
   userId: number;
   userName: string;
   profileImgUrl: string | null;

@@ -91,10 +91,12 @@ const ChatSettingPage = () => {
       <StyledMenu className="exit" onClick={() => setIsExitModal(true)}>
         채팅방 나가기
       </StyledMenu>
+
+      {/* //TODO: 관리자만 해당 메뉴 띄우기 */}
       <StyledMenu className="delete" onClick={() => setIsDeleteModal(true)}>
-        {/* //TODO: 관리자만 해당 메뉴 띄우기 */}
         채팅방 삭제하기
       </StyledMenu>
+
       <StopModal
         isOpen={isExitModal}
         onClose={() => setIsExitModal(false)}

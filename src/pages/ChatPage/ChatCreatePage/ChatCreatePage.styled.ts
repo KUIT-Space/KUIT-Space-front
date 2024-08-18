@@ -85,13 +85,21 @@ export const ChatroomName = styled.div<{ $nameLength: number }>`
   }
 `;
 
-export const Member = styled.label`
+export const Member = styled.label<{
+  $cursor?: "default" | "pointer";
+  $onClickBackColor?: boolean;
+}>`
   display: flex;
   user-select: none;
-  padding: 0.5rem 0rem;
+  padding: 0.5rem 0.25rem;
   align-items: center;
   justify-content: space-between;
-  cursor: pointer;
+  cursor: ${(props) => props.$cursor || "pointer"};
+
+  &:active {
+    background-color: ${(props) => (props.$onClickBackColor ? props.theme.colors.BG800 : "")};
+    border-radius: 0.5rem;
+  }
 
   section {
     display: flex;
@@ -134,4 +142,11 @@ export const Member = styled.label`
 
 export const ChatCreateBottomBtn = styled(BottomBtn)`
   margin: 0;
+`;
+
+export const MemberContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 1.5rem;
+  gap: 0.5rem;
 `;
