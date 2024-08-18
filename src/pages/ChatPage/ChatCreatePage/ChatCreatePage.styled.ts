@@ -144,11 +144,12 @@ export const ChatCreateBottomBtn = styled(BottomBtn)`
   margin: 0;
 `;
 
-export const MemberContainer = styled.div`
+export const MemberContainer = styled.div<{ $isBottomBtn?: boolean }>`
   display: flex;
   flex-direction: column;
   padding: 1rem 1.5rem;
   gap: 0.5rem;
+  padding-bottom: ${(props) => (props.$isBottomBtn ? "6.25rem" : "")};
 
   .input--container {
     display: flex;

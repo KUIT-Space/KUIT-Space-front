@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { choseongIncludes, hangulIncludes } from "es-hangul";
-import styled from "styled-components";
 
 import { Chatroom, ChatroomSearchAllUserApi, User } from "@/apis";
 import { spaceSearchAllUserApi } from "@/apis/Space/SpaceSearchAllUserApi";
@@ -11,12 +10,6 @@ import TopBarText, { LeftEnum } from "@/components/TopBarText";
 import { getUserDefaultImageURL } from "@/utils/getUserDefaultImageURL";
 
 import { InviteInput, Member, MemberContainer } from "../ChatCreatePage/ChatCreatePage.styled";
-
-//
-const BottomBtnInvite = styled(BottomBtn)`
-  width: calc(100% - 4rem);
-`;
-//
 
 const ChatSettingInvitePage = () => {
   const { id } = useParams();
@@ -43,7 +36,7 @@ const ChatSettingInvitePage = () => {
     <>
       <TopBarText left={LeftEnum.Back} center={`${chatroomInfo.name} 채팅방 초대`} right="" />
 
-      <MemberContainer>
+      <MemberContainer $isBottomBtn>
         <div className="input--container">
           <p>
             <span className="invite title">멤버 초대</span>
@@ -90,7 +83,7 @@ const ChatSettingInvitePage = () => {
             </Member>
           ))}
 
-        <BottomBtnInvite
+        <BottomBtn
           onClick={() => {
             //초대하기 API 호출
             const spaceId = Number(localStorage.getItem("spaceId"));
@@ -103,7 +96,7 @@ const ChatSettingInvitePage = () => {
           }}
         >
           초대하기
-        </BottomBtnInvite>
+        </BottomBtn>
       </MemberContainer>
     </>
   );

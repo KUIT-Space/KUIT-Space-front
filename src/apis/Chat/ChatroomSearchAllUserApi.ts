@@ -22,3 +22,12 @@ export const ChatroomSearchAllUserApi = async (spaceId: number, chatRoomId: numb
 
   return await fetchApi<ChatroomMemberApiResponse>(url, requestOptions);
 };
+
+export const ChatroomInviteUserApi = async (spaceId: number, chatRoomId: number) => {
+  const requestOptions = createRequestOptionsJSON_AUTH("POST");
+  if (!requestOptions) return null;
+
+  const url = `${import.meta.env.VITE_API_BACK_URL}/space/${spaceId}/chat/${chatRoomId}/member`;
+
+  return await fetchApi<ChatroomMemberApiResponse>(url, requestOptions);
+};
