@@ -1,12 +1,13 @@
 import { createRequestOptionsJSON_AUTH, fetchApi } from "@/apis/_createRequestOptions";
 
 // 응답 타입 정의
-interface UserProfile {
+export interface UserProfile {
   spaceId: number; // 스페이스 ID
   spaceName: string; // 스페이스 이름
   userName: string; // 해당 스페이스에서의 유저 이름
   userProfileImg: string | null; // 유저 프로필 이미지 URL (없으면 null)
   userAuth: "manager" | "normal"; // 유저 권한 정보 (관리자 또는 일반 멤버)
+  userId?: number; // 유저 ID
 }
 
 interface UserProfileResponse {
