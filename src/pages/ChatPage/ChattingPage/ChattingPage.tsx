@@ -46,6 +46,8 @@ const ChattingPage = () => {
   const [isManager, setIsManager] = useState<boolean>(false);
   const [onMenu, setOnMenu] = useState<boolean>(false);
 
+  const [uploadedImage, setUploadedImage] = useState<string>();
+
   const messageEndRef = useRef<HTMLDivElement | null>(null);
   const chattingTextareaRef = useRef<HTMLTextAreaElement | null>(null);
 
@@ -102,11 +104,11 @@ const ChattingPage = () => {
 
       if (messageType === "TEXT") {
         body.content = { text: inputValue };
+      } else if (messageType === "IMG") {
+        body.content = { image: uploadedImage }; // 인코딩된 base64 이미지 url
+        // console.log(imgData.image);
       }
-      //  else if (messageType === "IMG") {
-      //   body.content.image = imgData.image; // 인코딩된 base64 이미지 url
-      //   // console.log(imgData.image);
-      // } else if (messageType === "FILE" && fileData) {
+      // else if (messageType === "FILE" && fileData) {
       //   body.content = fileData; // 인코딩된 base64 파일 url
       // }
       // console.log(body.content);
@@ -123,6 +125,7 @@ const ChattingPage = () => {
     switch (msg.messageType) {
       case "TEXT":
         msg.content = msg.content as ChatText;
+        console.log(msg.content.text);
         return msg.content.text;
       case "IMG":
         msg.content = msg.content as ChatImage;
@@ -155,6 +158,17 @@ const ChattingPage = () => {
       default:
         return <></>;
     }
+  };
+
+  const handleImageImport = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const image = e.target.files?.[0];
+    const reader = new FileReader();
+
+    reader.readAsDataURL(image as Blob);
+    reader.onload = () => {
+      setUploadedImage(reader.result as string);
+    };
+    // image && setUploadedImage(image);
   };
 
   return (
@@ -215,6 +229,15 @@ const ChattingPage = () => {
             ref={chattingTextareaRef}
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && !e.shiftKey) {
+                if (inputValue === "") {
+                  e.preventDefault();
+                  return;
+                }
+                sendMessageS("TEXT");
+              }
+            }}
           />
           <button onClick={() => sendMessageS("TEXT")}>
             <img className="send" alt="Send button" src={SendBtnImg} />
@@ -228,7 +251,8 @@ const ChattingPage = () => {
             </button>
             <button>
               <img src={PictureBtnImg} alt="Picture button" />
-              <p>사진/동영상 첨부</p>
+              <input type="file" accept="image/*" onChange={handleImageImport} />
+              <p>사진 첨부</p>
             </button>
             <button>
               <img src={FileBtnImg} alt="File button" />

@@ -60,6 +60,7 @@ export const StyledMessage = styled.div<{ $isUser: boolean }>`
   }
 
   .message-content {
+    white-space: pre-wrap;
     max-width: 70%;
     ${({ $isUser }) => ($isUser ? "margin: 0 1rem 0 0.5rem;" : "margin: 0 0.5rem 0 3rem;")}
 
