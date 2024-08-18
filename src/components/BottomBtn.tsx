@@ -6,7 +6,7 @@ export const BottomBtn = styled.button`
   left: 50%;
   bottom: 1.25rem;
 
-  width: 40rem;
+  width: calc(100% - 4rem);
   max-width: 720px;
 
   position: fixed;
