@@ -54,13 +54,11 @@ const ChattingPage = () => {
     if (message.body) {
       const msg = JSON.parse(message.body);
       if (msg.chatMessageLog) {
-        console.log(msg.chatMessageLog);
+        //console.log(msg.chatMessageLog);
         setMessages((prevMessages) => [...prevMessages, ...msg.chatMessageLog]);
       } else {
         setMessages((prevMessages) => [...prevMessages, msg]);
       }
-      console.log(msg.chatMessageLog);
-      console.log(msg.chatMessageLog[0].createdAt);
     }
   };
 

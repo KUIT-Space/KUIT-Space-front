@@ -47,7 +47,7 @@ const ChatSettingInvitePage = () => {
     });
 
     setInvitedMemberList([]);
-  }, []);
+  }, [chatroomInfo.id]);
 
   return (
     <>
