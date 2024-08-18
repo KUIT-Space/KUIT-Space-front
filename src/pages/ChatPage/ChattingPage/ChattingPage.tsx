@@ -7,6 +7,7 @@ import {
   ChatMessageFrame,
   ChatPay,
   ChatPost,
+  Chatroom,
   ChatSendRequestFrame,
   ChatText,
   SocketConnect,
@@ -31,7 +32,9 @@ import { getUserDefaultImageURL } from "@/utils/getUserDefaultImageURL";
 
 const ChattingPage = () => {
   const param = useParams();
-  const { state } = useLocation();
+  const {
+    state: { chatroomInfo },
+  }: { state: { chatroomInfo: Chatroom } } = useLocation();
   const spaceId = Number(localStorage.getItem("spaceId")) || 3;
 
   const stompClient = useRef<any>(null);
@@ -157,9 +160,9 @@ const ChattingPage = () => {
     <ChattingContainer>
       <TopBarText
         left={LeftEnum.Back}
-        center={`${state?.title}`}
+        center={`${chatroomInfo.name}`}
         right={
-          <Link to={`/chat/${param.id}/setting`}>
+          <Link to={`/chat/${param.id}/setting`} state={{ chatroomInfo: chatroomInfo }}>
             <img src={SettingIcon} alt="setting" />
           </Link>
         }
