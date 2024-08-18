@@ -116,9 +116,8 @@ const InviteSpace = () => {
         spacename,
         spaceUserMsg,
       ).then((res) => {
-        console.log(res);
+        if (res) navigate("/");
       });
-      navigate("/");
     }
     setCurrentStep((prevStep) => prevStep + 1);
   };

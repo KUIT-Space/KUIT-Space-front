@@ -3,7 +3,7 @@ import { createRequestOptionsJSON_AUTH, fetchApi } from "@/apis/_createRequestOp
 interface UserProfileResult {
   userProfileImg: string; // 프로필 이미지 URL
   userName: string; // 유저 이름
-  userAuth: string; // 유저 권한 (예: manager, normal)
+  userAuth: "manager" | "normal"; // 유저 권한 (예: manager, normal)
   userProfileMsg: string; // 유저 상태 메시지
 }
 

@@ -110,7 +110,6 @@ const ChatSettingInvitePage = () => {
               invitedMemberList.map((member) => member.userId),
             ).then((res) => {
               if (res) {
-                console.log(res);
                 navigate(`/chat/${id}/setting/member`, { state: { chatroomInfo }, replace: true });
                 navigate(-1);
               }

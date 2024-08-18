@@ -11,6 +11,7 @@ export const ChattingBody = styled.div`
   padding: 1rem;
   overflow-y: auto;
   background-color: ${({ theme }) => theme.colors.BG900};
+  scrollbar-width: none;
 `;
 
 export const StyledMessage = styled.div<{ $isUser: boolean }>`

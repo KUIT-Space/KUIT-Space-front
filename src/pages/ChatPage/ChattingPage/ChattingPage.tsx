@@ -43,7 +43,7 @@ const ChattingPage = () => {
   const [messages, setMessages] = useState<ChatMessageFrame[]>([]);
   const [inputValue, setInputValue] = useState<string>("");
 
-  const [username, setUsername] = useState<string>("");
+  const [isManager, setIsManager] = useState<string>("");
   const [onMenu, setOnMenu] = useState<boolean>(false);
 
   const messageEndRef = useRef<HTMLDivElement | null>(null);
@@ -67,7 +67,7 @@ const ChattingPage = () => {
    */
   useEffect(() => {
     SpaceSearchUserProfile(spaceId).then((res) => {
-      setUsername(res?.result.userName ?? "");
+      if (res) setIsManager(res.result.userAuth);
     });
 
     SocketConnect(stompClient, param.id || "", handleChatMessage);
@@ -163,7 +163,10 @@ const ChattingPage = () => {
         left={LeftEnum.Back}
         center={`${chatroomInfo.name}`}
         right={
-          <Link to={`/chat/${param.id}/setting`} state={{ chatroomInfo: chatroomInfo }}>
+          <Link
+            to={`/chat/${param.id}/setting`}
+            state={{ chatroomInfo: chatroomInfo, isManager: isManager }}
+          >
             <img src={SettingIcon} alt="setting" />
           </Link>
         }

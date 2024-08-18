@@ -49,7 +49,6 @@ const ChatSettingNamePage = () => {
     const spaceId = Number(localStorage.getItem("spaceId"));
     ChatroomUpdateNameApi(spaceId, chatroomInfo.id, name).then((res) => {
       if (res) {
-        //console.log(res);
         if (res.status === "OK") {
           navigate(`/chat`);
 

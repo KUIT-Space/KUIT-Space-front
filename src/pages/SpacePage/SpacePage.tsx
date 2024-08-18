@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-import { GetUserProfileApi } from "@/apis/GetUserProfileApi";
 import { SpaceJoinInfoApi } from "@/apis/Space/SpaceJoinInfoApi";
 import { SpaceInfo, SpaceSelectApi, UserSpaceListResult } from "@/apis/Space/SpaceSelectApi";
 import add from "@/assets/icon_add.svg";
@@ -121,15 +120,10 @@ const SpacePage = () => {
     //TODO : lastUserSpaceId 값에 따라 추가로 더 받아와서 무한스크롤 구현
     SpaceSelectApi(10, lastUserSpaceId).then((res) => {
       if (res) {
-        console.log(res);
         setLastUserSpaceId(res.result.lastUserSpaceId);
         setUserSpaceResult(res.result);
         setSpaceInfoList(res.result.spaceInfoList);
       }
-    });
-
-    GetUserProfileApi().then((res) => {
-      console.log(res);
     });
   }, []);
 
@@ -158,7 +152,6 @@ const SpacePage = () => {
             };
           }
         });
-        console.log(spaceInfo);
         return spaceInfo;
       }),
     ).then((res) => {
