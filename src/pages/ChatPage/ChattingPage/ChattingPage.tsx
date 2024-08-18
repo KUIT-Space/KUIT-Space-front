@@ -61,7 +61,7 @@ const ChattingPage = () => {
     if (message.body) {
       const msg = JSON.parse(message.body);
       if (msg.chatMessageLog) {
-        //console.log(msg.chatMessageLog);
+        console.log(msg.chatMessageLog);
         setMessages((prevMessages) => [...prevMessages, ...msg.chatMessageLog]);
       } else {
         setMessages((prevMessages) => [...prevMessages, msg]);
@@ -109,17 +109,21 @@ const ChattingPage = () => {
 
       if (messageType === "TEXT") {
         body.content = { text: inputValue };
+        setInputValue("");
       } else if (messageType === "IMG") {
         body.content = { image: uploadedImage }; // 인코딩된 base64 이미지 url
         //console.log(uploadedImage);
+        setUploadedImage(null);
+        setInputKey((prevKey) => prevKey + 1); // input 리셋
       }
       // else if (messageType === "FILE" && fileData) {
       //   body.content = fileData; // 인코딩된 base64 파일 url
       // }
       // console.log(body.content);
-      //console.log(stompClient.current);
+
+      // console.log(stompClient.current);
       stompClient.current.send(`/app/chat/${param.id}`, {}, JSON.stringify(body));
-      setInputValue("");
+
       //setFileData(null);
     }
   };
