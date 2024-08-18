@@ -1,10 +1,13 @@
-import TopBarText, { LeftEnum } from "@/components/TopBarText";
-import { To, useNavigate } from "react-router-dom";
-import setting from "@/assets/icon_setting.svg";
-import add from "@/assets/icon_add.svg";
-import edit from "@/assets/Space/icon_space_edit.svg";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { useState } from "react";
+
+import { fetchUserSpaceList, SpaceInfo, UserSpaceListResult } from "@/apis/Space/SpaceSelectApi";
+import add from "@/assets/icon_add.svg";
+import setting from "@/assets/icon_setting.svg";
+import edit from "@/assets/Space/icon_space_edit.svg";
+import TopBarText, { LeftEnum } from "@/components/TopBarText";
+import { getUserDefaultImageURL } from "@/utils/getUserDefaultImageURL";
 
 const TopBarContainer = styled.div`
   display: flex;
@@ -25,14 +28,26 @@ const GridContainer = styled.div`
 `;
 
 const GridItem = styled.div`
+  position: relative;
   display: flex;
   width: 100px;
   height: 100px;
   background-color: ${({ theme }) => theme.colors.BG800};
-  border-radius: 12px;	
+  border-radius: 12px;
   justify-content: center;
   align-items: center;
   z-index: 2;
+
+  .space-image {
+    width: 100%;
+    height: 100%;
+  }
+
+  span {
+    position: absolute;
+    left: 5%;
+    top: 5%;
+  }
 `;
 
 const SettingBtn = styled.img`
@@ -59,10 +74,13 @@ const EditBtn = styled.img<{ active: boolean }>`
   display: flex;
   width: 36px;
   height: 36px;
-  align-items: center,
+  align-items: center;
   cursor: pointer;
   color: red;
-  filter: ${({ active }) => (active ? "invert(64%) sepia(95%) saturate(358%) hue-rotate(68deg) brightness(91%) contrast(89%)" : "none")};
+  filter: ${({ active }) =>
+    active
+      ? "invert(64%) sepia(95%) saturate(358%) hue-rotate(68deg) brightness(91%) contrast(89%)"
+      : "none"};
   z-index: 2;
 `;
 
@@ -80,75 +98,86 @@ const Overlay = styled.div`
 const SpacePage = () => {
   const navigate = useNavigate();
   const [editActive, setEditActive] = useState(false);
+  const [spaceInfoList, setSpaceInfoList] = useState<SpaceInfo[]>([]);
+  const [userSpaceResult, setUserSpaceResult] = useState<UserSpaceListResult>();
+  const [lastUserSpaceId, setLastUserSpaceId] = useState<number>(0);
 
-  const handleNavigate = (path: To) => {
-  	navigate(path);
-  };
+  useEffect(() => {
+    //TODO : lastUserSpaceId 값에 따라 추가로 더 받아와서 무한스크롤 구현
+    fetchUserSpaceList(10, lastUserSpaceId).then((res) => {
+      if (res) {
+        console.log(res);
+        setLastUserSpaceId(res.result.lastUserSpaceId);
+        setUserSpaceResult(res.result);
+        setSpaceInfoList(res.result.spaceInfoList);
+      }
+    });
+  }, []);
 
   const toggleEdit = () => {
     setEditActive(!editActive);
   };
 
   const response = {
-		userName: "하진",
-		lastUserSpaceId: 8,
-		spaceInfoList: [
-			{
-				spaceId: 1,
-				spaceName: "작업 안하면 죽는 방",
-				profileImgUrl: "https://placehold.co/100x100",
-			},
-			{
-				spaceId: 2,
-				spaceName: "작업 안하면 죽는 방",
-				profileImgUrl: "https://placehold.co/100x100",
-			},
-			{
-				spaceId: 3,
-				spaceName: "작업 안하면 죽는 방",
-				profileImgUrl: "https://placehold.co/100x100",
-			},
-			{
-				spaceId: 4,
-				spaceName: "작업 안하면 죽는 방",
-				profileImgUrl: "https://placehold.co/100x100",
-			},
-			{
-				spaceId: 5,
-				spaceName: "작업 안하면 죽는 방",
-				profileImgUrl: "https://placehold.co/100x100",
-			},
-			{
-				spaceId: 6,
-				spaceName: "작업 안하면 죽는 방",
-				profileImgUrl: "https://placehold.co/100x100",
-			},
-			{
-				spaceId: 7,
-				spaceName: "작업 안하면 죽는 방",
-				profileImgUrl: "https://placehold.co/100x100",
-			},
-			{
-				spaceId: 8,
-				spaceName: "작업 안하면 죽는 방",
-				profileImgUrl: "https://placehold.co/100x100",
-			},
-			/*
-			{
-				spaceId: 9,
-				spaceName: "작업 안하면 죽는 방",
-				profileImgUrl: "https://placehold.co/100x100",
-			},
-			{
-				spaceId: 10,
-				spaceName: "작업 안하면 죽는 방",
-				profileImgUrl: "https://placehold.co/100x100",
-			},
-			{
-				spaceId: 11,
-				spaceName: "작업 안하면 죽는 방",
-				profileImgUrl: "https://placehold.co/100x100",
-			},
+    userName: "하진",
+    lastUserSpaceId: 8,
+    spaceInfoList: [
+      {
+        spaceId: 1,
+        spaceName: "작업 안하면 죽는 방",
+        profileImgUrl: "https://placehold.co/100x100",
+      },
+      {
+        spaceId: 2,
+        spaceName: "작업 안하면 죽는 방",
+        profileImgUrl: "https://placehold.co/100x100",
+      },
+      {
+        spaceId: 3,
+        spaceName: "작업 안하면 죽는 방",
+        profileImgUrl: "https://placehold.co/100x100",
+      },
+      {
+        spaceId: 4,
+        spaceName: "작업 안하면 죽는 방",
+        profileImgUrl: "https://placehold.co/100x100",
+      },
+      {
+        spaceId: 5,
+        spaceName: "작업 안하면 죽는 방",
+        profileImgUrl: "https://placehold.co/100x100",
+      },
+      {
+        spaceId: 6,
+        spaceName: "작업 안하면 죽는 방",
+        profileImgUrl: "https://placehold.co/100x100",
+      },
+      {
+        spaceId: 7,
+        spaceName: "작업 안하면 죽는 방",
+        profileImgUrl: "https://placehold.co/100x100",
+      },
+      {
+        spaceId: 8,
+        spaceName: "작업 안하면 죽는 방",
+        profileImgUrl: "https://placehold.co/100x100",
+      },
+      {
+        spaceId: 9,
+        spaceName: "작업 안하면 죽는 방",
+        profileImgUrl: "https://placehold.co/100x100",
+      },
+      {
+        spaceId: 10,
+        spaceName: "작업 안하면 죽는 방",
+        profileImgUrl: "https://placehold.co/100x100",
+      },
+      {
+        spaceId: 11,
+        spaceName: "작업 안하면 죽는 방",
+        profileImgUrl: "https://placehold.co/100x100",
+      },
+      /*
 			{
 				spaceId: 12,
 				spaceName: "작업 안하면 죽는 방",
@@ -160,49 +189,66 @@ const SpacePage = () => {
 				profileImgUrl: "https://placehold.co/100x100",
 			},
 			*/
-		],
-  }
-
-
-  const images = response.spaceInfoList;
+    ],
+  };
 
   return (
-  	<>
-	  {editActive && <Overlay />}
-      <div style={{ width: "320px", margin: "auto", paddingBottom: "10px", position: "relative"}}>
-		<TopBarContainer>
-	      <TopBarText left={LeftEnum.Logo} center="" right="" />
-		  <SettingBtn src={setting} alt="setting" onClick={() => handleNavigate("/space/spaceoption")} />
-		</TopBarContainer>
-		  <div style={{ height: "202px", display: "flex", flexDirection: "column" }}>
-		    <div style={{ height: "39px", marginTop: "77px", display: "flex", alignItems: "center" }}>
-		      <Title>{response.userName}의 스페이스</Title>
-		    </div>
-			<div style={{ height: "36px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-			  <div>
-				<SpaceNumber>{response.lastUserSpaceId}</SpaceNumber>
-				<Subtitle>개의 스페이스</Subtitle>
-			  </div>
-			  <EditBtn src={edit} alt="edit" active={editActive} onClick={toggleEdit} />
-			</div>
-		  </div>
-	  </div>
-		<GridContainer>
-		  {images.map((info, index) => (
-		    <GridItem key={index}>
-			  <img src={info.profileImgUrl} alt={`Space ${info.spaceId}`} onClick={() => handleNavigate("/")} />
-			</GridItem>
-		  ))}
-		  {!editActive ? (
-		    <GridItem onClick={() => handleNavigate("/space/addspace")}>
-			  <img src={add} />
-		    </GridItem>)
-			: (
-			<GridItem /> 
-		  )}
-		  {images.length < 9 && Array.from({ length: 8 - images.length }).map((_, index) => <GridItem key={`empty-${index}`} />)}
-		</GridContainer>
-	</>
+    <>
+      {editActive && <Overlay />}
+      <div style={{ width: "320px", margin: "auto", paddingBottom: "10px", position: "relative" }}>
+        <TopBarContainer>
+          <TopBarText left={LeftEnum.Logo} center="" right="" />
+          <SettingBtn src={setting} alt="setting" onClick={() => navigate("/space/spaceoption")} />
+        </TopBarContainer>
+        <div style={{ height: "202px", display: "flex", flexDirection: "column" }}>
+          <div style={{ height: "39px", marginTop: "77px", display: "flex", alignItems: "center" }}>
+            <Title>{userSpaceResult?.userName}의 스페이스</Title>
+          </div>
+          <div
+            style={{
+              height: "36px",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <div>
+              <SpaceNumber>{userSpaceResult?.spaceInfoList.length}</SpaceNumber>
+              <Subtitle>개의 스페이스</Subtitle>
+            </div>
+            <EditBtn src={edit} alt="edit" active={editActive} onClick={toggleEdit} />
+          </div>
+        </div>
+      </div>
+      <GridContainer>
+        {spaceInfoList.map((info, index) => (
+          <GridItem key={index}>
+            <img
+              className="space-image"
+              src={info.profileImgUrl ?? getUserDefaultImageURL(info.spaceId)}
+              alt={`Space ${info.spaceId}`}
+              onClick={() => {
+                localStorage.setItem("spaceId", info.spaceId.toString());
+                sessionStorage.setItem("spaceId", info.spaceId.toString());
+                navigate("/");
+              }}
+            />
+            <span>{info.spaceId}</span>
+          </GridItem>
+        ))}
+        {!editActive ? (
+          <GridItem onClick={() => navigate("/space/addspace")}>
+            <img src={add} />
+          </GridItem>
+        ) : (
+          <GridItem />
+        )}
+        {spaceInfoList.length < 9 &&
+          Array.from({ length: 8 - spaceInfoList.length }).map((_, index) => (
+            <GridItem key={`empty-${index}`} />
+          ))}
+      </GridContainer>
+    </>
   );
 };
 

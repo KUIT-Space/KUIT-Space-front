@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { choseongIncludes, hangulIncludes } from "es-hangul";
 
 import { ChatroomCreateApi } from "@/apis";
-import { spaceSearchAllUserApi, UserInfoInSpace } from "@/apis/SpaceSearchAllUserApi";
+import { spaceSearchAllUserApi, UserInfoInSpace } from "@/apis/Space/SpaceSearchAllUserApi";
 import { CharacterImgs } from "@/assets/Characters";
 import ChatroomImg from "@/assets/ChatPage/btn_chatroom_img.svg";
 import CheckBox from "@/components/CheckBox";
