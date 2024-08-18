@@ -58,6 +58,8 @@ const ChattingPage = () => {
       } else {
         setMessages((prevMessages) => [...prevMessages, msg]);
       }
+      console.log(msg.chatMessageLog);
+      console.log(msg.chatMessageLog[0].createdAt);
     }
   };
 
@@ -174,7 +176,7 @@ const ChattingPage = () => {
             <StyledMessage key={index} className="message" $isUser={true}>
               <div className="message-content-container">
                 <span className="message-time">
-                  {/* {new Date(msg.time).toLocaleTimeString().slice(0, -3)} */}
+                  {new Date(msg.createdAt).toLocaleTimeString().slice(0, -3)}
                 </span>
                 <div className="message-content">{renderMessageContent(msg)}</div>
               </div>
@@ -192,7 +194,7 @@ const ChattingPage = () => {
               <div className="message-content-container">
                 <div className="message-content">{renderMessageContent(msg)}</div>
                 <span className="message-time">
-                  {/* {new Date(msg.time).toLocaleTimeString().slice(0, -3)} */}
+                  {new Date(msg.createdAt).toLocaleTimeString().slice(0, -3)}
                 </span>
               </div>
             </StyledMessage>

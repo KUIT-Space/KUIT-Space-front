@@ -37,6 +37,12 @@ const ChatSettingPage = () => {
   return (
     <div>
       <TopBarText left={LeftEnum.Back} center={`${chatroomInfo.name} 채팅방 설정`} right="" />
+
+      <StyledMenu onClick={() => navigate("/space/spaceoption/accountmanage")}>
+        {chatroomInfo.name}
+        <img style={{ display: "absolute", right: "0" }} src={RightArrowImg} alt="right_arrow" />
+      </StyledMenu>
+
       <StyledMenu onClick={() => navigate("/space/spaceoption/accountmanage")}>
         채팅방 멤버
         <img style={{ display: "absolute", right: "0" }} src={RightArrowImg} alt="right_arrow" />
