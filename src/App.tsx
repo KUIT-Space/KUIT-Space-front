@@ -35,25 +35,10 @@ import VoiceRoomPage from "@/pages/VoiceRoomPage/VoiceRoomPage";
 import GlobalStyle from "@/styles/GlobalStyles";
 import { theme } from "@/styles/Theme";
 
-import ChatSettingPage from "./pages/ChatPage/ChatSettingPage/ChatSettingPage";
-import CompletePay from "./pages/PayPage/CompletePay";
-import CreateRequestPage from "./pages/PayPage/CreateRequestPage";
-import MyRequestPayPage from "./pages/PayPage/MyRequestPayPage";
-import RequestedPayPage from "./pages/PayPage/RequestedPayPage";
-import AccountManage from "./pages/SpacePage/AccountManage";
-import AddSpacePage from "./pages/SpacePage/AddSpacePage";
-import AlarmManage from "./pages/SpacePage/AlarmManage";
-import ProfileManage from "./pages/SpacePage/ProfileManage";
-import SpaceOption from "./pages/SpacePage/SpaceOption";
-import SpacePage from "./pages/SpacePage/SpacePage";
-import CreateVoiceRoomPage from "./pages/VoiceRoomPage/CreateVoiceRoom";
-import EditVoiceRoomPage from "./pages/VoiceRoomPage/EditVoiceRoomPage";
-import JoinVoiceRoomPage from "./pages/VoiceRoomPage/JoinVoiceRoomPage";
-import VoiceRoomPage from "./pages/VoiceRoomPage/VoiceRoomPage";
-import InviteSpace from "./pages/SpacePage/InviteSpace";
 import BoardDetailPage from "./pages/BoardPage/BoardDetailpage/BoardDetailPage";
 import BoardRegisterPage from "./pages/BoardPage/BoardRegisterPage/BoardRegisterPage";
 import LoginModal from "./pages/LoginPage/LoginModal";
+import InviteSpace from "./pages/SpacePage/InviteSpace";
 
 // will we need constant path in later..?
 // const PATH = {
@@ -161,6 +146,7 @@ function App() {
     ...routes_children_board,
     ...routes_children_space,
     ...routes_children_login,
+    { path: "/*", element: <HomePage />, hasBottomBar: true },
   ];
 
   const routes = [
