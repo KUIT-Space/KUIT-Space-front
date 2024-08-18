@@ -11,6 +11,9 @@ import BottomNavBar from "@/components/BottomNavBar";
 import BoardPage from "@/pages/BoardPage/BoardPage";
 import ChatCreatePage from "@/pages/ChatPage/ChatCreatePage/ChatCreatePage";
 import ChatPage from "@/pages/ChatPage/ChatPage";
+import ChatSettingInvitePage from "@/pages/ChatPage/ChatSettingPage/ChatSettingInvitePage";
+import ChatSettingMemberPage from "@/pages/ChatPage/ChatSettingPage/ChatSettingMemberPage";
+import ChatSettingNamePage from "@/pages/ChatPage/ChatSettingPage/ChatSettingNamePage";
 import ChatSettingPage from "@/pages/ChatPage/ChatSettingPage/ChatSettingPage";
 import ChattingPage from "@/pages/ChatPage/ChattingPage/ChattingPage";
 import HomePage from "@/pages/HomePage/HomePage";
@@ -93,9 +96,12 @@ function Layout({ routes_children }: { routes_children: RouteChildren[] }) {
 function App() {
   const routes_children_chat = [
     { path: "/chat", element: <ChatPage />, hasBottomBar: true },
+    { path: "/chat/create", element: <ChatCreatePage /> },
     { path: "/chat/:id", element: <ChattingPage /> },
     { path: "/chat/:id/setting", element: <ChatSettingPage /> },
-    { path: "/chat/create", element: <ChatCreatePage /> },
+    { path: "/chat/:id/setting/name", element: <ChatSettingNamePage /> },
+    { path: "/chat/:id/setting/member", element: <ChatSettingMemberPage /> },
+    { path: "/chat/:id/setting/invite", element: <ChatSettingInvitePage /> },
   ];
 
   const routes_children_pay = [

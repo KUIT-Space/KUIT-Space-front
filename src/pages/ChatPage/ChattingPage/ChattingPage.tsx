@@ -28,6 +28,7 @@ import {
   ChattingTextarea,
   StyledMessage,
 } from "@/pages/ChatPage/ChattingPage/ChattingPage.styled";
+import { decodedJWT } from "@/utils/decodedJWT";
 import { getUserDefaultImageURL } from "@/utils/getUserDefaultImageURL";
 
 const ChattingPage = () => {
@@ -172,7 +173,7 @@ const ChattingPage = () => {
 
       <ChattingBody>
         {messages.map((msg, index) =>
-          msg.senderName === username ? (
+          msg.senderId === decodedJWT()?.userId ? (
             <StyledMessage key={index} className="message" $isUser={true}>
               <div className="message-content-container">
                 <span className="message-time">
