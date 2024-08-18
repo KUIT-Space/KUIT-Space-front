@@ -5,6 +5,8 @@ export interface SpaceInfo {
   spaceName: string; // 스페이스 이름
   profileImgUrl: string | null; // 스페이스 썸네일 URL
   isInvited?: boolean; //[프론트 판별용] 초대된 스페이스인지 여부
+  createdAt?: string; // 스페이스 개설일 (yyyy년 mm월 dd일 형식)
+  memberNum?: number; // 스페이스 멤버 수
 }
 
 export interface UserSpaceListResult {

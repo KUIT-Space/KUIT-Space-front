@@ -143,6 +143,8 @@ const SpacePage = () => {
           spaceName: "",
           profileImgUrl: "",
           isInvited: false,
+          createdAt: "",
+          memberNum: 0,
         };
         await SpaceJoinInfoApi(spaceId).then((res) => {
           if (res) {
@@ -151,6 +153,8 @@ const SpacePage = () => {
               spaceName: res.result.spaceName,
               profileImgUrl: res.result.spaceProfileImg,
               isInvited: true,
+              createdAt: res.result.createdAt,
+              memberNum: res.result.memberNum,
             };
           }
         });
