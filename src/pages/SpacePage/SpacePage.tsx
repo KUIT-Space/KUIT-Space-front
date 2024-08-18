@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-import { fetchUserSpaceList, SpaceInfo, UserSpaceListResult } from "@/apis/Space/SpaceSelectApi";
+import { GetUserProfileApi } from "@/apis/GetUserProfileApi";
+import { SpaceJoinInfoApi } from "@/apis/Space/SpaceJoinInfoApi";
+import { SpaceInfo, SpaceSelectApi, UserSpaceListResult } from "@/apis/Space/SpaceSelectApi";
 import add from "@/assets/icon_add.svg";
 import setting from "@/assets/icon_setting.svg";
 import edit from "@/assets/Space/icon_space_edit.svg";
@@ -43,10 +45,23 @@ const GridItem = styled.div`
     height: 100%;
   }
 
-  span {
+  .spaceId {
     position: absolute;
     left: 5%;
     top: 5%;
+    background-color: ${({ theme }) => theme.colors.white};
+    color: ${({ theme }) => theme.colors.BG800};
+    padding: 0.125rem 0.25rem;
+    border-radius: 0.25rem;
+  }
+
+  .invite {
+    position: absolute;
+    right: 5%;
+    top: 5%;
+    background-color: ${({ theme }) => theme.colors.dark_hover};
+    padding: 0.125rem 0.25rem;
+    border-radius: 0.25rem;
   }
 `;
 
@@ -104,13 +119,47 @@ const SpacePage = () => {
 
   useEffect(() => {
     //TODO : lastUserSpaceId 값에 따라 추가로 더 받아와서 무한스크롤 구현
-    fetchUserSpaceList(10, lastUserSpaceId).then((res) => {
+    SpaceSelectApi(10, lastUserSpaceId).then((res) => {
       if (res) {
         console.log(res);
         setLastUserSpaceId(res.result.lastUserSpaceId);
         setUserSpaceResult(res.result);
         setSpaceInfoList(res.result.spaceInfoList);
       }
+    });
+
+    GetUserProfileApi().then((res) => {
+      console.log(res);
+    });
+  }, []);
+
+  useEffect(() => {
+    //TODO : 임시로 초대받은 스페이스를 배열에 추가 (ex. spaceId: 3, 6, 9)
+    const tempInviteSpace = [3, 6, 9, 11];
+    Promise.all(
+      tempInviteSpace.map(async (spaceId) => {
+        let spaceInfo: SpaceInfo = {
+          spaceId: spaceId,
+          spaceName: "",
+          profileImgUrl: "",
+          isInvited: false,
+        };
+        await SpaceJoinInfoApi(spaceId).then((res) => {
+          if (res) {
+            spaceInfo = {
+              spaceId: spaceId,
+              spaceName: res.result.spaceName,
+              profileImgUrl: res.result.spaceProfileImg,
+              isInvited: true,
+            };
+          }
+        });
+        console.log(spaceInfo);
+        return spaceInfo;
+      }),
+    ).then((res) => {
+      // console.log(res.filter((spaceInfo) => spaceInfo.isInvited));
+      setSpaceInfoList((prev) => [...res.filter((spaceInfo) => spaceInfo.isInvited), ...prev]);
     });
   }, []);
 
@@ -230,10 +279,16 @@ const SpacePage = () => {
               onClick={() => {
                 localStorage.setItem("spaceId", info.spaceId.toString());
                 sessionStorage.setItem("spaceId", info.spaceId.toString());
+
+                //혹시 몰라 spaceInfo 저장
+                localStorage.setItem("spaceInfo", JSON.stringify(info));
+                sessionStorage.setItem("spaceInfo", JSON.stringify(info));
+
                 navigate("/");
               }}
             />
-            <span>{info.spaceId}</span>
+            <span className="spaceId">{info.spaceId}</span>
+            {info.isInvited && <span className="invite">초대</span>}
           </GridItem>
         ))}
         {!editActive ? (

@@ -4,6 +4,7 @@ export interface SpaceInfo {
   spaceId: number; // 스페이스 id 값
   spaceName: string; // 스페이스 이름
   profileImgUrl: string | null; // 스페이스 썸네일 URL
+  isInvited?: boolean; //[프론트 판별용] 초대된 스페이스인지 여부
 }
 
 export interface UserSpaceListResult {
@@ -24,7 +25,7 @@ interface UserSpaceListResponse {
  * @param lastUserSpaceId 마지막으로 얻은 userSpaceId 값 (초기 요청 시 0)
  * @returns 스페이스 목록과 lastUserSpaceId 정보, 없으면 null 반환 (재로그인 필요)
  */
-export const fetchUserSpaceList = async (size: number, lastUserSpaceId: number) => {
+export const SpaceSelectApi = async (size: number, lastUserSpaceId: number) => {
   const requestOptions = createRequestOptionsJSON_AUTH("GET");
   if (!requestOptions) return null;
 
