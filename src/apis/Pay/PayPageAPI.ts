@@ -18,6 +18,11 @@ interface SpaceSearchAllUserApiResponseType {
   };
 }
 
+export interface targetInfoList {
+  targetUserId: number;
+  requestAmount: number;
+}
+
 const fetchPayApi = async (url: string, options: RequestOptions) => {
   const response = await fetch(url, options).catch((err) => {
     console.error(err);
@@ -218,4 +223,28 @@ export const getAllChatMemberApi = async (
       setChatUserInfoData(_temp2);
     });
   }
+};
+
+export const payCreateApi = async (
+  totalAmount: number,
+  bankName: string,
+  bankAccountNum: string,
+  targetInfoList: targetInfoList[],
+  spaceId: number,
+) => {
+  const body = {
+    totalAmount: totalAmount,
+    bankName: bankName,
+    bankAccountNum: bankAccountNum,
+    targetInfoList: targetInfoList,
+  };
+  const requestOptions = createRequestOptionsJSON_AUTH("POST", JSON.stringify(body));
+
+  if (!requestOptions) {
+    return null;
+  }
+  const response = await fetchPayApi(
+    `${import.meta.env.VITE_API_BACK_URL}/space/${spaceId}/pay`,
+    requestOptions,
+  );
 };
