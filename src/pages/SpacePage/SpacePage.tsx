@@ -162,7 +162,6 @@ const SpacePage = () => {
         return spaceInfo;
       }),
     ).then((res) => {
-      // console.log(res.filter((spaceInfo) => spaceInfo.isInvited));
       setSpaceInfoList((prev) => [...res.filter((spaceInfo) => spaceInfo.isInvited), ...prev]);
     });
   }, []);
@@ -271,6 +270,14 @@ const SpacePage = () => {
             </div>
             <EditBtn src={edit} alt="edit" active={editActive} onClick={toggleEdit} />
           </div>
+          {spaceInfoList.filter((spaceInfo) => spaceInfo.isInvited).length > 0 && (
+            <div>
+              <SpaceNumber>
+                {spaceInfoList.filter((spaceInfo) => spaceInfo.isInvited).length}
+              </SpaceNumber>
+              <Subtitle>개의 스페이스 초대 받음</Subtitle>
+            </div>
+          )}
         </div>
       </div>
       <GridContainer>
