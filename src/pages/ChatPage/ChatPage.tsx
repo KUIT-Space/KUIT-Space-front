@@ -58,7 +58,7 @@ const ChatPage = () => {
             <ChatContainer
               key={chat.id}
               onClick={() => {
-                navigate(`/chat/${chat.id}`, { state: { title: chat.name } });
+                navigate(`/chat/${chat.id}`, { state: { chatroomInfo: chat } });
               }}
             >
               <img className="chat-btn-img" alt="chat-btn-img" src={chat.imgUrl} />

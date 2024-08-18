@@ -139,9 +139,14 @@ const InviteSpace = () => {
           <SpaceImage src={spaceInfo.profileImgUrl ?? getUserDefaultImageURL(spaceInfo.spaceId)} />
           <SpaceTitle>{spaceInfo.spaceName}</SpaceTitle>
           <div>
-            <div style={{ marginBottom: "rem" }}>
+            <div style={{ marginBottom: "0.5rem" }}>
               <SpaceInfo style={{ marginRight: "0.75rem" }}>개설일</SpaceInfo>
-              <SpaceInfo>{spaceInfo.createdAt}</SpaceInfo>
+              <SpaceInfo>
+                {isNaN(Date.parse(spaceInfo.createdAt ?? ""))
+                  ? spaceInfo.createdAt
+                  : spaceInfo.createdAt &&
+                    new Date(spaceInfo.createdAt).toLocaleDateString("ko-KR")}
+              </SpaceInfo>
             </div>
             <div>
               <SpaceInfo style={{ marginRight: "0.75rem" }}>멤버</SpaceInfo>

@@ -34,7 +34,7 @@ export interface ChatSendRequestFrame {
 }
 
 export interface ChatMessageFrame extends ChatSendRequestFrame {
-  createAt: string;
+  createdAt: string;
   senderImg: string | null;
   senderName: string;
   senderId: number;
