@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { choseongIncludes, hangulIncludes } from "es-hangul";
 
 import { ChatroomCreateApi } from "@/apis";
-import { spaceSearchAllUserApi, UserInfoInSpace } from "@/apis/SpaceSearchAllUserApi";
+import { spaceSearchAllUserApi, UserInfoInSpace } from "@/apis/Space/SpaceSearchAllUserApi";
 import { CharacterImgs } from "@/assets/Characters";
 import ChatroomImg from "@/assets/ChatPage/btn_chatroom_img.svg";
 import CheckBox from "@/components/CheckBox";
@@ -68,10 +68,12 @@ const ChatCreatePage = () => {
   return (
     <>
       <TopBarText left={LeftEnum.Back} center="새 채팅방" right="" />
+
       <ChatroomAddImgBtn $backgroundImage={URL.createObjectURL(uploadedImage ?? defaultImage)}>
         <img src={ChatroomImg} alt="Chatroom Image" />
         <input type="file" accept="image/*" onChange={handleImageImport} />
       </ChatroomAddImgBtn>
+
       <ChatCreateContainer>
         <div className="input--container">
           <p>채팅방 이름</p>

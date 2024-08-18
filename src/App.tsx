@@ -128,9 +128,6 @@ function App() {
     { path: "/space/spaceoption/profilemanage", element: <ProfileManage /> },
     { path: "/space/spaceoption/alarmmanage", element: <AlarmManage /> },
     { path: "/invite", element: <InviteSpace /> },
-    { path: "/createvoiceroom", element: <CreateVoiceRoomPage />, hasBottomBar: false },
-    { path: "/joinvoiceroom", element: <JoinVoiceRoomPage />, hasBottombar: false },
-    { path: "/editvoiceroom", element: <EditVoiceRoomPage />, hasBottombar: false },
   ];
 
   const routes_children_login = [
