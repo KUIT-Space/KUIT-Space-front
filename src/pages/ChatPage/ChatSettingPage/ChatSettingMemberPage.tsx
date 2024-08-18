@@ -11,8 +11,8 @@ const ChatSettingMemberPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const {
-    state: { chatroomInfo },
-  }: { state: { chatroomInfo: Chatroom } } = useLocation();
+    state: { chatroomInfo, isManager },
+  }: { state: { chatroomInfo: Chatroom; isManager: boolean } } = useLocation();
 
   const [userList, setUserList] = useState<User[]>([]);
 
@@ -48,17 +48,19 @@ const ChatSettingMemberPage = () => {
 
       <MemberContainer>
         {/* //TODO: 자신이 관리자일 때만 뜨는 뷰 */}
-        <Member
-          $onClickBackColor={true}
-          onClick={() =>
-            navigate(`/chat/${id}/setting/invite`, { state: { chatroomInfo: chatroomInfo } })
-          }
-        >
-          <section>
-            <img src={AddMemberImg} />
-            <span className="name">채팅방에 초대하기</span>
-          </section>
-        </Member>
+        {isManager && (
+          <Member
+            $onClickBackColor={true}
+            onClick={() =>
+              navigate(`/chat/${id}/setting/invite`, { state: { chatroomInfo: chatroomInfo } })
+            }
+          >
+            <section>
+              <img src={AddMemberImg} />
+              <span className="name">채팅방에 초대하기</span>
+            </section>
+          </Member>
+        )}
 
         {userList.map((member, index) => (
           <Member key={index} $cursor="default">

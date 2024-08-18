@@ -43,7 +43,7 @@ const ChattingPage = () => {
   const [messages, setMessages] = useState<ChatMessageFrame[]>([]);
   const [inputValue, setInputValue] = useState<string>("");
 
-  const [isManager, setIsManager] = useState<string>("");
+  const [isManager, setIsManager] = useState<boolean>(false);
   const [onMenu, setOnMenu] = useState<boolean>(false);
 
   const messageEndRef = useRef<HTMLDivElement | null>(null);
@@ -67,7 +67,7 @@ const ChattingPage = () => {
    */
   useEffect(() => {
     SpaceSearchUserProfile(spaceId).then((res) => {
-      if (res) setIsManager(res.result.userAuth);
+      if (res) setIsManager(res.result.userAuth === "manager");
     });
 
     SocketConnect(stompClient, param.id || "", handleChatMessage);

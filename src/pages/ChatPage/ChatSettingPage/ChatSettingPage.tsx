@@ -48,8 +48,8 @@ const ChatSettingPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const {
-    state: { chatroomInfo },
-  }: { state: { chatroomInfo: Chatroom } } = useLocation();
+    state: { chatroomInfo, isManager },
+  }: { state: { chatroomInfo: Chatroom; isManager: boolean } } = useLocation();
 
   const [isExitModal, setIsExitModal] = useState(false);
   const [isDeleteModal, setIsDeleteModal] = useState(false);
@@ -66,8 +66,10 @@ const ChatSettingPage = () => {
         />
         <StyledMenu
           onClick={() =>
+            isManager &&
             navigate(`/chat/${id}/setting/name`, { state: { chatroomInfo: chatroomInfo } })
           }
+          style={{ cursor: isManager ? "pointer" : "default" }}
         >
           {chatroomInfo.name}
           <img className="right-arrow" src={RightArrowImg} alt="right_arrow" />
@@ -76,7 +78,9 @@ const ChatSettingPage = () => {
 
       <StyledMenu
         onClick={() =>
-          navigate(`/chat/${id}/setting/member`, { state: { chatroomInfo: chatroomInfo } })
+          navigate(`/chat/${id}/setting/member`, {
+            state: { chatroomInfo: chatroomInfo, isManager: isManager },
+          })
         }
       >
         채팅방 멤버
@@ -92,10 +96,11 @@ const ChatSettingPage = () => {
         채팅방 나가기
       </StyledMenu>
 
-      {/* //TODO: 관리자만 해당 메뉴 띄우기 */}
-      <StyledMenu className="delete" onClick={() => setIsDeleteModal(true)}>
-        채팅방 삭제하기
-      </StyledMenu>
+      {isManager && (
+        <StyledMenu className="delete" onClick={() => setIsDeleteModal(true)}>
+          채팅방 삭제하기
+        </StyledMenu>
+      )}
 
       <StopModal
         isOpen={isExitModal}
