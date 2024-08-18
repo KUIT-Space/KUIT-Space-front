@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { choseongIncludes, hangulIncludes } from "es-hangul";
 
-import { Chatroom, ChatroomSearchAllUserApi, User } from "@/apis";
+import { Chatroom, ChatroomInviteUserApi, ChatroomSearchAllUserApi, User } from "@/apis";
 import { spaceSearchAllUserApi } from "@/apis/Space/SpaceSearchAllUserApi";
 import { BottomBtn } from "@/components/BottomBtn";
 import CheckBox from "@/components/CheckBox";
@@ -23,10 +23,27 @@ const ChatSettingInvitePage = () => {
   const [invitedMemberList, setInvitedMemberList] = useState<User[]>([]);
 
   useEffect(() => {
-    //멤버 목록 API 호출
+    //스페이스 전체멤버 목록 API 호출
     const spaceId = Number(localStorage.getItem("spaceId"));
     spaceSearchAllUserApi(spaceId).then((res) => {
-      res ? setUserList(res.result.userInfoInSpaceList) : setUserList([]);
+      if (res) {
+        const allSpaceUserList = res.result.userInfoInSpaceList;
+
+        //userList 조회 API 호출 (채팅방에 있는 멤버 목록)
+        ChatroomSearchAllUserApi(spaceId, chatroomInfo.id).then((res) => {
+          if (res) {
+            const chatRoomUserList = res.result.userList.map((user) => user.userId);
+
+            //채팅방에 있는 멤버를 제외하도록 필터링
+            const nonChatRoomUserList = allSpaceUserList.filter(
+              (member) => !chatRoomUserList.includes(member.userId),
+            );
+            setUserList(nonChatRoomUserList);
+          }
+        });
+      } else {
+        setUserList([]);
+      }
     });
 
     setInvitedMemberList([]);
@@ -87,12 +104,17 @@ const ChatSettingInvitePage = () => {
           onClick={() => {
             //초대하기 API 호출
             const spaceId = Number(localStorage.getItem("spaceId"));
-            // ChatroomInviteUserApi(spaceId, chatroomInfo.id, invitedMemberList.map((member) => member.userId)).then((res) => {
-            //   if (res) {
-            //     console.log(res);
-            //     res.status === "OK" && navigate(`/chat/${id}/setting/member`, { state: { chatroomInfo } });
-            //   }
-            // });
+            ChatroomInviteUserApi(
+              spaceId,
+              chatroomInfo.id,
+              invitedMemberList.map((member) => member.userId),
+            ).then((res) => {
+              if (res) {
+                console.log(res);
+                navigate(`/chat/${id}/setting/member`, { state: { chatroomInfo }, replace: true });
+                navigate(-1);
+              }
+            });
           }}
         >
           초대하기

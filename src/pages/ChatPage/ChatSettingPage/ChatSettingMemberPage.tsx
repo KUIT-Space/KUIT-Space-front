@@ -3,7 +3,6 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 import { Chatroom, ChatroomSearchAllUserApi, User } from "@/apis";
 import AddMemberImg from "@/assets/ChatPage/btn_add_member.svg";
-import CheckBox from "@/components/CheckBox";
 import TopBarText, { LeftEnum } from "@/components/TopBarText";
 import { Member, MemberContainer } from "@/pages/ChatPage/ChatCreatePage/ChatCreatePage.styled";
 import { getUserDefaultImageURL } from "@/utils/getUserDefaultImageURL";
@@ -21,7 +20,6 @@ const ChatSettingMemberPage = () => {
     //userList 조회 API 호출
     const spaceId = Number(localStorage.getItem("spaceId"));
     ChatroomSearchAllUserApi(spaceId, chatroomInfo.id).then((res) => {
-      console.log(res);
       if (res) {
         setUserList(res.result.userList);
       }
