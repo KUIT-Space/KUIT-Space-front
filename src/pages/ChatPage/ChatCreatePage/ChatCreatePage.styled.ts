@@ -149,4 +149,18 @@ export const MemberContainer = styled.div`
   flex-direction: column;
   padding: 1rem 1.5rem;
   gap: 0.5rem;
+
+  .input--container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .invite {
+    margin-right: 0.5rem;
+  }
+
+  .member--number {
+    color: ${({ theme }) => theme.colors.normal};
+  }
 `;

@@ -1,12 +1,22 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { choseongIncludes, hangulIncludes } from "es-hangul";
+import styled from "styled-components";
 
 import { Chatroom, ChatroomSearchAllUserApi, User } from "@/apis";
 import { spaceSearchAllUserApi } from "@/apis/Space/SpaceSearchAllUserApi";
+import { BottomBtn } from "@/components/BottomBtn";
+import CheckBox from "@/components/CheckBox";
 import TopBarText, { LeftEnum } from "@/components/TopBarText";
 import { getUserDefaultImageURL } from "@/utils/getUserDefaultImageURL";
 
 import { InviteInput, Member, MemberContainer } from "../ChatCreatePage/ChatCreatePage.styled";
+
+//
+const BottomBtnInvite = styled(BottomBtn)`
+  width: calc(100% - 4rem);
+`;
+//
 
 const ChatSettingInvitePage = () => {
   const { id } = useParams();
@@ -18,17 +28,6 @@ const ChatSettingInvitePage = () => {
   const [userList, setUserList] = useState<User[]>([]);
   const [searchWord, setSearchWord] = useState<string>("");
   const [invitedMemberList, setInvitedMemberList] = useState<User[]>([]);
-
-  // useEffect(() => {
-  //   //userList 조회 API 호출
-  //   const spaceId = Number(localStorage.getItem("spaceId"));
-  //   ChatroomSearchAllUserApi(spaceId, chatroomInfo.id).then((res) => {
-  //     console.log(res);
-  //     if (res) {
-  //       setUserList(res.result.userList);
-  //     }
-  //   });
-  // }, [chatroomInfo.id]);
 
   useEffect(() => {
     //멤버 목록 API 호출
@@ -48,7 +47,7 @@ const ChatSettingInvitePage = () => {
         <div className="input--container">
           <p>
             <span className="invite title">멤버 초대</span>
-            <span className="invite member--number">{userList.length}</span>
+            <span className="invite member--number">{invitedMemberList.length}</span>
           </p>
           <InviteInput
             onChange={(e) => setSearchWord(e.target.value)}
@@ -56,27 +55,55 @@ const ChatSettingInvitePage = () => {
           />
         </div>
 
-        {/* //TODO: 자신이 관리자일 때만 뜨는 뷰 */}
-        <Member
-          $onClickBackColor={true}
-          onClick={() =>
-            navigate(`/chat/${id}/setting/invite`, { state: { chatroomInfo: chatroomInfo } })
-          }
-        >
-          <section>
-            <span className="name">채팅방에 초대하기</span>
-          </section>
-        </Member>
+        {userList
+          .filter(
+            (member) =>
+              hangulIncludes(member.userName, searchWord) ||
+              choseongIncludes(member.userName, searchWord),
+          )
+          .map((member, index) => (
+            <Member
+              key={index}
+              $onClickBackColor
+              onClick={(e) => {
+                e.preventDefault();
 
-        {userList.map((member, index) => (
-          <Member key={index} $cursor="default">
-            <section>
-              <img src={member.profileImgUrl ?? getUserDefaultImageURL(member.userId)} />
-              <span className="name">{member.userName}</span>
-              {member.userAuth === "manager" && <span className="admin">관리자</span>}
-            </section>
-          </Member>
-        ))}
+                invitedMemberList.some((invitedMember) => invitedMember.userId === member.userId)
+                  ? setInvitedMemberList(
+                      invitedMemberList.filter(
+                        (invitedMember) => invitedMember.userId !== member.userId,
+                      ),
+                    )
+                  : setInvitedMemberList([...invitedMemberList, member]);
+              }}
+            >
+              <section>
+                <img src={member.profileImgUrl ?? getUserDefaultImageURL(member.userId)} />
+                <span className="name">{member.userName}</span>
+                {member.userAuth === "manager" && <span className="admin">관리자</span>}
+              </section>
+              <CheckBox
+                checked={invitedMemberList.some(
+                  (invitedMember) => invitedMember.userId === member.userId,
+                )}
+              />
+            </Member>
+          ))}
+
+        <BottomBtnInvite
+          onClick={() => {
+            //초대하기 API 호출
+            const spaceId = Number(localStorage.getItem("spaceId"));
+            // ChatroomInviteUserApi(spaceId, chatroomInfo.id, invitedMemberList.map((member) => member.userId)).then((res) => {
+            //   if (res) {
+            //     console.log(res);
+            //     res.status === "OK" && navigate(`/chat/${id}/setting/member`, { state: { chatroomInfo } });
+            //   }
+            // });
+          }}
+        >
+          초대하기
+        </BottomBtnInvite>
       </MemberContainer>
     </>
   );
