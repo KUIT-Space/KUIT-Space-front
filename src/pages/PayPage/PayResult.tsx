@@ -3,11 +3,20 @@ import bell from "@/assets/PayPage/bell.svg";
 import check from "@/assets/PayPage/check.svg";
 import ReactImg from "@/assets/react.svg";
 import { payTargetInfoDtoList } from "./PayPage";
+import { getUserDefaultImageURL } from "@/utils/getUserDefaultImageURL";
 
 const PayResult = ({ props }: { props: payTargetInfoDtoList }) => {
   return (
     <s.RowFlexDiv style={{ alignItems: "center", padding: "0.25rem" }}>
-      <img src={props.targetUserProfileImg} width={"40px"} height={"40px"}></img>
+      <img
+        src={
+          props.targetUserProfileImg
+            ? props.targetUserProfileImg
+            : getUserDefaultImageURL(props.targetUserId)
+        }
+        width={"40px"}
+        height={"40px"}
+      ></img>
       <s.ColumnFlexDiv style={{ marginLeft: "0.75rem", justifyContent: "left" }}>
         <s.TextDiv>{props.targetUserName}</s.TextDiv>
         <s.BoldText>{props.requestAmount}</s.BoldText>
