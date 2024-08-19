@@ -58,7 +58,11 @@ const SignUp: React.FC = () => {
   }, [email, password, confirmPassword, name, currentStep]);
 
   const handleBackClick = () => {
-    setIsModalOpen(true);
+    if (currentStep > 1) {
+      setCurrentStep((prev) => prev - 1);
+    } else {
+      setIsModalOpen(true);
+    }
   };
 
   const handleCloseModal = () => {
@@ -67,8 +71,11 @@ const SignUp: React.FC = () => {
 
   const handleConfirmModal = () => {
     setIsModalOpen(false);
-    setCurrentStep((prev) => prev - 1);
-    //navigate(-1);
+    if (currentStep > 1) {
+      setCurrentStep((prev) => prev - 1);
+    } else {
+      navigate(-1);
+    }
   };
 
   const validateEmail = (email: string) => {
@@ -86,17 +93,19 @@ const SignUp: React.FC = () => {
   };
 
   const handleNextButtonClick = async () => {
-    if (currentStep === 3) {
+    if (currentStep === 1) {
       if (!validateEmail(email)) {
-        alert("Invalid email format");
+        alert("Invalid email format.\nproject@space.kuit 형식으로 입력해야 합니다.");
         return;
       }
-
+    }
+    if (currentStep === 2) {
       if (!validatePassword(password)) {
         alert("Invalid password format");
         return;
       }
-
+    }
+    if (currentStep === 3) {
       if (!validateUserName(name)) {
         alert("Invalid username length");
         return;
@@ -144,15 +153,22 @@ const SignUp: React.FC = () => {
             <InputContainer>
               <Input
                 type="email"
-                placeholder="이메일"
+                placeholder="project@space.kuit"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 onFocus={() => setIsInputFocused(true)}
                 onBlur={() => setIsInputFocused(false)}
+                $isValid={validateEmail(email)}
               />
             </InputContainer>
+            <Explanation $isValid={validateEmail(email)}>
+              {email.trim() === "" && "이메일을 입력해주세요."}
+              {email.trim() !== "" && !validateEmail(email) && "사용 불가능한 이메일입니다."}
+              {validateEmail(email) && "사용 가능한 이메일입니다."}
+            </Explanation>
+
             <NextButton
-              $isActive={isButtonActive}
+              $isActive={validateEmail(email)}
               $isInputFocused={isInputFocused}
               onClick={handleNextButtonClick}
               disabled={!isButtonActive}
@@ -182,6 +198,7 @@ const SignUp: React.FC = () => {
               {passwordState === "invalid" && "사용 불가능한 비밀번호입니다."}
               {passwordState === "valid" && "사용 가능한 비밀번호입니다."}
             </Explanation>
+
             <InputContainer>
               <Input
                 type="password"
@@ -202,6 +219,7 @@ const SignUp: React.FC = () => {
                   ? "비밀번호가 일치합니다."
                   : "비밀번호가 일치하지 않습니다."}
             </Explanation>
+
             <NextButton
               $isActive={isButtonActive}
               $isInputFocused={isInputFocused}
