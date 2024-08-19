@@ -54,6 +54,8 @@ const ChattingPage = () => {
   const [uploadedImage, setUploadedImage] = useState<string | null>();
   const [inputKey, setInputKey] = useState<number>(0);
 
+  const [fileData, setFileData] = useState<ChatFile | null>(null);
+
   const messageEndRef = useRef<HTMLDivElement | null>(null);
   const chattingTextareaRef = useRef<HTMLTextAreaElement | null>(null);
 
@@ -139,7 +141,7 @@ const ChattingPage = () => {
         msg.content = msg.content as ChatText;
         return msg.content.text;
       case "IMG":
-        console.log("image: ", msg.content);
+        //console.log("image: ", msg.content);
         msg.content = msg.content as ChatImage;
         return <img src={msg.content.image} alt="img" />;
       case "FILE":
@@ -173,23 +175,53 @@ const ChattingPage = () => {
   };
 
   const handleImageImport = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.files);
+    // console.log(e.target.files);
     const image = e.target.files?.[0];
 
     if (image) {
       // 파일 크기 검사
-      console.log(image.size);
       if (image.size > MAX_FILE_SIZE) {
         alert(`파일 크기가 ${MAX_FILE_SIZE_MB}MB를 초과합니다.`);
         return;
       }
+      if (!image.type.includes("image")) {
+        alert("이미지 파일만 업로드 가능합니다.");
+        return;
+      }
+
       const reader = new FileReader();
 
       reader.onload = () => {
         setUploadedImage(reader.result as string);
       };
       reader.readAsDataURL(image as Blob);
-      // image && setUploadedImage(image);
+    }
+  };
+
+  const handleFileImport = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // console.log(e.target.files);
+    const file = e.target.files?.[0];
+
+    console.log("file", file?.type);
+    if (file) {
+      // 파일 크기 검사
+      if (file.size > MAX_FILE_SIZE) {
+        alert(`파일 크기가 ${MAX_FILE_SIZE_MB}MB를 초과합니다.`);
+        return;
+      }
+
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        setFileData({
+          file: reader.result as string,
+          fileName: file.name,
+          fileSize: file.size.toString(),
+          dueDate: new Date(new Date().setDate(new Date().getDate() + 3)).toISOString(), //유효기간: 3일
+        });
+      };
+
+      reader.readAsDataURL(file);
     }
   };
 
@@ -301,10 +333,17 @@ const ChattingPage = () => {
               />
               <p>사진 첨부</p>
             </label>
-            <button>
+            <label>
               <img src={FileBtnImg} alt="File button" />
+              <input
+                key={inputKey}
+                type="file"
+                accept="/*"
+                onChange={handleFileImport}
+                style={{ display: "none" }}
+              />
               <p>파일 첨부</p>
-            </button>
+            </label>
           </div>
         )}
       </ChattingFooter>
