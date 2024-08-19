@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
+import { BoardPostDetail, getPostDetailApi } from "@/apis/Board/BoardPostDetailApi";
 import comment from "@/assets/Board/comment.svg";
 import heartLiked from "@/assets/Board/heart_liked.svg";
 import heartUnliked from "@/assets/Board/heart_unliked.svg";
@@ -88,11 +89,17 @@ const BoardPostDetailContent = styled.section`
     }
   }
 
-  .board-post-detail-content-img {
-    width: 100%;
-    height: 20rem;
-    border-radius: 0.75rem;
-    border: 1px solid #fff; /* 영역 확인 위한 임시 border */
+  .board-post-detail-content-img-container {
+    display: flex;
+    overflow-x: scroll;
+    gap: 0.5rem;
+
+    .board-post-detail-content-img {
+      width: 100%;
+      height: 20rem;
+      border-radius: 0.75rem;
+      border: 1px solid #fff; /* 영역 확인 위한 임시 border */
+    }
   }
 `;
 
@@ -150,59 +157,40 @@ const BoardPostCommentEmpty = styled.div`
 `;
 
 const BoardDetailPage = () => {
-  const dummy = {
-    id: 0,
-    profileName: "고양이발닦개",
-    profileImg: "",
-    elapsedTime: "10분 전",
-    title: "학생! 기말시험이 있어",
-    content: "학생! 혹시 과제도 같이.. (네? 과제도요?)\n그럼 제가 교수님 맘에...",
-    thumbnail: "img",
-    isLike: true,
-    likeCount: 5,
-    commentCount: 2,
-    comment: [
-      {
-        profileName: "seohyun",
-        profileImg: "",
-        elapsedTime: "10분 전",
-        content: "댓글내용내용",
-        isLike: true,
-        likeCount: 5,
-        commentCount: 2,
-      },
-      {
-        profileName: "seohyun",
-        profileImg: "",
-        elapsedTime: "10분 전",
-        content: "댓글내용내용",
-        isLike: true,
-        likeCount: 5,
-        commentCount: 2,
-      },
-      {
-        profileName: "seohyun",
-        profileImg: "",
-        elapsedTime: "10분 전",
-        content: "댓글내용내용",
-        isLike: true,
-        likeCount: 5,
-        commentCount: 2,
-      },
-    ],
-  };
   const { id } = useParams();
+  const [postsData, setPostsData] = useState<BoardPostDetail>();
 
-  const [isLikeNew, setIsLikeNew] = useState<boolean>(dummy.isLike);
+  const [isLikeNew, setIsLikeNew] = useState<boolean>(postsData !== undefined && postsData.like);
+
+  useEffect(() => {
+    // 임시로 LOCALSTORAGE에 spaceId 3으로 저장
+    localStorage.setItem("spaceId", "3");
+    //
+    const spaceId = localStorage.getItem("spaceId");
+    if (spaceId !== null) {
+      getPostDetailApi(Number.parseInt(spaceId), Number.parseInt(id || "0"))
+        .then((res) => {
+          if (res === null) {
+            setPostsData(undefined);
+          } else {
+            setPostsData(res.result);
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+          setPostsData(undefined);
+        });
+    }
+  }, []);
 
   return (
     <>
       <TopBarText left={LeftEnum.Back} center="게시판" right={""}></TopBarText>
       <BoardPostDetailContainer>
         <header className="board-post-detail-header">
-          {dummy.profileImg ? (
+          {postsData?.userProfileImg ? (
             <img
-              src={dummy.profileImg}
+              src={postsData.userProfileImg}
               alt="프로필 이미지"
               className="board-post-detail-header-img"
             />
@@ -210,17 +198,26 @@ const BoardDetailPage = () => {
             <div className="board-post-detail-header-img" />
           )}
           <div className="board-post-detail-header-text">
-            <span>{dummy.profileName}</span>
-            <span>{dummy.elapsedTime}</span>
+            <span>{postsData?.userName}</span>
+            <span>{postsData?.time}</span>
           </div>
         </header>
         <BoardPostDetailContent>
           <div className="board-post-detail-content-text">
-            <span>{dummy.title}</span>
-            <div>{dummy.content}</div>
+            <span>{postsData?.title}</span>
+            <div>{postsData?.content}</div>
           </div>
-          <div className="board-post-detail-content-img">
-            {dummy.thumbnail && <img src={dummy.thumbnail} />}
+          <div className="board-post-detail-content-img-container">
+            {postsData?.postImage &&
+              postsData.postImage.map((img: string, i: number) => {
+                return (
+                  <img
+                    key={i + postsData?.title + "img"}
+                    src={img}
+                    className="board-post-detail-content-img"
+                  />
+                );
+              })}
           </div>
         </BoardPostDetailContent>
         <BoardPostDetailFooter>
@@ -229,21 +226,22 @@ const BoardDetailPage = () => {
             onClick={() => setIsLikeNew((prev) => !prev)}
           >
             <img src={isLikeNew ? heartLiked : heartUnliked} alt="좋아요" />
-            {dummy.likeCount}
+            {postsData?.likeCount}
           </BoardPostDetailLikeBtn>
           <div className="board-post-detail-footer-item">
             <img src={comment} alt="댓글" />
-            {dummy.commentCount}
+            {postsData?.commentCount}
           </div>
           <img src={share} alt="공유하기" />
         </BoardPostDetailFooter>
       </BoardPostDetailContainer>
       <div>
-        {dummy.comment ? (
-          dummy.comment.map((d, i) => {
+        {postsData?.postComments ? (
+          postsData?.postComments.map((d: string, i: number) => {
             return (
-              <div key={i + d.content}>
-                <BoardDetailComment
+              <div key={i + d}>
+                {/* TODO: 댓글 API 타입 확정 시 fix */}
+                {/* <BoardDetailComment
                   profileName={d.profileName}
                   profileImg={d.profileImg}
                   elapsedTime={d.elapsedTime}
@@ -251,7 +249,7 @@ const BoardDetailPage = () => {
                   isLike={d.isLike}
                   likeCount={d.likeCount}
                   commentCount={d.commentCount}
-                />
+                /> */}
               </div>
             );
           })
