@@ -5,6 +5,7 @@ import { Input } from "@/components/Input";
 import styled from "styled-components";
 import camera from "@/assets/Space/icon_camera.svg";
 import { To, useNavigate } from "react-router-dom";
+import { createSpaceApi } from "@/apis";
 
 const ImgContainer = styled.div`
   display: flex;
@@ -13,14 +14,25 @@ const ImgContainer = styled.div`
   margin-bottom: 54px;
 `;
 
-const ChooseImgBtn = styled.div`
+const ChooseImgBtn = styled.label<{ $backgroundImage: string | null }>`
   display: flex;
+  flex-direction: column;
   width: 160px;
   height: 160px;
   justify-content: center;
   border-radius: 12px;
-  background-color: ${({ theme }) => theme.colors.BG500};
+  background: ${(props) =>
+    props.$backgroundImage
+      ? `url(${props.$backgroundImage}) no-repeat center`
+      : "var(--Foundation-Gray-gray500, #767681)"};
+
+  background-size: cover;
   align-items: center;
+  cursor: pointer;
+
+  input {
+    display: none;
+  }
 `;
 
 const Count = styled.span`
@@ -38,14 +50,15 @@ const NameInput = styled(Input)`
 
 const SpaceCreateBottomBtn = styled(BottomBtn)`
   display: fixed;
-  width: 320px;
-  bottom: 0;
+  width: 100%;
+  bottom: 1;
   margin: 0;
 `;
 
 const AddSpacePage = () => {
   const [spacename, setSpacename] = useState("");
-  const [newSpacename, setNewSpacename] = useState(spacename);
+
+  const [spaceImg, setSpaceImg] = useState<File | null>(null);
   const navigate = useNavigate();
   const maxChars = 10;
 
@@ -56,38 +69,40 @@ const AddSpacePage = () => {
     }
   };
 
-  const handleNavigate = (path: To) => {
-		navigate(path);
-	};
+  const handleCreateSpace = () => {
+    createSpaceApi(spacename, spaceImg).then((data) => {
+      navigate(`/space/${data?.result.spaceId}`);
+    });
+  };
 
-  
-  const handleSaveSpacename = () => {
-    setSpacename(newSpacename);
-    handleNavigate("/");
+  const handleImageImport = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const image = e.target.files?.[0];
+    image && setSpaceImg(image);
   };
 
   return (
-    <div style={{ width: "320px", margin: "auto" }}>
+    <div>
       <TopBarText left={LeftEnum.Back} center="새 스페이스" right="" />
-      <ImgContainer>
-        <ChooseImgBtn>
-          <img src={camera} />
-          <img key="backgroundImg" />
-        </ChooseImgBtn>
-      </ImgContainer>
-      <div style={{ position: "relative", height: "3.25rem" }}>
-        <NameInput 
-          value={spacename}
-          onChange={handleInputChange}
-          placeholder="스페이스 공간"  
-        />
-        <Count>{spacename.length}/{maxChars}</Count>
-      </div>
-      <SpaceCreateBottomBtn 
-        onClick={handleSaveSpacename}
-        disabled={spacename === "" ? true : false}>
+      <div style={{ margin: "0rem 1.25rem 0rem 1.25rem" }}>
+        <ImgContainer>
+          <ChooseImgBtn $backgroundImage={spaceImg !== null ? URL.createObjectURL(spaceImg) : null}>
+            <img src={camera} />
+            <input type="file" accept="image/*" onChange={handleImageImport} />
+          </ChooseImgBtn>
+        </ImgContainer>
+        <div style={{ position: "relative", height: "3.25rem" }}>
+          <NameInput value={spacename} onChange={handleInputChange} placeholder="스페이스 공간" />
+          <Count>
+            {spacename.length}/{maxChars}
+          </Count>
+        </div>
+        <SpaceCreateBottomBtn
+          onClick={handleCreateSpace}
+          disabled={spacename === "" ? true : false}
+        >
           생성하기
-      </SpaceCreateBottomBtn>
+        </SpaceCreateBottomBtn>
+      </div>
     </div>
   );
 };
