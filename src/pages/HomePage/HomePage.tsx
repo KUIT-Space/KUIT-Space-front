@@ -13,12 +13,28 @@ import next from "@/pages/HomePage/icon_next.svg";
 const HomePage = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("requested");
+  const [tabIndex, setTabIndex] = useState(0);
 
   const receivedSettlements = [{ name: "김민지", amount: 30000 }];
-
-  const handleTabClick = (tab: SetStateAction<string>) => {
-    setActiveTab(tab);
+  const menuArr = [
+    { name: "정산 현황", content: "Tab menu ONE" },
+    { name: "요청한 정산", content: "Tab menu TWO" },
+    { name: "요청받은 정산", content: "Tab menu Three" },
+  ];
+  const NoticeComponent = () => {
+    return (
+      <sty.RoundDiv>
+        <sty.RowFlexDiv style={{ alignItems: "center" }}>
+          <sty.NoticeRoundDiv>공지</sty.NoticeRoundDiv>
+          <div>디자인 공부를 어디서 해야할 지 모르겠다면</div>
+        </sty.RowFlexDiv>
+      </sty.RoundDiv>
+    );
   };
+  const selectMenuHandler = (index: number) => {
+    setTabIndex(index);
+  };
+
   return (
     <>
       <sty.TopBar>
@@ -59,30 +75,21 @@ const HomePage = () => {
             </button>
           </div>
 
-          <div>
-            <div className="tabs">
-              <sty.StatusButton
-                className={activeTab === "status" ? "active" : ""}
-                onClick={() => handleTabClick("status")}
-              >
-                정산 현황
-              </sty.StatusButton>
-              <sty.RequestButton
-                className={activeTab === "requested" ? "active" : ""}
-                onClick={() => handleTabClick("requested")}
-              >
-                요청한 정산
-              </sty.RequestButton>
-              <sty.ReceivedButton
-                className={activeTab === "received" ? "active" : ""}
-                onClick={() => handleTabClick("received")}
-              >
-                요청받은 정산
-              </sty.ReceivedButton>
-            </div>
+          <sty.RoundDiv>
+            <sty.TabMenu>
+              {menuArr.map((value, index) => (
+                <li
+                  key={index}
+                  className={index === tabIndex ? "submenu focused" : "submenu"}
+                  onClick={() => selectMenuHandler(index)}
+                >
+                  {value.name}
+                </li>
+              ))}
+            </sty.TabMenu>
 
             <div className="content">
-              {activeTab === "requested" && (
+              {tabIndex === 0 && (
                 <div>
                   <span className="subText">정산 완료까지 </span>
                   <span className="num">1</span>
@@ -92,7 +99,7 @@ const HomePage = () => {
                   <span className="totalMoney"> /45,000 원</span>
                 </div>
               )}
-              {activeTab === "received" && (
+              {tabIndex === 1 && (
                 <div>
                   {receivedSettlements.map((settlement, index) => (
                     <div key={index}>
@@ -104,8 +111,8 @@ const HomePage = () => {
                   ))}
                 </div>
               )}
-              {activeTab === "status" && (
-                <div>
+              {tabIndex === 2 && (
+                <div style={{ width: "100%" }}>
                   <span className="highlightText">요청한 정산이 </span>
                   <span className="num">1</span>
                   <span className="highlightText">건</span>
@@ -116,7 +123,34 @@ const HomePage = () => {
                 </div>
               )}
             </div>
+          </sty.RoundDiv>
+
+          {/* 여기는 공지사항 */}
+          <div className="settlementTextContainer" style={{ marginTop: "2.0938rem" }}>
+            <div className="settlementText">공지사항</div>
+            <button>
+              <img src={next} alt="자세히보기" />
+            </button>
           </div>
+          <NoticeComponent></NoticeComponent>
+
+          {/* 여기는 공지사항 */}
+          <div className="settlementTextContainer" style={{ marginTop: "2.0938rem" }}>
+            <div className="settlementText">활동 중인 보이스룸</div>
+            <button>
+              <img src={next} alt="자세히보기" />
+            </button>
+          </div>
+          <sty.HomeVoiceRoomDiv>
+            <sty.ColumnFlexDiv>
+              <sty.VoiceRoomTitleDiv>작업 안하면 죽는 방</sty.VoiceRoomTitleDiv>
+              <sty.RoundDiv
+                style={{ width: "10rem", padding: "0.375rem", marginTop: "6px 0rem 0rem 0.5rem" }}
+              >
+                대화 중인 스페이서 6명
+              </sty.RoundDiv>
+            </sty.ColumnFlexDiv>
+          </sty.HomeVoiceRoomDiv>
         </sty.Settlement>
       </sty.NoticeContainer>
     </>
