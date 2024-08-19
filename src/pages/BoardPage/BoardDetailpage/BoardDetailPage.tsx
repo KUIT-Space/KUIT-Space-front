@@ -209,9 +209,6 @@ const BoardDetailPage = () => {
   const [isLikeNew, setIsLikeNew] = useState<boolean>(postsData !== undefined && postsData.like);
   const [likeCountNew, setLikeCountNew] = useState<number>(postsData ? postsData.likeCount : 0);
 
-  // 임시로 LOCALSTORAGE에 spaceId 3으로 저장
-  localStorage.setItem("spaceId", "3");
-  //
   const spaceId = localStorage.getItem("spaceId");
 
   useEffect(() => {
@@ -270,7 +267,6 @@ const BoardDetailPage = () => {
   };
 
   const handleRegisterComment = () => {
-    console.log(commentValue);
     if (spaceId !== null && postsData !== undefined) {
       createPostCommentApi(Number.parseInt(spaceId), postsData?.postId, commentValue)
         .then((res) => {

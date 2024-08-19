@@ -30,9 +30,6 @@ const BoardPage = () => {
   const [selectedOption, setSelectedOption] = useState<number>(0);
 
   useEffect(() => {
-    // 임시로 LOCALSTORAGE에 spaceId 3으로 저장
-    localStorage.setItem("spaceId", "3");
-    //
     const spaceId = localStorage.getItem("spaceId");
     if (spaceId !== null) {
       getAllPosts(Number.parseInt(spaceId), boardSelectedOption[selectedOption].id)

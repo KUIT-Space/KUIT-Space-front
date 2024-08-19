@@ -170,9 +170,6 @@ const BoardPostItem = ({
   const [isLikeNew, setIsLikeNew] = useState<boolean>(isLike);
   const [likeCountNew, setLikeCountNew] = useState<number>(likeCount);
 
-  // 임시로 LOCALSTORAGE에 spaceId 3으로 저장
-  localStorage.setItem("spaceId", "3");
-  //
   const spaceId = localStorage.getItem("spaceId");
 
   const handleLike = () => {

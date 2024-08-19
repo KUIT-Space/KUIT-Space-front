@@ -119,8 +119,7 @@ const BoardRegisterPage = () => {
   const [isNotice, setIsNotice] = useState<boolean>(false);
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
 
-  // 임의로 3번 스페이스로 설정
-  const [spaceId, setSpaceId] = useState<number>();
+  const spaceId = localStorage.getItem("spaceId");
 
   // TODO: API 연동 시 수정 예정
   const isManager = true;
@@ -129,15 +128,6 @@ const BoardRegisterPage = () => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const inputImgRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    localStorage.setItem("spaceId", "3");
-    const spaceId_LS = localStorage.getItem("spaceId");
-
-    if (spaceId_LS !== null) {
-      setSpaceId(Number.parseInt(spaceId_LS));
-    }
-  }, []);
 
   const handleResizeHeight = () => {
     if (textareaRef.current) {
@@ -152,10 +142,10 @@ const BoardRegisterPage = () => {
   };
 
   const handleRegister = () => {
-    if (titleValue && contentValue) {
+    if (titleValue && contentValue && spaceId != null) {
       //채팅방 생성 API 호출
       CreateBoardPostApi(
-        spaceId || 3,
+        Number.parseInt(spaceId) || 3,
         titleValue,
         contentValue,
         isNotice ? "notice" : "general",
