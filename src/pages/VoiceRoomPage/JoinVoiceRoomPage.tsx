@@ -28,7 +28,10 @@ const JoinVoiceRoomPage = () => {
   const [userId, setUserId] = useState<number>();
 
   const onJoin = () => {
-    VrTokenApi(3, data.id, setJoin);
+    const spaceId = localStorage.getItem("spaceId");
+    if (spaceId !== null) {
+      VrTokenApi(Number.parseInt(spaceId), data.id, setJoin);
+    }
   };
   const navigate = useNavigate();
 
@@ -81,7 +84,6 @@ const JoinVoiceRoomPage = () => {
 
             <s.ProfileDiv>
               <img src={userImg !== null ? userImg : getUserDefaultImageURL(userId!)}></img>
-              <img src={redo}></img>
             </s.ProfileDiv>
             <div>{userName}</div>
             <BottomBtn

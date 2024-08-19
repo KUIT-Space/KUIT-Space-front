@@ -63,8 +63,11 @@ const VoiceRoomListPage = () => {
   };
 
   useEffect(() => {
+    const spaceId = localStorage.getItem("spaceId");
+    if (spaceId !== null) {
+      VrListApi(Number.parseInt(spaceId), setVrList);
+    }
     //space ID
-    VrListApi(3, setVrList);
   }, []);
 
   useEffect(() => {

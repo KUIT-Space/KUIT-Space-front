@@ -23,7 +23,6 @@ const MyRequestPayPage = () => {
 
   const navigator = useNavigate();
 
-  const spaceID = 3;
   const menuArr = [
     { name: "미정산", content: "Tab menu ONE" },
     { name: "정산완료", content: "Tab menu TWO" },
@@ -64,10 +63,14 @@ const MyRequestPayPage = () => {
   }, [detailData]);
 
   useEffect(() => {
-    if (id === undefined) {
-      payRequestApi(spaceID, setCurrentData, setCompleteData);
-    } else {
-      payDetailApi(spaceID, Number.parseInt(id), setDetailData);
+    const _id = localStorage.getItem("spaceId");
+    if (_id !== null) {
+      const spaceID = Number.parseInt(_id);
+      if (id === undefined) {
+        payRequestApi(spaceID, setCurrentData, setCompleteData);
+      } else {
+        payDetailApi(spaceID, Number.parseInt(id), setDetailData);
+      }
     }
   }, [id]);
 

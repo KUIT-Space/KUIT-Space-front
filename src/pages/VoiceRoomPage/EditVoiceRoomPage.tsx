@@ -30,7 +30,6 @@ const EditVoiceRoomPage = () => {
   };
 
   useEffect(() => {
-    console.log("dddd");
     if (newRoomInfo.length > 0) {
       VrEditApi(3, newRoomInfo).then(() => {
         navigator("/voiceroom");
@@ -75,7 +74,10 @@ const EditVoiceRoomPage = () => {
   };
 
   useEffect(() => {
-    VrListApi(3, setVrList);
+    const spaceId = localStorage.getItem("spaceId");
+    if (spaceId !== null) {
+      VrListApi(Number.parseInt(spaceId), setVrList);
+    }
   }, []);
 
   return (
