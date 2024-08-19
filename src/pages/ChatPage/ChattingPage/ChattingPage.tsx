@@ -141,7 +141,15 @@ const ChattingPage = () => {
       case "IMG":
         console.log("image: ", msg.content);
         msg.content = msg.content as ChatImage;
-        return <img src={msg.content.image} alt="img" width="100%" height="100%" />;
+        return (
+          <img
+            src={msg.content.image}
+            alt="img"
+            width="100%"
+            height="100%"
+            style={{ borderRadius: "1rem" }}
+          />
+        );
       case "FILE":
         msg.content = msg.content as ChatFile;
         return (
@@ -267,8 +275,8 @@ const ChattingPage = () => {
             onChange={(e) => setInputValue(e.target.value)}
             onKeyDown={(e) => {
               if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault();
                 if (inputValue === "") {
-                  e.preventDefault();
                   return;
                 }
                 sendMessageS("TEXT");
