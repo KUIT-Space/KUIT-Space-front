@@ -82,7 +82,7 @@ const BoardPostItemContent = styled.section`
 
   .board-post-item-content-img {
     width: 100%;
-    height: 8.75rem;
+    height: 16rem;
     border-radius: 0.75rem;
     border: 1px solid #fff; /* 영역 확인 위한 임시 border */
   }
@@ -169,7 +169,7 @@ const BoardPostItem = ({
           <span>{title}</span>
           <div>{content}</div>
         </div>
-        <div className="board-post-item-content-img">{thumbnail && <img src={thumbnail} />}</div>
+        {thumbnail && <img src={thumbnail} className="board-post-item-content-img" />}
       </BoardPostItemContent>
       <BoardPostItemFooter>
         <div>
