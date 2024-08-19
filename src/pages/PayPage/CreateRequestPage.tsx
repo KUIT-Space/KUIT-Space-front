@@ -201,7 +201,7 @@ const CreateRequestPage2 = ({
             {chatUserInfoData && (
               <div>
                 {chatUserInfoData.map((value, index) => (
-                  <PayChatDiv key={index} props={value}></PayChatDiv>
+                  <PayChatDiv key={index} info={value}></PayChatDiv>
                 ))}
               </div>
             )}
