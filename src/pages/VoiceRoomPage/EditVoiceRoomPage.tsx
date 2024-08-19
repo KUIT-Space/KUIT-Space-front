@@ -14,6 +14,7 @@ export type updateRoom = {
 };
 
 const EditVoiceRoomPage = () => {
+  const navigator = useNavigate();
   const [vrList, setVrList] = useState<VrList[] | undefined>([]);
   const [nameArr, setNameArr] = useState<string[]>([]);
 
@@ -29,16 +30,13 @@ const EditVoiceRoomPage = () => {
   };
 
   useEffect(() => {
-    VrEditApi(3, newRoomInfo);
-    // if (cnt >= total) {
-    //   VrEditApi(3, newRoomInfo);
-    // } else {
-    //   cnt += 1;
-    // }
-    // console.log("CHECK");
-    // console.log(`CNT : ${cnt} TOTAL : ${total}`);
+    console.log("dddd");
+    if (newRoomInfo.length > 0) {
+      VrEditApi(3, newRoomInfo).then(() => {
+        navigator("/voiceroom");
+      });
+    }
   }, [newRoomInfo]);
-  const navigator = useNavigate();
 
   //_name 바뀔 이름
   const editVrList = (index: number, _name: string) => {
@@ -49,7 +47,6 @@ const EditVoiceRoomPage = () => {
   };
 
   const rightClickHandler = () => {
-    //api 보내기
     pushRoomInfo();
   };
 
@@ -87,7 +84,9 @@ const EditVoiceRoomPage = () => {
         left={LeftEnum.None}
         center="보이스룸"
         right="완료"
-        rightHandler={rightClickHandler}
+        rightHandler={() => {
+          rightClickHandler();
+        }}
       />
       <s.TitleDiv>보이스룸 목록</s.TitleDiv>
       <s.ContentDiv>
