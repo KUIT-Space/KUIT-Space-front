@@ -122,13 +122,12 @@ const ChattingPage = () => {
       }
       // else if (messageType === "FILE" && fileData) {
       //   body.content = fileData; // 인코딩된 base64 파일 url
+      //   setFileData(null);
       // }
       // console.log(body.content);
 
       // console.log(stompClient.current);
       stompClient.current.send(`/app/chat/${param.id}`, {}, JSON.stringify(body));
-
-      //setFileData(null);
     }
   };
 
