@@ -1,3 +1,7 @@
+/** JWT가 있으면 복호화해서 userId 찾는 함수
+ * decodedJWT().userId 로 사용 가능
+ * @returns if null, jwt 없음
+ */
 export const decodedJWT = (): { exp: number; iat: number; userId: number } | null => {
   let token = localStorage.getItem("Authorization");
   if (!token) return null;
