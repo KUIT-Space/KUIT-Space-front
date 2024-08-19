@@ -25,10 +25,25 @@ export interface GetPostDetailResponse {
   result: BoardPostDetail;
 }
 
+export interface GetPostCommentResponse {
+  code: number;
+  status: number;
+  message: string;
+  result: BoardPostDetail[]; // 거의 동일한 타입이므로 재사용
+}
+
 export const getPostDetailApi = async (spaceId: number, postId: number) => {
   const requestOptions = createRequestOptionsJSON_AUTH("GET");
   if (!requestOptions) return null;
 
   const url = `${import.meta.env.VITE_API_BACK_URL}/space/${spaceId}/board/post/${postId}`;
   return await fetchApi<GetPostDetailResponse>(url, requestOptions);
+};
+
+export const getPostCommentApi = async (spaceId: number, postId: number) => {
+  const requestOptions = createRequestOptionsJSON_AUTH("GET");
+  if (!requestOptions) return null;
+
+  const url = `${import.meta.env.VITE_API_BACK_URL}/space/${spaceId}/board/post/${postId}/comment`;
+  return await fetchApi<GetPostCommentResponse>(url, requestOptions);
 };

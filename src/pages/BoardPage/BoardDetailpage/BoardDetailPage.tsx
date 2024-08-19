@@ -2,7 +2,11 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
-import { BoardPostDetail, getPostDetailApi } from "@/apis/Board/BoardPostDetailApi";
+import {
+  BoardPostDetail,
+  getPostCommentApi,
+  getPostDetailApi,
+} from "@/apis/Board/BoardPostDetailApi";
 import { deleteLikeOnPostApi, postLikeOnPostApi } from "@/apis/Board/BoardPostLikeApi";
 import comment from "@/assets/Board/comment.svg";
 import heartLiked from "@/assets/Board/heart_liked.svg";
@@ -160,6 +164,7 @@ const BoardPostCommentEmpty = styled.div`
 const BoardDetailPage = () => {
   const { id } = useParams();
   const [postsData, setPostsData] = useState<BoardPostDetail>();
+  const [commentsData, setCommentsData] = useState<BoardPostDetail[]>([]);
 
   const [isLikeNew, setIsLikeNew] = useState<boolean>(postsData !== undefined && postsData.like);
   const [likeCountNew, setLikeCountNew] = useState<number>(postsData ? postsData.likeCount : 0);
@@ -185,6 +190,13 @@ const BoardDetailPage = () => {
           console.error(err);
           setPostsData(undefined);
         });
+      getPostCommentApi(Number.parseInt(spaceId), Number.parseInt(id || "0"))
+        .then((res) => {
+          if (res !== null) {
+            setCommentsData(res.result);
+          }
+        })
+        .catch((err) => console.log(err));
     }
   }, []);
 
@@ -267,20 +279,19 @@ const BoardDetailPage = () => {
         </BoardPostDetailFooter>
       </BoardPostDetailContainer>
       <div>
-        {postsData?.postComments ? (
-          postsData?.postComments.map((d: string, i: number) => {
+        {commentsData ? (
+          commentsData.map((d: BoardPostDetail, i: number) => {
             return (
-              <div key={i + d}>
-                {/* TODO: 댓글 API 타입 확정 시 fix */}
-                {/* <BoardDetailComment
-                  profileName={d.profileName}
-                  profileImg={d.profileImg}
-                  elapsedTime={d.elapsedTime}
+              <div key={i + d.title}>
+                <BoardDetailComment
+                  profileName={d.userName}
+                  profileImg={d.userProfileImg}
+                  elapsedTime={d.time}
                   content={d.content}
-                  isLike={d.isLike}
+                  isLike={d.like}
                   likeCount={d.likeCount}
                   commentCount={d.commentCount}
-                /> */}
+                />
               </div>
             );
           })
