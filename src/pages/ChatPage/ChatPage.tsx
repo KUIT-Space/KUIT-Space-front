@@ -18,10 +18,13 @@ const ChatPage = () => {
 
     // fetch로 data 받아오는 부분
     // 임시로 LOCALSTORAGE에 spaceId 3으로 저장
-    localStorage.setItem("spaceId", "3");
+    // localStorage.setItem("spaceId", "3");
     //
     const spaceId = localStorage.getItem("spaceId");
-    if (spaceId !== null) {
+    if (spaceId === null) {
+      console.log("spacdId === null");
+      navigate("/space");
+    } else if (spaceId !== null) {
       chatroomSearchAllApi(Number.parseInt(spaceId))
         .then((res) => {
           if (res === null) {

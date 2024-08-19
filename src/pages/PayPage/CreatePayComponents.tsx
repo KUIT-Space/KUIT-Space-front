@@ -1,61 +1,54 @@
-import CheckBox from "@/components/CheckBox";
-import { Member } from "@/pages/ChatPage/ChatCreatePage/ChatCreatePage.styled";
-import ReactImg from "@/assets/react.svg";
 import { useState } from "react";
 
-import * as s from "@/pages/PayPage/PayPage.styled";
-import { ChatUserInfoInSpace } from "./CreateRequestPage";
 import { UserInfoInSpace } from "@/apis/Space/SpaceSearchAllUserApi";
-interface payChatDivtype {
-  img: string;
-  name: string;
-  cnt: number;
-}
+import CheckBox from "@/components/CheckBox";
+import { Member } from "@/pages/ChatPage/ChatCreatePage/ChatCreatePage.styled";
+import * as s from "@/pages/PayPage/PayPage.styled";
+import { getUserDefaultImageURL } from "@/utils/getUserDefaultImageURL";
 
-const PayChatMemberDiv = ({ props }: { props: UserInfoInSpace }) => {
-  const imgUrl = props.profileImgUrl === null ? undefined : props.profileImgUrl;
+import { ChatUserInfoInSpace } from "./CreateRequestPage";
+// interface payChatDivtype {
+//   img: string;
+//   name: string;
+//   cnt: number;
+// }
+
+const PayChatMemberDiv = ({ info }: { info: UserInfoInSpace }) => {
   return (
     <s.RowFlexDiv style={{ alignItems: "center" }}>
-      <img style={{ width: "2.5rem", height: "2.5rem", marginLeft: "1.875rem" }} src={imgUrl} />
+      <img
+        style={{ width: "2.5rem", height: "2.5rem", marginLeft: "1.875rem" }}
+        src={info.profileImgUrl ?? getUserDefaultImageURL(info.userId)}
+      />
       <span className="name" style={{ marginLeft: "0.75rem" }}>
-        {props.userName}
+        {info.userName}
       </span>
       <CheckBox></CheckBox>
     </s.RowFlexDiv>
   );
 };
-export const PayChatDiv = ({ props }: { props: ChatUserInfoInSpace }) => {
-  console.log(props);
+export const PayChatDiv = ({ info }: { info: ChatUserInfoInSpace }) => {
   const [flag, setFlag] = useState(false);
   const controlFlag = () => {
     setFlag(!flag);
   };
+
   return (
     <s.ColumnFlexDiv>
       <Member>
         <section>
-          <img src={props.imgUrl} />
-          <span className="name">{props.chatRoomName}</span>
-          <s.CountText className="count">{props.userList?.length}</s.CountText>
+          <img src={info.imgUrl} />
+          <span className="name">{info.chatRoomName}</span>
+          <s.CountText className="count">{info.userList?.length}</s.CountText>
         </section>
         {flag ? (
-          <CheckBox
-            checked={true}
-            onClick={() => {
-              controlFlag();
-            }}
-          ></CheckBox>
+          <CheckBox checked={true} onClick={controlFlag}></CheckBox>
         ) : (
-          <CheckBox
-            checked={false}
-            onClick={() => {
-              controlFlag();
-            }}
-          ></CheckBox>
+          <CheckBox checked={false} onClick={controlFlag}></CheckBox>
         )}
       </Member>
-      {props.userList?.map((value, index) => {
-        return <PayChatMemberDiv props={value}></PayChatMemberDiv>;
+      {info.userList?.map((value, index) => {
+        return <PayChatMemberDiv key={index} info={value}></PayChatMemberDiv>;
       })}
     </s.ColumnFlexDiv>
   );

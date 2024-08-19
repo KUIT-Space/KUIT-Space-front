@@ -16,9 +16,18 @@ interface topbarProps {
   center: string | React.ReactNode;
   right: string | React.ReactNode;
   rightHandler?: () => void;
+  backHandler?: () => void;
+  logoHandler?: () => void;
 }
 
-const TopBarText: FC<topbarProps> = ({ left, center, right, rightHandler }) => {
+const TopBarText: FC<topbarProps> = ({
+  left,
+  center,
+  right,
+  rightHandler,
+  backHandler,
+  logoHandler,
+}) => {
   const navigate = useNavigate();
   switch (left) {
     case "logo":
@@ -26,7 +35,11 @@ const TopBarText: FC<topbarProps> = ({ left, center, right, rightHandler }) => {
         <sty.StyledTopBarDiv>
           <sty.StyledLeftDiv
             onClick={() => {
-              navigate("/");
+              if (logoHandler) {
+                logoHandler();
+              } else {
+                navigate("/");
+              }
             }}
           >
             <img src={logo}></img>
@@ -49,7 +62,11 @@ const TopBarText: FC<topbarProps> = ({ left, center, right, rightHandler }) => {
         <sty.StyledTopBarDiv>
           <sty.StyledLeftDiv
             onClick={() => {
-              navigate(-1);
+              if (backHandler) {
+                backHandler();
+              } else {
+                navigate(-1);
+              }
             }}
           >
             <img src={back}></img>

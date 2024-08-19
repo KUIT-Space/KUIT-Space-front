@@ -1,15 +1,9 @@
-import TopBarText, { LeftEnum } from "@/components/TopBarText";
-import * as s from "@/pages/PayPage/PayPage.styled";
-import Kookmin from "@/assets/PayPage/test_bank.svg";
-import { BottomBtn } from "@/components/BottomBtn";
 import { useEffect, useState } from "react";
-import CompletePay from "@/pages/PayPage/CompletePay";
-import CompleteCreatePay from "@/pages/PayPage/CompleteCreatePay";
-import CheckBox from "@/components/CheckBox";
-import { Member } from "@/pages/ChatPage/ChatCreatePage/ChatCreatePage.styled";
-import ReactImg from "@/assets/react.svg";
-import { PayChatDiv } from "@/pages/PayPage/CreatePayComponents";
-import SearchIcon from "@/assets/PayPage/search_icon.svg";
+import { useNavigate } from "react-router-dom";
+import { ProgressBar } from "react-toastify/dist/components";
+import { UserInfo, userInfo } from "os";
+
+import { chatroomSearchAllApi, SpaceSearchUserProfile, UserProfileResult } from "@/apis";
 import {
   getAllChatMemberApi,
   getAllMemberApi,
@@ -17,17 +11,26 @@ import {
   recentAccountApi,
   targetInfoList,
 } from "@/apis/Pay/PayPageAPI";
-import { SpaceSearchUserProfile, UserProfileResult, chatroomSearchAllApi } from "@/apis";
 import { UserInfoInSpace } from "@/apis/Space/SpaceSearchAllUserApi";
+import SearchIcon from "@/assets/PayPage/search_icon.svg";
+import Kookmin from "@/assets/PayPage/test_bank.svg";
+import ReactImg from "@/assets/react.svg";
+import { BottomBtn } from "@/components/BottomBtn";
+import CheckBox from "@/components/CheckBox";
+import TopBarText, { LeftEnum } from "@/components/TopBarText";
+import { Member } from "@/pages/ChatPage/ChatCreatePage/ChatCreatePage.styled";
+import CompleteCreatePay from "@/pages/PayPage/CompleteCreatePay";
+import CompletePay from "@/pages/PayPage/CompletePay";
+import { PayChatDiv } from "@/pages/PayPage/CreatePayComponents";
+import * as s from "@/pages/PayPage/PayPage.styled";
 import { getUserDefaultImageURL } from "@/utils/getUserDefaultImageURL";
-import { UserInfo, userInfo } from "os";
-import { addComma } from "./PayPage";
-import { ProgressBar } from "react-toastify/dist/components";
 
-type payUserInfo = {
-  name: number;
-  value: number;
-};
+import { addComma } from "./PayPage";
+
+// type payUserInfo = {
+//   name: number;
+//   value: number;
+// };
 
 export type ChatUserInfoInSpace = {
   chatRoomId: number;
@@ -37,14 +40,14 @@ export type ChatUserInfoInSpace = {
 };
 
 export type BankInfo = {
-  bankName: String;
-  bankAccountNum: String;
+  bankName: string;
+  bankAccountNum: string;
 };
-type NextPageType = {
-  nextPage: Function;
-  setAccount?: Function;
-  checkUsers?: Set<number>;
-};
+// type NextPageType = {
+//   nextPage: () => void;
+//   setAccount?: () => void;
+//   checkUsers?: Set<number>;
+// };
 
 const idToPrice = new Map<number, number>();
 const RecentAccountDiv = ({ data }: { data: BankInfo }) => {
@@ -64,24 +67,26 @@ const CreateRequestPage1 = ({
   setAccount,
   setBankName,
 }: {
-  nextPage: Function;
+  nextPage: () => void;
   setAccount: React.Dispatch<React.SetStateAction<string>>;
   setBankName: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   const [bankData, setBankData] = useState<BankInfo[] | undefined>([]);
   const [bankValue, setBankValue] = useState("");
   const [acc, setAcc] = useState("");
+
   useEffect(() => {
     recentAccountApi(3, setBankData);
   }, []);
+
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAcc(e.target.value);
   };
-
   const onChangeOption = (e: any) => {
     setBankValue(e.target.value);
     console.log(e.target.value);
   };
+
   return (
     <>
       <TopBarText left={LeftEnum.Back} center="" right=""></TopBarText>
@@ -126,16 +131,17 @@ const CreateRequestPage1 = ({
     </>
   );
 };
+
 const CreateRequestPage2 = ({
   nextPage,
-  forceRefresh,
+  prevPage,
   setCheckUsers,
   checkUsers,
   userInfoData,
   setUserInfoData,
 }: {
-  nextPage: Function;
-  forceRefresh: Function;
+  nextPage: () => void;
+  prevPage: () => void;
   setCheckUsers: React.Dispatch<React.SetStateAction<Set<number>>>;
   checkUsers: Set<number>;
   userInfoData: UserInfoInSpace[] | undefined;
@@ -146,26 +152,12 @@ const CreateRequestPage2 = ({
   const [chatUserInfoData, setChatUserInfoData] = useState<ChatUserInfoInSpace[] | undefined>([]);
 
   useEffect(() => {
-    selectMenuHandler(tabIndex);
-    forceRefresh(1);
-  }, [chatUserInfoData]);
-
-  useEffect(() => {
-    // const id = localStorage.getItem("SpaceId");
-    const id = "3";
-    if (id !== null) {
-      const _id = Number.parseInt(id);
-      getAllMemberApi(_id, setUserInfoData);
-      getAllChatMemberApi(_id, setChatUserInfoData);
-    }
+    const id = Number(localStorage.getItem("spaceId")) || 3;
+    getAllMemberApi(id, setUserInfoData);
+    getAllChatMemberApi(id, setChatUserInfoData).then((res) =>
+      console.log("chatUser", chatUserInfoData),
+    );
   }, []);
-  const onKeywordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value);
-  };
-
-  const selectMenuHandler = (index: number) => {
-    setTabIndex(index);
-  };
 
   const checkUserHandler = (id: number) => {
     const _checkUsers = new Set(checkUsers);
@@ -186,7 +178,7 @@ const CreateRequestPage2 = ({
 
   return (
     <>
-      <TopBarText left={LeftEnum.Back} center="" right=""></TopBarText>
+      <TopBarText left={LeftEnum.Back} center="" right="" backHandler={prevPage}></TopBarText>
       <s.ContainerDiv>
         <div style={{ margin: "2rem 0rem 2rem 0rem" }}>
           <s.NowPriceDiv>정산할 멤버를 선택해주세요</s.NowPriceDiv>
@@ -197,30 +189,31 @@ const CreateRequestPage2 = ({
             <li
               key={index}
               className={index === tabIndex ? "submenu focused" : "submenu"}
-              onClick={() => selectMenuHandler(index)}
+              onClick={() => setTabIndex(index)}
             >
               {value.name}
             </li>
           ))}
         </s.TabMenu>
-        {tabIndex == 0 ? (
+        {tabIndex === 0 ? (
           <div>
-            {chatUserInfoData !== undefined ? (
-              <>
-                {chatUserInfoData.map((value, index) => (
-                  <PayChatDiv key={index} props={value}></PayChatDiv>
-                ))}
-              </>
-            ) : (
-              <></>
-            )}
+            <>{console.log(JSON.parse(JSON.stringify(chatUserInfoData)), userInfoData)}</>
+            {chatUserInfoData &&
+              chatUserInfoData.map((value, index) => (
+                <PayChatDiv key={index} info={value}></PayChatDiv>
+              ))}
           </div>
         ) : (
           <s.ColumnFlexDiv style={{ width: "100%" }}>
             <s.SearchBarDiv>
               <s.SearchIconImg src={SearchIcon}></s.SearchIconImg>
-              <s.SearchBar type="text" value={search} onChange={onKeywordChange}></s.SearchBar>
+              <s.SearchBar
+                type="text"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              ></s.SearchBar>
             </s.SearchBarDiv>
+
             {userInfoData !== undefined ? (
               <>
                 {userInfoData
@@ -231,27 +224,25 @@ const CreateRequestPage2 = ({
                       return val;
                     }
                   })
-                  .map((value) => {
-                    return (
-                      <Member key={value.userId}>
-                        <section>
-                          <img
-                            src={
-                              value.profileImgUrl
-                                ? value.profileImgUrl
-                                : getUserDefaultImageURL(value.userId)
-                            }
-                          />
-                          <span className="name">{value.userName}</span>
-                        </section>
-                        <CheckBox
-                          onClick={() => {
-                            checkUserHandler(value.userId);
-                          }}
-                        ></CheckBox>
-                      </Member>
-                    );
-                  })}
+                  .map((value) => (
+                    <Member key={value.userId}>
+                      <section>
+                        <img
+                          src={
+                            value.profileImgUrl
+                              ? value.profileImgUrl
+                              : getUserDefaultImageURL(value.userId)
+                          }
+                        />
+                        <span className="name">{value.userName}</span>
+                      </section>
+                      <CheckBox
+                        onClick={() => {
+                          checkUserHandler(value.userId);
+                        }}
+                      ></CheckBox>
+                    </Member>
+                  ))}
               </>
             ) : (
               <></>
@@ -259,17 +250,19 @@ const CreateRequestPage2 = ({
           </s.ColumnFlexDiv>
         )}
       </s.ContainerDiv>
-      <BottomBtn onClick={() => nextPage()}>{checkUsers.size}명 선택</BottomBtn>
+      <BottomBtn onClick={nextPage}>{checkUsers.size}명 선택</BottomBtn>
     </>
   );
 };
 
 const CreateRequestPage3 = ({
   nextPage,
+  prevPage,
   checkUsers,
   setTotalPrice,
 }: {
-  nextPage: Function;
+  nextPage: () => void;
+  prevPage: () => void;
   checkUsers: Set<number>;
   setTotalPrice: React.Dispatch<React.SetStateAction<number>>;
 }) => {
@@ -315,11 +308,12 @@ const CreateRequestPage3 = ({
     }
     console.log(idToPrice);
   };
+
   useEffect(() => {
-    let _tempArr: UserProfileResult[] = [];
+    const _tempArr: UserProfileResult[] = [];
     if (checkUsers !== undefined) {
       if (checkUsers?.size > 0) {
-        for (let value of checkUsers) {
+        for (const value of checkUsers) {
           const response = SpaceSearchUserProfile(3, value).then((res) => {
             if (res?.result !== undefined) {
               const _tempObj = res.result;
@@ -335,7 +329,7 @@ const CreateRequestPage3 = ({
 
   return (
     <>
-      <TopBarText left={LeftEnum.Back} center="" right=""></TopBarText>
+      <TopBarText left={LeftEnum.Back} center="" right="" backHandler={prevPage}></TopBarText>
       <s.ContainerDiv>
         <s.TabMenu>
           {menuArr.map((value, index) => (
@@ -359,59 +353,54 @@ const CreateRequestPage3 = ({
               onChange={changePriceHandler}
             ></s.PriceInput>
             <div style={{ marginTop: "1.5rem" }}>
-              {tempArr.map((value, index) => {
-                return (
-                  <Member key={value.userId}>
-                    <section>
-                      <img
-                        src={
-                          value.userProfileImg
-                            ? value.userProfileImg
-                            : getUserDefaultImageURL(value.userId!)
-                        }
-                      />
-                      <span className="name">{value.userName}</span>
-                    </section>
-                    <s.RowFlexDiv>
-                      <s.NormalTextDiv>
-                        {" "}
-                        {nPrice !== undefined ? nPrice / tempArr.length : "NaN"}
-                      </s.NormalTextDiv>
-                      <s.TextDiv>원</s.TextDiv>
-                    </s.RowFlexDiv>
-                  </Member>
-                );
-              })}
+              {tempArr.map((value) => (
+                <Member key={value.userId}>
+                  <section>
+                    <img
+                      src={
+                        value.userProfileImg
+                          ? value.userProfileImg
+                          : getUserDefaultImageURL(value.userId!)
+                      }
+                    />
+                    <span className="name">{value.userName}</span>
+                  </section>
+                  <s.RowFlexDiv>
+                    <s.NormalTextDiv>
+                      {nPrice !== undefined ? nPrice / tempArr.length : "NaN"}
+                    </s.NormalTextDiv>
+                    <s.TextDiv>원</s.TextDiv>
+                  </s.RowFlexDiv>
+                </Member>
+              ))}
             </div>
           </div>
         ) : (
           <div style={{ margin: "1.25rem" }}>
             <div style={{ marginTop: "1.5rem" }}>
-              {tempArr.map((value, index) => {
-                return (
-                  <Member key={value.userId}>
-                    <section>
-                      <img
-                        src={
-                          value.userProfileImg
-                            ? value.userProfileImg
-                            : getUserDefaultImageURL(value.userId!)
-                        }
-                      />
-                      <span className="name">{value.userName}</span>
-                    </section>
-                    <s.RowFlexDiv>
-                      <s.PriceInput2
-                        placeholder="금액입력"
-                        value={idToPrice?.get(value.userId!)}
-                        onChange={(e) => {
-                          selfChangePriceHandler(value.userId!, e);
-                        }}
-                      ></s.PriceInput2>
-                    </s.RowFlexDiv>
-                  </Member>
-                );
-              })}
+              {tempArr.map((value) => (
+                <Member key={value.userId}>
+                  <section>
+                    <img
+                      src={
+                        value.userProfileImg
+                          ? value.userProfileImg
+                          : getUserDefaultImageURL(value.userId!)
+                      }
+                    />
+                    <span className="name">{value.userName}</span>
+                  </section>
+                  <s.RowFlexDiv>
+                    <s.PriceInput2
+                      placeholder="금액입력"
+                      value={idToPrice?.get(value.userId!)}
+                      onChange={(e) => {
+                        selfChangePriceHandler(value.userId!, e);
+                      }}
+                    ></s.PriceInput2>
+                  </s.RowFlexDiv>
+                </Member>
+              ))}
             </div>
             <hr></hr>
             <s.RowFlexDiv style={{ justifyContent: "right", marginTop: "1rem" }}>
@@ -439,14 +428,17 @@ const CreateRequestPage3 = ({
     </>
   );
 };
+
 const CreateRequestPage4 = ({
   nextPage,
+  prevPage,
   userInfoData,
   totalPrice,
   array,
   setArray,
 }: {
-  nextPage: Function;
+  nextPage: () => void;
+  prevPage: () => void;
   userInfoData: UserInfoInSpace[] | undefined;
   totalPrice: number;
   array: targetInfoList[];
@@ -457,10 +449,11 @@ const CreateRequestPage4 = ({
       [...idToPrice!].map(([targetUserId, requestAmount]) => ({ targetUserId, requestAmount })),
     );
   }, []);
+
   const price = addComma(totalPrice);
   return (
     <>
-      <TopBarText left={LeftEnum.Back} center="" right=""></TopBarText>
+      <TopBarText left={LeftEnum.Back} center="" right="" backHandler={prevPage}></TopBarText>
       <s.ContainerDiv>
         <s.NowPriceDiv>이렇게 정산을 요청할까요?</s.NowPriceDiv>
         <s.GrayRoundDiv>
@@ -469,7 +462,7 @@ const CreateRequestPage4 = ({
             <s.NowPriceDiv style={{ marginLeft: "auto" }}> {price}&nbsp;원</s.NowPriceDiv>
           </s.RowFlexDiv>
           <hr style={{ border: "0.0625rem solid var(--GRAY-700, #45454B)" }}></hr>
-          {array.map((value, key) => {
+          {array.map((value) => {
             const _userData = userInfoData?.find((i) => i.userId === value.targetUserId);
             const _price = addComma(value.requestAmount);
             return (
@@ -490,13 +483,15 @@ const CreateRequestPage4 = ({
           })}
         </s.GrayRoundDiv>
       </s.ContainerDiv>
-      <BottomBtn onClick={() => nextPage()}>정산요청</BottomBtn>
+      <BottomBtn onClick={nextPage}>정산요청</BottomBtn>
     </>
   );
 };
+
 const CreateRequestPage = () => {
   const [page, setPage] = useState(0);
-  const [refresh, setRefresh] = useState(0);
+  // const [refresh, setRefresh] = useState(0);
+
   const [checkUsers, setCheckUsers] = useState(new Set<number>());
   const [bankAccount, setBankAccount] = useState("");
   const [bankName, setBankName] = useState("");
@@ -505,15 +500,22 @@ const CreateRequestPage = () => {
   const [isComplete, setIsComplete] = useState(false);
   const [array, setArray] = useState<targetInfoList[]>([]);
 
-  const forceRefresh = () => {
-    setRefresh(refresh + 1);
-  };
+  const navigate = useNavigate();
+
+  // const forceRefresh = () => {
+  //   setRefresh(refresh + 1);
+  // };
+
   const nextPage = () => {
-    setPage(page + 1);
+    setPage((prev) => prev + 1);
   };
-  const resetPage = () => {
-    //일단 만들어 둠
-    setPage(0);
+
+  const prevPage = () => {
+    if (page > 0) {
+      setPage((prev) => prev - 1);
+    } else {
+      navigate(-1);
+    }
   };
 
   useEffect(() => {
@@ -523,6 +525,7 @@ const CreateRequestPage = () => {
       });
     }
   }, [page]);
+
   switch (page) {
     case 0:
       return (
@@ -536,7 +539,8 @@ const CreateRequestPage = () => {
       return (
         <CreateRequestPage2
           nextPage={nextPage}
-          forceRefresh={forceRefresh}
+          prevPage={prevPage}
+          //forceRefresh={forceRefresh}
           checkUsers={checkUsers}
           setCheckUsers={setCheckUsers}
           userInfoData={userInfoData}
@@ -547,16 +551,18 @@ const CreateRequestPage = () => {
       return (
         <CreateRequestPage3
           nextPage={nextPage}
+          prevPage={prevPage}
           checkUsers={checkUsers}
           setTotalPrice={setTotalPrice}
         ></CreateRequestPage3>
       );
     case 3:
-      console.log(userInfoData);
+      // console.log(userInfoData);
       return (
         <CreateRequestPage4
           totalPrice={totalPrice}
           nextPage={nextPage}
+          prevPage={prevPage}
           userInfoData={userInfoData}
           array={array}
           setArray={setArray}
