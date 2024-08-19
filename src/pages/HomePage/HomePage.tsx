@@ -17,13 +17,13 @@ import {
 } from "@/apis/HomePage/GetHomepageApi";
 import { VrList } from "@/pages/VoiceRoomPage/VoiceRoomListPage";
 import { noticeInfo } from "@/apis/HomePage/GetHomepageApi";
+import { PayReceiveInfo, PayRequestInfo, addComma } from "@/pages/PayPage/PayPage";
 
 const HomePage = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("requested");
   const [tabIndex, setTabIndex] = useState(0);
 
-  const receivedSettlements = [{ name: "김민지", amount: 30000 }];
   const menuArr = [
     { name: "정산 현황", content: "Tab menu ONE" },
     { name: "요청한 정산", content: "Tab menu TWO" },
@@ -33,13 +33,21 @@ const HomePage = () => {
   const [homeData, setHomeData] = useState<HomeApiResponse | undefined>();
   const [vrData, setVrData] = useState<VoiceRoomApiResponse | undefined>();
   const [noticeList, setNoticeList] = useState<noticeInfo[] | undefined>([]);
+  const [receive, setReceive] = useState(0);
+  const [request, setRequest] = useState(0);
+  const [receiveData, setReceiveData] = useState<PayReceiveInfo>();
+  const [requestData, setRequestData] = useState<PayRequestInfo>();
 
-  const NoticeComponent = () => {
+  const NoticeComponent = ({ data }: { data: noticeInfo }) => {
     return (
-      <sty.RoundDiv>
+      <sty.RoundDiv
+        onClick={() => {
+          navigate(`/board/${data.postId}`);
+        }}
+      >
         <sty.RowFlexDiv style={{ alignItems: "center" }}>
           <sty.NoticeRoundDiv>공지</sty.NoticeRoundDiv>
-          <div>디자인 공부를 어디서 해야할 지 모르겠다면</div>
+          <div>{data.title}</div>
         </sty.RowFlexDiv>
       </sty.RoundDiv>
     );
@@ -57,6 +65,16 @@ const HomePage = () => {
 
       let newArr = [..._temp];
       setNoticeList(newArr);
+    }
+    if (homeData !== undefined) {
+      setReceive(homeData.payReceiveInfoDtoList.length);
+      setRequest(homeData.payRequestInfoDtoList.length);
+      if (homeData.payReceiveInfoDtoList !== undefined) {
+        setReceiveData(homeData.payReceiveInfoDtoList[0]);
+      }
+      if (homeData.payRequestInfoDtoList !== undefined) {
+        setRequestData(homeData.payRequestInfoDtoList[0]);
+      }
     }
   }, [homeData]);
 
@@ -104,11 +122,16 @@ const HomePage = () => {
 
       <sty.NoticeContainer>
         <sty.Settlement>
-          <div className="settlementTextContainer">
-            <div className="settlementText">정산</div>
-            <button>
+          <div
+            className="settlementTextContainer"
+            onClick={() => {
+              navigate("/pay");
+            }}
+          >
+            <sty.RowFlexDiv style={{ alignItems: "center" }}>
+              <div className="settlementText">정산</div>
               <img src={next} alt="자세히보기" />
-            </button>
+            </sty.RowFlexDiv>
           </div>
 
           <sty.RoundDiv>
@@ -126,61 +149,80 @@ const HomePage = () => {
 
             <div className="content">
               {tabIndex === 0 && (
-                <div>
-                  <span className="subText">정산 완료까지 </span>
-                  <span className="num">1</span>
-                  <span className="subText">명 남았어요</span>
-                  <br />
-                  <span className="highlightMoney">30,000원 </span>
-                  <span className="totalMoney"> /45,000 원</span>
-                </div>
-              )}
-              {tabIndex === 1 && (
-                <div>
-                  {receivedSettlements.map((settlement, index) => (
-                    <div key={index}>
-                      <span className="num">{settlement.name}</span>
-                      <span className="subText">님이 정산을 요청했어요</span>
-                      <br />
-                      <span className="highlightMoney">{settlement.amount}원</span>
-                    </div>
-                  ))}
-                </div>
-              )}
-              {tabIndex === 2 && (
                 <div style={{ width: "100%" }}>
                   <span className="highlightText">요청한 정산이 </span>
-                  <span className="num">1</span>
+                  <span className="num">{request}</span>
                   <span className="highlightText">건</span>
                   <br />
-                  <span className="highlightText">요청받은 정산이 </span>{" "}
-                  <span className="num">2</span>
+                  <span className="highlightText">요청받은 정산이 </span>
+                  <span className="num">{receive}</span>
                   <span className="highlightText">건 있습니다</span>
+                </div>
+              )}
+
+              {tabIndex === 1 && (
+                <div>
+                  <span className="subText">정산 완료까지 </span>
+                  <span className="num">
+                    {requestData?.totalTargetNum! - requestData?.receiveTargetNum!}
+                  </span>
+                  <span className="subText">명 남았어요</span>
+                  <br />
+                  <span className="highlightMoney">{addComma(requestData?.receiveAmount!)} </span>
+                  <span className="totalMoney"> /{addComma(requestData?.totalAmount!)} 원</span>
+                </div>
+              )}
+
+              {tabIndex === 2 && (
+                <div>
+                  <div>
+                    <span className="num">{receiveData?.payCreatorName}</span>
+                    <span className="subText">님이 정산을 요청했어요</span>
+                    <br />
+                    <span className="highlightMoney">{receiveData?.requestAmount}원</span>
+                  </div>
                 </div>
               )}
             </div>
           </sty.RoundDiv>
 
           {/* 여기는 공지사항 */}
-          <div className="settlementTextContainer" style={{ marginTop: "2.0938rem" }}>
-            <div className="settlementText">공지사항</div>
-            <button>
+          <div
+            className="settlementTextContainer"
+            onClick={() => {
+              navigate("/board");
+            }}
+            style={{ marginTop: "1.75rem" }}
+          >
+            <sty.RowFlexDiv style={{ alignItems: "center" }}>
+              <div className="settlementText">공지사항</div>
               <img src={next} alt="자세히보기" />
-            </button>
+            </sty.RowFlexDiv>
           </div>
 
-          {noticeList !== undefined &&
-            noticeList.map((value, index) => <div key={index}>{value.title}</div>)}
+          {noticeList !== undefined ? (
+            noticeList.map((value, index) => (
+              <NoticeComponent key={value.postId} data={value}></NoticeComponent>
+            ))
+          ) : (
+            <sty.NoAlertDiv>등록된 공지가 없어요</sty.NoAlertDiv>
+          )}
 
           <>{/* 여기는 보이스룸 */}</>
 
-          <div className="settlementTextContainer" style={{ marginTop: "2.0938rem" }}>
-            <div className="settlementText">활동 중인 보이스룸</div>
-            <button>
+          <div
+            className="settlementTextContainer"
+            onClick={() => {
+              navigate("/voiceroom");
+            }}
+            style={{ marginTop: "1.75rem" }}
+          >
+            <sty.RowFlexDiv style={{ alignItems: "center" }}>
+              <div className="settlementText">활동 중인 보이스룸</div>
               <img src={next} alt="자세히보기" />
-            </button>
+            </sty.RowFlexDiv>
           </div>
-          {vrData !== undefined &&
+          {vrData !== undefined ? (
             vrData.voiceRoomList.map(
               (value, index) =>
                 value.active === true && (
@@ -199,7 +241,10 @@ const HomePage = () => {
                     </sty.ColumnFlexDiv>
                   </sty.HomeVoiceRoomDiv>
                 ),
-            )}
+            )
+          ) : (
+            <sty.NoAlertDiv>쉿, 조용해요</sty.NoAlertDiv>
+          )}
         </sty.Settlement>
       </sty.NoticeContainer>
     </>
