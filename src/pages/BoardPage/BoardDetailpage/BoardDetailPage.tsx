@@ -1,11 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
+import {
+  BoardPostDetail,
+  createPostCommentApi,
+  getPostCommentApi,
+  getPostDetailApi,
+} from "@/apis/Board/BoardPostDetailApi";
+import { deleteLikeOnPostApi, postLikeOnPostApi } from "@/apis/Board/BoardPostLikeApi";
 import comment from "@/assets/Board/comment.svg";
 import heartLiked from "@/assets/Board/heart_liked.svg";
 import heartUnliked from "@/assets/Board/heart_unliked.svg";
 import share from "@/assets/Board/share.svg";
+import send from "@/assets/ChatPage/btn_send.svg";
 import TopBarText, { LeftEnum } from "@/components/TopBarText";
 import BoardDetailComment from "@/pages/BoardPage/BoardDetailpage/BoardDetailComment";
 
@@ -55,6 +63,10 @@ const BoardPostDetailContainer = styled.div`
   }
 `;
 
+const BoardPostDetailCommentContainer = styled.div`
+  margin-bottom: 3rem;
+`;
+
 const BoardPostDetailContent = styled.section`
   display: flex;
   flex-direction: column;
@@ -88,11 +100,17 @@ const BoardPostDetailContent = styled.section`
     }
   }
 
-  .board-post-detail-content-img {
-    width: 100%;
-    height: 20rem;
-    border-radius: 0.75rem;
-    border: 1px solid #fff; /* 영역 확인 위한 임시 border */
+  .board-post-detail-content-img-container {
+    display: flex;
+    overflow-x: scroll;
+    gap: 0.5rem;
+
+    .board-post-detail-content-img {
+      width: 100%;
+      height: 20rem;
+      border-radius: 0.75rem;
+      border: 1px solid #fff; /* 영역 확인 위한 임시 border */
+    }
   }
 `;
 
@@ -149,60 +167,128 @@ const BoardPostCommentEmpty = styled.div`
   letter-spacing: 0.04rem;
 `;
 
-const BoardDetailPage = () => {
-  const dummy = {
-    id: 0,
-    profileName: "고양이발닦개",
-    profileImg: "",
-    elapsedTime: "10분 전",
-    title: "학생! 기말시험이 있어",
-    content: "학생! 혹시 과제도 같이.. (네? 과제도요?)\n그럼 제가 교수님 맘에...",
-    thumbnail: "img",
-    isLike: true,
-    likeCount: 5,
-    commentCount: 2,
-    comment: [
-      {
-        profileName: "seohyun",
-        profileImg: "",
-        elapsedTime: "10분 전",
-        content: "댓글내용내용",
-        isLike: true,
-        likeCount: 5,
-        commentCount: 2,
-      },
-      {
-        profileName: "seohyun",
-        profileImg: "",
-        elapsedTime: "10분 전",
-        content: "댓글내용내용",
-        isLike: true,
-        likeCount: 5,
-        commentCount: 2,
-      },
-      {
-        profileName: "seohyun",
-        profileImg: "",
-        elapsedTime: "10분 전",
-        content: "댓글내용내용",
-        isLike: true,
-        likeCount: 5,
-        commentCount: 2,
-      },
-    ],
-  };
-  const { id } = useParams();
+const BoardDetailInputContainer = styled.div`
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  gap: 0.5rem;
+`;
 
-  const [isLikeNew, setIsLikeNew] = useState<boolean>(dummy.isLike);
+const BoardDetailInput = styled.input`
+  width: 100%;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 1.25rem;
+  background: var(--Foundation-Gray-gray800, #222226);
+
+  color: var(--Foundation-Gray-gray500, #767681);
+  /* text/Regular 14pt */
+  font-family: Freesentation;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 140%; /* 19.6px */
+  letter-spacing: 0.56px;
+
+  &:focus {
+    outline: none;
+    color: var(--WHITE, #fff);
+  }
+`;
+
+const BoardDetailPage = () => {
+  const { id } = useParams();
+  const [postsData, setPostsData] = useState<BoardPostDetail>();
+  const [commentsData, setCommentsData] = useState<BoardPostDetail[]>([]);
+  const [commentValue, setCommentValue] = useState<string>("");
+  const [newCommentCount, setNewCommentCount] = useState<number>(0);
+
+  const [isLikeNew, setIsLikeNew] = useState<boolean>(postsData !== undefined && postsData.like);
+  const [likeCountNew, setLikeCountNew] = useState<number>(postsData ? postsData.likeCount : 0);
+
+  const spaceId = localStorage.getItem("spaceId");
+
+  useEffect(() => {
+    if (spaceId !== null) {
+      getPostDetailApi(Number.parseInt(spaceId), Number.parseInt(id || "0"))
+        .then((res) => {
+          if (res === null) {
+            setPostsData(undefined);
+          } else {
+            setPostsData(res.result);
+            setIsLikeNew(res.result.like);
+            setLikeCountNew(res.result.likeCount);
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+          setPostsData(undefined);
+        });
+      getPostCommentApi(Number.parseInt(spaceId), Number.parseInt(id || "0"))
+        .then((res) => {
+          if (res !== null) {
+            setCommentsData(res.result);
+          }
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [newCommentCount]);
+
+  const handleLike = () => {
+    if (spaceId !== null && postsData !== undefined) {
+      if (postsData.like === true) {
+        // 좋아요 해제
+        deleteLikeOnPostApi(Number.parseInt(spaceId), postsData.postId)
+          .then((res) => {
+            if (res !== null) {
+              setIsLikeNew(false);
+              setLikeCountNew((prev) => prev - 1);
+            }
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      } else {
+        postLikeOnPostApi(Number.parseInt(spaceId), postsData.postId)
+          .then((res) => {
+            if (res !== null) {
+              setIsLikeNew(true);
+              setLikeCountNew((prev) => prev + 1);
+            }
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      }
+    }
+  };
+
+  const handleRegisterComment = () => {
+    if (spaceId !== null && postsData !== undefined) {
+      createPostCommentApi(Number.parseInt(spaceId), postsData?.postId, commentValue)
+        .then((res) => {
+          if (res !== null) {
+            console.log("등록된 commentID: ", res.result.commentId);
+            setNewCommentCount((prev) => prev + 1);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
 
   return (
     <>
       <TopBarText left={LeftEnum.Back} center="게시판" right={""}></TopBarText>
       <BoardPostDetailContainer>
         <header className="board-post-detail-header">
-          {dummy.profileImg ? (
+          {postsData?.userProfileImg ? (
             <img
-              src={dummy.profileImg}
+              src={postsData.userProfileImg}
               alt="프로필 이미지"
               className="board-post-detail-header-img"
             />
@@ -210,45 +296,51 @@ const BoardDetailPage = () => {
             <div className="board-post-detail-header-img" />
           )}
           <div className="board-post-detail-header-text">
-            <span>{dummy.profileName}</span>
-            <span>{dummy.elapsedTime}</span>
+            <span>{postsData?.userName}</span>
+            <span>{postsData?.time}</span>
           </div>
         </header>
         <BoardPostDetailContent>
           <div className="board-post-detail-content-text">
-            <span>{dummy.title}</span>
-            <div>{dummy.content}</div>
+            <span>{postsData?.title}</span>
+            <div>{postsData?.content}</div>
           </div>
-          <div className="board-post-detail-content-img">
-            {dummy.thumbnail && <img src={dummy.thumbnail} />}
+          <div className="board-post-detail-content-img-container">
+            {postsData?.postImage &&
+              postsData.postImage.map((img: string, i: number) => {
+                return (
+                  <img
+                    key={i + postsData?.title + "img"}
+                    src={img}
+                    className="board-post-detail-content-img"
+                  />
+                );
+              })}
           </div>
         </BoardPostDetailContent>
         <BoardPostDetailFooter>
-          <BoardPostDetailLikeBtn
-            className={isLikeNew ? "liked" : ""}
-            onClick={() => setIsLikeNew((prev) => !prev)}
-          >
+          <BoardPostDetailLikeBtn className={isLikeNew ? "liked" : ""} onClick={handleLike}>
             <img src={isLikeNew ? heartLiked : heartUnliked} alt="좋아요" />
-            {dummy.likeCount}
+            {likeCountNew}
           </BoardPostDetailLikeBtn>
           <div className="board-post-detail-footer-item">
             <img src={comment} alt="댓글" />
-            {dummy.commentCount}
+            {postsData?.commentCount}
           </div>
           <img src={share} alt="공유하기" />
         </BoardPostDetailFooter>
       </BoardPostDetailContainer>
-      <div>
-        {dummy.comment ? (
-          dummy.comment.map((d, i) => {
+      <BoardPostDetailCommentContainer>
+        {commentsData.length !== 0 ? (
+          commentsData.map((d: BoardPostDetail, i: number) => {
             return (
-              <div key={i + d.content}>
+              <div key={i + d.title}>
                 <BoardDetailComment
-                  profileName={d.profileName}
-                  profileImg={d.profileImg}
-                  elapsedTime={d.elapsedTime}
+                  profileName={d.userName}
+                  profileImg={d.userProfileImg}
+                  elapsedTime={d.time}
                   content={d.content}
-                  isLike={d.isLike}
+                  isLike={d.like}
                   likeCount={d.likeCount}
                   commentCount={d.commentCount}
                 />
@@ -261,7 +353,14 @@ const BoardDetailPage = () => {
             <br />첫 댓글을 남겨보세요.
           </BoardPostCommentEmpty>
         )}
-      </div>
+      </BoardPostDetailCommentContainer>
+      <BoardDetailInputContainer>
+        <BoardDetailInput
+          placeholder="댓글을 입력하세요."
+          onChange={(e) => setCommentValue(e.target.value)}
+        ></BoardDetailInput>
+        <img src={send} onClick={handleRegisterComment} />
+      </BoardDetailInputContainer>
     </>
   );
 };

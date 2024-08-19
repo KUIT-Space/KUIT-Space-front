@@ -1,6 +1,7 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 
+import { CreateBoardPostApi } from "@/apis/Board/BoardPostApi";
 import camera from "@/assets/Board/camera.svg";
 import gallery from "@/assets/Board/gallery.svg";
 import link from "@/assets/Board/link.svg";
@@ -15,7 +16,7 @@ const BoardRegisterBtn = styled.button`
   line-height: 140%; /* 1.4rem */
   letter-spacing: 0.04rem;
 
-  .board-register-btn-active {
+  &.board-register-btn-active {
     color: var(--Foundation-Gray-white, #fff);
   }
 `;
@@ -24,6 +25,16 @@ const BoardRegisterContainer = styled.div`
   width: 100%;
   height: 100%;
   padding: 0 1.25rem;
+
+  .board-register-selected-image-container {
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: scroll;
+  }
+  .board-register-selected-image {
+    width: 50%;
+    height: 9.625rem;
+  }
 `;
 
 const BoardRegisterManagerTitle = styled.div`
@@ -106,6 +117,9 @@ const BoardRegisterPage = () => {
   const [titleValue, setTitleValue] = useState<string>("");
   const [contentValue, setContentValue] = useState<string>("");
   const [isNotice, setIsNotice] = useState<boolean>(false);
+  const [selectedImages, setSelectedImages] = useState<File[]>([]);
+
+  const spaceId = localStorage.getItem("spaceId");
 
   // TODO: API 연동 시 수정 예정
   const isManager = true;
@@ -113,15 +127,34 @@ const BoardRegisterPage = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
+  const inputImgRef = useRef<HTMLInputElement>(null);
+
   const handleResizeHeight = () => {
     if (textareaRef.current) {
       textareaRef.current.style.height = textareaRef.current.scrollHeight + "px";
     }
   };
 
+  const handleImageImport = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const image = e.target.files?.[0];
+    image && setSelectedImages((prev) => [...prev, image]);
+    console.log(selectedImages);
+  };
+
   const handleRegister = () => {
-    if (titleValue && contentValue) {
-      console.log("register success!!");
+    if (titleValue && contentValue && spaceId != null) {
+      //채팅방 생성 API 호출
+      CreateBoardPostApi(
+        Number.parseInt(spaceId) || 3,
+        titleValue,
+        contentValue,
+        isNotice ? "notice" : "general",
+        selectedImages || [],
+      ).then((res) => {
+        if (res) {
+          console.log("생성 완료: ", res);
+        }
+      });
     }
     console.log("register fail..");
   };
@@ -163,10 +196,28 @@ const BoardRegisterPage = () => {
           onInput={handleResizeHeight}
           onChange={(e) => setContentValue(e.target.value)}
         />
+        <div className="board-register-selected-image-container">
+          {selectedImages.map((image, i) => {
+            return (
+              <img
+                className="board-register-selected-image"
+                key={i + image.name}
+                src={URL.createObjectURL(image)}
+              />
+            );
+          })}
+        </div>
       </BoardRegisterContainer>
       <BoardRegisterFooter>
+        <input
+          ref={inputImgRef}
+          type="file"
+          accept="image/*"
+          onChange={handleImageImport}
+          style={{ display: "none" }}
+        />
         <img src={camera} />
-        <img src={gallery} />
+        <img src={gallery} onClick={() => inputImgRef.current?.click()} />
         <img src={link} />
       </BoardRegisterFooter>
     </>
