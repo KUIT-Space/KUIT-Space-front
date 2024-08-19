@@ -15,6 +15,22 @@ ${reset}
 * {
   box-sizing: border-box;
   color: ${({ theme }) => theme.colors.white};
+
+  &::-webkit-scrollbar {
+    width: 0.5rem;
+    height: 0.5rem;
+  }
+  &::-webkit-scrollbar-track {
+    background: ${({ theme }) => theme.colors.BG900};
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: ${({ theme }) => theme.colors.normal};
+    border-radius: 1rem;
+    border: 1px solid ${({ theme }) => theme.colors.BG900};
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: ${({ theme }) => theme.colors.normal_hover};
+  }
 }
 
 body {
