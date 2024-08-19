@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { BoardPost, getAllPosts } from "@/apis/Board/BoardReadApi";
 import arrowDown from "@/assets/Board/chevron_down.svg";
 import search from "@/assets/Board/search.svg";
 import TopBarText, { LeftEnum } from "@/components/TopBarText";
@@ -9,74 +10,70 @@ import { BoardHeader, BoardPostItemEmpty } from "@/pages/BoardPage/BoardPage.sty
 import BoardPostItem from "@/pages/BoardPage/BoardPostItem";
 import { AddChatBtn } from "@/pages/ChatPage/ChatAddBtn.styled";
 
+export type boardSelectedOptionType = {
+  id: string;
+  value: string;
+};
+
+export const boardSelectedOption = [
+  { id: "all", value: "전체" },
+  { id: "notice", value: "공지 게시글" },
+  { id: "general", value: "일반 게시글" },
+];
+
 const BoardPage = () => {
-  const dummy = [
-    {
-      id: 0,
-      profileName: "고양이발닦개",
-      profileImg: "",
-      elapsedTime: "10분 전",
-      title: "학생! 기말시험이 있어",
-      content: "학생! 혹시 과제도 같이.. (네? 과제도요?)\n그럼 제가 교수님 맘에...",
-      thumbnail: "img",
-      isLike: true,
-      likeCount: 5,
-      commentCount: 2,
-    },
-    {
-      id: 1,
-      profileName: "고양이발닦개",
-      profileImg: "",
-      elapsedTime: "10분 전",
-      title: "학생! 기말시험이 있어",
-      content: "학생! 혹시 과제도 같이.. (네? 과제도요?)\n그럼 제가 교수님 맘에...",
-      thumbnail: "img",
-      isLike: true,
-      likeCount: 5,
-      commentCount: 2,
-    },
-    {
-      id: 2,
-      profileName: "고양이발닦개",
-      profileImg: "",
-      elapsedTime: "10분 전",
-      title: "학생! 기말시험이 있어",
-      content: "학생! 혹시 과제도 같이.. (네? 과제도요?)\n그럼 제가 교수님 맘에...",
-      thumbnail: "img",
-      isLike: true,
-      likeCount: 5,
-      commentCount: 2,
-    },
-  ];
+  const [postsData, setPostsData] = useState<BoardPost[]>([]);
+
   const navigate = useNavigate();
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [selectedOption, setSelectedOption] = useState<string>("전체");
+  const [selectedOption, setSelectedOption] = useState<number>(0);
+
+  useEffect(() => {
+    // 임시로 LOCALSTORAGE에 spaceId 3으로 저장
+    localStorage.setItem("spaceId", "3");
+    //
+    const spaceId = localStorage.getItem("spaceId");
+    if (spaceId !== null) {
+      getAllPosts(Number.parseInt(spaceId), boardSelectedOption[selectedOption].id)
+        .then((res) => {
+          if (res === null) {
+            setPostsData([]);
+          } else {
+            setPostsData(res.result);
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+          setPostsData([]);
+        });
+    }
+  }, [selectedOption]);
 
   return (
     <>
       <TopBarText left={LeftEnum.Logo} center="게시판" right={<img src={search} />}></TopBarText>
       <BoardHeader>
-        <span>게시글 {dummy.length}개</span>
+        <span>게시글 {postsData.length}개</span>
         <div className="board-filter-section" onClick={() => setIsModalOpen((prev) => !prev)}>
-          {selectedOption}
+          {boardSelectedOption[selectedOption].value}
           <img src={arrowDown} />
         </div>
       </BoardHeader>
-      {dummy ? (
-        dummy.map((d, i) => {
+      {postsData.length !== 0 ? (
+        postsData.map((d, i) => {
           return (
-            <div key={i + d.title} onClick={() => navigate(`/board/${d.id}`)}>
+            <div key={i + d.title} onClick={() => navigate(`/board/${d.postId}`)}>
               <BoardPostItem
-                profileName={d.profileName}
-                profileImg={d.profileImg}
-                elapsedTime={d.elapsedTime}
+                profileName={d.userName}
+                profileImg={d.userProfileImg}
+                elapsedTime={d.time}
                 title={d.title}
                 content={d.content}
-                thumbnail={d.thumbnail}
+                thumbnail={d.postImage[0]}
                 isLike={d.isLike}
-                likeCount={d.likeCount}
-                commentCount={d.commentCount}
+                likeCount={d.like_count}
+                commentCount={d.comment_count}
               />
             </div>
           );

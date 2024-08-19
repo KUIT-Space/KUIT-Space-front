@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 import checkModal from "@/assets/Board/check_modal.svg";
+import { boardSelectedOption, boardSelectedOptionType } from "@/pages/BoardPage/BoardPage";
 
 const BoardBottomModalBackdrop = styled.div`
   position: fixed;
@@ -44,32 +45,27 @@ const BoardBottomModalItem = styled.button`
 `;
 
 export type BoardBottomModalProps = {
-  selectedOption: string;
-  onSelect: React.Dispatch<string>;
+  selectedOption: number;
+  onSelect: React.Dispatch<number>;
   isOpen: boolean;
   onClose: () => void;
 };
 
 const BoardBottomModal = ({ selectedOption, onSelect, isOpen, onClose }: BoardBottomModalProps) => {
   if (!isOpen) return null;
-  const buttonOptions = [
-    { label: "전체", value: "all" },
-    { label: "카페", value: "cafe" },
-    { label: "맛집", value: "restaurant" },
-  ];
 
   return (
     <BoardBottomModalBackdrop onClick={onClose}>
       <BoardBottomModalContent>
-        {buttonOptions.map((option) => {
-          const isSelcted = option.label === selectedOption;
+        {boardSelectedOption.map((option, i) => {
+          const isSelcted = i === selectedOption;
           return (
             <BoardBottomModalItem
               key={option.value}
               className={isSelcted ? "board-bottom-modal-selected" : ""}
-              onClick={() => onSelect(option.label)}
+              onClick={() => onSelect(i)}
             >
-              {option.label}
+              {option.value}
               {isSelcted && <img src={checkModal} />}
             </BoardBottomModalItem>
           );
