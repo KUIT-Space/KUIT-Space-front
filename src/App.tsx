@@ -43,6 +43,7 @@ import BoardRegisterPage from "./pages/BoardPage/BoardRegisterPage/BoardRegister
 import LoginModal from "./pages/LoginPage/LoginModal";
 import InviteSpace from "./pages/SpacePage/InviteSpace";
 import HomePageMemberPage from "./pages/HomePage/HomePageMember";
+import HomePageProfile from "./pages/HomePage/HomePageProfile";
 
 // will we need constant path in later..?
 // const PATH = {
@@ -144,6 +145,7 @@ function App() {
 
   const routes_children_home = [
     { path: "/members", element: <HomePageMemberPage />, hasBottombar: false },
+    { path: "/member/:id", element: <HomePageProfile />, hasBottombar: false },
   ];
 
   const routes_children = [

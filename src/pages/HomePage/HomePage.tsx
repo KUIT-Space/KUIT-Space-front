@@ -60,6 +60,7 @@ const HomePage = () => {
   useEffect(() => {}, [noticeList]);
 
   useEffect(() => {
+    console.log(homeData);
     if (homeData?.noticeList !== undefined) {
       let _temp = homeData?.noticeList;
 
@@ -113,7 +114,15 @@ const HomePage = () => {
         />
         <img src={bannerImageCover} alt="오버레이 이미지" className="overlayImage" />
         <div className="bannerText">{homeData?.spaceName}</div>
-        <div className="tag">스페이서 {homeData?.memberNum}</div>
+        <div
+          className="tag"
+          style={{ cursor: "pointer" }}
+          onClick={() => {
+            navigate("/members");
+          }}
+        >
+          스페이서 {homeData?.memberNum}
+        </div>
       </sty.MainBanner>
 
       <BottomBtn style={{ position: "relative" }}>

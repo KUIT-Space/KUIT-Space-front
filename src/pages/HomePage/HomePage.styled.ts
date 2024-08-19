@@ -272,11 +272,11 @@ export const RoundDiv = styled.div`
 
   /* text/Regular 14pt */
   font-family: Freesentation;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-style: normal;
   font-weight: 400;
-  line-height: 140%; /* 19.6px */
-  letter-spacing: 0.56px;
+  line-height: 140%; /* 1.225rem */
+  letter-spacing: 0.035rem;
 `;
 export const ColumnFlexDiv = styled.div`
   display: flex;
@@ -288,27 +288,27 @@ export const RowFlexDiv = styled.div`
 `;
 
 export const NoticeRoundDiv = styled.div`
-  border-radius: 8px;
-  border: 1px solid var(--normal, #48ffbd);
+  border-radius: 0.5rem;
+  border: 0.0625rem solid var(--normal, #48ffbd);
 
-  padding: 4px 10px;
+  padding: 0.25rem 0.625rem;
 
   color: var(--Foundation-Main-color-Normal, var(--normal, #48ffbd));
   text-align: center;
 
   /* text/Regular 12pt */
   font-family: Freesentation;
-  font-size: 12px;
+  font-size: 0.75rem;
   font-style: normal;
   font-weight: 400;
-  line-height: 140%; /* 16.8px */
-  letter-spacing: 0.24px;
+  line-height: 140%; /* 1.05rem */
+  letter-spacing: 0.015rem;
 
   margin-right: 0.625rem;
 `;
 
 export const HomeVoiceRoomDiv = styled.div`
-  border-radius: 12px;
+  border-radius: 0.75rem;
   background: linear-gradient(99deg, #f098f1 0%, #549af7 100%);
   padding: 1rem;
 
@@ -318,11 +318,11 @@ export const HomeVoiceRoomDiv = styled.div`
 
   /* text/SemiBold 20pt */
   font-family: Freesentation;
-  font-size: 20px;
+  font-size: 1.25rem;
   font-style: normal;
   font-weight: 600;
-  line-height: 140%; /* 28px */
-  letter-spacing: 0.4px;
+  line-height: 140%; /* 1.75rem */
+  letter-spacing: 0.025rem;
 `;
 
 export const VoiceRoomTitleDiv = styled.div`
@@ -330,16 +330,16 @@ export const VoiceRoomTitleDiv = styled.div`
 
   /* text/SemiBold 20pt */
   font-family: Freesentation;
-  font-size: 20px;
+  font-size: 1.25rem;
   font-style: normal;
   font-weight: 600;
-  line-height: 140%; /* 28px */
-  letter-spacing: 0.4px;
+  line-height: 140%; /* 1.75rem */
+  letter-spacing: 0.025rem;
 `;
 export const NoAlertDiv = styled.div`
   display: flex;
   width: 100%;
-  height: 88px;
+  height: 5.5rem;
   justify-content: center;
   align-items: center;
 
@@ -347,9 +347,101 @@ export const NoAlertDiv = styled.div`
 
   /* text/Medium 14pt */
   font-family: Freesentation;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-style: normal;
   font-weight: 500;
-  line-height: 140%; /* 19.6px */
-  letter-spacing: 0.56px;
+  line-height: 140%; /* 1.225rem */
+  letter-spacing: 0.035rem;
+`;
+
+export const ProfileImgDiv = styled.div`
+  display: flex;
+  width: 100%;
+  height: 18rem;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  margin-top: 2.5rem;
+`;
+
+export const ProfileContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  margin: 0rem 1.25rem 0rem 1.25rem;
+`;
+
+export const ProfileImg = styled.img`
+  border-radius: 50%;
+  width: 9.375rem;
+  height: 9.375rem;
+  object-fit: cover;
+`;
+
+export const ProfileDiv = styled.div`
+  margin-top: 1rem;
+
+  color: #fff;
+  text-align: center;
+
+  /* text/Bold 20pt */
+  font-family: Freesentation;
+  font-size: 1.25rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 140%; /* 1.75rem */
+  letter-spacing: 0.025rem;
+
+  display: flex;
+  align-items: center;
+`;
+export const ProfileName = styled.div`
+  color: #fff;
+  text-align: center;
+
+  /* text/Bold 20pt */
+  font-family: Freesentation;
+  font-size: 1.25rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 140%; /* 1.75rem */
+  letter-spacing: 0.025rem;
+`;
+
+export const ProfileAuth = styled.div`
+  color: var(--normal, #48ffbd);
+  text-align: center;
+
+  /* text/Regular 16pt */
+  font-family: Freesentation;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 140%; /* 1.4rem */
+  letter-spacing: 0.04rem;
+
+  margin-left: 0.5rem;
+`;
+
+export const ProfileMsgDiv = styled.div`
+  width: 100%;
+  padding: 1rem;
+  min-height: 6.25rem;
+  background: var(--Foundation-Gray-gray800, #222226);
+
+  overflow: hidden;
+  color: var(--Foundation-Gray-white, #fff);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  /* text/Regular 16pt */
+  font-family: Freesentation;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 140%; /* 1.4rem */
+  letter-spacing: 0.04rem;
 `;
