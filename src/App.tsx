@@ -84,7 +84,7 @@ function Layout({ routes_children }: { routes_children: RouteChildren[] }) {
       <LayoutContainer>
         <div id="content">
           <Outlet />
-          <LoginModal />
+          <LoginModal exceptionRouters={["/login", "/signup"]} />
         </div>
         {routes_children.find((child) => matchPath(child.path, pathname))?.hasBottomBar && (
           <BottomNavBar />
