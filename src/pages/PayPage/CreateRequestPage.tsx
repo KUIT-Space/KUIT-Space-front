@@ -303,12 +303,11 @@ const CreateRequestPage3 = ({
   const nPriceHandler = () => {
     if (nPrice !== undefined) {
       tempArr.forEach((value) => {
-        idToPrice?.set(value.userId!, nPrice / tempArr.length);
+        idToPrice?.set(value.userId!, Number.parseInt((nPrice / tempArr.length).toString()));
       });
     } else {
       alert("에러!");
     }
-    console.log(idToPrice);
   };
 
   useEffect(() => {
@@ -371,7 +370,9 @@ const CreateRequestPage3 = ({
                   </section>
                   <s.RowFlexDiv>
                     <s.NormalTextDiv>
-                      {nPrice !== undefined ? nPrice / tempArr.length : "NaN"}
+                      {nPrice !== undefined
+                        ? Number.parseInt((nPrice / tempArr.length).toString())
+                        : "NaN"}
                     </s.NormalTextDiv>
                     <s.TextDiv>원</s.TextDiv>
                   </s.RowFlexDiv>
@@ -468,7 +469,7 @@ const CreateRequestPage4 = ({
           <hr style={{ border: "0.0625rem solid var(--GRAY-700, #45454B)" }}></hr>
           {array.map((value) => {
             const _userData = userInfoData?.find((i) => i.userId === value.targetUserId);
-            const _price = addComma(value.requestAmount);
+            const _price = addComma(Number.parseInt(value.requestAmount.toString()));
             return (
               <Member key={value.targetUserId}>
                 <section>
@@ -579,6 +580,10 @@ const CreateRequestPage = () => {
       } else {
         return <div>진행 중</div>;
       }
+
+    // null jsx component 보낼 수 있는 경우 고려
+    default:
+      return <></>;
   }
 };
 
