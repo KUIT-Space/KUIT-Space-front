@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
 import { BoardPostDetail, getPostDetailApi } from "@/apis/Board/BoardPostDetailApi";
+import { deleteLikeOnPostApi, postLikeOnPostApi } from "@/apis/Board/BoardPostLikeApi";
 import comment from "@/assets/Board/comment.svg";
 import heartLiked from "@/assets/Board/heart_liked.svg";
 import heartUnliked from "@/assets/Board/heart_unliked.svg";
@@ -161,12 +162,14 @@ const BoardDetailPage = () => {
   const [postsData, setPostsData] = useState<BoardPostDetail>();
 
   const [isLikeNew, setIsLikeNew] = useState<boolean>(postsData !== undefined && postsData.like);
+  const [likeCountNew, setLikeCountNew] = useState<number>(postsData ? postsData.likeCount : 0);
+
+  // 임시로 LOCALSTORAGE에 spaceId 3으로 저장
+  localStorage.setItem("spaceId", "3");
+  //
+  const spaceId = localStorage.getItem("spaceId");
 
   useEffect(() => {
-    // 임시로 LOCALSTORAGE에 spaceId 3으로 저장
-    localStorage.setItem("spaceId", "3");
-    //
-    const spaceId = localStorage.getItem("spaceId");
     if (spaceId !== null) {
       getPostDetailApi(Number.parseInt(spaceId), Number.parseInt(id || "0"))
         .then((res) => {
@@ -174,6 +177,8 @@ const BoardDetailPage = () => {
             setPostsData(undefined);
           } else {
             setPostsData(res.result);
+            setIsLikeNew(res.result.like);
+            setLikeCountNew(res.result.likeCount);
           }
         })
         .catch((err) => {
@@ -182,6 +187,35 @@ const BoardDetailPage = () => {
         });
     }
   }, []);
+
+  const handleLike = () => {
+    if (spaceId !== null && postsData !== undefined) {
+      if (postsData.like === true) {
+        // 좋아요 해제
+        deleteLikeOnPostApi(Number.parseInt(spaceId), postsData.postId)
+          .then((res) => {
+            if (res !== null) {
+              setIsLikeNew(false);
+              setLikeCountNew((prev) => prev - 1);
+            }
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      } else {
+        postLikeOnPostApi(Number.parseInt(spaceId), postsData.postId)
+          .then((res) => {
+            if (res !== null) {
+              setIsLikeNew(true);
+              setLikeCountNew((prev) => prev + 1);
+            }
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      }
+    }
+  };
 
   return (
     <>
@@ -221,12 +255,9 @@ const BoardDetailPage = () => {
           </div>
         </BoardPostDetailContent>
         <BoardPostDetailFooter>
-          <BoardPostDetailLikeBtn
-            className={isLikeNew ? "liked" : ""}
-            onClick={() => setIsLikeNew((prev) => !prev)}
-          >
+          <BoardPostDetailLikeBtn className={isLikeNew ? "liked" : ""} onClick={handleLike}>
             <img src={isLikeNew ? heartLiked : heartUnliked} alt="좋아요" />
-            {postsData?.likeCount}
+            {likeCountNew}
           </BoardPostDetailLikeBtn>
           <div className="board-post-detail-footer-item">
             <img src={comment} alt="댓글" />

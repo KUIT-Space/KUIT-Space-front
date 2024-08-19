@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
+import { deleteLikeOnPostApi, postLikeOnPostApi } from "@/apis/Board/BoardPostLikeApi";
 import comment from "@/assets/Board/comment.svg";
 import heartLiked from "@/assets/Board/heart_liked.svg";
 import heartUnliked from "@/assets/Board/heart_unliked.svg";
@@ -140,6 +142,7 @@ const BoardPostItemLikeBtn = styled.div`
 `;
 
 export type BoardPostItemProps = {
+  postId: number;
   profileName: string;
   profileImg: string;
   elapsedTime: string;
@@ -151,6 +154,7 @@ export type BoardPostItemProps = {
   commentCount: number;
 };
 const BoardPostItem = ({
+  postId,
   profileName,
   profileImg,
   elapsedTime,
@@ -161,16 +165,53 @@ const BoardPostItem = ({
   likeCount,
   commentCount,
 }: BoardPostItemProps) => {
+  const navigate = useNavigate();
+
   const [isLikeNew, setIsLikeNew] = useState<boolean>(isLike);
+  const [likeCountNew, setLikeCountNew] = useState<number>(likeCount);
+
+  // 임시로 LOCALSTORAGE에 spaceId 3으로 저장
+  localStorage.setItem("spaceId", "3");
+  //
+  const spaceId = localStorage.getItem("spaceId");
+
+  const handleLike = () => {
+    if (spaceId !== null) {
+      if (isLike === true) {
+        // 좋아요 해제
+        deleteLikeOnPostApi(Number.parseInt(spaceId), postId)
+          .then((res) => {
+            if (res !== null) {
+              setIsLikeNew(false);
+              setLikeCountNew((prev) => prev - 1);
+            }
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      } else {
+        postLikeOnPostApi(Number.parseInt(spaceId), postId)
+          .then((res) => {
+            if (res !== null) {
+              setIsLikeNew(true);
+              setLikeCountNew((prev) => prev + 1);
+            }
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      }
+    }
+  };
 
   return (
     <BoardPostItemContainer>
-      <header className="board-post-item-header">
+      <header className="board-post-item-header" onClick={() => navigate(`/board/${postId}`)}>
         {profileImg ? <img src={profileImg} alt="프로필 이미지" /> : <div />}
         <span>{profileName}</span>
         <span>{elapsedTime}</span>
       </header>
-      <BoardPostItemContent>
+      <BoardPostItemContent onClick={() => navigate(`/board/${postId}`)}>
         <div className="board-post-item-content-text">
           <span>{title}</span>
           <div>{content}</div>
@@ -188,10 +229,10 @@ const BoardPostItem = ({
             className={isLikeNew ? "liked" : ""}
             onClick={() => setIsLikeNew((prev) => !prev)}
           >
-            <img src={isLikeNew ? heartLiked : heartUnliked} alt="좋아요" />
-            {likeCount}
+            <img src={isLikeNew ? heartLiked : heartUnliked} alt="좋아요" onClick={handleLike} />
+            {likeCountNew}
           </BoardPostItemLikeBtn>
-          <div className="board-post-item-footer-item">
+          <div className="board-post-item-footer-item" onClick={() => navigate(`/board/${postId}`)}>
             <img src={comment} alt="댓글" />
             {commentCount}
           </div>

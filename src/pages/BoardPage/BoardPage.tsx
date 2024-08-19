@@ -63,8 +63,9 @@ const BoardPage = () => {
       {postsData.length !== 0 ? (
         postsData.map((d, i) => {
           return (
-            <div key={i + d.title} onClick={() => navigate(`/board/${d.postId}`)}>
+            <div key={i + d.title}>
               <BoardPostItem
+                postId={d.postId}
                 profileName={d.userName}
                 profileImg={d.userProfileImg}
                 elapsedTime={d.time}
