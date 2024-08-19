@@ -205,21 +205,25 @@ export const getAllChatMemberApi = async (
     response.json().then((data) => {
       const _temp: chatRoomList[] = data.result.chatRoomList;
       const _temp2: ChatUserInfoInSpace[] = [];
-      _temp.map(async (value, index) => {
-        const _temp3: ChatUserInfoInSpace = {
-          chatRoomId: -1,
-          chatRoomName: "",
-          userList: [],
-          imgUrl: "",
-        };
-        _temp3.chatRoomId = value.id;
-        _temp3.chatRoomName = value.name;
-        _temp3.imgUrl = value.imgUrl;
-        getChatRoomMemberApi(spaceID, value.id).then((res) => {
-          res ? (_temp3.userList = res.result.userList) : (_temp3.userList = []);
-          _temp2.push(_temp3);
-          setChatUserInfoData(_temp2);
-        });
+      Promise.all(
+        _temp.map((value) => {
+          const _temp3: ChatUserInfoInSpace = {
+            chatRoomId: value.id,
+            chatRoomName: value.name,
+            userList: [],
+            imgUrl: value.imgUrl,
+          };
+
+          return getChatRoomMemberApi(spaceID, value.id).then((res) => {
+            if (res) {
+              _temp3.userList = res.result.userList;
+              _temp2.push(_temp3);
+              return _temp3;
+            }
+          });
+        }),
+      ).then((res) => {
+        setChatUserInfoData(_temp2);
       });
     });
   }

@@ -197,14 +197,11 @@ const CreateRequestPage2 = ({
         </s.TabMenu>
         {tabIndex === 0 ? (
           <div>
-            <>{console.log(chatUserInfoData, userInfoData)}</>
-            {chatUserInfoData && (
-              <div>
-                {chatUserInfoData.map((value, index) => (
-                  <PayChatDiv key={index} info={value}></PayChatDiv>
-                ))}
-              </div>
-            )}
+            <>{console.log(JSON.parse(JSON.stringify(chatUserInfoData)), userInfoData)}</>
+            {chatUserInfoData &&
+              chatUserInfoData.map((value, index) => (
+                <PayChatDiv key={index} info={value}></PayChatDiv>
+              ))}
           </div>
         ) : (
           <s.ColumnFlexDiv style={{ width: "100%" }}>
