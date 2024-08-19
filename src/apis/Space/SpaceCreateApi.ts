@@ -12,6 +12,9 @@ interface CreateSpaceApiResponseType {
   message: string;
   status: string;
   timestamp?: string;
+  result: {
+    spaceId: number;
+  };
 }
 
 interface CreateSpaceApiRequestType {
