@@ -82,7 +82,17 @@ export const TextDiv = styled.div`
   line-height: 140%; /* 19.6px */
   letter-spacing: 0.56px;
 `;
+export const NormalTextDiv = styled.div`
+  color: var(--Foundation-Gray-white, #fff);
 
+  /* text/Medium 14pt */
+  font-family: Freesentation;
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 140%; /* 1.225rem */
+  letter-spacing: 0.035rem;
+`;
 export const ColumnFlexDiv = styled.div`
   display: flex;
   flex-direction: column;
@@ -302,4 +312,74 @@ export const SearchIconImg = styled.img`
   top: 50%;
   transform: translateY(-50%);
   left: 0.5rem;
+`;
+
+export const NoAlertDiv = styled.div`
+  display: flex;
+  width: 100%;
+  height: 88px;
+  justify-content: center;
+  align-items: center;
+
+  color: var(--Foundation-Gray-gray500, #767681);
+
+  /* text/Medium 14pt */
+  font-family: Freesentation;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 140%; /* 19.6px */
+  letter-spacing: 0.56px;
+`;
+
+export const PriceInput = styled.input`
+  ::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  ::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  width: 100%;
+  background: none;
+  outline: none;
+  border: none;
+  border-bottom: 1px solid var(--GRAY-700, #45454b);
+  padding-bottom: 0.75rem;
+  color: var(--Foundation-Gray-gray500, #767681);
+
+  /* text/SemiBold 24pt */
+  font-family: Freesentation;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 140%; /* 33.6px */
+  letter-spacing: 0.48px;
+`;
+
+export const PriceInput2 = styled.input`
+  ::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  ::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  width: 100%;
+  background: none;
+  outline: none;
+  border: none;
+  border-bottom: 1px solid var(--GRAY-700, #45454b);
+  padding-bottom: 0.75rem;
+  color: var(--Foundation-Gray-white, #fff);
+
+  /* text/Medium 14pt */
+  font-family: Freesentation;
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 140%; /* 1.225rem */
+  letter-spacing: 0.035rem;
 `;

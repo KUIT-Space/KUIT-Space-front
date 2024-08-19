@@ -88,23 +88,35 @@ const VoiceRoomListPage = () => {
       />
       <div style={{ marginLeft: "1.25rem", marginRight: "1.25rem" }}>
         <s.ActiveP> 활동 중인 보이스룸 </s.ActiveP>
-        {activeVrList?.map((value, index) => {
-          return <VoiceRoomPortal key={value.id} vrList={value}></VoiceRoomPortal>;
-        })}
+        {activeVrList?.length == 0 ? (
+          <s.NoAlertDiv>요청한 정산이 없어요!</s.NoAlertDiv>
+        ) : (
+          <div>
+            {activeVrList?.map((value, index) => {
+              return <VoiceRoomPortal key={value.id} vrList={value}></VoiceRoomPortal>;
+            })}
+          </div>
+        )}
 
         <s.ActiveP> 아무도 없어요! </s.ActiveP>
-        {inactiveVrList?.map((value, index) => {
-          return (
-            <s.RoundDiv2
-              key={value.id}
-              onClick={() => {
-                onClickInActiveVrRoom(value);
-              }}
-            >
-              {value.name}
-            </s.RoundDiv2>
-          );
-        })}
+        {inactiveVrList?.length == 0 ? (
+          <s.NoAlertDiv>요청한 정산이 없어요!</s.NoAlertDiv>
+        ) : (
+          <div>
+            {inactiveVrList?.map((value, index) => {
+              return (
+                <s.RoundDiv2
+                  key={value.id}
+                  onClick={() => {
+                    onClickInActiveVrRoom(value);
+                  }}
+                >
+                  {value.name}
+                </s.RoundDiv2>
+              );
+            })}
+          </div>
+        )}
         <div>
           <s.StyledButton>
             <div

@@ -32,7 +32,11 @@ export const VrListApi = async (
   }
 };
 
-export const VrTokenApi = async (spaceID: number, VrID: number) => {
+export const VrTokenApi = async (
+  spaceID: number,
+  VrID: number,
+  setJoin: React.Dispatch<React.SetStateAction<boolean>>,
+) => {
   const requestOptions = createRequestOptionsJSON_AUTH("GET");
   if (!requestOptions) {
     return null;
@@ -46,6 +50,7 @@ export const VrTokenApi = async (spaceID: number, VrID: number) => {
       const tmp = response.headers.get("Authorization");
       if (tmp) {
         localStorage.setItem("VrToken", tmp);
+        setJoin(true);
       }
     });
   }

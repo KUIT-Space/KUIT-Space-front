@@ -97,3 +97,20 @@ export const StyledDiv = styled.div`
   width: "100%";
   margin: "auto";
 `;
+export const NoAlertDiv = styled.div`
+  display: flex;
+  width: 100%;
+  height: 88px;
+  justify-content: center;
+  align-items: center;
+
+  color: var(--Foundation-Gray-gray500, #767681);
+
+  /* text/Medium 14pt */
+  font-family: Freesentation;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 140%; /* 19.6px */
+  letter-spacing: 0.56px;
+`;

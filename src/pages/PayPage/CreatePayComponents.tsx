@@ -4,25 +4,28 @@ import ReactImg from "@/assets/react.svg";
 import { useState } from "react";
 
 import * as s from "@/pages/PayPage/PayPage.styled";
+import { ChatUserInfoInSpace } from "./CreateRequestPage";
+import { UserInfoInSpace } from "@/apis/SpaceSearchAllUserApi";
 interface payChatDivtype {
   img: string;
   name: string;
   cnt: number;
 }
 
-const PayChatMemberDiv = () => {
+const PayChatMemberDiv = ({ props }: { props: UserInfoInSpace }) => {
+  const imgUrl = props.profileImgUrl === null ? undefined : props.profileImgUrl;
   return (
     <s.RowFlexDiv style={{ alignItems: "center" }}>
-      <img style={{ width: "2.5rem", height: "2.5rem", marginLeft: "1.875rem" }} src={ReactImg} />
+      <img style={{ width: "2.5rem", height: "2.5rem", marginLeft: "1.875rem" }} src={imgUrl} />
       <span className="name" style={{ marginLeft: "0.75rem" }}>
-        시험
+        {props.userName}
       </span>
       <CheckBox></CheckBox>
-
     </s.RowFlexDiv>
   );
 };
-export const PayChatDiv = ({ img, name, cnt }: payChatDivtype) => {
+export const PayChatDiv = ({ props }: { props: ChatUserInfoInSpace }) => {
+  console.log(props);
   const [flag, setFlag] = useState(false);
   const controlFlag = () => {
     setFlag(!flag);
@@ -31,9 +34,9 @@ export const PayChatDiv = ({ img, name, cnt }: payChatDivtype) => {
     <s.ColumnFlexDiv>
       <Member>
         <section>
-          <img src={ReactImg} />
-          <span className="name">{name}</span>
-          <s.CountText className="count">{cnt}</s.CountText>
+          <img src={props.imgUrl} />
+          <span className="name">{props.chatRoomName}</span>
+          <s.CountText className="count">{props.userList?.length}</s.CountText>
         </section>
         {flag ? (
           <CheckBox
@@ -51,7 +54,9 @@ export const PayChatDiv = ({ img, name, cnt }: payChatDivtype) => {
           ></CheckBox>
         )}
       </Member>
-      <PayChatMemberDiv></PayChatMemberDiv>
+      {props.userList?.map((value, index) => {
+        return <PayChatMemberDiv props={value}></PayChatMemberDiv>;
+      })}
     </s.ColumnFlexDiv>
   );
 };

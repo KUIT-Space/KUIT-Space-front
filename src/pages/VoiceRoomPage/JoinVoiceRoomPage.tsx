@@ -28,8 +28,7 @@ const JoinVoiceRoomPage = () => {
   const [isJoined, setJoin] = useState(false);
 
   const onJoin = () => {
-    setJoin(true);
-    VrTokenApi(3, data.id);
+    VrTokenApi(3, data.id, setJoin);
   };
   const navigate = useNavigate();
   return (

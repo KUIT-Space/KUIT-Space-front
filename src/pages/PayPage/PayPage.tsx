@@ -5,9 +5,7 @@ import * as s from "@/pages/PayPage/PayPage.styled";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { payCompleteApi, payHomeApi } from "@/apis/Pay/PayPageAPI";
-
-const SpaceID = 3;
+import { payCompleteApi, payDetailApi, payHomeApi } from "@/apis/Pay/PayPageAPI";
 
 export const addComma = (price: number) => {
   let returnString = price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -28,13 +26,34 @@ export type PayReceiveInfo = {
   requestAmount: number;
 };
 
+export type DetailPayData = {
+  payRequestId: number;
+  bankName: string;
+  bankAccountNum: string;
+  totalAmount: number;
+  receiveAmount: number;
+  totalTargetNum: number;
+  receiveTargetNum: number;
+  payTargetInfoDtoList: payTargetInfoDtoList[];
+  isComplete: boolean;
+};
+
+export type payTargetInfoDtoList = {
+  targetUserId: number;
+  targetUserName: string;
+  targetUserProfileImg: string;
+  requestAmount: number;
+  isComplete: boolean;
+};
 const PayRequestInfo = ({ data }: { data: PayRequestInfo }) => {
   const res: number = data.totalTargetNum - data.receiveAmount;
+  const now = addComma(data.receiveAmount);
+  const all = addComma(data.totalAmount);
   return (
-    <s.ContentDiv>
+    <s.ContentDiv style={{ marginBottom: "0.5rem" }}>
       <s.PriceDiv>
-        <s.NowPriceDiv>{data.receiveAmount}원</s.NowPriceDiv>
-        <s.AllPriceDiv>/{data.totalAmount}원</s.AllPriceDiv>
+        <s.NowPriceDiv>{now}원</s.NowPriceDiv>
+        <s.AllPriceDiv>/{all}원</s.AllPriceDiv>
       </s.PriceDiv>
       <s.TextDiv>정산완료까지 {res}명 남았어요</s.TextDiv>
     </s.ContentDiv>
@@ -42,45 +61,34 @@ const PayRequestInfo = ({ data }: { data: PayRequestInfo }) => {
 };
 
 const PayReceiveInfo = ({ data }: { data: PayReceiveInfo }) => {
+  const now = addComma(data.requestAmount);
   return (
-    <s.ContentDiv>
+    <s.ContentDiv style={{ marginBottom: "0.5rem" }}>
       <s.TextDiv>{data.payCreatorName}님이 정산을 요청했어요</s.TextDiv>
-      <s.NowPriceDiv>{data.requestAmount}원</s.NowPriceDiv>
+      <s.NowPriceDiv>{now}원</s.NowPriceDiv>
     </s.ContentDiv>
   );
 };
 
-// function RequestPayInfo(
-//   setReqData: React.Dispatch<React.SetStateAction<PayRequestInfo[] | undefined>>,
-//   setRecData: React.Dispatch<React.SetStateAction<PayReceiveInfo[] | undefined>>,
-// ) {
-//   const response = fetch("/api/space/3/pay", {
-//     method: "GET",
-//     headers: {
-//       "Content-Type": "application/json",
-//       Authorization:
-//         "Bearer eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MjM1MDcyNjYsImV4cCI6MTcyMzUxMDg2NiwidXNlcklkIjo1M30.qtOD23WXy5y4Rn6rk1mp1Q6CcgcEEdhB7Vq7udwakmk",
-//     },
-//   })
-//     .then((res) => res.json())
-//     .then((data) => {
-//       setReqData(data.result.payRequestInfoDtoList);
-//       setRecData(data.result.payReceiveInfoDtoList);
-//     });
-// }
 const PayPage = () => {
   const [reqData, setReqData] = useState<PayRequestInfo[] | undefined>([]);
   const [recData, setRecData] = useState<PayReceiveInfo[] | undefined>([]);
 
   useEffect(() => {
-    payHomeApi(SpaceID, setReqData, setRecData);
+    console.log(reqData);
     // RequestPayInfo(setReqData, setRecData);
+  }, [reqData]);
+  useEffect(() => {
+    // const str = localStorage.getItem("SpaceId");
+    const str = "3";
+
+    if (str !== null) {
+      const SpaceID = Number.parseInt(str);
+      payHomeApi(SpaceID, setReqData, setRecData);
+    }
   }, []);
 
   const navigator = useNavigate();
-  const data = {
-    payRequestTargetId: 1,
-  };
 
   return (
     <>
@@ -94,6 +102,7 @@ const PayPage = () => {
           정산 시작하기
         </GradientBtn>
         <s.RoundDiv
+          style={{ cursor: "pointer" }}
           onClick={() => {
             navigator("/requestingpay");
           }}
@@ -103,11 +112,18 @@ const PayPage = () => {
             <img src={right}></img>
             {/* <img src={right} onClick={navigator("요청정산페이지")}></img> */}
           </s.TitleDiv>
-          {reqData?.map((value) => {
-            return <PayRequestInfo key={value.payRequestId} data={value}></PayRequestInfo>;
-          })}
+          {reqData?.length == 0 ? (
+            <s.NoAlertDiv>요청한 정산이 없어요!</s.NoAlertDiv>
+          ) : (
+            <div>
+              {reqData?.map((value) => {
+                return <PayRequestInfo key={value.payRequestId} data={value}></PayRequestInfo>;
+              })}
+            </div>
+          )}
         </s.RoundDiv>
         <s.RoundDiv
+          style={{ cursor: "pointer" }}
           onClick={() => {
             navigator("/requestedpay");
           }}
@@ -117,11 +133,19 @@ const PayPage = () => {
             <img src={right}></img>
             {/* <img src={right} onClick={navigator("요청받은정산페이지")}></img> */}
           </s.TitleDiv>
-
-          {recData?.map((value) => {
-            console.log(value);
-            return <PayReceiveInfo key={value.payRequestTargetId} data={value}></PayReceiveInfo>;
-          })}
+          <div>
+            {recData?.length == 0 ? (
+              <s.NoAlertDiv>요청받은 정산이 없어요!</s.NoAlertDiv>
+            ) : (
+              <div>
+                {recData?.map((value) => {
+                  return (
+                    <PayReceiveInfo key={value.payRequestTargetId} data={value}></PayReceiveInfo>
+                  );
+                })}
+              </div>
+            )}
+          </div>
         </s.RoundDiv>
       </s.ContainerDiv>
     </>
