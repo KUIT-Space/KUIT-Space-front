@@ -231,27 +231,25 @@ const CreateRequestPage2 = ({
                       return val;
                     }
                   })
-                  .map((value) => {
-                    return (
-                      <Member key={value.userId}>
-                        <section>
-                          <img
-                            src={
-                              value.profileImgUrl
-                                ? value.profileImgUrl
-                                : getUserDefaultImageURL(value.userId)
-                            }
-                          />
-                          <span className="name">{value.userName}</span>
-                        </section>
-                        <CheckBox
-                          onClick={() => {
-                            checkUserHandler(value.userId);
-                          }}
-                        ></CheckBox>
-                      </Member>
-                    );
-                  })}
+                  .map((value) => (
+                    <Member key={value.userId}>
+                      <section>
+                        <img
+                          src={
+                            value.profileImgUrl
+                              ? value.profileImgUrl
+                              : getUserDefaultImageURL(value.userId)
+                          }
+                        />
+                        <span className="name">{value.userName}</span>
+                      </section>
+                      <CheckBox
+                        onClick={() => {
+                          checkUserHandler(value.userId);
+                        }}
+                      ></CheckBox>
+                    </Member>
+                  ))}
               </>
             ) : (
               <></>
@@ -359,59 +357,54 @@ const CreateRequestPage3 = ({
               onChange={changePriceHandler}
             ></s.PriceInput>
             <div style={{ marginTop: "1.5rem" }}>
-              {tempArr.map((value, index) => {
-                return (
-                  <Member key={value.userId}>
-                    <section>
-                      <img
-                        src={
-                          value.userProfileImg
-                            ? value.userProfileImg
-                            : getUserDefaultImageURL(value.userId!)
-                        }
-                      />
-                      <span className="name">{value.userName}</span>
-                    </section>
-                    <s.RowFlexDiv>
-                      <s.NormalTextDiv>
-                        {" "}
-                        {nPrice !== undefined ? nPrice / tempArr.length : "NaN"}
-                      </s.NormalTextDiv>
-                      <s.TextDiv>원</s.TextDiv>
-                    </s.RowFlexDiv>
-                  </Member>
-                );
-              })}
+              {tempArr.map((value, index) => (
+                <Member key={value.userId}>
+                  <section>
+                    <img
+                      src={
+                        value.userProfileImg
+                          ? value.userProfileImg
+                          : getUserDefaultImageURL(value.userId!)
+                      }
+                    />
+                    <span className="name">{value.userName}</span>
+                  </section>
+                  <s.RowFlexDiv>
+                    <s.NormalTextDiv>
+                      {nPrice !== undefined ? nPrice / tempArr.length : "NaN"}
+                    </s.NormalTextDiv>
+                    <s.TextDiv>원</s.TextDiv>
+                  </s.RowFlexDiv>
+                </Member>
+              ))}
             </div>
           </div>
         ) : (
           <div style={{ margin: "1.25rem" }}>
             <div style={{ marginTop: "1.5rem" }}>
-              {tempArr.map((value, index) => {
-                return (
-                  <Member key={value.userId}>
-                    <section>
-                      <img
-                        src={
-                          value.userProfileImg
-                            ? value.userProfileImg
-                            : getUserDefaultImageURL(value.userId!)
-                        }
-                      />
-                      <span className="name">{value.userName}</span>
-                    </section>
-                    <s.RowFlexDiv>
-                      <s.PriceInput2
-                        placeholder="금액입력"
-                        value={idToPrice?.get(value.userId!)}
-                        onChange={(e) => {
-                          selfChangePriceHandler(value.userId!, e);
-                        }}
-                      ></s.PriceInput2>
-                    </s.RowFlexDiv>
-                  </Member>
-                );
-              })}
+              {tempArr.map((value, index) => (
+                <Member key={value.userId}>
+                  <section>
+                    <img
+                      src={
+                        value.userProfileImg
+                          ? value.userProfileImg
+                          : getUserDefaultImageURL(value.userId!)
+                      }
+                    />
+                    <span className="name">{value.userName}</span>
+                  </section>
+                  <s.RowFlexDiv>
+                    <s.PriceInput2
+                      placeholder="금액입력"
+                      value={idToPrice?.get(value.userId!)}
+                      onChange={(e) => {
+                        selfChangePriceHandler(value.userId!, e);
+                      }}
+                    ></s.PriceInput2>
+                  </s.RowFlexDiv>
+                </Member>
+              ))}
             </div>
             <hr></hr>
             <s.RowFlexDiv style={{ justifyContent: "right", marginTop: "1rem" }}>
