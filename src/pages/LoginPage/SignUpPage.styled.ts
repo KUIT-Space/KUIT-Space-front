@@ -41,6 +41,15 @@ export const Explanation = styled.div<ExplanationProps>`
   letter-spacing: 0.0175rem;
   margin-top: 0.38rem;
   width: calc(100% - 2.5rem);
+
+  span {
+    color: ${({ $state, $isValid }) => {
+      if ($state === "empty") return "#767681";
+      if ($isValid === false) return "#FF5656";
+      if ($isValid === true) return "#48FFBD";
+      return "#767681";
+    }};
+  }
 `;
 
 export const InputContainer = styled.div`

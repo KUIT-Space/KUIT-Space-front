@@ -37,7 +37,7 @@ const SignUp: React.FC = () => {
       const isValidConfirmPassword = confirmPassword === password;
       if (password.trim() === "") {
         setPasswordState("empty");
-      } else if (!isValidPassword) {
+      } else if (!isValidPassword || !validatePassword(password)) {
         setPasswordState("invalid");
       } else {
         setPasswordState("valid");
@@ -111,32 +111,35 @@ const SignUp: React.FC = () => {
         return;
       }
 
-      try {
-        const response = await axios.post("/api/user/signup", {
+      // try {
+      axios
+        .post("/api/user/signup", {
           email: email,
           password: password,
           userName: name,
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            console.log("회원가입 성공:", response.data.message);
+            navigate("/login");
+          } else {
+            console.error("회원가입 실패:", response.data.message);
+          }
+        })
+        .catch((err) => {
+          if (err.response.status.toString().startsWith("4")) {
+            if (err.response.data.message === "이미 존재하는 이메일입니다.") {
+              setCurrentStep(1);
+              alert("이미 존재하는 이메일입니다.");
+            }
+          }
+          console.error(err);
         });
-
-        if (response.status === 200) {
-          console.log("회원가입 성공:", response.data.message);
-          navigate("/login");
-        } else {
-          console.error("회원가입 실패:", response.data.message);
-        }
-      } catch (error) {
-        if (error instanceof Error) {
-          console.error("회원가입 실패:", error.message);
-        } else {
-          console.error("회원가입 실패:", error);
-        }
-      }
     } else {
       setCurrentStep((prevStep) => prevStep + 1);
     }
   };
 
-  const isNameOverMaxLength = name.length > 10;
   return (
     <>
       <SignUpHeader title="회원가입" onBackClick={handleBackClick} />
@@ -156,6 +159,7 @@ const SignUp: React.FC = () => {
                 placeholder="project@space.kuit"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && handleNextButtonClick()}
                 onFocus={() => setIsInputFocused(true)}
                 onBlur={() => setIsInputFocused(false)}
                 $isValid={validateEmail(email)}
@@ -195,7 +199,12 @@ const SignUp: React.FC = () => {
             </InputContainer>
             <Explanation $state={passwordState} $isValid={passwordState === "valid"}>
               {passwordState === "empty" && "비밀번호를 입력해주세요.(8~20자)"}
-              {passwordState === "invalid" && "사용 불가능한 비밀번호입니다."}
+              {passwordState === "invalid" && (
+                <span>
+                  사용 불가능한 비밀번호입니다. <br /> 대문자, 소문자, 숫자, 특수문자가 각 1개 이상
+                  포함되어야 합니다.
+                </span>
+              )}
               {passwordState === "valid" && "사용 가능한 비밀번호입니다."}
             </Explanation>
 
@@ -205,6 +214,7 @@ const SignUp: React.FC = () => {
                 placeholder="비밀번호 확인"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && handleNextButtonClick()}
                 onFocus={() => setIsInputFocused(true)}
                 onBlur={() => setIsInputFocused(false)}
                 style={{ marginTop: "0.75rem" }}
@@ -238,14 +248,17 @@ const SignUp: React.FC = () => {
                 type="text"
                 placeholder="이름"
                 value={name}
-                onChange={(e) => setName(e.target.value)}
+                onChange={(e) => {
+                  if (e.target.value.length <= 10) setName(e.target.value);
+                }}
+                onKeyDown={(e) => e.key === "Enter" && handleNextButtonClick()}
                 onFocus={() => setIsInputFocused(true)}
                 onBlur={() => setIsInputFocused(false)}
                 style={{
                   marginTop: "5.5rem",
-                  borderColor: isNameOverMaxLength ? "#FF5656" : undefined,
+                  borderColor: validateUserName(name) ? "#48FFBD" : "#FF5656",
                 }}
-                $isOverMaxLength={isNameOverMaxLength}
+                $isOverMaxLength={name.length > 10}
               />
               <NameCount style={{ marginTop: "5.5rem" }}>{`${name.length}/10`}</NameCount>
             </InputContainer>
