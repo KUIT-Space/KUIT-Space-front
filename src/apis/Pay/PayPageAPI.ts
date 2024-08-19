@@ -1,13 +1,14 @@
-import { DetailPayData, PayReceiveInfo, PayRequestInfo } from "@/pages/PayPage/PayPage";
+import { useNavigate } from "react-router-dom";
+
 import {
   createRequestOptionsJSON,
-  RequestOptions,
   createRequestOptionsJSON_AUTH,
   fetchApi,
+  RequestOptions,
 } from "@/apis/_createRequestOptions";
-import { BankInfo, ChatUserInfoInSpace } from "@/pages/PayPage/CreateRequestPage";
-import { useNavigate } from "react-router-dom";
 import { UserInfoInSpace } from "@/apis/Space/SpaceSearchAllUserApi";
+import { BankInfo, ChatUserInfoInSpace } from "@/pages/PayPage/CreateRequestPage";
+import { DetailPayData, PayReceiveInfo, PayRequestInfo } from "@/pages/PayPage/PayPage";
 
 interface SpaceSearchAllUserApiResponseType {
   code: number;
@@ -203,24 +204,27 @@ export const getAllChatMemberApi = async (
   if (response) {
     response.json().then((data) => {
       const _temp: chatRoomList[] = data.result.chatRoomList;
-      let _temp2: ChatUserInfoInSpace[] = new Array();
-      _temp.map(async (value, index) => {
-        let _temp3: ChatUserInfoInSpace = {
-          chatRoomId: -1,
-          chatRoomName: "",
-          userList: [],
-          imgUrl: "",
-        };
-        _temp3.chatRoomId = value.id;
-        _temp3.chatRoomName = value.name;
-        _temp3.imgUrl = value.imgUrl;
-        getChatRoomMemberApi(spaceID, value.id).then((res) => {
-          res ? (_temp3.userList = res.result.userList) : (_temp3.userList = []);
-          _temp2.push(_temp3);
-        });
-      });
+      const _temp2: ChatUserInfoInSpace[] = [];
+      Promise.all(
+        _temp.map((value) => {
+          const _temp3: ChatUserInfoInSpace = {
+            chatRoomId: value.id,
+            chatRoomName: value.name,
+            userList: [],
+            imgUrl: value.imgUrl,
+          };
 
-      setChatUserInfoData(_temp2);
+          return getChatRoomMemberApi(spaceID, value.id).then((res) => {
+            if (res) {
+              _temp3.userList = res.result.userList;
+              _temp2.push(_temp3);
+              return _temp3;
+            }
+          });
+        }),
+      ).then((res) => {
+        setChatUserInfoData(_temp2);
+      });
     });
   }
 };
