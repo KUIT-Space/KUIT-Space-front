@@ -175,6 +175,7 @@ const BoardDetailInputContainer = styled.div`
   justify-content: center;
   padding: 0.5rem 1rem;
   gap: 0.5rem;
+  max-width: 720px;
 `;
 
 const BoardDetailInput = styled.input`

@@ -105,6 +105,7 @@ const BoardRegisterContent = styled.textarea`
 
 const BoardRegisterFooter = styled.div`
   position: fixed;
+  max-width: 720px;
   bottom: 0;
   width: 100%;
   display: flex;

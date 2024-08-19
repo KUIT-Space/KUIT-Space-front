@@ -32,6 +32,10 @@ export default defineConfig({
         // WebSocket 프로토콜 사용
         ws: true,
       },
+      "/image": {
+        target: "https://project-space-image-storage.s3.ap-northeast-2.amazonaws.com",
+        rewrite: (path) => path.replace(/^\/image/, ""),
+      },
     },
   },
 });

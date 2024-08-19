@@ -18,6 +18,7 @@ const BoardBottomModalBackdrop = styled.div`
 
 const BoardBottomModalContent = styled.div`
   position: fixed;
+  max-width: 720px;
   bottom: 0%;
   width: 100%;
   display: flex;

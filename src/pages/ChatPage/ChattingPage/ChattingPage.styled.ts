@@ -11,7 +11,23 @@ export const ChattingBody = styled.div`
   padding: 1rem;
   overflow-y: auto;
   background-color: ${({ theme }) => theme.colors.BG900};
-  scrollbar-width: none;
+  /* scrollbar-width: none; */
+
+  &::-webkit-scrollbar {
+    width: 0.5rem;
+    height: 0.5rem;
+  }
+  &::-webkit-scrollbar-track {
+    background: ${({ theme }) => theme.colors.BG900};
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: ${({ theme }) => theme.colors.normal};
+    border-radius: 1rem;
+    border: 1px solid ${({ theme }) => theme.colors.BG900};
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: ${({ theme }) => theme.colors.normal_hover};
+  }
 `;
 
 export const StyledMessage = styled.div<{ $isUser: boolean }>`
@@ -80,6 +96,15 @@ export const StyledMessage = styled.div<{ $isUser: boolean }>`
     font-weight: 400;
     line-height: 1.5rem;
     letter-spacing: 0.025rem;
+
+    &:has(.msg-img) {
+      max-width: 40%;
+    }
+    .msg-img {
+      width: 100%;
+      height: 100%;
+      border-radius: 0.75rem;
+    }
   }
 `;
 
@@ -174,6 +199,7 @@ export const ChattingTextarea = styled.textarea`
   &::-webkit-scrollbar {
     display: none;
   }
+
   caret-color: ${({ theme }) => theme.colors.normal};
   &:focus {
     border-color: ${({ theme }) => theme.colors.normal};
@@ -195,10 +221,82 @@ export const ImgPreview = styled.div`
 
   button {
     position: absolute;
-    top: 5%;
-    right: 5%;
-    background-color: ${({ theme }) => theme.colors.darker};
-    padding: 0.1rem 0.3rem;
-    border-radius: 0.5rem;
+    top: 0.3rem;
+    right: 0.3rem;
+
+    border-radius: 100%;
+    width: 1.5rem;
+    height: 1.5rem;
+
+    img {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+  }
+`;
+
+export const FilePreview = styled.div<{ $isUser: boolean }>`
+  position: relative;
+  display: flex;
+  height: 4.25rem;
+  padding: 0.75rem;
+  gap: 0.75rem;
+
+  width: 40%;
+  margin: 0 2.5rem 0.5rem auto;
+  border-radius: 0.5rem;
+
+  background-color: ${({ $isUser }) => ($isUser ? "#d4d4d9" : "#222226")};
+
+  img {
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+
+  button {
+    position: absolute;
+    top: 0.3rem;
+    right: 0.3rem;
+
+    border-radius: 100%;
+    width: 1.5rem;
+    height: 1.5rem;
+
+    img {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+  }
+
+  div > p:first-child {
+    color: ${({ $isUser }) => ($isUser ? "#000" : "#fff")};
+
+    /* text/Medium 16pt */
+    font-family: Freesentation;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 1.5rem;
+    letter-spacing: 0.025rem;
+  }
+
+  div > p:nth-child(2) {
+    color: var(--Foundation-Gray-gray500, #767681);
+    font-family: Freesentation;
+    font-size: 0.8rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 140%; /* 1.225rem */
+  }
+`;
+
+export const FileChatView = styled(FilePreview)`
+  margin: 0;
+  width: 100%;
+  text-align: start;
+
+  .filelogo {
+    width: 2.75rem;
+    height: 2.75rem;
   }
 `;
