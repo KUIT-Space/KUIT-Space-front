@@ -101,7 +101,7 @@ export const payHomeApi = async (
     `${import.meta.env.VITE_API_BACK_URL}/space/${spaceID}/pay`,
     requestOptions,
   ).then((res) =>
-    res?.json?.().then((data) => {
+    res?.json?.().then((data: any) => {
       setReqData(data.result.payRequestInfoDtoList);
       setRecData(data.result.payReceiveInfoDtoList);
     }),
