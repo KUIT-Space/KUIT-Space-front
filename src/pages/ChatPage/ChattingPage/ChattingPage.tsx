@@ -26,9 +26,14 @@ import {
   ChattingContainer,
   ChattingFooter,
   ChattingTextarea,
+  ImgPreview,
   StyledMessage,
 } from "@/pages/ChatPage/ChattingPage/ChattingPage.styled";
+import { decodedJWT } from "@/utils/decodedJWT";
 import { getUserDefaultImageURL } from "@/utils/getUserDefaultImageURL";
+
+const MAX_FILE_SIZE_MB = 2; // 최대 파일 크기 (메가바이트 단위)
+const MAX_FILE_SIZE = MAX_FILE_SIZE_MB * 1024 * 1024; // 바이트
 
 const ChattingPage = () => {
   const param = useParams();
@@ -42,8 +47,11 @@ const ChattingPage = () => {
   const [messages, setMessages] = useState<ChatMessageFrame[]>([]);
   const [inputValue, setInputValue] = useState<string>("");
 
-  const [username, setUsername] = useState<string>("");
+  const [isManager, setIsManager] = useState<boolean>(false);
   const [onMenu, setOnMenu] = useState<boolean>(false);
+
+  const [uploadedImage, setUploadedImage] = useState<string | null>();
+  const [inputKey, setInputKey] = useState<number>(0);
 
   const messageEndRef = useRef<HTMLDivElement | null>(null);
   const chattingTextareaRef = useRef<HTMLTextAreaElement | null>(null);
@@ -58,8 +66,6 @@ const ChattingPage = () => {
       } else {
         setMessages((prevMessages) => [...prevMessages, msg]);
       }
-      console.log(msg.chatMessageLog);
-      console.log(msg.chatMessageLog[0].createdAt);
     }
   };
 
@@ -68,7 +74,7 @@ const ChattingPage = () => {
    */
   useEffect(() => {
     SpaceSearchUserProfile(spaceId).then((res) => {
-      setUsername(res?.result.userName ?? "");
+      if (res) setIsManager(res.result.userAuth === "manager");
     });
 
     SocketConnect(stompClient, param.id || "", handleChatMessage);
@@ -103,17 +109,21 @@ const ChattingPage = () => {
 
       if (messageType === "TEXT") {
         body.content = { text: inputValue };
+        setInputValue("");
+      } else if (messageType === "IMG") {
+        body.content = { image: uploadedImage }; // 인코딩된 base64 이미지 url
+        //console.log(uploadedImage);
+        setUploadedImage(null);
+        setInputKey((prevKey) => prevKey + 1); // input 리셋
       }
-      //  else if (messageType === "IMG") {
-      //   body.content.image = imgData.image; // 인코딩된 base64 이미지 url
-      //   // console.log(imgData.image);
-      // } else if (messageType === "FILE" && fileData) {
+      // else if (messageType === "FILE" && fileData) {
       //   body.content = fileData; // 인코딩된 base64 파일 url
       // }
       // console.log(body.content);
-      //console.log(stompClient.current);
+
+      // console.log(stompClient.current);
       stompClient.current.send(`/app/chat/${param.id}`, {}, JSON.stringify(body));
-      setInputValue("");
+
       //setFileData(null);
     }
   };
@@ -126,8 +136,9 @@ const ChattingPage = () => {
         msg.content = msg.content as ChatText;
         return msg.content.text;
       case "IMG":
+        console.log("image: ", msg.content);
         msg.content = msg.content as ChatImage;
-        return <img src={msg.content.image} alt="img" />;
+        return <img src={msg.content.image} alt="img" width="100%" height="100%" />;
       case "FILE":
         msg.content = msg.content as ChatFile;
         return (
@@ -158,13 +169,37 @@ const ChattingPage = () => {
     }
   };
 
+  const handleImageImport = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.files);
+    const image = e.target.files?.[0];
+
+    if (image) {
+      // 파일 크기 검사
+      console.log(image.size);
+      if (image.size > MAX_FILE_SIZE) {
+        alert(`파일 크기가 ${MAX_FILE_SIZE_MB}MB를 초과합니다.`);
+        return;
+      }
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        setUploadedImage(reader.result as string);
+      };
+      reader.readAsDataURL(image as Blob);
+      // image && setUploadedImage(image);
+    }
+  };
+
   return (
     <ChattingContainer>
       <TopBarText
         left={LeftEnum.Back}
         center={`${chatroomInfo.name}`}
         right={
-          <Link to={`/chat/${param.id}/setting`} state={{ chatroomInfo: chatroomInfo }}>
+          <Link
+            to={`/chat/${param.id}/setting`}
+            state={{ chatroomInfo: chatroomInfo, isManager: isManager }}
+          >
             <img src={SettingIcon} alt="setting" />
           </Link>
         }
@@ -172,7 +207,7 @@ const ChattingPage = () => {
 
       <ChattingBody>
         {messages.map((msg, index) =>
-          msg.senderName === username ? (
+          msg.senderId === decodedJWT()?.userId ? (
             <StyledMessage key={index} className="message" $isUser={true}>
               <div className="message-content-container">
                 <span className="message-time">
@@ -203,6 +238,20 @@ const ChattingPage = () => {
         <div ref={messageEndRef}></div>
       </ChattingBody>
 
+      {uploadedImage && (
+        <ImgPreview>
+          <img src={uploadedImage} alt="uploaded" />
+          <button
+            onClick={() => {
+              setUploadedImage(null);
+              setInputKey((prevKey) => prevKey + 1); // key를 변경하여 input을 리셋
+            }}
+          >
+            X
+          </button>
+        </ImgPreview>
+      )}
+
       <ChattingFooter $onMenu={onMenu}>
         <div className="chatting-input">
           <button onClick={() => setOnMenu(!onMenu)}>
@@ -213,8 +262,22 @@ const ChattingPage = () => {
             ref={chattingTextareaRef}
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && !e.shiftKey) {
+                if (inputValue === "") {
+                  e.preventDefault();
+                  return;
+                }
+                sendMessageS("TEXT");
+              }
+            }}
           />
-          <button onClick={() => sendMessageS("TEXT")}>
+          <button
+            onClick={(e) => {
+              inputValue !== "" && sendMessageS("TEXT");
+              uploadedImage && sendMessageS("IMG");
+            }}
+          >
             <img className="send" alt="Send button" src={SendBtnImg} />
           </button>
         </div>
@@ -224,10 +287,17 @@ const ChattingPage = () => {
               <img src={PayBtnImg} alt="Pay button" />
               <p>정산하기</p>
             </button>
-            <button>
+            <label>
               <img src={PictureBtnImg} alt="Picture button" />
-              <p>사진/동영상 첨부</p>
-            </button>
+              <input
+                key={inputKey}
+                type="file"
+                accept="image/*"
+                onChange={handleImageImport}
+                style={{ display: "none" }}
+              />
+              <p>사진 첨부</p>
+            </label>
             <button>
               <img src={FileBtnImg} alt="File button" />
               <p>파일 첨부</p>

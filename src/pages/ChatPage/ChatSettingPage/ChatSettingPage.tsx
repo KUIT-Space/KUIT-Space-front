@@ -1,19 +1,27 @@
 import { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 
 import { Chatroom } from "@/apis";
+import { ChatroomDeleteApi, ChatroomExitApi } from "@/apis/Chat/ChatroomExitDelete";
 import RightArrowImg from "@/assets/Space/icon_right_arrow.svg";
 import StopModal from "@/components/StopModal";
 import { ToggleBtn } from "@/components/ToggleBtn";
 import TopBarText, { LeftEnum } from "@/components/TopBarText";
 
+import { ChatroomAddImgBtn } from "../ChatCreatePage/ChatCreatePage.styled";
+
+//
+//
+//
 const StyledMenu = styled.div`
   display: flex;
   height: 3.5rem;
   align-items: center;
   justify-content: space-between;
   padding: 0.6rem 1.5rem;
+  cursor: pointer;
+  user-select: none;
 
   &.exit {
     color: ${({ theme }) => theme.colors.char_orange};
@@ -22,32 +30,64 @@ const StyledMenu = styled.div`
   &.delete {
     color: ${({ theme }) => theme.colors.char_red};
   }
+
+  .right-arrow {
+    display: "absolute";
+    right: "0";
+  }
 `;
 
+const StyledTitleMenu = styled(StyledMenu)`
+  height: 100%;
+  flex-direction: column;
+`;
+//
+//
+//
+
 const ChatSettingPage = () => {
+  const { id } = useParams();
   const navigate = useNavigate();
   const {
-    state: { chatroomInfo },
-  }: { state: { chatroomInfo: Chatroom } } = useLocation();
+    state: { chatroomInfo, isManager },
+  }: { state: { chatroomInfo: Chatroom; isManager: boolean } } = useLocation();
 
   const [isExitModal, setIsExitModal] = useState(false);
   const [isDeleteModal, setIsDeleteModal] = useState(false);
   const [isAlarm, setIsAlarm] = useState(false);
 
   return (
-    <div>
+    <>
       <TopBarText left={LeftEnum.Back} center={`${chatroomInfo.name} 채팅방 설정`} right="" />
 
-      <StyledMenu onClick={() => navigate("/space/spaceoption/accountmanage")}>
-        {chatroomInfo.name}
-        <img style={{ display: "absolute", right: "0" }} src={RightArrowImg} alt="right_arrow" />
-      </StyledMenu>
+      <StyledTitleMenu style={{ cursor: "default" }}>
+        <ChatroomAddImgBtn
+          style={{ marginBottom: 0, cursor: "default" }}
+          $backgroundImage={chatroomInfo.imgUrl}
+        />
+        <StyledMenu
+          onClick={() =>
+            isManager &&
+            navigate(`/chat/${id}/setting/name`, { state: { chatroomInfo: chatroomInfo } })
+          }
+          style={{ cursor: isManager ? "pointer" : "default" }}
+        >
+          {chatroomInfo.name}
+          <img className="right-arrow" src={RightArrowImg} alt="right_arrow" />
+        </StyledMenu>
+      </StyledTitleMenu>
 
-      <StyledMenu onClick={() => navigate("/space/spaceoption/accountmanage")}>
+      <StyledMenu
+        onClick={() =>
+          navigate(`/chat/${id}/setting/member`, {
+            state: { chatroomInfo: chatroomInfo, isManager: isManager },
+          })
+        }
+      >
         채팅방 멤버
-        <img style={{ display: "absolute", right: "0" }} src={RightArrowImg} alt="right_arrow" />
+        <img className="right-arrow" src={RightArrowImg} alt="right_arrow" />
       </StyledMenu>
-      <StyledMenu>
+      <StyledMenu style={{ cursor: "default" }}>
         채팅방 알림
         <ToggleBtn isOn={isAlarm} onToggle={() => setIsAlarm((prev) => !prev)} />
       </StyledMenu>
@@ -56,14 +96,21 @@ const ChatSettingPage = () => {
       <StyledMenu className="exit" onClick={() => setIsExitModal(true)}>
         채팅방 나가기
       </StyledMenu>
-      <StyledMenu className="delete" onClick={() => setIsDeleteModal(true)}>
-        채팅방 삭제하기
-      </StyledMenu>
+
+      {isManager && (
+        <StyledMenu className="delete" onClick={() => setIsDeleteModal(true)}>
+          채팅방 삭제하기
+        </StyledMenu>
+      )}
+
       <StopModal
         isOpen={isExitModal}
         onClose={() => setIsExitModal(false)}
         onConfirm={() => {
           setIsExitModal(false);
+          //채팅방 나가기 API
+          const spaceId = Number(localStorage.getItem("spaceId"));
+          ChatroomExitApi(spaceId, chatroomInfo.id);
           navigate("/chat");
         }}
         title="채팅방 나가기"
@@ -79,6 +126,9 @@ const ChatSettingPage = () => {
         onClose={() => setIsDeleteModal(false)}
         onConfirm={() => {
           setIsDeleteModal(false);
+          //채팅방 삭제 API
+          const spaceId = Number(localStorage.getItem("spaceId"));
+          ChatroomDeleteApi(spaceId, chatroomInfo.id);
           navigate("/chat");
         }}
         title="채팅방 삭제하기"
@@ -89,7 +139,7 @@ const ChatSettingPage = () => {
         confirmButtonText="삭제하기"
         confirmButtonTextColor="#FFFFFF"
       />
-    </div>
+    </>
   );
 };
 

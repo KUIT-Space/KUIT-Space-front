@@ -12,7 +12,7 @@ export const SocketConnect = (
   const token = localStorage.getItem("Authorization");
   if (!token || !stompClient.current.onConnect) {
     //로그인 오류 처리
-    alert("로그인이 필요합니다.");
+    //alert("로그인이 필요합니다.");
     return;
   }
 

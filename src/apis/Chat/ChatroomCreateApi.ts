@@ -26,7 +26,6 @@ const createChatroomFormData = (body: CreateChatroomApiRequestType): FormData =>
 
   body.memberList.forEach((memberId) => {
     formData.append("memberList", JSON.stringify(memberId));
-    console.log(JSON.stringify(memberId.toString()));
   });
 
   return formData;

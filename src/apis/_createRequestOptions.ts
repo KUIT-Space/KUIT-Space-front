@@ -5,6 +5,12 @@ export interface RequestOptions {
   redirect?: RequestRedirect;
 }
 
+// export interface ResponseType {
+//   code: number;
+//   status: string | number;
+//   message: string;
+// }
+
 export const createRequestOptionsJSON = (
   method: RequestOptions["method"],
   body?: RequestOptions["body"],

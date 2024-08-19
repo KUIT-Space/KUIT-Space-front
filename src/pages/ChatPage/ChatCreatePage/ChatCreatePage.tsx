@@ -55,7 +55,7 @@ const ChatCreatePage = () => {
       uploadedImage ?? defaultImage,
     ).then((res) => {
       if (res) {
-        console.log(res);
+        console.log("생성 완료: ", res);
       }
     });
   };

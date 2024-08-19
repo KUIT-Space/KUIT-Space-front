@@ -31,7 +31,7 @@ export const loginApi = async (email: string, password: string) => {
     `${import.meta.env.VITE_API_BACK_URL}/user/login`,
     requestOptions,
   ).then((res) => {
-    if (res.result) {
+    if (res.result?.userId) {
       localStorage.setItem("userId", res.result.userId.toString());
     }
     return res;

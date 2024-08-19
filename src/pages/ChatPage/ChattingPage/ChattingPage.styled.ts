@@ -11,6 +11,7 @@ export const ChattingBody = styled.div`
   padding: 1rem;
   overflow-y: auto;
   background-color: ${({ theme }) => theme.colors.BG900};
+  scrollbar-width: none;
 `;
 
 export const StyledMessage = styled.div<{ $isUser: boolean }>`
@@ -59,6 +60,7 @@ export const StyledMessage = styled.div<{ $isUser: boolean }>`
   }
 
   .message-content {
+    white-space: pre-wrap;
     max-width: 70%;
     ${({ $isUser }) => ($isUser ? "margin: 0 1rem 0 0.5rem;" : "margin: 0 0.5rem 0 3rem;")}
 
@@ -137,7 +139,8 @@ export const ChattingFooter = styled.div<{ $onMenu: boolean }>`
 
     background: #222226;
 
-    button {
+    button,
+    label {
       display: flex;
       width: 6.25rem;
       height: 6.25rem;
@@ -145,6 +148,8 @@ export const ChattingFooter = styled.div<{ $onMenu: boolean }>`
       justify-content: center;
       align-items: center;
       gap: 0.0625rem;
+      cursor: pointer;
+      user-select: none;
     }
   }
 `;
@@ -173,5 +178,27 @@ export const ChattingTextarea = styled.textarea`
   &:focus {
     border-color: ${({ theme }) => theme.colors.normal};
     outline: none;
+  }
+`;
+
+export const ImgPreview = styled.div`
+  position: relative;
+  max-height: 20%;
+  width: 40%;
+  margin: 0 1rem 0 auto;
+
+  img {
+    width: 100%;
+    height: 100%;
+    border-radius: 1rem;
+  }
+
+  button {
+    position: absolute;
+    top: 5%;
+    right: 5%;
+    background-color: ${({ theme }) => theme.colors.darker};
+    padding: 0.1rem 0.3rem;
+    border-radius: 0.5rem;
   }
 `;

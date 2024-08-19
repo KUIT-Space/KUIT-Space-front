@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
 import { loginApi } from "@/apis";
 import google from "@/assets/Login/icon_google.svg";
@@ -64,6 +63,7 @@ const LoginPage = () => {
           placeholder="비밀번호"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && handleLogin()}
         />
         <LoginButton $isActive={isButtonActive} onClick={handleLogin}>
           로그인
