@@ -71,7 +71,10 @@ const AddSpacePage = () => {
 
   const handleCreateSpace = () => {
     createSpaceApi(spacename, spaceImg).then((data) => {
-      navigate(`/space/${data?.result.spaceId}`);
+      if (data?.result.spaceId !== undefined) {
+        localStorage.setItem("spaceId", data?.result.spaceId.toString());
+        navigate(`/space/${data?.result.spaceId}`);
+      }
     });
   };
 
