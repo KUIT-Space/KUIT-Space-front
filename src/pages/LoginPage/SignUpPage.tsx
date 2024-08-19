@@ -113,7 +113,7 @@ const SignUp: React.FC = () => {
 
       // try {
       axios
-        .post("/api/user/signup", {
+        .post(`${import.meta.env.VITE_API_BACK_URL}/user/signup`, {
           email: email,
           password: password,
           userName: name,
@@ -131,6 +131,9 @@ const SignUp: React.FC = () => {
             if (err.response.data.message === "이미 존재하는 이메일입니다.") {
               setCurrentStep(1);
               alert("이미 존재하는 이메일입니다.");
+            } else if (err.response.data.message === "이메일 형식에 맞지 않습니다.. ") {
+              setCurrentStep(1);
+              alert("이메일 형식에 맞지 않습니다.. ");
             }
           }
           console.error(err);
