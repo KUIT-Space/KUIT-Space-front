@@ -15,24 +15,23 @@ const TopBarContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   z-index: 2;
+  margin: 0rem 1.25rem 0rem 1.25rem;
 `;
 
 const GridContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
-  width: 320px;
+  margin: 0rem 1.25rem 0rem 1.25rem;
   border-radius: 12px;
-  margin: auto;
-  margin-bottom: 26px;
+
+  margin-bottom: 1.625rem;
   z-index: 2;
 `;
 
 const GridItem = styled.div`
   position: relative;
   display: flex;
-  width: 100px;
-  height: 100px;
   background-color: ${({ theme }) => theme.colors.BG800};
   border-radius: 12px;
   justify-content: center;
@@ -163,89 +162,22 @@ const SpacePage = () => {
     setEditActive(!editActive);
   };
 
-  const response = {
-    userName: "하진",
-    lastUserSpaceId: 8,
-    spaceInfoList: [
-      {
-        spaceId: 1,
-        spaceName: "작업 안하면 죽는 방",
-        profileImgUrl: "https://placehold.co/100x100",
-      },
-      {
-        spaceId: 2,
-        spaceName: "작업 안하면 죽는 방",
-        profileImgUrl: "https://placehold.co/100x100",
-      },
-      {
-        spaceId: 3,
-        spaceName: "작업 안하면 죽는 방",
-        profileImgUrl: "https://placehold.co/100x100",
-      },
-      {
-        spaceId: 4,
-        spaceName: "작업 안하면 죽는 방",
-        profileImgUrl: "https://placehold.co/100x100",
-      },
-      {
-        spaceId: 5,
-        spaceName: "작업 안하면 죽는 방",
-        profileImgUrl: "https://placehold.co/100x100",
-      },
-      {
-        spaceId: 6,
-        spaceName: "작업 안하면 죽는 방",
-        profileImgUrl: "https://placehold.co/100x100",
-      },
-      {
-        spaceId: 7,
-        spaceName: "작업 안하면 죽는 방",
-        profileImgUrl: "https://placehold.co/100x100",
-      },
-      {
-        spaceId: 8,
-        spaceName: "작업 안하면 죽는 방",
-        profileImgUrl: "https://placehold.co/100x100",
-      },
-      {
-        spaceId: 9,
-        spaceName: "작업 안하면 죽는 방",
-        profileImgUrl: "https://placehold.co/100x100",
-      },
-      {
-        spaceId: 10,
-        spaceName: "작업 안하면 죽는 방",
-        profileImgUrl: "https://placehold.co/100x100",
-      },
-      {
-        spaceId: 11,
-        spaceName: "작업 안하면 죽는 방",
-        profileImgUrl: "https://placehold.co/100x100",
-      },
-      /*
-			{
-				spaceId: 12,
-				spaceName: "작업 안하면 죽는 방",
-				profileImgUrl: "https://placehold.co/100x100",
-			},
-			{
-				spaceId: 13,
-				spaceName: "작업 안하면 죽는 방",
-				profileImgUrl: "https://placehold.co/100x100",
-			},
-			*/
-    ],
-  };
-
   return (
     <>
       {editActive && <Overlay />}
-      <div style={{ width: "320px", margin: "auto", paddingBottom: "10px", position: "relative" }}>
+      <div style={{ margin: "auto", paddingBottom: "10px", position: "relative" }}>
         <TopBarContainer>
           <TopBarText left={LeftEnum.Logo} center="" right="" />
           <SettingBtn src={setting} alt="setting" onClick={() => navigate("/space/spaceoption")} />
         </TopBarContainer>
-        <div style={{ height: "202px", display: "flex", flexDirection: "column" }}>
+        <div
+          style={{
+            height: "202px",
+            display: "flex",
+            flexDirection: "column",
+            margin: "0rem 1.25rem 0rem 1.25rem",
+          }}
+        >
           <div style={{ height: "39px", marginTop: "77px", display: "flex", alignItems: "center" }}>
             <Title>{userSpaceResult?.userName}의 스페이스</Title>
           </div>
