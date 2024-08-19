@@ -70,7 +70,7 @@ const BoardPage = () => {
                 elapsedTime={d.time}
                 title={d.title}
                 content={d.content}
-                thumbnail={d.postImage[0]}
+                thumbnail={d.postImage}
                 isLike={d.like}
                 likeCount={d.likeCount}
                 commentCount={d.commentCount}

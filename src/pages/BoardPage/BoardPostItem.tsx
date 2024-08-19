@@ -80,11 +80,17 @@ const BoardPostItemContent = styled.section`
     }
   }
 
-  .board-post-item-content-img {
-    width: 100%;
-    height: 16rem;
-    border-radius: 0.75rem;
-    border: 1px solid #fff; /* 영역 확인 위한 임시 border */
+  .board-post-item-content-img-container {
+    display: flex;
+    overflow-x: scroll;
+    gap: 0.5rem;
+
+    .board-post-item-content-img {
+      width: 100%;
+      height: 16rem;
+      border-radius: 0.75rem;
+      border: 1px solid #fff; /* 영역 확인 위한 임시 border */
+    }
   }
 `;
 
@@ -139,7 +145,7 @@ export type BoardPostItemProps = {
   elapsedTime: string;
   title: string;
   content: string;
-  thumbnail: string;
+  thumbnail: string[];
   isLike: boolean;
   likeCount: number;
   commentCount: number;
@@ -169,7 +175,12 @@ const BoardPostItem = ({
           <span>{title}</span>
           <div>{content}</div>
         </div>
-        {thumbnail && <img src={thumbnail} className="board-post-item-content-img" />}
+        <div className="board-post-item-content-img-container">
+          {thumbnail &&
+            thumbnail.map((img, i) => (
+              <img key={img + i} src={img} className="board-post-item-content-img" />
+            ))}
+        </div>
       </BoardPostItemContent>
       <BoardPostItemFooter>
         <div>
