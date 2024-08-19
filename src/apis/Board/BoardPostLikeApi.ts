@@ -7,6 +7,7 @@ interface PostLikeOnPostApiResponseType {
   result: string;
 }
 
+/* POST: 좋아요 등록 */
 export const postLikeOnPostApi = async (spaceId: number, postId: number) => {
   const requestOptions = createRequestOptionsJSON_AUTH("POST");
 
@@ -16,6 +17,7 @@ export const postLikeOnPostApi = async (spaceId: number, postId: number) => {
   return await fetchApi<PostLikeOnPostApiResponseType>(url, requestOptions);
 };
 
+/* DELETE: 좋아요 삭제 */
 export const deleteLikeOnPostApi = async (spaceId: number, postId: number) => {
   const requestOptions = createRequestOptionsJSON_AUTH("DELETE");
 

@@ -24,6 +24,7 @@ export interface GetAllPostsResponse {
   result: BoardPost[];
 }
 
+/* GET: 게시물 전체 조회 */
 export const getAllPosts = async (spaceId: number, filter: string) => {
   const requestOptions = createRequestOptionsJSON_AUTH("GET");
   if (!requestOptions) return null;

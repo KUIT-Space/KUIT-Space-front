@@ -27,6 +27,7 @@ const createBoardPostFormData = (body: CreateBoardPostApiRequestType): FormData 
   return formData;
 };
 
+/* POST: 게시글 등록 */
 export const CreateBoardPostApi = async (
   spaceId: number,
   title: string,
