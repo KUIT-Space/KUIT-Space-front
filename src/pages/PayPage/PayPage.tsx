@@ -46,7 +46,7 @@ export type payTargetInfoDtoList = {
   isComplete: boolean;
 };
 const PayRequestInfo = ({ data }: { data: PayRequestInfo }) => {
-  const res: number = data.totalTargetNum - data.receiveAmount;
+  const res: number = data.totalTargetNum - data.receiveTargetNum;
   const now = addComma(data.receiveAmount);
   const all = addComma(data.totalAmount);
   return (

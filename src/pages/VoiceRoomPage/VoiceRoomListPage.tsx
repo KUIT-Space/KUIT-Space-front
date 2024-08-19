@@ -36,7 +36,7 @@ const VoiceRoomPortal = ({ vrList }: { vrList: VrList }) => {
         <s.InfoDiv>
           <s.RoundDiv>대화 중인 스페이서 {vrList.numParticipant}명</s.RoundDiv>
           {vrList.numParticipant === 0 ? (
-            <div></div>
+            <></>
           ) : (
             <s.DropdownDiv>
               <VoiceRoomUser props={vrList.participantInfoList} />;
