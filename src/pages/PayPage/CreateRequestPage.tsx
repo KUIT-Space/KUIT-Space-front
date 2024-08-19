@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { ProgressBar } from "react-toastify/dist/components";
 import { UserInfo, userInfo } from "os";
 
@@ -26,10 +27,10 @@ import { getUserDefaultImageURL } from "@/utils/getUserDefaultImageURL";
 
 import { addComma } from "./PayPage";
 
-type payUserInfo = {
-  name: number;
-  value: number;
-};
+// type payUserInfo = {
+//   name: number;
+//   value: number;
+// };
 
 export type ChatUserInfoInSpace = {
   chatRoomId: number;
@@ -42,11 +43,11 @@ export type BankInfo = {
   bankName: string;
   bankAccountNum: string;
 };
-type NextPageType = {
-  nextPage: () => void;
-  setAccount?: () => void;
-  checkUsers?: Set<number>;
-};
+// type NextPageType = {
+//   nextPage: () => void;
+//   setAccount?: () => void;
+//   checkUsers?: Set<number>;
+// };
 
 const idToPrice = new Map<number, number>();
 const RecentAccountDiv = ({ data }: { data: BankInfo }) => {
@@ -73,17 +74,19 @@ const CreateRequestPage1 = ({
   const [bankData, setBankData] = useState<BankInfo[] | undefined>([]);
   const [bankValue, setBankValue] = useState("");
   const [acc, setAcc] = useState("");
+
   useEffect(() => {
     recentAccountApi(3, setBankData);
   }, []);
+
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAcc(e.target.value);
   };
-
   const onChangeOption = (e: any) => {
     setBankValue(e.target.value);
     console.log(e.target.value);
   };
+
   return (
     <>
       <TopBarText left={LeftEnum.Back} center="" right=""></TopBarText>
@@ -128,16 +131,17 @@ const CreateRequestPage1 = ({
     </>
   );
 };
+
 const CreateRequestPage2 = ({
   nextPage,
-  forceRefresh,
+  prevPage,
   setCheckUsers,
   checkUsers,
   userInfoData,
   setUserInfoData,
 }: {
   nextPage: () => void;
-  forceRefresh: (arg: number) => void;
+  prevPage: () => void;
   setCheckUsers: React.Dispatch<React.SetStateAction<Set<number>>>;
   checkUsers: Set<number>;
   userInfoData: UserInfoInSpace[] | undefined;
@@ -148,26 +152,12 @@ const CreateRequestPage2 = ({
   const [chatUserInfoData, setChatUserInfoData] = useState<ChatUserInfoInSpace[] | undefined>([]);
 
   useEffect(() => {
-    selectMenuHandler(tabIndex);
-    forceRefresh(1);
-  }, [chatUserInfoData]);
-
-  useEffect(() => {
-    // const id = localStorage.getItem("SpaceId");
-    const id = "3";
-    if (id !== null) {
-      const _id = Number.parseInt(id);
-      getAllMemberApi(_id, setUserInfoData);
-      getAllChatMemberApi(_id, setChatUserInfoData);
-    }
+    const id = Number(localStorage.getItem("spaceId")) || 3;
+    getAllMemberApi(id, setUserInfoData);
+    getAllChatMemberApi(id, setChatUserInfoData).then((res) =>
+      console.log("chatUser", chatUserInfoData),
+    );
   }, []);
-  const onKeywordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value);
-  };
-
-  const selectMenuHandler = (index: number) => {
-    setTabIndex(index);
-  };
 
   const checkUserHandler = (id: number) => {
     const _checkUsers = new Set(checkUsers);
@@ -188,7 +178,7 @@ const CreateRequestPage2 = ({
 
   return (
     <>
-      <TopBarText left={LeftEnum.Back} center="" right=""></TopBarText>
+      <TopBarText left={LeftEnum.Back} center="" right="" backHandler={prevPage}></TopBarText>
       <s.ContainerDiv>
         <div style={{ margin: "2rem 0rem 2rem 0rem" }}>
           <s.NowPriceDiv>정산할 멤버를 선택해주세요</s.NowPriceDiv>
@@ -199,30 +189,34 @@ const CreateRequestPage2 = ({
             <li
               key={index}
               className={index === tabIndex ? "submenu focused" : "submenu"}
-              onClick={() => selectMenuHandler(index)}
+              onClick={() => setTabIndex(index)}
             >
               {value.name}
             </li>
           ))}
         </s.TabMenu>
-        {tabIndex == 0 ? (
+        {tabIndex === 0 ? (
           <div>
-            {chatUserInfoData !== undefined ? (
-              <>
+            <>{console.log(chatUserInfoData, userInfoData)}</>
+            {chatUserInfoData && (
+              <div>
                 {chatUserInfoData.map((value, index) => (
                   <PayChatDiv key={index} props={value}></PayChatDiv>
                 ))}
-              </>
-            ) : (
-              <></>
+              </div>
             )}
           </div>
         ) : (
           <s.ColumnFlexDiv style={{ width: "100%" }}>
             <s.SearchBarDiv>
               <s.SearchIconImg src={SearchIcon}></s.SearchIconImg>
-              <s.SearchBar type="text" value={search} onChange={onKeywordChange}></s.SearchBar>
+              <s.SearchBar
+                type="text"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              ></s.SearchBar>
             </s.SearchBarDiv>
+
             {userInfoData !== undefined ? (
               <>
                 {userInfoData
@@ -259,17 +253,19 @@ const CreateRequestPage2 = ({
           </s.ColumnFlexDiv>
         )}
       </s.ContainerDiv>
-      <BottomBtn onClick={() => nextPage()}>{checkUsers.size}명 선택</BottomBtn>
+      <BottomBtn onClick={nextPage}>{checkUsers.size}명 선택</BottomBtn>
     </>
   );
 };
 
 const CreateRequestPage3 = ({
   nextPage,
+  prevPage,
   checkUsers,
   setTotalPrice,
 }: {
   nextPage: () => void;
+  prevPage: () => void;
   checkUsers: Set<number>;
   setTotalPrice: React.Dispatch<React.SetStateAction<number>>;
 }) => {
@@ -315,6 +311,7 @@ const CreateRequestPage3 = ({
     }
     console.log(idToPrice);
   };
+
   useEffect(() => {
     const _tempArr: UserProfileResult[] = [];
     if (checkUsers !== undefined) {
@@ -335,7 +332,7 @@ const CreateRequestPage3 = ({
 
   return (
     <>
-      <TopBarText left={LeftEnum.Back} center="" right=""></TopBarText>
+      <TopBarText left={LeftEnum.Back} center="" right="" backHandler={prevPage}></TopBarText>
       <s.ContainerDiv>
         <s.TabMenu>
           {menuArr.map((value, index) => (
@@ -359,7 +356,7 @@ const CreateRequestPage3 = ({
               onChange={changePriceHandler}
             ></s.PriceInput>
             <div style={{ marginTop: "1.5rem" }}>
-              {tempArr.map((value, index) => (
+              {tempArr.map((value) => (
                 <Member key={value.userId}>
                   <section>
                     <img
@@ -384,7 +381,7 @@ const CreateRequestPage3 = ({
         ) : (
           <div style={{ margin: "1.25rem" }}>
             <div style={{ marginTop: "1.5rem" }}>
-              {tempArr.map((value, index) => (
+              {tempArr.map((value) => (
                 <Member key={value.userId}>
                   <section>
                     <img
@@ -437,12 +434,14 @@ const CreateRequestPage3 = ({
 
 const CreateRequestPage4 = ({
   nextPage,
+  prevPage,
   userInfoData,
   totalPrice,
   array,
   setArray,
 }: {
   nextPage: () => void;
+  prevPage: () => void;
   userInfoData: UserInfoInSpace[] | undefined;
   totalPrice: number;
   array: targetInfoList[];
@@ -453,10 +452,11 @@ const CreateRequestPage4 = ({
       [...idToPrice!].map(([targetUserId, requestAmount]) => ({ targetUserId, requestAmount })),
     );
   }, []);
+
   const price = addComma(totalPrice);
   return (
     <>
-      <TopBarText left={LeftEnum.Back} center="" right=""></TopBarText>
+      <TopBarText left={LeftEnum.Back} center="" right="" backHandler={prevPage}></TopBarText>
       <s.ContainerDiv>
         <s.NowPriceDiv>이렇게 정산을 요청할까요?</s.NowPriceDiv>
         <s.GrayRoundDiv>
@@ -465,7 +465,7 @@ const CreateRequestPage4 = ({
             <s.NowPriceDiv style={{ marginLeft: "auto" }}> {price}&nbsp;원</s.NowPriceDiv>
           </s.RowFlexDiv>
           <hr style={{ border: "0.0625rem solid var(--GRAY-700, #45454B)" }}></hr>
-          {array.map((value, key) => {
+          {array.map((value) => {
             const _userData = userInfoData?.find((i) => i.userId === value.targetUserId);
             const _price = addComma(value.requestAmount);
             return (
@@ -486,14 +486,15 @@ const CreateRequestPage4 = ({
           })}
         </s.GrayRoundDiv>
       </s.ContainerDiv>
-      <BottomBtn onClick={() => nextPage()}>정산요청</BottomBtn>
+      <BottomBtn onClick={nextPage}>정산요청</BottomBtn>
     </>
   );
 };
 
 const CreateRequestPage = () => {
   const [page, setPage] = useState(0);
-  const [refresh, setRefresh] = useState(0);
+  // const [refresh, setRefresh] = useState(0);
+
   const [checkUsers, setCheckUsers] = useState(new Set<number>());
   const [bankAccount, setBankAccount] = useState("");
   const [bankName, setBankName] = useState("");
@@ -502,19 +503,25 @@ const CreateRequestPage = () => {
   const [isComplete, setIsComplete] = useState(false);
   const [array, setArray] = useState<targetInfoList[]>([]);
 
-  const forceRefresh = () => {
-    setRefresh(refresh + 1);
-  };
+  const navigate = useNavigate();
+
+  // const forceRefresh = () => {
+  //   setRefresh(refresh + 1);
+  // };
+
   const nextPage = () => {
     setPage((prev) => prev + 1);
   };
-  const resetPage = () => {
-    //일단 만들어 둠
-    setPage(0);
+
+  const prevPage = () => {
+    if (page > 0) {
+      setPage((prev) => prev - 1);
+    } else {
+      navigate(-1);
+    }
   };
 
   useEffect(() => {
-    console.log("page: ", page);
     if (page === 4) {
       payCreateApi(totalPrice, bankName, bankAccount, array, 3).then(() => {
         setIsComplete(true);
@@ -535,7 +542,8 @@ const CreateRequestPage = () => {
       return (
         <CreateRequestPage2
           nextPage={nextPage}
-          forceRefresh={forceRefresh}
+          prevPage={prevPage}
+          //forceRefresh={forceRefresh}
           checkUsers={checkUsers}
           setCheckUsers={setCheckUsers}
           userInfoData={userInfoData}
@@ -546,16 +554,18 @@ const CreateRequestPage = () => {
       return (
         <CreateRequestPage3
           nextPage={nextPage}
+          prevPage={prevPage}
           checkUsers={checkUsers}
           setTotalPrice={setTotalPrice}
         ></CreateRequestPage3>
       );
     case 3:
-      console.log(userInfoData);
+      // console.log(userInfoData);
       return (
         <CreateRequestPage4
           totalPrice={totalPrice}
           nextPage={nextPage}
+          prevPage={prevPage}
           userInfoData={userInfoData}
           array={array}
           setArray={setArray}

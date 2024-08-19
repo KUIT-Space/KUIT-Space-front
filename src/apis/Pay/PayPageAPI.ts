@@ -1,13 +1,14 @@
-import { DetailPayData, PayReceiveInfo, PayRequestInfo } from "@/pages/PayPage/PayPage";
+import { useNavigate } from "react-router-dom";
+
 import {
   createRequestOptionsJSON,
-  RequestOptions,
   createRequestOptionsJSON_AUTH,
   fetchApi,
+  RequestOptions,
 } from "@/apis/_createRequestOptions";
-import { BankInfo, ChatUserInfoInSpace } from "@/pages/PayPage/CreateRequestPage";
-import { useNavigate } from "react-router-dom";
 import { UserInfoInSpace } from "@/apis/Space/SpaceSearchAllUserApi";
+import { BankInfo, ChatUserInfoInSpace } from "@/pages/PayPage/CreateRequestPage";
+import { DetailPayData, PayReceiveInfo, PayRequestInfo } from "@/pages/PayPage/PayPage";
 
 interface SpaceSearchAllUserApiResponseType {
   code: number;
@@ -203,9 +204,9 @@ export const getAllChatMemberApi = async (
   if (response) {
     response.json().then((data) => {
       const _temp: chatRoomList[] = data.result.chatRoomList;
-      let _temp2: ChatUserInfoInSpace[] = new Array();
+      const _temp2: ChatUserInfoInSpace[] = [];
       _temp.map(async (value, index) => {
-        let _temp3: ChatUserInfoInSpace = {
+        const _temp3: ChatUserInfoInSpace = {
           chatRoomId: -1,
           chatRoomName: "",
           userList: [],
@@ -217,10 +218,9 @@ export const getAllChatMemberApi = async (
         getChatRoomMemberApi(spaceID, value.id).then((res) => {
           res ? (_temp3.userList = res.result.userList) : (_temp3.userList = []);
           _temp2.push(_temp3);
+          setChatUserInfoData(_temp2);
         });
       });
-
-      setChatUserInfoData(_temp2);
     });
   }
 };
