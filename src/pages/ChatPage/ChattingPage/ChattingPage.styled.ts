@@ -11,7 +11,23 @@ export const ChattingBody = styled.div`
   padding: 1rem;
   overflow-y: auto;
   background-color: ${({ theme }) => theme.colors.BG900};
-  scrollbar-width: none;
+  /* scrollbar-width: none; */
+
+  &::-webkit-scrollbar {
+    width: 0.5rem;
+    height: 0.5rem;
+  }
+  &::-webkit-scrollbar-track {
+    background: ${({ theme }) => theme.colors.BG900};
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: ${({ theme }) => theme.colors.normal};
+    border-radius: 1rem;
+    border: 1px solid ${({ theme }) => theme.colors.BG900};
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: ${({ theme }) => theme.colors.normal_hover};
+  }
 `;
 
 export const StyledMessage = styled.div<{ $isUser: boolean }>`
@@ -80,6 +96,15 @@ export const StyledMessage = styled.div<{ $isUser: boolean }>`
     font-weight: 400;
     line-height: 1.5rem;
     letter-spacing: 0.025rem;
+
+    &:has(img) {
+      max-width: 40%;
+    }
+    img {
+      width: 100%;
+      height: 100%;
+      border-radius: 0.75rem;
+    }
   }
 `;
 
@@ -174,6 +199,7 @@ export const ChattingTextarea = styled.textarea`
   &::-webkit-scrollbar {
     display: none;
   }
+
   caret-color: ${({ theme }) => theme.colors.normal};
   &:focus {
     border-color: ${({ theme }) => theme.colors.normal};

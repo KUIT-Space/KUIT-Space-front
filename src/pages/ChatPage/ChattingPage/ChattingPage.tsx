@@ -141,15 +141,7 @@ const ChattingPage = () => {
       case "IMG":
         console.log("image: ", msg.content);
         msg.content = msg.content as ChatImage;
-        return (
-          <img
-            src={msg.content.image}
-            alt="img"
-            width="100%"
-            height="100%"
-            style={{ borderRadius: "1rem" }}
-          />
-        );
+        return <img src={msg.content.image} alt="img" />;
       case "FILE":
         msg.content = msg.content as ChatFile;
         return (
