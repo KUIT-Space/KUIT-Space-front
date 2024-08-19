@@ -373,7 +373,10 @@ const CreateRequestPage3 = ({
                       <span className="name">{value.userName}</span>
                     </section>
                     <s.RowFlexDiv>
-                      <s.NormalTextDiv> {Number.parseInt(nPrice / tempArr.length)}</s.NormalTextDiv>
+                      <s.NormalTextDiv>
+                        {" "}
+                        {nPrice !== undefined ? nPrice / tempArr.length : "NaN"}
+                      </s.NormalTextDiv>
                       <s.TextDiv>원</s.TextDiv>
                     </s.RowFlexDiv>
                   </Member>
@@ -422,7 +425,9 @@ const CreateRequestPage3 = ({
         onClick={() => {
           if (tabIndex === 0) {
             nPriceHandler();
-            setTotalPrice(nPrice);
+            if (nPrice !== undefined) {
+              setTotalPrice(nPrice);
+            }
           } else {
             setTotalPrice(_totalPrice);
           }

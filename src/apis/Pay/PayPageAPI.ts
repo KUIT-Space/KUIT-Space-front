@@ -7,7 +7,7 @@ import {
 } from "@/apis/_createRequestOptions";
 import { BankInfo, ChatUserInfoInSpace } from "@/pages/PayPage/CreateRequestPage";
 import { useNavigate } from "react-router-dom";
-import { UserInfoInSpace } from "../SpaceSearchAllUserApi";
+import { UserInfoInSpace } from "@/apis/Space/SpaceSearchAllUserApi";
 
 interface SpaceSearchAllUserApiResponseType {
   code: number;
@@ -100,12 +100,12 @@ export const payHomeApi = async (
   const response = await fetchPayApi(
     `${import.meta.env.VITE_API_BACK_URL}/space/${spaceID}/pay`,
     requestOptions,
+  ).then((res) =>
+    res?.json?.().then((data: any) => {
+      setReqData(data.result.payRequestInfoDtoList);
+      setRecData(data.result.payReceiveInfoDtoList);
+    }),
   );
-
-  response.json().then((data) => {
-    setReqData(data.result.payRequestInfoDtoList);
-    setRecData(data.result.payReceiveInfoDtoList);
-  });
 };
 
 export const recentAccountApi = async (

@@ -5,7 +5,7 @@ import { useState } from "react";
 
 import * as s from "@/pages/PayPage/PayPage.styled";
 import { ChatUserInfoInSpace } from "./CreateRequestPage";
-import { UserInfoInSpace } from "@/apis/SpaceSearchAllUserApi";
+import { UserInfoInSpace } from "@/apis/Space/SpaceSearchAllUserApi";
 interface payChatDivtype {
   img: string;
   name: string;
