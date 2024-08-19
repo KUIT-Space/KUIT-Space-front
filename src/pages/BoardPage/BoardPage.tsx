@@ -72,8 +72,8 @@ const BoardPage = () => {
                 content={d.content}
                 thumbnail={d.postImage[0]}
                 isLike={d.isLike}
-                likeCount={d.like_count}
-                commentCount={d.comment_count}
+                likeCount={d.likeCount}
+                commentCount={d.commentCount}
               />
             </div>
           );

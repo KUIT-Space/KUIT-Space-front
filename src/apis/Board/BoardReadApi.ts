@@ -11,9 +11,9 @@ export interface BoardPost {
   postImage: string[];
   time: string;
   type: string;
-  post_count: number;
-  comment_count: number;
-  like_count: number;
+  postCount: number;
+  commentCount: number;
+  likeCount: number;
   isLike: boolean;
 }
 
