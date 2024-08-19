@@ -1,6 +1,8 @@
 import { Stomp } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
 
+import { createRequestOptionsJSON_AUTH, fetchApi } from "@/apis/_createRequestOptions";
+
 export const SocketConnect = (
   stompClient: any,
   chatRoomId: string,
@@ -13,6 +15,7 @@ export const SocketConnect = (
   if (!token || !stompClient.current.onConnect) {
     //로그인 오류 처리
     //alert("로그인이 필요합니다.");
+    console.log("!token || !stompClient.current.onConnect, 로그인 오류");
     return;
   }
 
@@ -36,4 +39,15 @@ export const SocketDisconnect = (stompClient: any) => {
   if (stompClient.current) {
     stompClient.current.disconnect();
   }
+};
+
+/** */
+export const ChatroomLeave = async (chatRoomId: number) => {
+  const requestOptions = createRequestOptionsJSON_AUTH("POST");
+  const spaceId = Number(localStorage.getItem("spaceId"));
+  if (!requestOptions || !spaceId) return null;
+
+  const url = `${import.meta.env.VITE_API_BACK_URL}/space/${spaceId}/chat/${chatRoomId}/leave`;
+
+  return await fetchApi(url, requestOptions);
 };
