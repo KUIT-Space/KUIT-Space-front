@@ -19,7 +19,10 @@ const CreateVoiceRoomPage = () => {
     console.log({ spaceName });
   }
   const handleOnClick = () => {
-    VrCreateApi(3, spaceName);
+    const spaceId = localStorage.getItem("spaceId");
+    if (spaceId !== null) {
+      VrCreateApi(Number.parseInt(spaceId), spaceName);
+    }
     navigate("/voiceroom");
   };
   return (
