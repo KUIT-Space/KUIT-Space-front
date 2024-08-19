@@ -14,7 +14,7 @@ export interface BoardPost {
   postCount: number;
   commentCount: number;
   likeCount: number;
-  isLike: boolean;
+  like: boolean;
 }
 
 export interface GetAllPostsResponse {
