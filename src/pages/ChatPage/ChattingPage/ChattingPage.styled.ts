@@ -97,10 +97,10 @@ export const StyledMessage = styled.div<{ $isUser: boolean }>`
     line-height: 1.5rem;
     letter-spacing: 0.025rem;
 
-    &:has(img) {
+    &:has(.msg-img) {
       max-width: 40%;
     }
-    img {
+    .msg-img {
       width: 100%;
       height: 100%;
       border-radius: 0.75rem;
@@ -221,15 +221,21 @@ export const ImgPreview = styled.div`
 
   button {
     position: absolute;
-    top: 5%;
-    right: 5%;
-    background-color: ${({ theme }) => theme.colors.darker};
-    padding: 0.1rem 0.3rem;
-    border-radius: 0.5rem;
+    top: 0.3rem;
+    right: 0.3rem;
+
+    border-radius: 100%;
+    width: 1.5rem;
+    height: 1.5rem;
+
+    img {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
   }
 `;
 
-export const FilePreview = styled.div<{ $backgroundColor?: string; $isUser: boolean }>`
+export const FilePreview = styled.div<{ $isUser: boolean }>`
   position: relative;
   display: flex;
   height: 4.25rem;
@@ -240,7 +246,7 @@ export const FilePreview = styled.div<{ $backgroundColor?: string; $isUser: bool
   margin: 0 2.5rem 0.5rem auto;
   border-radius: 0.5rem;
 
-  background-color: ${({ $backgroundColor }) => $backgroundColor ?? $backgroundColor};
+  background-color: ${({ $isUser }) => ($isUser ? "#d4d4d9" : "#222226")};
 
   img {
     width: 2.75rem;
@@ -251,13 +257,19 @@ export const FilePreview = styled.div<{ $backgroundColor?: string; $isUser: bool
     position: absolute;
     top: 0.3rem;
     right: 0.3rem;
-    background-color: ${({ theme }) => theme.colors.darker};
-    padding: 0.1rem 0.3rem;
-    border-radius: 0.5rem;
+
+    border-radius: 100%;
+    width: 1.5rem;
+    height: 1.5rem;
+
+    img {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
   }
 
   div > p:first-child {
-    color: #000;
+    color: ${({ $isUser }) => ($isUser ? "#000" : "#fff")};
 
     /* text/Medium 16pt */
     font-family: Freesentation;
@@ -275,5 +287,16 @@ export const FilePreview = styled.div<{ $backgroundColor?: string; $isUser: bool
     font-style: normal;
     font-weight: 400;
     line-height: 140%; /* 1.225rem */
+  }
+`;
+
+export const FileChatView = styled(FilePreview)`
+  margin: 0;
+  width: 100%;
+  text-align: start;
+
+  .filelogo {
+    width: 2.75rem;
+    height: 2.75rem;
   }
 `;

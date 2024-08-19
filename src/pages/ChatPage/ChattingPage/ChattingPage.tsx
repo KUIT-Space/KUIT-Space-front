@@ -17,6 +17,7 @@ import {
 } from "@/apis";
 import MenuBtnImg from "@/assets/ChatPage/btn_menu.svg";
 import SendBtnImg from "@/assets/ChatPage/btn_send.svg";
+import XIcon from "@/assets/ChatPage/icon_x.svg";
 import FileBtnImg from "@/assets/ChatPage/menu_btn_file.svg";
 import PayBtnImg from "@/assets/ChatPage/menu_btn_pay.svg";
 import PictureBtnImg from "@/assets/ChatPage/menu_btn_picture.svg";
@@ -27,6 +28,7 @@ import {
   ChattingContainer,
   ChattingFooter,
   ChattingTextarea,
+  FileChatView,
   FilePreview,
   ImgPreview,
   StyledMessage,
@@ -34,6 +36,7 @@ import {
 import { decodedJWT } from "@/utils/decodedJWT";
 import { getUserDefaultImageURL } from "@/utils/getUserDefaultImageURL";
 import { isoStringToDateString } from "@/utils/isoStringToDateString";
+import { splitDownloadURL } from "@/utils/splitDownloadURL";
 
 const MAX_FILE_SIZE_MB = 2; // 최대 파일 크기 (메가바이트 단위)
 const MAX_FILE_SIZE = MAX_FILE_SIZE_MB * 1024 * 1024; // 바이트
@@ -118,22 +121,37 @@ const ChattingPage = () => {
       if (messageType === "TEXT") {
         body.content = { text: inputValue };
         setInputValue("");
-      } else if (messageType === "IMG") {
+      } else if (messageType === "IMG" && uploadedImage) {
         body.content = { image: uploadedImage }; // 인코딩된 base64 이미지 url
         //console.log(uploadedImage);
         setUploadedImage(null);
         setInputKey((prevKey) => prevKey + 1); // input 리셋
+      } else if (messageType === "FILE" && fileData) {
+        body.content = fileData; // 인코딩된 base64 파일 url
+        setFileData(null);
+        setInputKey((prevKey) => prevKey + 1); // input 리셋
       }
-      // else if (messageType === "FILE" && fileData) {
-      //   body.content = fileData; // 인코딩된 base64 파일 url
-      //   setFileData(null);
-      // }
       // console.log(body.content);
-
       // console.log(stompClient.current);
       stompClient.current.send(`/app/chat/${param.id}`, {}, JSON.stringify(body));
     }
   };
+
+  // const handleFileDownload = (url: string, fileName: string) => {
+  //   fetch(url)
+  //     .then((response) => response.blob())
+  //     .then((blob) => {
+  //       const blobUrl = window.URL.createObjectURL(blob);
+  //       const link = document.createElement("a");
+  //       link.href = blobUrl;
+  //       link.download = fileName;
+  //       document.body.appendChild(link);
+  //       link.click();
+  //       document.body.removeChild(link);
+  //       window.URL.revokeObjectURL(blobUrl);
+  //     })
+  //     .catch((error) => console.error("Download failed:", error));
+  // };
 
   const renderMessageContent = (msg: ChatMessageFrame) => {
     // console.log(msg.senderName, username);
@@ -145,12 +163,24 @@ const ChattingPage = () => {
       case "IMG":
         //console.log("image: ", msg.content);
         msg.content = msg.content as ChatImage;
-        return <img src={msg.content.image} alt="img" />;
+        return <img className="msg-img" src={msg.content.image} alt="img" />;
       case "FILE":
         msg.content = msg.content as ChatFile;
         return (
-          <a href={msg.content.file} download={msg.content.fileName}>
-            {msg.content.fileName}
+          <a
+            href={`/image${splitDownloadURL(msg.content.file)}`}
+            download={msg.content.fileName}
+            target="_blank"
+            type="application/octet-stream"
+            rel="noreferrer"
+          >
+            <FileChatView $isUser={true}>
+              <img className="filelogo" src={FileBtnImg} alt="uploaded" />
+              <div>
+                <p>{msg.content.fileName}</p>
+                <p>유효기간 : ~ {isoStringToDateString(msg.content.dueDate)}</p>
+              </div>
+            </FileChatView>
           </a>
         );
       case "PAY":
@@ -284,27 +314,25 @@ const ChattingPage = () => {
               setInputKey((prevKey) => prevKey + 1); // key를 변경하여 input을 리셋
             }}
           >
-            X
+            <img alt="XIcon" src={XIcon} />
           </button>
         </ImgPreview>
       )}
       {fileData && (
-        <FilePreview $backgroundColor="#D4D4D9" $isUser={true}>
-          <>
-            <img src={FileBtnImg} alt="uploaded" />
-            <div>
-              <p>{fileData.fileName}</p>
-              <p>유효기간 : ~ {isoStringToDateString(fileData.dueDate)}</p>
-            </div>
-          </>
+        <FilePreview $isUser={true}>
+          <img src={FileBtnImg} alt="uploaded" />
+          <div>
+            <p>{fileData.fileName}</p>
+            <p>유효기간 : ~ {isoStringToDateString(fileData.dueDate)}</p>
+          </div>
 
           <button
             onClick={() => {
-              setUploadedImage(null);
+              setFileData(null);
               setInputKey((prevKey) => prevKey + 1); // key를 변경하여 input을 리셋
             }}
           >
-            X
+            <img alt="XIcon" src={XIcon} />
           </button>
         </FilePreview>
       )}
@@ -330,9 +358,10 @@ const ChattingPage = () => {
             }}
           />
           <button
-            onClick={(e) => {
+            onClick={() => {
               inputValue !== "" && sendMessageS("TEXT");
               uploadedImage && sendMessageS("IMG");
+              fileData && sendMessageS("FILE");
             }}
           >
             <img className="send" alt="Send button" src={SendBtnImg} />
