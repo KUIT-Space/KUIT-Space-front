@@ -1,15 +1,8 @@
-import TopBarText, { LeftEnum } from "@/components/TopBarText";
-import * as s from "@/pages/PayPage/PayPage.styled";
-import Kookmin from "@/assets/PayPage/test_bank.svg";
-import { BottomBtn } from "@/components/BottomBtn";
 import { useEffect, useState } from "react";
-import CompletePay from "@/pages/PayPage/CompletePay";
-import CompleteCreatePay from "@/pages/PayPage/CompleteCreatePay";
-import CheckBox from "@/components/CheckBox";
-import { Member } from "@/pages/ChatPage/ChatCreatePage/ChatCreatePage.styled";
-import ReactImg from "@/assets/react.svg";
-import { PayChatDiv } from "@/pages/PayPage/CreatePayComponents";
-import SearchIcon from "@/assets/PayPage/search_icon.svg";
+import { ProgressBar } from "react-toastify/dist/components";
+import { UserInfo, userInfo } from "os";
+
+import { chatroomSearchAllApi, SpaceSearchUserProfile, UserProfileResult } from "@/apis";
 import {
   getAllChatMemberApi,
   getAllMemberApi,
@@ -17,12 +10,21 @@ import {
   recentAccountApi,
   targetInfoList,
 } from "@/apis/Pay/PayPageAPI";
-import { SpaceSearchUserProfile, UserProfileResult, chatroomSearchAllApi } from "@/apis";
 import { UserInfoInSpace } from "@/apis/Space/SpaceSearchAllUserApi";
+import SearchIcon from "@/assets/PayPage/search_icon.svg";
+import Kookmin from "@/assets/PayPage/test_bank.svg";
+import ReactImg from "@/assets/react.svg";
+import { BottomBtn } from "@/components/BottomBtn";
+import CheckBox from "@/components/CheckBox";
+import TopBarText, { LeftEnum } from "@/components/TopBarText";
+import { Member } from "@/pages/ChatPage/ChatCreatePage/ChatCreatePage.styled";
+import CompleteCreatePay from "@/pages/PayPage/CompleteCreatePay";
+import CompletePay from "@/pages/PayPage/CompletePay";
+import { PayChatDiv } from "@/pages/PayPage/CreatePayComponents";
+import * as s from "@/pages/PayPage/PayPage.styled";
 import { getUserDefaultImageURL } from "@/utils/getUserDefaultImageURL";
-import { UserInfo, userInfo } from "os";
+
 import { addComma } from "./PayPage";
-import { ProgressBar } from "react-toastify/dist/components";
 
 type payUserInfo = {
   name: number;
@@ -37,12 +39,12 @@ export type ChatUserInfoInSpace = {
 };
 
 export type BankInfo = {
-  bankName: String;
-  bankAccountNum: String;
+  bankName: string;
+  bankAccountNum: string;
 };
 type NextPageType = {
-  nextPage: Function;
-  setAccount?: Function;
+  nextPage: () => void;
+  setAccount?: () => void;
   checkUsers?: Set<number>;
 };
 
@@ -64,7 +66,7 @@ const CreateRequestPage1 = ({
   setAccount,
   setBankName,
 }: {
-  nextPage: Function;
+  nextPage: () => void;
   setAccount: React.Dispatch<React.SetStateAction<string>>;
   setBankName: React.Dispatch<React.SetStateAction<string>>;
 }) => {
@@ -134,8 +136,8 @@ const CreateRequestPage2 = ({
   userInfoData,
   setUserInfoData,
 }: {
-  nextPage: Function;
-  forceRefresh: Function;
+  nextPage: () => void;
+  forceRefresh: (arg: number) => void;
   setCheckUsers: React.Dispatch<React.SetStateAction<Set<number>>>;
   checkUsers: Set<number>;
   userInfoData: UserInfoInSpace[] | undefined;
@@ -269,7 +271,7 @@ const CreateRequestPage3 = ({
   checkUsers,
   setTotalPrice,
 }: {
-  nextPage: Function;
+  nextPage: () => void;
   checkUsers: Set<number>;
   setTotalPrice: React.Dispatch<React.SetStateAction<number>>;
 }) => {
@@ -316,10 +318,10 @@ const CreateRequestPage3 = ({
     console.log(idToPrice);
   };
   useEffect(() => {
-    let _tempArr: UserProfileResult[] = [];
+    const _tempArr: UserProfileResult[] = [];
     if (checkUsers !== undefined) {
       if (checkUsers?.size > 0) {
-        for (let value of checkUsers) {
+        for (const value of checkUsers) {
           const response = SpaceSearchUserProfile(3, value).then((res) => {
             if (res?.result !== undefined) {
               const _tempObj = res.result;
@@ -439,6 +441,7 @@ const CreateRequestPage3 = ({
     </>
   );
 };
+
 const CreateRequestPage4 = ({
   nextPage,
   userInfoData,
@@ -446,7 +449,7 @@ const CreateRequestPage4 = ({
   array,
   setArray,
 }: {
-  nextPage: Function;
+  nextPage: () => void;
   userInfoData: UserInfoInSpace[] | undefined;
   totalPrice: number;
   array: targetInfoList[];
@@ -494,6 +497,7 @@ const CreateRequestPage4 = ({
     </>
   );
 };
+
 const CreateRequestPage = () => {
   const [page, setPage] = useState(0);
   const [refresh, setRefresh] = useState(0);
@@ -509,7 +513,7 @@ const CreateRequestPage = () => {
     setRefresh(refresh + 1);
   };
   const nextPage = () => {
-    setPage(page + 1);
+    setPage((prev) => prev + 1);
   };
   const resetPage = () => {
     //일단 만들어 둠
@@ -517,12 +521,14 @@ const CreateRequestPage = () => {
   };
 
   useEffect(() => {
+    console.log("page: ", page);
     if (page === 4) {
       payCreateApi(totalPrice, bankName, bankAccount, array, 3).then(() => {
         setIsComplete(true);
       });
     }
   }, [page]);
+
   switch (page) {
     case 0:
       return (
