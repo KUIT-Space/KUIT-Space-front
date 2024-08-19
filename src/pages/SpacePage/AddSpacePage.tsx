@@ -69,10 +69,6 @@ const AddSpacePage = () => {
     }
   };
 
-  const handleNavigate = (path: To) => {
-    navigate(path);
-  };
-
   const handleCreateSpace = () => {
     createSpaceApi(spacename, spaceImg).then((data) => {
       navigate(`/space/${data?.result.spaceId}`);
