@@ -33,6 +33,7 @@ export const ChatContainer = styled.div`
   }
 
   .chat--container {
+    position: relative;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
@@ -77,6 +78,7 @@ export const ChatContainer = styled.div`
 
   .chat-btn-detail {
     max-width: 13.5rem;
+    max-height: 4.125rem;
     color: var(--Foundation-Gray-gray300, var(--GRAY-300, #d4d4d9));
 
     /* text/Regular 14pt */
@@ -85,6 +87,14 @@ export const ChatContainer = styled.div`
     font-weight: 400;
     line-height: 140%; /* 19.6px */
     letter-spacing: 0.035rem;
+
+    img {
+      width: auto;
+      height: 100%;
+      position: absolute;
+      right: 4rem;
+      top: 0;
+    }
   }
 
   .chat-btn-chatNum {
