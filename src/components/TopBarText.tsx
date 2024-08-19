@@ -37,8 +37,9 @@ const TopBarText: FC<topbarProps> = ({
             onClick={() => {
               if (logoHandler) {
                 logoHandler();
+              } else {
+                navigate("/");
               }
-              navigate("/");
             }}
           >
             <img src={logo}></img>
@@ -63,8 +64,9 @@ const TopBarText: FC<topbarProps> = ({
             onClick={() => {
               if (backHandler) {
                 backHandler();
+              } else {
+                navigate(-1);
               }
-              navigate(-1);
             }}
           >
             <img src={back}></img>
