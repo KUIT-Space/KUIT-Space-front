@@ -228,3 +228,52 @@ export const ImgPreview = styled.div`
     border-radius: 0.5rem;
   }
 `;
+
+export const FilePreview = styled.div<{ $backgroundColor?: string; $isUser: boolean }>`
+  position: relative;
+  display: flex;
+  height: 4.25rem;
+  padding: 0.75rem;
+  gap: 0.75rem;
+
+  width: 40%;
+  margin: 0 2.5rem 0.5rem auto;
+  border-radius: 0.5rem;
+
+  background-color: ${({ $backgroundColor }) => $backgroundColor ?? $backgroundColor};
+
+  img {
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+
+  button {
+    position: absolute;
+    top: 0.3rem;
+    right: 0.3rem;
+    background-color: ${({ theme }) => theme.colors.darker};
+    padding: 0.1rem 0.3rem;
+    border-radius: 0.5rem;
+  }
+
+  div > p:first-child {
+    color: #000;
+
+    /* text/Medium 16pt */
+    font-family: Freesentation;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 1.5rem;
+    letter-spacing: 0.025rem;
+  }
+
+  div > p:nth-child(2) {
+    color: var(--Foundation-Gray-gray500, #767681);
+    font-family: Freesentation;
+    font-size: 0.8rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 140%; /* 1.225rem */
+  }
+`;

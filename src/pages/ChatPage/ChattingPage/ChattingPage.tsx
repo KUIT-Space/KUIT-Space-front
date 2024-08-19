@@ -27,11 +27,13 @@ import {
   ChattingContainer,
   ChattingFooter,
   ChattingTextarea,
+  FilePreview,
   ImgPreview,
   StyledMessage,
 } from "@/pages/ChatPage/ChattingPage/ChattingPage.styled";
 import { decodedJWT } from "@/utils/decodedJWT";
 import { getUserDefaultImageURL } from "@/utils/getUserDefaultImageURL";
+import { isoStringToDateString } from "@/utils/isoStringToDateString";
 
 const MAX_FILE_SIZE_MB = 2; // 최대 파일 크기 (메가바이트 단위)
 const MAX_FILE_SIZE = MAX_FILE_SIZE_MB * 1024 * 1024; // 바이트
@@ -202,13 +204,13 @@ const ChattingPage = () => {
     // console.log(e.target.files);
     const file = e.target.files?.[0];
 
-    console.log("file", file?.type);
     if (file) {
       // 파일 크기 검사
       if (file.size > MAX_FILE_SIZE) {
         alert(`파일 크기가 ${MAX_FILE_SIZE_MB}MB를 초과합니다.`);
         return;
       }
+      console.log("file", file?.type);
 
       const reader = new FileReader();
 
@@ -286,6 +288,26 @@ const ChattingPage = () => {
           </button>
         </ImgPreview>
       )}
+      {fileData && (
+        <FilePreview $backgroundColor="#D4D4D9" $isUser={true}>
+          <>
+            <img src={FileBtnImg} alt="uploaded" />
+            <div>
+              <p>{fileData.fileName}</p>
+              <p>유효기간 : ~ {isoStringToDateString(fileData.dueDate)}</p>
+            </div>
+          </>
+
+          <button
+            onClick={() => {
+              setUploadedImage(null);
+              setInputKey((prevKey) => prevKey + 1); // key를 변경하여 input을 리셋
+            }}
+          >
+            X
+          </button>
+        </FilePreview>
+      )}
 
       <ChattingFooter $onMenu={onMenu}>
         <div className="chatting-input">
@@ -338,7 +360,6 @@ const ChattingPage = () => {
               <input
                 key={inputKey}
                 type="file"
-                accept="/*"
                 onChange={handleFileImport}
                 style={{ display: "none" }}
               />
