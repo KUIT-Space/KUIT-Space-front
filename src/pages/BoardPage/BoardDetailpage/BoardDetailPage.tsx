@@ -4,6 +4,7 @@ import styled from "styled-components";
 
 import {
   BoardPostDetail,
+  createPostCommentApi,
   getPostCommentApi,
   getPostDetailApi,
 } from "@/apis/Board/BoardPostDetailApi";
@@ -12,6 +13,7 @@ import comment from "@/assets/Board/comment.svg";
 import heartLiked from "@/assets/Board/heart_liked.svg";
 import heartUnliked from "@/assets/Board/heart_unliked.svg";
 import share from "@/assets/Board/share.svg";
+import send from "@/assets/ChatPage/btn_send.svg";
 import TopBarText, { LeftEnum } from "@/components/TopBarText";
 import BoardDetailComment from "@/pages/BoardPage/BoardDetailpage/BoardDetailComment";
 
@@ -59,6 +61,10 @@ const BoardPostDetailContainer = styled.div`
       }
     }
   }
+`;
+
+const BoardPostDetailCommentContainer = styled.div`
+  margin-bottom: 3rem;
 `;
 
 const BoardPostDetailContent = styled.section`
@@ -161,10 +167,44 @@ const BoardPostCommentEmpty = styled.div`
   letter-spacing: 0.04rem;
 `;
 
+const BoardDetailInputContainer = styled.div`
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  gap: 0.5rem;
+`;
+
+const BoardDetailInput = styled.input`
+  width: 100%;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 1.25rem;
+  background: var(--Foundation-Gray-gray800, #222226);
+
+  color: var(--Foundation-Gray-gray500, #767681);
+  /* text/Regular 14pt */
+  font-family: Freesentation;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 140%; /* 19.6px */
+  letter-spacing: 0.56px;
+
+  &:focus {
+    outline: none;
+    color: var(--WHITE, #fff);
+  }
+`;
+
 const BoardDetailPage = () => {
   const { id } = useParams();
   const [postsData, setPostsData] = useState<BoardPostDetail>();
   const [commentsData, setCommentsData] = useState<BoardPostDetail[]>([]);
+  const [commentValue, setCommentValue] = useState<string>("");
+  const [newCommentCount, setNewCommentCount] = useState<number>(0);
 
   const [isLikeNew, setIsLikeNew] = useState<boolean>(postsData !== undefined && postsData.like);
   const [likeCountNew, setLikeCountNew] = useState<number>(postsData ? postsData.likeCount : 0);
@@ -198,7 +238,7 @@ const BoardDetailPage = () => {
         })
         .catch((err) => console.log(err));
     }
-  }, []);
+  }, [newCommentCount]);
 
   const handleLike = () => {
     if (spaceId !== null && postsData !== undefined) {
@@ -226,6 +266,22 @@ const BoardDetailPage = () => {
             console.error(err);
           });
       }
+    }
+  };
+
+  const handleRegisterComment = () => {
+    console.log(commentValue);
+    if (spaceId !== null && postsData !== undefined) {
+      createPostCommentApi(Number.parseInt(spaceId), postsData?.postId, commentValue)
+        .then((res) => {
+          if (res !== null) {
+            console.log("등록된 commentID: ", res.result.commentId);
+            setNewCommentCount((prev) => prev + 1);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   };
 
@@ -278,8 +334,8 @@ const BoardDetailPage = () => {
           <img src={share} alt="공유하기" />
         </BoardPostDetailFooter>
       </BoardPostDetailContainer>
-      <div>
-        {commentsData ? (
+      <BoardPostDetailCommentContainer>
+        {commentsData.length !== 0 ? (
           commentsData.map((d: BoardPostDetail, i: number) => {
             return (
               <div key={i + d.title}>
@@ -301,7 +357,14 @@ const BoardDetailPage = () => {
             <br />첫 댓글을 남겨보세요.
           </BoardPostCommentEmpty>
         )}
-      </div>
+      </BoardPostDetailCommentContainer>
+      <BoardDetailInputContainer>
+        <BoardDetailInput
+          placeholder="댓글을 입력하세요."
+          onChange={(e) => setCommentValue(e.target.value)}
+        ></BoardDetailInput>
+        <img src={send} onClick={handleRegisterComment} />
+      </BoardDetailInputContainer>
     </>
   );
 };
