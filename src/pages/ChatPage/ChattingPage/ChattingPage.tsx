@@ -8,6 +8,7 @@ import {
   ChatPay,
   ChatPost,
   Chatroom,
+  ChatroomLeave,
   ChatSendRequestFrame,
   ChatText,
   SocketConnect,
@@ -78,8 +79,11 @@ const ChattingPage = () => {
     });
 
     SocketConnect(stompClient, param.id || "", handleChatMessage);
-    return () => SocketDisconnect(stompClient);
-  }, [param.id, spaceId]);
+    return () => {
+      SocketDisconnect(stompClient);
+      ChatroomLeave(chatroomInfo.id).then((res) => console.log(res)); //사용자 채팅방 떠남 알려주기 (unsubscribe..?)
+    };
+  }, [param.id, spaceId, chatroomInfo.id]);
 
   //
   //

@@ -3,14 +3,14 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 import StopModal from "@/components/StopModal";
 
-export const LoginModal = () => {
+export const LoginModal = ({ exceptionRouters }: { exceptionRouters: string[] }) => {
   const navigate = useNavigate();
   const location = useLocation(); // 현재 경로를 가져옴
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    if (location.pathname === "/login") {
+    if (exceptionRouters.includes(location.pathname)) {
       return;
     }
 

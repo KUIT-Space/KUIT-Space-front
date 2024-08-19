@@ -41,7 +41,7 @@ const LoginPage = () => {
   const handleLogin = async () => {
     if (!isButtonActive) return;
     loginApi(email, password).then((res) =>
-      res.status === "OK" ? navigate("/") : alert("login error: " + res.message),
+      res.status === "OK" ? navigate("/space") : alert("login error: " + res.message),
     );
   };
 
