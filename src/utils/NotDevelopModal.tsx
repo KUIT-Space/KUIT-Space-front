@@ -7,7 +7,7 @@ interface ModalType {
   content?: string[];
 }
 
-export const NotDevelopModal = ({ title, content }: ModalType) => {
+export const NotDevelopModal = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (

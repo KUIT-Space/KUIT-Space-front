@@ -1,10 +1,12 @@
-import TopBarText, { LeftEnum } from "@/components/TopBarText";
-import { To, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import right_arrow from "@/assets/Space/icon_right_arrow.svg";
+import { To, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+
+import right_arrow from "@/assets/Space/icon_right_arrow.svg";
 import StopModal from "@/components/StopModal";
 import * as S from "@/components/StopModal.styled";
+import TopBarText, { LeftEnum } from "@/components/TopBarText";
+import NotDevelopModal from "@/utils/NotDevelopModal";
 
 const Account = styled.div`
   display: flex;
@@ -82,12 +84,18 @@ const SpaceOption = () => {
   return (
     <div>
       <TopBarText left={LeftEnum.Back} center="전체 설정" right="" />
-      <div style={{ margin: "0rem 1.25rem 0rem 1.25rem" }}>
+      <div style={{ margin: "0rem 1.25rem 0rem 1.25rem", cursor: "pointer" }}>
         <Account onClick={() => handleNavigate("/space/spaceoption/accountmanage")}>
           계정 정보
           <img style={{ display: "absolute", right: "0" }} src={right_arrow} alt="right_arrow" />
         </Account>
-        <Profile onClick={() => handleNavigate("/space/spaceoption/profilemanage")}>
+        <Profile
+          onClick={() => {
+            // NotDevelopModal();
+            //TODO: 개발
+            //handleNavigate("/space/spaceoption/profilemanage");
+          }}
+        >
           프로필 관리
           <img style={{ display: "absolute", right: "0" }} src={right_arrow} alt="right_arrow" />
         </Profile>

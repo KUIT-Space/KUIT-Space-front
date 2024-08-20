@@ -41,6 +41,9 @@ const GridItem = styled.div`
   .space-image {
     width: 100%;
     height: 100%;
+    border-radius: 0.75rem;
+    max-width: 13.75rem;
+    max-height: 13.75rem;
   }
 
   .spaceId {
