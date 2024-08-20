@@ -10,7 +10,12 @@ const KakaoRedirection = () => {
     const code = new URL(document.location.toString()).searchParams.get("code");
     kakaoLoginApi(code ?? "").then((res) => {
       console.log(res);
-      navigate("/");
+      if (res.status === "OK") {
+        navigate("/space");
+      } else {
+        alert("login 실패! : " + res.message);
+        navigate("/login");
+      }
     });
   }, [navigate]);
 
