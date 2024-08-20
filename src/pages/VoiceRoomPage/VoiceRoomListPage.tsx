@@ -80,7 +80,11 @@ const VoiceRoomListPage = () => {
   }, []);
 
   useEffect(() => {
-    filterVrList();
+    if (vrList?.length !== 0) {
+      filterVrList();
+    } else {
+      setIsLoading(false);
+    }
   }, [vrList]);
 
   useEffect(() => {

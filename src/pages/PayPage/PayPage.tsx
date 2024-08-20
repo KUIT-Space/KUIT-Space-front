@@ -43,7 +43,7 @@ export type payTargetInfoDtoList = {
   targetUserName: string;
   targetUserProfileImg: string;
   requestAmount: number;
-  isComplete: boolean;
+  complete: boolean;
 };
 const PayRequestInfo = ({ data }: { data: PayRequestInfo }) => {
   const res: number = data.totalTargetNum - data.receiveTargetNum;
@@ -79,8 +79,7 @@ const PayPage = () => {
     // RequestPayInfo(setReqData, setRecData);
   }, [reqData]);
   useEffect(() => {
-    // const str = localStorage.getItem("SpaceId");
-    const str = "3";
+    const str = localStorage.getItem("spaceId");
 
     if (str !== null) {
       const SpaceID = Number.parseInt(str);
