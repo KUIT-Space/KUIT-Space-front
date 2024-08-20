@@ -6,9 +6,10 @@ import AddMemberImg from "@/assets/ChatPage/btn_add_member.svg";
 import TopBarText, { LeftEnum } from "@/components/TopBarText";
 import { Member, MemberContainer } from "@/pages/ChatPage/ChatCreatePage/ChatCreatePage.styled";
 import { getUserDefaultImageURL } from "@/utils/getUserDefaultImageURL";
+import * as s from "@/pages/HomePage/HomePage.styled";
+import { ToastContainer, toast } from "react-toastify";
 
 const HomePageMemberPage = () => {
-  const { id } = useParams();
   const navigate = useNavigate();
 
   const [userList, setUserList] = useState<User[]>([]);
@@ -23,6 +24,23 @@ const HomePageMemberPage = () => {
     });
   }, []);
 
+  const clickInviteHandler = async () => {
+    const spaceId = localStorage.getItem("spaceId");
+    await navigator.clipboard
+      .writeText(`${window.location.origin}/KUIT-Space-front/invite/${spaceId}`)
+      .then(() => {
+        toast.success("클립보드에 초대링크가 복사되었습니다!", {
+          position: "bottom-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+      });
+  };
   return (
     <>
       <TopBarText
@@ -45,7 +63,13 @@ const HomePageMemberPage = () => {
 
       <MemberContainer>
         {/* //TODO: 자신이 관리자일 때만 뜨는 뷰 */}
-
+        <s.RowFlexDiv
+          onClick={clickInviteHandler}
+          style={{ alignItems: "center", padding: "1rem 0rem 1rem 0rem", cursor: "pointer" }}
+        >
+          <img src={AddMemberImg} width={"40px"} height={"40px"}></img>
+          <div style={{ marginLeft: "1rem" }}>스페이스에 초대하기</div>
+        </s.RowFlexDiv>
         {userList.map((member, index) => (
           <Member
             key={member.userId}
@@ -62,6 +86,19 @@ const HomePageMemberPage = () => {
           </Member>
         ))}
       </MemberContainer>
+      <ToastContainer
+        style={{ width: "50%", left: "50%", transform: "translateX(-50%)" }}
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
     </>
   );
 };

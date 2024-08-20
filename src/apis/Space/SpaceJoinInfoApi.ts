@@ -1,6 +1,6 @@
 import { createRequestOptionsJSON_AUTH, fetchApi } from "@/apis/_createRequestOptions";
 
-interface SpaceJoinInfo {
+export interface SpaceJoinInfo {
   spaceProfileImg: string | null; // 스페이스 썸네일 이미지 url
   spaceName: string; // 스페이스 이름
   createdAt: string; // 스페이스 개설일 (yyyy년 mm월 dd일 형식)
