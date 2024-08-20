@@ -42,7 +42,7 @@ const TopBarText: FC<topbarProps> = ({
               }
             }}
           >
-            <img src={logo}></img>
+            <img src={logo} alt="logo"></img>
           </sty.StyledLeftDiv>
           <sty.StyledCenterDiv>{center}</sty.StyledCenterDiv>
           <sty.StyledRightDiv
@@ -69,7 +69,7 @@ const TopBarText: FC<topbarProps> = ({
               }
             }}
           >
-            <img src={back}></img>
+            <img src={back} alt="back"></img>
           </sty.StyledLeftDiv>
           <sty.StyledCenterDiv>
             <sty.StyledCenterP>{center}</sty.StyledCenterP>

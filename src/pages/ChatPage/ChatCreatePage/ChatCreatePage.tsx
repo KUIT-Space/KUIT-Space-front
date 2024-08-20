@@ -142,7 +142,10 @@ const ChatCreatePage = () => {
                 }}
               >
                 <section>
-                  <img src={member.profileImgUrl ?? getUserDefaultImageURL(member.userId)} />
+                  <img
+                    src={member.profileImgUrl ?? getUserDefaultImageURL(member.userId)}
+                    alt="member profile"
+                  />
                   <span className="name">{member.userName}</span>
                   {member.userAuth === "manager" && <span className="admin">관리자</span>}
                 </section>

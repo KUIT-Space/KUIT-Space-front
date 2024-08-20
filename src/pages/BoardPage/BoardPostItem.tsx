@@ -216,7 +216,12 @@ const BoardPostItem = ({
         <div className="board-post-item-content-img-container">
           {thumbnail &&
             thumbnail.map((img, i) => (
-              <img key={img + i} src={img} className="board-post-item-content-img" />
+              <img
+                key={img + i}
+                src={img}
+                className="board-post-item-content-img"
+                alt="board post item content img"
+              />
             ))}
         </div>
       </BoardPostItemContent>

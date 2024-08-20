@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
 
-import { Chatroom, ChatroomSearchAllUserApi, User, spaceSearchAllUserApi } from "@/apis";
+import { Chatroom, ChatroomSearchAllUserApi, spaceSearchAllUserApi, User } from "@/apis";
 import AddMemberImg from "@/assets/ChatPage/btn_add_member.svg";
 import TopBarText, { LeftEnum } from "@/components/TopBarText";
 import { Member, MemberContainer } from "@/pages/ChatPage/ChatCreatePage/ChatCreatePage.styled";
-import { getUserDefaultImageURL } from "@/utils/getUserDefaultImageURL";
 import * as s from "@/pages/HomePage/HomePage.styled";
-import { ToastContainer, toast } from "react-toastify";
+import { getUserDefaultImageURL } from "@/utils/getUserDefaultImageURL";
 
 const HomePageMemberPage = () => {
   const navigate = useNavigate();
@@ -67,7 +67,7 @@ const HomePageMemberPage = () => {
           onClick={clickInviteHandler}
           style={{ alignItems: "center", padding: "1rem 0rem 1rem 0rem", cursor: "pointer" }}
         >
-          <img src={AddMemberImg} width={"40px"} height={"40px"}></img>
+          <img src={AddMemberImg} width={"40px"} height={"40px"} alt="add member" />
           <div style={{ marginLeft: "1rem" }}>스페이스에 초대하기</div>
         </s.RowFlexDiv>
         {userList.map((member, index) => (

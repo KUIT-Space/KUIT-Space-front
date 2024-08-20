@@ -1,14 +1,15 @@
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
+import { payCompleteApi, payDetailApi, payHomeApi } from "@/apis/Pay/PayPageAPI";
+import right from "@/assets/PayPage/arrow_right.svg";
 import TopBarText, { LeftEnum } from "@/components/TopBarText";
 import { GradientBtn } from "@/pages/PayPage/GradientBtn";
-import right from "@/assets/PayPage/arrow_right.svg";
 import * as s from "@/pages/PayPage/PayPage.styled";
-import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { payCompleteApi, payDetailApi, payHomeApi } from "@/apis/Pay/PayPageAPI";
 
 export const addComma = (price: number) => {
-  let returnString = price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  const returnString = price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   return returnString;
 };
 
@@ -108,8 +109,8 @@ const PayPage = () => {
         >
           <s.TitleDiv>
             <s.TitleContentDiv>요청한 정산</s.TitleContentDiv>
-            <img src={right}></img>
-            {/* <img src={right} onClick={navigator("요청정산페이지")}></img> */}
+            <img src={right} alt="right" />
+            {/* <img src={right} onClick={navigator("요청정산페이지")} alt="right" /> */}
           </s.TitleDiv>
           {reqData?.length == 0 ? (
             <s.NoAlertDiv>요청한 정산이 없어요!</s.NoAlertDiv>
@@ -129,8 +130,8 @@ const PayPage = () => {
         >
           <s.TitleDiv>
             <s.TitleContentDiv>요청받은 정산</s.TitleContentDiv>
-            <img src={right}></img>
-            {/* <img src={right} onClick={navigator("요청받은정산페이지")}></img> */}
+            <img src={right} alt="right" />
+            {/* <img src={right} onClick={navigator("요청받은정산페이지")} /> */}
           </s.TitleDiv>
           <div>
             {recData?.length == 0 ? (

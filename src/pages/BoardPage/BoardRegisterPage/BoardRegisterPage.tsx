@@ -203,6 +203,7 @@ const BoardRegisterPage = () => {
                 className="board-register-selected-image"
                 key={i + image.name}
                 src={URL.createObjectURL(image)}
+                alt="board register selected image"
               />
             );
           })}
@@ -216,9 +217,9 @@ const BoardRegisterPage = () => {
           onChange={handleImageImport}
           style={{ display: "none" }}
         />
-        <img src={camera} />
+        <img src={camera} alt="camera" />
         <img src={gallery} onClick={() => inputImgRef.current?.click()} />
-        <img src={link} />
+        <img src={link} alt="link" />
       </BoardRegisterFooter>
     </>
   );

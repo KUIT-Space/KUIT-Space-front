@@ -1,15 +1,16 @@
-import * as s from "@/pages/PayPage/PayPage.styled";
-import { NormalBtn } from "@/pages/PayPage/NormalBtn";
-import reactIcon from "@/assets/react.svg";
 import { useEffect, useState } from "react";
-import { DarkNormalBtn } from "@/pages/PayPage/DarkNormalBtn";
+import { toast, ToastContainer } from "react-toastify";
 
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { PayReceiveInfo, addComma } from "@/pages/PayPage/PayPage";
-import { GradientBtn } from "@/pages/PayPage/GradientBtn";
-import check from "@/assets/PayPage/check.svg";
 import { payCompleteApi } from "@/apis/Pay/PayPageAPI";
+import check from "@/assets/PayPage/check.svg";
+import reactIcon from "@/assets/react.svg";
+import { DarkNormalBtn } from "@/pages/PayPage/DarkNormalBtn";
+import { GradientBtn } from "@/pages/PayPage/GradientBtn";
+import { NormalBtn } from "@/pages/PayPage/NormalBtn";
+import { addComma, PayReceiveInfo } from "@/pages/PayPage/PayPage";
+import * as s from "@/pages/PayPage/PayPage.styled";
+
+import "react-toastify/dist/ReactToastify.css";
 
 const ReqDataDiv = ({ data }: { data: PayReceiveInfo }) => {
   const spaceID = 3;
@@ -78,7 +79,7 @@ const ReqDataDiv = ({ data }: { data: PayReceiveInfo }) => {
             style={{ flexGrow: 1, display: "flex", alignItems: "center", justifyContent: "center" }}
           >
             송금완료
-            <img width={"28px"} height={"28px"} src={check}></img>
+            <img width={"28px"} height={"28px"} src={check} alt="check" />
           </DarkNormalBtn>
         );
     }
@@ -86,7 +87,13 @@ const ReqDataDiv = ({ data }: { data: PayReceiveInfo }) => {
   return (
     <s.RoundDiv style={{ marginBottom: "2.75rem" }}>
       <s.RowFlexDiv style={{ alignItems: "center" }}>
-        <img src={reactIcon} width={"40px"} height={"40px"} style={{ marginRight: "10px" }}></img>
+        <img
+          src={reactIcon}
+          width={"40px"}
+          height={"40px"}
+          style={{ marginRight: "10px" }}
+          alt="reaction"
+        />
         <s.TextDiv style={{ color: "white" }}>{data.payCreatorName}</s.TextDiv>
         <s.NowPriceDiv style={{ position: "absolute", right: 0, transform: "translate(-60%,0%)" }}>
           {price}원

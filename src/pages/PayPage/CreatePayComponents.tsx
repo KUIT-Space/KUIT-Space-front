@@ -19,6 +19,7 @@ const PayChatMemberDiv = ({ info }: { info: UserInfoInSpace }) => {
       <img
         style={{ width: "2.5rem", height: "2.5rem", marginLeft: "1.875rem" }}
         src={info.profileImgUrl ?? getUserDefaultImageURL(info.userId)}
+        alt="profile"
       />
       <span className="name" style={{ marginLeft: "0.75rem" }}>
         {info.userName}
@@ -37,7 +38,7 @@ export const PayChatDiv = ({ info }: { info: ChatUserInfoInSpace }) => {
     <s.ColumnFlexDiv>
       <Member>
         <section>
-          <img src={info.imgUrl} />
+          <img src={info.imgUrl} alt="info img" />
           <span className="name">{info.chatRoomName}</span>
           <s.CountText className="count">{info.userList?.length}</s.CountText>
         </section>

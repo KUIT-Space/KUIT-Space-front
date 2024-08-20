@@ -67,7 +67,7 @@ const BoardBottomModal = ({ selectedOption, onSelect, isOpen, onClose }: BoardBo
               onClick={() => onSelect(i)}
             >
               {option.value}
-              {isSelcted && <img src={checkModal} />}
+              {isSelcted && <img src={checkModal} alt="checkModal" />}
             </BoardBottomModalItem>
           );
         })}

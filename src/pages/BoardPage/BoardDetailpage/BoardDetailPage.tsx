@@ -314,6 +314,7 @@ const BoardDetailPage = () => {
                     key={i + postsData?.title + "img"}
                     src={img}
                     className="board-post-detail-content-img"
+                    alt="board post detail content img"
                   />
                 );
               })}
@@ -360,7 +361,7 @@ const BoardDetailPage = () => {
           placeholder="댓글을 입력하세요."
           onChange={(e) => setCommentValue(e.target.value)}
         ></BoardDetailInput>
-        <img src={send} onClick={handleRegisterComment} />
+        <img src={send} onClick={handleRegisterComment} alt="send" />
       </BoardDetailInputContainer>
     </>
   );

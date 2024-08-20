@@ -1,17 +1,17 @@
-import BigRoundDiv from "@/components/BigRoundDiv";
-import TopBarText, { LeftEnum } from "@/components/TopBarText";
-import * as s from "@/pages/VoiceRoomPage/JoinVoiceRoom.styled";
-import redo from "@/assets/icon_redo.svg";
-
-//임시로 적용하는 프로필 이미지
-import { BottomBtn } from "@/components/BottomBtn";
-import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import VoiceRoomPage from "@/pages/VoiceRoomPage/VoiceRoomPage";
-import { VrList } from "@/pages/VoiceRoomPage/VoiceRoomListPage";
-import { VrTokenApi } from "@/apis/voiceroomApi";
+import { useLocation, useNavigate } from "react-router-dom";
+
 import { GetUserProfileApi } from "@/apis/GetUserProfileApi";
 import { UserProfile } from "@/apis/GetUserProfileApi";
+import { VrTokenApi } from "@/apis/voiceroomApi";
+import redo from "@/assets/icon_redo.svg";
+import BigRoundDiv from "@/components/BigRoundDiv";
+//임시로 적용하는 프로필 이미지
+import { BottomBtn } from "@/components/BottomBtn";
+import TopBarText, { LeftEnum } from "@/components/TopBarText";
+import * as s from "@/pages/VoiceRoomPage/JoinVoiceRoom.styled";
+import { VrList } from "@/pages/VoiceRoomPage/VoiceRoomListPage";
+import VoiceRoomPage from "@/pages/VoiceRoomPage/VoiceRoomPage";
 import { getUserDefaultImageURL } from "@/utils/getUserDefaultImageURL";
 
 const JoinVoiceRoomPage = () => {
@@ -53,7 +53,7 @@ const JoinVoiceRoomPage = () => {
       GetUserProfileApi().then((data) => {
         console.log(data);
         //
-        let _temp: UserProfile | undefined = data?.result.userProfileList.find((e) => {
+        const _temp: UserProfile | undefined = data?.result.userProfileList.find((e) => {
           return e.spaceId === Number.parseInt(spaceId);
         });
         if (_temp !== undefined) {
@@ -83,7 +83,10 @@ const JoinVoiceRoomPage = () => {
             </s.InnerDiv>
 
             <s.ProfileDiv>
-              <img src={userImg !== null ? userImg : getUserDefaultImageURL(userId!)}></img>
+              <img
+                src={userImg !== null ? userImg : getUserDefaultImageURL(userId!)}
+                alt="user img"
+              />
             </s.ProfileDiv>
             <div>{userName}</div>
             <BottomBtn

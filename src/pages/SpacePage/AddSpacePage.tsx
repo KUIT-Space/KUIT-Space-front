@@ -1,11 +1,12 @@
-import TopBarText, { LeftEnum } from "@/components/TopBarText";
 import { ChangeEvent, useState } from "react";
+import { To, useNavigate } from "react-router-dom";
+import styled from "styled-components";
+
+import { createSpaceApi } from "@/apis";
+import camera from "@/assets/Space/icon_camera.svg";
 import { BottomBtn } from "@/components/BottomBtn";
 import { Input } from "@/components/Input";
-import styled from "styled-components";
-import camera from "@/assets/Space/icon_camera.svg";
-import { To, useNavigate } from "react-router-dom";
-import { createSpaceApi } from "@/apis";
+import TopBarText, { LeftEnum } from "@/components/TopBarText";
 
 const ImgContainer = styled.div`
   display: flex;
@@ -89,7 +90,7 @@ const AddSpacePage = () => {
       <div style={{ margin: "0rem 1.25rem 0rem 1.25rem" }}>
         <ImgContainer>
           <ChooseImgBtn $backgroundImage={spaceImg !== null ? URL.createObjectURL(spaceImg) : null}>
-            <img src={camera} />
+            <img src={camera} alt="camera" />
             <input type="file" accept="image/*" onChange={handleImageImport} />
           </ChooseImgBtn>
         </ImgContainer>
