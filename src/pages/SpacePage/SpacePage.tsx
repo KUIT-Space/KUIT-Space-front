@@ -128,7 +128,7 @@ const SpacePage = () => {
 
   useEffect(() => {
     //TODO : 임시로 초대받은 스페이스를 배열에 추가 (ex. spaceId: 3, 6, 9)
-    const tempInviteSpace = [3, 6, 9, 11];
+    const tempInviteSpace = [3, 202];
     Promise.all(
       tempInviteSpace.map(async (spaceId) => {
         let spaceInfo: SpaceInfo = {
