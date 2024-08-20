@@ -23,14 +23,9 @@ import {
 } from "@livekit/components-react";
 import "@livekit/components-styles";
 import { Room, Track } from "livekit-client";
+import { sleep } from "livekit-client/dist/src/room/utils";
 
-const VoiceRoomPage = ({
-  VoiceRoomName,
-  setJoin,
-}: {
-  VoiceRoomName: string;
-  setJoin: React.Dispatch<React.SetStateAction<boolean>>;
-}) => {
+const SpecialVoiceRoom = () => {
   const navigate = useNavigate();
   const [room] = useState(new Room());
   const [token, setToken] = useState<string | undefined>("");
@@ -53,22 +48,7 @@ const VoiceRoomPage = ({
     }
   }, []);
   return (
-    <div>
-      <sty.StyledTopBarDiv>
-        <sty.StyledLeftDiv
-          onClick={() => {
-            setJoin(false);
-          }}
-        >
-          <img src={back}></img>
-        </sty.StyledLeftDiv>
-        <sty.StyledCenterDiv>
-          <sty.StyledCenterP>{VoiceRoomName}</sty.StyledCenterP>
-        </sty.StyledCenterDiv>
-        <sty.StyledRightDiv>
-          <img src={setting} />
-        </sty.StyledRightDiv>
-      </sty.StyledTopBarDiv>
+    <>
       <LiveKitRoom
         video={true}
         audio={true}
@@ -85,38 +65,40 @@ const VoiceRoomPage = ({
         <RoomAudioRenderer />
 
         {isConnected && <MyVideoConference />}
-        <ControlBar />
         {/* Controls for the user to start/stop audio, video, and screen
       share tracks and to leave the room. */}
       </LiveKitRoom>
-    </div>
+    </>
   );
 };
 function MyVideoConference() {
   // `useTracks` returns all camera and screen share tracks. If a user
   // joins without a published camera track, a placeholder track is returned.
-  const [mode, setMode] = useState(true);
-  const navigator = useNavigate();
 
-  const nextMode = () => {
-    navigator("/specialvoiceroom");
-  };
-  useEffect(() => {
-    // let track2 = tracks.find((trackRef) => trackRef.source === "screen_share");
-  }, [mode]);
   const tracks = useTracks(
     [
-      { source: Track.Source.Camera, withPlaceholder: true },
+      { source: Track.Source.Camera, withPlaceholder: false },
       { source: Track.Source.ScreenShare, withPlaceholder: false },
     ],
     { onlySubscribed: false },
   );
-  return (
-    <GridLayout tracks={tracks} style={{ height: "90vh" }}>
+  const track2 = tracks.find((trackRef) => trackRef.source === "screen_share");
+  return track2 ? (
+    <CarouselLayout
+      tracks={[track2]}
+      style={{ width: "100vw", height: "100vh", marginLeft: " calc(-50vw + 50%)" }}
+    >
       {/* The GridLayout accepts zero or one child. The child is used
       as a template to render all passed in tracks. */}
-      <ParticipantTile onPaste={nextMode}></ParticipantTile>
-    </GridLayout>
+      <ParticipantTile
+        style={{ width: "100vw", height: "100vh", marginLeft: " calc(-50vw + 50%)" }}
+        onClick={(e) => {
+          nextMode();
+        }}
+      ></ParticipantTile>
+    </CarouselLayout>
+  ) : (
+    <></>
   );
 }
-export default VoiceRoomPage;
+export default SpecialVoiceRoom;
