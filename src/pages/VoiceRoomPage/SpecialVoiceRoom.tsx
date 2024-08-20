@@ -92,9 +92,6 @@ function MyVideoConference() {
       as a template to render all passed in tracks. */}
       <ParticipantTile
         style={{ width: "100vw", height: "100vh", marginLeft: " calc(-50vw + 50%)" }}
-        onClick={(e) => {
-          nextMode();
-        }}
       ></ParticipantTile>
     </CarouselLayout>
   ) : (
