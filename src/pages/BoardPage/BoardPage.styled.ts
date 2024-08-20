@@ -28,6 +28,12 @@ export const BoardHeader = styled.div`
   }
 `;
 
+export const BoardFloatingBtn = styled.img`
+  position: fixed;
+  bottom: 5.625rem;
+  right: 3rem;
+`;
+
 export const BoardPostItemEmpty = styled.div`
   margin-top: 16rem;
   display: flex;
