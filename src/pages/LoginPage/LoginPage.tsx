@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { c } from "vite/dist/node/types.d-aGj9QkWt";
 
 import { loginApi } from "@/apis";
 import google from "@/assets/Login/icon_google.svg";
@@ -45,6 +46,11 @@ const LoginPage = () => {
     );
   };
 
+  const handleKakaoLogin = () => {
+    const link = `https://kauth.kakao.com/oauth/authorize?client_id=${import.meta.env.VITE_API_REST_API}&redirect_uri=${import.meta.env.VITE_API_REDIRECT_URI}&response_type=code`;
+    window.location.href = link;
+  };
+
   return (
     <>
       <Container>
@@ -74,13 +80,13 @@ const LoginPage = () => {
           <Button onClick={() => navigate("/signup")}>회원가입</Button>
         </BtContainer>
         <ScContainer>
-          <Social>
+          <Social onClick={handleKakaoLogin}>
             <img src={kakao} alt="kakao" />
           </Social>
-          <Social>
+          <Social style={{ opacity: 0.5, cursor: "default" }} disabled>
             <img src={google} alt="google" />
           </Social>
-          <Social>
+          <Social style={{ opacity: 0.5, cursor: "default" }} disabled>
             <img src={naver} alt="naver" />
           </Social>
         </ScContainer>

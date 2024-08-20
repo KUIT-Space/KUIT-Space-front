@@ -37,3 +37,17 @@ export const loginApi = async (email: string, password: string) => {
     return res;
   });
 };
+
+export const kakaoLoginApi = async (code: string) => {
+  const requestOptions = createRequestOptionsJSON("GET");
+
+  return await fetchLoginApi(
+    `${import.meta.env.VITE_API_BACK_URL}/oauth/callback/kakao?code=${code}`,
+    requestOptions,
+  ).then((res) => {
+    if (res.result?.userId) {
+      localStorage.setItem("userId", res.result.userId.toString());
+    }
+    return res;
+  });
+};
