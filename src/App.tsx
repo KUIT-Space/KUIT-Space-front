@@ -40,13 +40,13 @@ import { theme } from "@/styles/Theme";
 
 import BoardDetailPage from "./pages/BoardPage/BoardDetailpage/BoardDetailPage";
 import BoardRegisterPage from "./pages/BoardPage/BoardRegisterPage/BoardRegisterPage";
+import HomePageMemberPage from "./pages/HomePage/HomePageMember";
+import HomePageProfile from "./pages/HomePage/HomePageProfile";
 import KakaoRedirection from "./pages/LoginPage/KakaoRedirection";
 import LoginModal from "./pages/LoginPage/LoginModal";
 import InviteSpace from "./pages/SpacePage/InviteSpace";
-import HomePageMemberPage from "./pages/HomePage/HomePageMember";
-import HomePageProfile from "./pages/HomePage/HomePageProfile";
-import SpecialVoiceRoom from "./pages/VoiceRoomPage/SpecialVoiceRoom";
 import InviteSpace2 from "./pages/SpacePage/InviteSpace2";
+import SpecialVoiceRoom from "./pages/VoiceRoomPage/SpecialVoiceRoom";
 
 // will we need constant path in later..?
 // const PATH = {

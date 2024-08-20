@@ -97,11 +97,22 @@ const HomePage = () => {
         >
           <img src={logoSpace} alt="로고" />
         </button>
+        <span>{homeData?.spaceName}</span>
         <sty.SettingButtonsWrapper>
-          <button>
+          <button
+            onClick={() => {
+              //TODO: 임시로 스페이스 선택으로 고
+              navigate("/space");
+            }}
+          >
             <img src={alarm} alt="알림" />
           </button>
-          <button>
+          <button
+            onClick={() => {
+              //TODO: 임시로 스페이스 선택으로 고
+              navigate("/space");
+            }}
+          >
             <img src={setting} alt="설정" />
           </button>
         </sty.SettingButtonsWrapper>
@@ -125,9 +136,9 @@ const HomePage = () => {
         </div>
       </sty.MainBanner>
 
-      <BottomBtn style={{ position: "relative" }}>
+      {/* <BottomBtn style={{ position: "relative" }}>
         <Link to="/login">로그인</Link>
-      </BottomBtn>
+      </BottomBtn> */}
 
       <sty.NoticeContainer>
         <sty.Settlement>
