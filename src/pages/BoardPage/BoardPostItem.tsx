@@ -174,11 +174,11 @@ const BoardPostItem = ({
 
   const handleLike = () => {
     if (spaceId !== null) {
-      if (isLike === true) {
+      if (isLikeNew === true) {
         // 좋아요 해제
         deleteLikeOnPostApi(Number.parseInt(spaceId), postId)
           .then((res) => {
-            if (res !== null) {
+            if (res?.status === "OK") {
               setIsLikeNew(false);
               setLikeCountNew((prev) => prev - 1);
             }
@@ -189,7 +189,7 @@ const BoardPostItem = ({
       } else {
         postLikeOnPostApi(Number.parseInt(spaceId), postId)
           .then((res) => {
-            if (res !== null) {
+            if (res?.status === "OK") {
               setIsLikeNew(true);
               setLikeCountNew((prev) => prev + 1);
             }
@@ -224,7 +224,7 @@ const BoardPostItem = ({
         <div>
           <BoardPostItemLikeBtn
             className={isLikeNew ? "liked" : ""}
-            onClick={() => setIsLikeNew((prev) => !prev)}
+            // onClick={() => setIsLikeNew((prev) => !prev)}
           >
             <img src={isLikeNew ? heartLiked : heartUnliked} alt="좋아요" onClick={handleLike} />
             {likeCountNew}

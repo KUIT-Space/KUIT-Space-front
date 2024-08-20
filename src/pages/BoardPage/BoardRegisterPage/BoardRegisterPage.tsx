@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 import { CreateBoardPostApi } from "@/apis/Board/BoardPostApi";
@@ -120,10 +121,9 @@ const BoardRegisterPage = () => {
   const [isNotice, setIsNotice] = useState<boolean>(false);
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
 
-  const spaceId = localStorage.getItem("spaceId");
+  const navigate = useNavigate();
 
-  // TODO: API 연동 시 수정 예정
-  const isManager = true;
+  const spaceId = localStorage.getItem("spaceId");
 
   const inputRef = useRef<HTMLInputElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -154,6 +154,7 @@ const BoardRegisterPage = () => {
       ).then((res) => {
         if (res) {
           console.log("생성 완료: ", res);
+          navigate("/board");
         }
       });
     }
@@ -175,17 +176,15 @@ const BoardRegisterPage = () => {
         }
       ></TopBarText>
       <BoardRegisterContainer>
-        {isManager && (
-          <BoardRegisterManagerTitle>
-            <CheckBox
-              onClick={() => {
-                setIsNotice((prev) => !prev);
-                console.log(isNotice);
-              }}
-            />
-            <span className={isNotice ? "board-register-manager-active" : ""}>공지로 등록하기</span>
-          </BoardRegisterManagerTitle>
-        )}
+        <BoardRegisterManagerTitle>
+          <CheckBox
+            onClick={() => {
+              setIsNotice((prev) => !prev);
+              console.log(isNotice);
+            }}
+          />
+          <span className={isNotice ? "board-register-manager-active" : ""}>공지로 등록하기</span>
+        </BoardRegisterManagerTitle>
         <BoardRegisterTitle
           ref={inputRef}
           placeholder="제목을 입력해주세요."
