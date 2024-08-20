@@ -27,10 +27,6 @@ const MyRequestPayPage = () => {
     { name: "미정산", content: "Tab menu ONE" },
     { name: "정산완료", content: "Tab menu TWO" },
   ];
-  const dataArr = [
-    { image: "aa", name: "박규환", amount: "15000원", chk: true },
-    { image: "aa", name: "박규환", amount: "15000원", chk: true },
-  ];
   const selectMenuHandler = (index: number) => {
     setTabIndex(index);
   };
