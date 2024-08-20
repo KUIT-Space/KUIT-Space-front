@@ -26,7 +26,7 @@ export type VrList = {
 const VoiceRoomPortal = ({ vrList }: { vrList: VrList }) => {
   const navigate = useNavigate();
   return (
-    <div>
+    <div style={{ marginBottom: "0.75rem" }}>
       <s.BGdiv
         onClick={() => {
           navigate("/joinvoiceroom", { state: vrList });
@@ -34,12 +34,17 @@ const VoiceRoomPortal = ({ vrList }: { vrList: VrList }) => {
       >
         <s.VRTitleDiv> {vrList.name} </s.VRTitleDiv>
         <s.InfoDiv>
-          <s.RoundDiv>대화 중인 스페이서 {vrList.numParticipant}명</s.RoundDiv>
+          <s.RoundDiv style={{ padding: "0.5rem" }}>
+            대화 중인 스페이서 {vrList.numParticipant}명
+          </s.RoundDiv>
           {vrList.numParticipant === 0 ? (
             <></>
           ) : (
             <s.DropdownDiv>
-              <VoiceRoomUser props={vrList.participantInfoList} />;
+              {vrList.participantInfoList !== null &&
+                vrList.participantInfoList.map((value, index) => (
+                  <VoiceRoomUser props={value} key={index} />
+                ))}
             </s.DropdownDiv>
           )}
         </s.InfoDiv>
@@ -51,20 +56,24 @@ const VoiceRoomListPage = () => {
   const [vrList, setVrList] = useState<VrList[] | undefined>([]);
   const [activeVrList, setActiveVrList] = useState<VrList[] | undefined>([]);
   const [inactiveVrList, setInActiveVrList] = useState<VrList[] | undefined>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const filterVrList = () => {
+    let tmp1: VrList[] = [];
+    let tmp2: VrList[] = [];
     vrList?.map((value, index) => {
       {
-        value.active
-          ? setActiveVrList((activeVrList) => [...(activeVrList || []), value])
-          : setInActiveVrList((inactiveVrList) => [...(inactiveVrList || []), value]);
+        value.active ? (tmp1 = [...tmp1, value]) : (tmp2 = [...tmp2, value]);
       }
     });
+    setActiveVrList([...tmp1]);
+    setInActiveVrList([...tmp2]);
   };
 
   useEffect(() => {
     const spaceId = localStorage.getItem("spaceId");
     if (spaceId !== null) {
+      setIsLoading(true);
       VrListApi(Number.parseInt(spaceId), setVrList);
     }
     //space ID
@@ -74,12 +83,20 @@ const VoiceRoomListPage = () => {
     filterVrList();
   }, [vrList]);
 
+  useEffect(() => {
+    if (inactiveVrList?.length !== 0 || activeVrList?.length !== 0) {
+      setIsLoading(false);
+    }
+  }, [activeVrList, inactiveVrList]);
+
   const navigate = useNavigate();
   const onClickInActiveVrRoom = (vrInfo: VrList) => {
     navigate("/joinvoiceroom", { state: vrInfo });
   };
 
-  return (
+  return isLoading ? (
+    <>{isLoading}</>
+  ) : (
     <>
       <TopBarText
         left={LeftEnum.Logo}
@@ -89,21 +106,24 @@ const VoiceRoomListPage = () => {
           navigate("/editvoiceroom");
         }}
       />
-      <div style={{ marginLeft: "1.25rem", marginRight: "1.25rem" }}>
-        <s.ActiveP> 활동 중인 보이스룸 </s.ActiveP>
+      <div style={{ margin: "1rem 1.25rem 0rem 1.25rem" }}>
+        <s.ActiveP style={{ marginBottom: "0.75rem" }}> 활동 중인 보이스룸 </s.ActiveP>
         {activeVrList?.length == 0 ? (
-          <s.NoAlertDiv>요청한 정산이 없어요!</s.NoAlertDiv>
+          <s.NoAlertDiv>활동 중인 보이스룸이 없어요!</s.NoAlertDiv>
         ) : (
-          <div>
-            {activeVrList?.map((value, index) => {
-              return <VoiceRoomPortal key={value.id} vrList={value}></VoiceRoomPortal>;
-            })}
-          </div>
+          <>
+            {activeVrList?.map((value, index) => (
+              <VoiceRoomPortal key={value.id} vrList={value}></VoiceRoomPortal>
+            ))}
+          </>
         )}
 
-        <s.ActiveP> 아무도 없어요! </s.ActiveP>
+        <s.ActiveP style={{ marginTop: "1rem", marginBottom: "0.75rem" }}>
+          {" "}
+          아무도 없어요!{" "}
+        </s.ActiveP>
         {inactiveVrList?.length == 0 ? (
-          <s.NoAlertDiv>요청한 정산이 없어요!</s.NoAlertDiv>
+          <s.NoAlertDiv>조용한 보이스룸이 없어요!</s.NoAlertDiv>
         ) : (
           <div>
             {inactiveVrList?.map((value, index) => {
