@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import SearchIcon from "@/assets/ChatPage/icon_search.svg";
+import SearchIcon from "@/assets/ChatPage/icon_search.svg?react";
 import { BottomBtn } from "@/components/BottomBtn";
 import { Input } from "@/components/Input";
 
@@ -48,11 +48,20 @@ export const ChatCreateContainer = styled.div`
   }
 `;
 
+export const InviteContainer = styled.div`
+  position: relative;
+`;
+
 export const InviteInput = styled(Input)`
   background-position: 1rem;
-  background-image: url(${SearchIcon});
   background-repeat: no-repeat;
   padding-left: 2.5rem;
+`;
+
+export const InviteSearchIcon = styled(SearchIcon)`
+  position: absolute;
+  left: 1rem;
+  top: 30%;
 `;
 
 export const ChatroomName = styled.div<{ $nameLength: number }>`
