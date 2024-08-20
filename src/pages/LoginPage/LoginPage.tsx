@@ -46,7 +46,10 @@ const LoginPage = () => {
     );
   };
 
-  const handleKakaoLogin = () => {};
+  const handleKakaoLogin = () => {
+    const link = `https://kauth.kakao.com/oauth/authorize?client_id=${import.meta.env.VITE_API_REST_API}&redirect_uri=${import.meta.env.VITE_API_REDIRECT_URI}&response_type=code`;
+    window.location.href = link;
+  };
 
   return (
     <>

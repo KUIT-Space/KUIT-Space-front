@@ -40,6 +40,7 @@ import { theme } from "@/styles/Theme";
 
 import BoardDetailPage from "./pages/BoardPage/BoardDetailpage/BoardDetailPage";
 import BoardRegisterPage from "./pages/BoardPage/BoardRegisterPage/BoardRegisterPage";
+import KakaoRedirection from "./pages/LoginPage/KakaoRedirection";
 import LoginModal from "./pages/LoginPage/LoginModal";
 import InviteSpace from "./pages/SpacePage/InviteSpace";
 
@@ -139,6 +140,7 @@ function App() {
   const routes_children_login = [
     { path: "/login", element: <LoginPage />, hasBottombar: false },
     { path: "/signup", element: <SignUpPage />, hasBottombar: false },
+    { path: "/kakao/callback", element: <KakaoRedirection />, hasBottombar: true },
   ];
 
   const routes_children = [
