@@ -1,14 +1,5 @@
-import TopBarText from "@/components/TopBarText";
-import { LeftEnum } from "@/components/TopBarText";
-import plus from "@/assets/VoiceRoom/icon_plus.svg";
-import back from "@/assets/icon_back.svg";
-import setting from "@/assets/VoiceRoom/icon_setting.svg";
-
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import * as s from "@/pages/VoiceRoomPage/VoiceRoomListPage.styled";
-import * as sty from "@/components/TopBarText.styled";
-
 import {
   CarouselLayout,
   ControlBar,
@@ -21,8 +12,17 @@ import {
   RoomAudioRenderer,
   useTracks,
 } from "@livekit/components-react";
-import "@livekit/components-styles";
 import { Room, Track } from "livekit-client";
+
+import back from "@/assets/icon_back.svg";
+import plus from "@/assets/VoiceRoom/icon_plus.svg";
+import setting from "@/assets/VoiceRoom/icon_setting.svg";
+import TopBarText from "@/components/TopBarText";
+import { LeftEnum } from "@/components/TopBarText";
+import * as sty from "@/components/TopBarText.styled";
+import * as s from "@/pages/VoiceRoomPage/VoiceRoomListPage.styled";
+
+import "@livekit/components-styles";
 
 const VoiceRoomPage = ({
   VoiceRoomName,
@@ -60,13 +60,13 @@ const VoiceRoomPage = ({
             setJoin(false);
           }}
         >
-          <img src={back}></img>
+          <img src={back} alt="back" />
         </sty.StyledLeftDiv>
         <sty.StyledCenterDiv>
           <sty.StyledCenterP>{VoiceRoomName}</sty.StyledCenterP>
         </sty.StyledCenterDiv>
         <sty.StyledRightDiv>
-          <img src={setting} />
+          <img src={setting} alt="setting" />
         </sty.StyledRightDiv>
       </sty.StyledTopBarDiv>
       <LiveKitRoom

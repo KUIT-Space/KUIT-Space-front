@@ -1,7 +1,8 @@
-import { BottomBtn } from "@/components/BottomBtn";
-import Check from "@/assets/PayPage/check.svg";
-import * as s from "@/pages/PayPage/PayPage.styled";
 import { useNavigate } from "react-router-dom";
+
+import Check from "@/assets/PayPage/check.svg";
+import { BottomBtn } from "@/components/BottomBtn";
+import * as s from "@/pages/PayPage/PayPage.styled";
 
 const CompleteCreatePay = () => {
   const navigator = useNavigate();
@@ -10,7 +11,7 @@ const CompleteCreatePay = () => {
       {/* 여기에 지금 height 넣어줘야 */}
       <s.ContainerDiv>
         <div style={{ display: "flex", justifyContent: "center" }}>
-          <img src={Check}></img>
+          <img src={Check} alt="check"></img>
         </div>
         <s.LargeTxt style={{ flex: 1, textAlign: "center" }}>
           <p>정산요청을</p>

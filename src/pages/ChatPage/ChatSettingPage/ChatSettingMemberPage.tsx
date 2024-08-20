@@ -56,7 +56,7 @@ const ChatSettingMemberPage = () => {
             }
           >
             <section>
-              <img src={AddMemberImg} />
+              <img src={AddMemberImg} alt="add member" />
               <span className="name">채팅방에 초대하기</span>
             </section>
           </Member>
@@ -65,7 +65,10 @@ const ChatSettingMemberPage = () => {
         {userList.map((member, index) => (
           <Member key={index} $cursor="default">
             <section>
-              <img src={member.profileImgUrl ?? getUserDefaultImageURL(member.userId)} />
+              <img
+                src={member.profileImgUrl ?? getUserDefaultImageURL(member.userId)}
+                alt="member profile img"
+              />
               <span className="name">{member.userName}</span>
               {member.userAuth === "manager" && <span className="admin">관리자</span>}
             </section>

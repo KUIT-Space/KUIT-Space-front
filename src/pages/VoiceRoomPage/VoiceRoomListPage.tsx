@@ -1,11 +1,12 @@
-import TopBarText from "@/components/TopBarText";
-import { LeftEnum } from "@/components/TopBarText";
-import plus from "@/assets/VoiceRoom/icon_plus.svg";
-import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import * as s from "@/pages/VoiceRoomPage/VoiceRoomListPage.styled";
+import styled from "styled-components";
+
 import { VrListApi } from "@/apis/voiceroomApi";
+import plus from "@/assets/VoiceRoom/icon_plus.svg";
+import TopBarText from "@/components/TopBarText";
+import { LeftEnum } from "@/components/TopBarText";
+import * as s from "@/pages/VoiceRoomPage/VoiceRoomListPage.styled";
 import { VoiceRoomUser } from "@/pages/VoiceRoomPage/VoiceRoomUser";
 
 export type participantInfo = {
@@ -152,7 +153,7 @@ const VoiceRoomListPage = () => {
                 navigate("/createvoiceroom");
               }}
             >
-              <img src={plus} style={{ marginRight: "0.5rem" }} />
+              <img src={plus} style={{ marginRight: "0.5rem" }} alt="plus" />
               새로 만들기
             </div>
           </s.StyledButton>

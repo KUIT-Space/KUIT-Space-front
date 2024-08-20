@@ -236,7 +236,7 @@ const SpacePage = () => {
         ))}
         {!editActive ? (
           <GridItem onClick={() => navigate("/space/addspace")}>
-            <img src={add} />
+            <img src={add} alt="add" />
           </GridItem>
         ) : (
           <GridItem />

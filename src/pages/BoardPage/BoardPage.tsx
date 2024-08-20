@@ -53,12 +53,16 @@ const BoardPage = () => {
 
   return (
     <>
-      <TopBarText left={LeftEnum.Logo} center="게시판" right={<img src={search} />}></TopBarText>
+      <TopBarText
+        left={LeftEnum.Logo}
+        center="게시판"
+        right={<img src={search} alt="search" />}
+      ></TopBarText>
       <BoardHeader>
         <span>게시글 {postsData.length}개</span>
         <div className="board-filter-section" onClick={() => setIsModalOpen((prev) => !prev)}>
           {boardSelectedOption[selectedOption].value}
-          <img src={arrowDown} />
+          <img src={arrowDown} alt="arrowDown" />
         </div>
       </BoardHeader>
       {postsData.length !== 0 ? (
