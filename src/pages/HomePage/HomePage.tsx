@@ -1,6 +1,13 @@
 import { SetStateAction, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
+import {
+  getHomeApi,
+  getVrApi,
+  HomeApiResponse,
+  VoiceRoomApiResponse,
+} from "@/apis/HomePage/GetHomepageApi";
+import { noticeInfo } from "@/apis/HomePage/GetHomepageApi";
 import alarm from "@/assets/icon_alarm.svg";
 import setting from "@/assets/icon_setting.svg";
 import logoSpace from "@/assets/logo_space.svg";
@@ -9,15 +16,8 @@ import bannerImage from "@/pages/HomePage/bannerImage.svg";
 import bannerImageCover from "@/pages/HomePage/bannerImageCover.svg";
 import * as sty from "@/pages/HomePage/HomePage.styled";
 import next from "@/pages/HomePage/icon_next.svg";
-import {
-  HomeApiResponse,
-  VoiceRoomApiResponse,
-  getHomeApi,
-  getVrApi,
-} from "@/apis/HomePage/GetHomepageApi";
+import { addComma, PayReceiveInfo, PayRequestInfo } from "@/pages/PayPage/PayPage";
 import { VrList } from "@/pages/VoiceRoomPage/VoiceRoomListPage";
-import { noticeInfo } from "@/apis/HomePage/GetHomepageApi";
-import { PayReceiveInfo, PayRequestInfo, addComma } from "@/pages/PayPage/PayPage";
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -62,9 +62,9 @@ const HomePage = () => {
   useEffect(() => {
     console.log(homeData);
     if (homeData?.noticeList !== undefined) {
-      let _temp = homeData?.noticeList;
+      const _temp = homeData?.noticeList;
 
-      let newArr = [..._temp];
+      const newArr = [..._temp];
       setNoticeList(newArr);
     }
     if (homeData !== undefined) {
@@ -171,25 +171,44 @@ const HomePage = () => {
 
               {tabIndex === 1 && (
                 <div>
-                  <span className="subText">정산 완료까지 </span>
-                  <span className="num">
-                    {requestData?.totalTargetNum! - requestData?.receiveTargetNum!}
-                  </span>
-                  <span className="subText">명 남았어요</span>
+                  {requestData ? (
+                    <>
+                      <span className="subText">정산 완료까지 </span>
+                      <span className="num">
+                        {requestData?.totalTargetNum! - requestData?.receiveTargetNum!}
+                      </span>
+                      <span className="subText">명 남았어요</span>
+                    </>
+                  ) : (
+                    <span></span>
+                  )}
+
                   <br />
-                  <span className="highlightMoney">{addComma(requestData?.receiveAmount!)} </span>
-                  <span className="totalMoney"> /{addComma(requestData?.totalAmount!)} 원</span>
+                  {requestData ? (
+                    <>
+                      <span className="highlightMoney">
+                        {addComma(requestData?.receiveAmount!)}{" "}
+                      </span>
+                      <span className="totalMoney"> /{addComma(requestData?.totalAmount!)} 원</span>
+                    </>
+                  ) : (
+                    <span className="subText">요청한 정산이 없습니다</span>
+                  )}
                 </div>
               )}
 
               {tabIndex === 2 && (
                 <div>
-                  <div>
-                    <span className="num">{receiveData?.payCreatorName}</span>
-                    <span className="subText">님이 정산을 요청했어요</span>
-                    <br />
-                    <span className="highlightMoney">{receiveData?.requestAmount}원</span>
-                  </div>
+                  {receiveData ? (
+                    <>
+                      <span className="num">{receiveData?.payCreatorName}</span>
+                      <span className="subText">님이 정산을 요청했어요</span>
+                      <br />
+                      <span className="highlightMoney">{receiveData?.requestAmount}원</span>
+                    </>
+                  ) : (
+                    <span className="subText">요청받은 정산이 없습니다</span>
+                  )}
                 </div>
               )}
             </div>
