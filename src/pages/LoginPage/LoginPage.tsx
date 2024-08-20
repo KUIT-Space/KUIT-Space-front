@@ -51,6 +51,19 @@ const LoginPage = () => {
     window.location.href = link;
   };
 
+  useEffect(() => {
+    const jwt = new URL(document.location.toString()).searchParams.get("jwt");
+    const userId = new URL(document.location.toString()).searchParams.get("userId");
+    console.log("jwt, userId", jwt, userId);
+
+    if (jwt && userId) {
+      localStorage.setItem("Authorization", jwt);
+      localStorage.setItem("userId", userId);
+      console.log("카카오 로그인 성공");
+      navigate("/space");
+    }
+  }, []);
+
   return (
     <>
       <Container>
