@@ -155,10 +155,10 @@ const CreateRequestPage2 = ({
 
   useEffect(() => {
     const id = Number(localStorage.getItem("spaceId"));
+    setCheckUsers(new Set<number>());
+
     getAllMemberApi(id, setUserInfoData);
-    getAllChatMemberApi(id, setChatUserInfoData).then((res) =>
-      console.log("chatUser", chatUserInfoData),
-    );
+    getAllChatMemberApi(id, setChatUserInfoData);
   }, []);
 
   const checkUserHandler = (id: number) => {
