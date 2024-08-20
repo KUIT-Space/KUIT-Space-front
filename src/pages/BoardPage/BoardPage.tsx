@@ -3,12 +3,16 @@ import { useNavigate } from "react-router-dom";
 
 import { BoardPost, getAllPosts } from "@/apis/Board/BoardReadApi";
 import arrowDown from "@/assets/Board/chevron_down.svg";
+import floating from "@/assets/Board/floating.svg";
 import search from "@/assets/Board/search.svg";
 import TopBarText, { LeftEnum } from "@/components/TopBarText";
 import BoardBottomModal from "@/pages/BoardPage/BoardBottomModal";
-import { BoardHeader, BoardPostItemEmpty } from "@/pages/BoardPage/BoardPage.styled";
+import {
+  BoardFloatingBtn,
+  BoardHeader,
+  BoardPostItemEmpty,
+} from "@/pages/BoardPage/BoardPage.styled";
 import BoardPostItem from "@/pages/BoardPage/BoardPostItem";
-import { AddChatBtn } from "@/pages/ChatPage/ChatAddBtn.styled";
 
 export type boardSelectedOptionType = {
   id: string;
@@ -82,7 +86,7 @@ const BoardPage = () => {
           <br />첫 게시글을 작성해보세요!
         </BoardPostItemEmpty>
       )}
-      <AddChatBtn onClick={() => navigate("/board/register")} />
+      <BoardFloatingBtn src={floating} onClick={() => navigate("/board/register")} />
       <BoardBottomModal
         selectedOption={selectedOption}
         onSelect={setSelectedOption}
