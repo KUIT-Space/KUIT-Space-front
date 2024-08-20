@@ -212,6 +212,35 @@ const BoardDetailPage = () => {
 
   const spaceId = localStorage.getItem("spaceId");
 
+  const handleLike = () => {
+    if (spaceId !== null && postsData !== undefined) {
+      if (isLikeNew === true) {
+        // 좋아요 해제
+        deleteLikeOnPostApi(Number.parseInt(spaceId), postsData.postId)
+          .then((res) => {
+            if (res?.status === "OK") {
+              setIsLikeNew(false);
+              setLikeCountNew((prev) => prev - 1);
+            }
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      } else {
+        postLikeOnPostApi(Number.parseInt(spaceId), postsData.postId)
+          .then((res) => {
+            if (res?.status === "OK") {
+              setIsLikeNew(true);
+              setLikeCountNew((prev) => prev + 1);
+            }
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      }
+    }
+  };
+
   useEffect(() => {
     if (spaceId !== null) {
       getPostDetailApi(Number.parseInt(spaceId), Number.parseInt(id || "0"))
@@ -237,35 +266,6 @@ const BoardDetailPage = () => {
         .catch((err) => console.log(err));
     }
   }, [newCommentCount]);
-
-  const handleLike = () => {
-    if (spaceId !== null && postsData !== undefined) {
-      if (postsData.like === true) {
-        // 좋아요 해제
-        deleteLikeOnPostApi(Number.parseInt(spaceId), postsData.postId)
-          .then((res) => {
-            if (res !== null) {
-              setIsLikeNew(false);
-              setLikeCountNew((prev) => prev - 1);
-            }
-          })
-          .catch((err) => {
-            console.error(err);
-          });
-      } else {
-        postLikeOnPostApi(Number.parseInt(spaceId), postsData.postId)
-          .then((res) => {
-            if (res !== null) {
-              setIsLikeNew(true);
-              setLikeCountNew((prev) => prev + 1);
-            }
-          })
-          .catch((err) => {
-            console.error(err);
-          });
-      }
-    }
-  };
 
   const handleRegisterComment = () => {
     if (spaceId !== null && postsData !== undefined) {

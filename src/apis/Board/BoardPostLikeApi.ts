@@ -2,7 +2,7 @@ import { createRequestOptionsJSON_AUTH, fetchApi } from "@/apis/_createRequestOp
 
 interface PostLikeOnPostApiResponseType {
   code: number;
-  status: number;
+  status: string;
   message: string;
   result: string;
 }
