@@ -43,8 +43,16 @@ jobs:
         run: |
           touch .env
           echo "VITE_API_BACK_URL=$VITE_API_BACK_URL" >> .env
+          echo "VITE_API_REST_API=$VITE_API_REST_API" >> .env
+          echo "VITE_API_CLIENT_SECRET" >> .env
+          echo "VITE_API_REDIRECT_URI=$VITE_API_BACK_URL" >> .env
+
+
         env:
           VITE_API_BACK_URL: ${{ secrets.VITE_API_BACK_URL }}
+          VITE_API_REST_API: ${{ secrets.VITE_API_REST_API }}
+          VITE_API_CLIENT_SECRET: ${{ secrets.VITE_API_CLIENT_SECRET }}
+          VITE_API_REDIRECT_URI: ${{ secrets.VITE_API_REDIRECT_URI }}
         
       - name: Build
         run: npm run build
