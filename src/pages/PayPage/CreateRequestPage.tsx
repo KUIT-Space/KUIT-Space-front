@@ -71,7 +71,7 @@ const CreateRequestPage1 = ({
   setBankName: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   const [bankData, setBankData] = useState<BankInfo[] | undefined>([]);
-  const [bankValue, setBankValue] = useState("");
+  const [bankValue, setBankValue] = useState("국민은행");
   const [acc, setAcc] = useState("");
 
   useEffect(() => {
