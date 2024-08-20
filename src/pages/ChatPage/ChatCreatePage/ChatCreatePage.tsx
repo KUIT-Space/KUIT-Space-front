@@ -14,7 +14,9 @@ import {
   ChatCreateContainer,
   ChatroomAddImgBtn,
   ChatroomName,
+  InviteContainer,
   InviteInput,
+  InviteSearchIcon,
   Member,
 } from "@/pages/ChatPage/ChatCreatePage/ChatCreatePage.styled";
 import { Explanation } from "@/pages/LoginPage/SignUpPage.styled";
@@ -108,10 +110,13 @@ const ChatCreatePage = () => {
             <span className="invite title">멤버 초대</span>
             <span className="invite member--number">{invitedMemberList.length}</span>
           </p>
-          <InviteInput
-            onChange={(e) => setSearchWord(e.target.value)}
-            placeholder="이름으로 검색해 보세요"
-          />
+          <InviteContainer>
+            <InviteInput
+              onChange={(e) => setSearchWord(e.target.value)}
+              placeholder="이름으로 검색해 보세요"
+            />
+            <InviteSearchIcon />
+          </InviteContainer>
         </div>
         <div className="input--container">
           <p>멤버 목록</p>
