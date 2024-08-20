@@ -53,6 +53,7 @@ const SpaceOption = () => {
 
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const [isWithdrawModalOpen, setIsWithdrawModalOpen] = useState(false);
+  const [isNotDevModal, setIsNotDevModal] = useState(false);
 
   const handleOpenLogoutModal = () => {
     setIsLogoutModalOpen(true);
@@ -89,13 +90,7 @@ const SpaceOption = () => {
           계정 정보
           <img style={{ display: "absolute", right: "0" }} src={right_arrow} alt="right_arrow" />
         </Account>
-        <Profile
-          onClick={() => {
-            // NotDevelopModal();
-            //TODO: 개발
-            //handleNavigate("/space/spaceoption/profilemanage");
-          }}
-        >
+        <Profile onClick={() => setIsNotDevModal(true)}>
           프로필 관리
           <img style={{ display: "absolute", right: "0" }} src={right_arrow} alt="right_arrow" />
         </Profile>
@@ -129,6 +124,7 @@ const SpaceOption = () => {
           confirmButtonText="탈퇴하기"
           confirmButtonTextColor="#FFFFFF"
         />
+        <NotDevelopModal isModalOpen={isNotDevModal} setIsModalOpen={setIsNotDevModal} />
       </div>
     </div>
   );

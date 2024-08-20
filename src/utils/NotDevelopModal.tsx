@@ -7,8 +7,14 @@ interface ModalType {
   content?: string[];
 }
 
-export const NotDevelopModal = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+export const NotDevelopModal = ({
+  isModalOpen,
+  setIsModalOpen,
+}: {
+  isModalOpen: boolean;
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
+  //const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <StopModal
