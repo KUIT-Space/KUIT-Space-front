@@ -15,7 +15,7 @@ const RequestedPayPage = () => {
   const [currentData, setCurrentData] = useState<PayReceiveInfo[] | undefined>([]);
   const [completeData, setCompleteData] = useState<PayReceiveInfo[] | undefined>([]);
   useEffect(() => {
-    const str = localStorage.getItem("SpaceId");
+    const str = localStorage.getItem("spaceId");
 
     if (str !== null) {
       const spaceId = Number.parseInt(str);

@@ -49,13 +49,14 @@ const MyRequestPayPage = () => {
       if (detailData.payTargetInfoDtoList !== undefined) {
         detailData.payTargetInfoDtoList.map((value, index) => {
           {
-            value.isComplete
+            value.complete
               ? setCompleteTargetList((activeVrList) => [...(activeVrList || []), value])
               : setInCompleteTargetList((inactiveVrList) => [...(inactiveVrList || []), value]);
           }
         });
       }
     }
+    console.log(detailData);
   }, [detailData]);
 
   useEffect(() => {
@@ -121,7 +122,7 @@ const MyRequestPayPage = () => {
               <s.AllPriceDiv> / {totalAmount}원</s.AllPriceDiv>
             </s.RowFlexDiv>
             {/* TODO date */}
-            <s.GrayTextDiv>요청 날짜 2024.06.12</s.GrayTextDiv>
+            <s.GrayTextDiv>요청 날짜 2024.08.20</s.GrayTextDiv>
           </s.CompletePayDiv>
           <s.TabMenu>
             {menuArr.map((value, index) => (
@@ -138,7 +139,7 @@ const MyRequestPayPage = () => {
             <s.RoundDiv style={{ margin: "0.75rem 1.25rem 0.75rem 1.25rem" }}>
               {completeTargetList.length === 0 ? (
                 <>
-                  <s.NoAlertDiv>미정산 된 유저가 없어요!</s.NoAlertDiv>
+                  <s.NoAlertDiv>정산완료 된 유저가 없어요!</s.NoAlertDiv>
                 </>
               ) : (
                 <>
@@ -152,7 +153,7 @@ const MyRequestPayPage = () => {
             <s.RoundDiv style={{ margin: "0.75rem 1.25rem 0.75rem 1.25rem" }}>
               {inCompleteTargetList.length === 0 ? (
                 <>
-                  <s.NoAlertDiv>정산완료 된 유저가 없어요!</s.NoAlertDiv>
+                  <s.NoAlertDiv>미정산 된 유저가 없어요!</s.NoAlertDiv>
                 </>
               ) : (
                 <>
