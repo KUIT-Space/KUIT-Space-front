@@ -160,7 +160,6 @@ const CreateRequestPage2 = ({
     getAllMemberApi(id, setUserInfoData);
     getAllChatMemberApi(id, setChatUserInfoData);
   }, []);
-
   const checkUserHandler = (id: number) => {
     const _checkUsers = new Set(checkUsers);
 
@@ -170,9 +169,9 @@ const CreateRequestPage2 = ({
     } else {
       _checkUsers.add(id);
       setCheckUsers(_checkUsers);
-      // console.log(checkUsers);
     }
   };
+
   const menuArr = [
     { name: "채팅방", content: "Tab menu ONE" },
     { name: "멤버", content: "Tab menu TWO" },
@@ -240,6 +239,7 @@ const CreateRequestPage2 = ({
                         <span className="name">{value.userName}</span>
                       </section>
                       <CheckBox
+                        checked={checkUsers.has(value.userId)}
                         onClick={() => {
                           checkUserHandler(value.userId);
                         }}
