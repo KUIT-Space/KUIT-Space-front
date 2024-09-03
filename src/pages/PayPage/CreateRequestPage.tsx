@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ProgressBar } from "react-toastify/dist/components";
 import { UserInfo, userInfo } from "os";
@@ -49,9 +49,21 @@ export type BankInfo = {
 // };
 
 const idToPrice = new Map<number, number>();
-const RecentAccountDiv = ({ data }: { data: BankInfo }) => {
+const RecentAccountDiv = ({
+  data,
+  setBankValue,
+  setAcc,
+}: {
+  data: BankInfo;
+  setBankValue: React.Dispatch<React.SetStateAction<string>>;
+  setAcc: React.Dispatch<React.SetStateAction<string>>;
+}) => {
+  const onClickHandler = () => {
+    setBankValue(data.bankName);
+    setAcc(data.bankAccountNum);
+  };
   return (
-    <s.RowFlexDiv style={{ margin: "0.25rem" }}>
+    <s.RowFlexDiv style={{ margin: "0.25rem", cursor: "pointer" }} onClick={onClickHandler}>
       <img style={{ marginRight: "0.75rem" }} src={Kookmin} alt="kookmin 은행" />
       <s.ColumnFlexDiv>
         <s.GrayTextDiv>{data.bankName}</s.GrayTextDiv>
@@ -86,7 +98,6 @@ const CreateRequestPage1 = ({
   };
   const onChangeOption = (e: any) => {
     setBankValue(e.target.value);
-    console.log(e.target.value);
   };
 
   return (
@@ -114,7 +125,14 @@ const CreateRequestPage1 = ({
             ) : (
               <>
                 {bankData?.map((value, index) => {
-                  return <RecentAccountDiv key={index} data={value}></RecentAccountDiv>;
+                  return (
+                    <RecentAccountDiv
+                      key={index}
+                      data={value}
+                      setAcc={setAcc}
+                      setBankValue={setBankValue}
+                    ></RecentAccountDiv>
+                  );
                 })}
               </>
             )}
@@ -198,7 +216,6 @@ const CreateRequestPage2 = ({
         </s.TabMenu>
         {tabIndex === 0 ? (
           <div>
-            <>{console.log(JSON.parse(JSON.stringify(chatUserInfoData)), userInfoData)}</>
             {chatUserInfoData &&
               chatUserInfoData.map((value, index) => (
                 <PayChatDiv key={index} info={value}></PayChatDiv>
@@ -297,7 +314,6 @@ const CreateRequestPage3 = ({
       sum = sum + value;
     }
 
-    console.log(idToPrice);
     _setTotalPrice(sum);
   };
 
@@ -567,7 +583,6 @@ const CreateRequestPage = () => {
         ></CreateRequestPage3>
       );
     case 3:
-      // console.log(userInfoData);
       return (
         <CreateRequestPage4
           totalPrice={totalPrice}
