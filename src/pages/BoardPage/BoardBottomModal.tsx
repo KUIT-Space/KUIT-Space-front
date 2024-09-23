@@ -1,5 +1,4 @@
 import styled from "styled-components";
-
 import checkModal from "@/assets/Board/check_modal.svg";
 import { boardSelectedOption, boardSelectedOptionType } from "@/pages/BoardPage/BoardPage";
 

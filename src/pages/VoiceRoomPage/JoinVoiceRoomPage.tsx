@@ -13,6 +13,7 @@ import * as s from "@/pages/VoiceRoomPage/JoinVoiceRoom.styled";
 import { VrList } from "@/pages/VoiceRoomPage/VoiceRoomListPage";
 import VoiceRoomPage from "@/pages/VoiceRoomPage/VoiceRoomPage";
 import { getUserDefaultImageURL } from "@/utils/getUserDefaultImageURL";
+import { MainVoiceRoomUser } from "./VoiceRoomUser";
 
 const JoinVoiceRoomPage = () => {
   const location = useLocation();
@@ -38,7 +39,6 @@ const JoinVoiceRoomPage = () => {
   useEffect(() => {
     if (userData !== undefined) {
       setUserName(userData.userName);
-      console.log(userData.userName);
       setUserImg(userData.userProfileImg);
       if (userData.userId !== undefined) {
         setUserId(userData.userId);
@@ -60,7 +60,6 @@ const JoinVoiceRoomPage = () => {
           if (userId != null) {
             _temp.userId = Number.parseInt(userId);
           }
-          console.log(_temp);
           setUserData(_temp);
         }
       });
@@ -83,12 +82,13 @@ const JoinVoiceRoomPage = () => {
             </s.InnerDiv>
 
             <s.ProfileDiv>
-              <img
+              {/* <img
                 src={userImg !== null ? userImg : getUserDefaultImageURL(userId!)}
                 alt="user img"
-              />
+              /> */}
+              <MainVoiceRoomUser props={userData} isSpeaking={true}></MainVoiceRoomUser>
             </s.ProfileDiv>
-            <div>{userName}</div>
+            {/* <div>{userName}</div> */}
             <BottomBtn
               disabled={false}
               onClick={() => {
