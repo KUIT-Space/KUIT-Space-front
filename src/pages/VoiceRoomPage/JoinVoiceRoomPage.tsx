@@ -82,11 +82,10 @@ const JoinVoiceRoomPage = () => {
             </s.InnerDiv>
 
             <s.ProfileDiv>
-              {/* <img
+              <img
                 src={userImg !== null ? userImg : getUserDefaultImageURL(userId!)}
                 alt="user img"
-              /> */}
-              <MainVoiceRoomUser props={userData} isSpeaking={true}></MainVoiceRoomUser>
+              />
             </s.ProfileDiv>
             {/* <div>{userName}</div> */}
             <BottomBtn

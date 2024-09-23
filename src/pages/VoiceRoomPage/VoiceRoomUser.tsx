@@ -4,6 +4,7 @@ import micOFF from "@/assets/VoiceRoom/icon_microphone_OFF.svg";
 import { participantInfo } from "@/pages/VoiceRoomPage/VoiceRoomListPage";
 import { getUserDefaultImageURL } from "@/utils/getUserDefaultImageURL";
 import { UserProfile } from "@/apis";
+import { VoiceRoomUserInfo } from "./VoiceRoomPage";
 
 export const VoiceRoomUser = ({ props }: { props: participantInfo }) => {
   const userId = Number.parseInt(localStorage.getItem("userId")!);
@@ -21,24 +22,18 @@ export const VoiceRoomUser = ({ props }: { props: participantInfo }) => {
   );
 };
 
-export const MainVoiceRoomUser = ({
-  props,
-  isSpeaking,
-}: {
-  props: UserProfile | undefined;
-  isSpeaking: boolean;
-}) => {
+export const MainVoiceRoomUser = ({ props }: { props: VoiceRoomUserInfo | undefined }) => {
   const userId = Number.parseInt(localStorage.getItem("userId")!);
+  console.log(props?.x, props?.y);
   return (
-    // <s.VRuserA>
-    //   <s.VRuserDiv>
-    <s.MyDiv>
+    <s.MyDiv x={props?.x!} y={props?.y!}>
       <s.MainVRuserImg
-        src={props?.userProfileImg ? props.userProfileImg : getUserDefaultImageURL(userId)}
+        src={
+          props?.userInfo.profileImgUrl
+            ? props.userInfo.profileImgUrl
+            : getUserDefaultImageURL(userId)
+        }
       ></s.MainVRuserImg>
     </s.MyDiv>
-    //     <div>{props?.userName}</div>
-    //   </s.VRuserDiv>
-    // </s.VRuserA>
   );
 };

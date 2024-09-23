@@ -114,3 +114,8 @@ export const NoAlertDiv = styled.div`
   line-height: 140%; /* 19.6px */
   letter-spacing: 0.56px;
 `;
+
+export const VoiceRoomDiv = styled.div`
+  width: 100%;
+  height: 85vh;
+`;

@@ -23,6 +23,16 @@ import * as sty from "@/components/TopBarText.styled";
 import * as s from "@/pages/VoiceRoomPage/VoiceRoomListPage.styled";
 
 import "@livekit/components-styles";
+import SpaceControlBar from "@/pages/VoiceRoomPage/ControlBar";
+import { UserInfoInSpace } from "@/apis";
+import { MainVoiceRoomUser, VoiceRoomUser } from "./VoiceRoomUser";
+
+export interface VoiceRoomUserInfo {
+  x: number;
+  y: number;
+  userInfo: UserInfoInSpace;
+  isSpeaking: boolean;
+}
 
 const VoiceRoomPage = ({
   VoiceRoomName,
@@ -32,6 +42,31 @@ const VoiceRoomPage = ({
   setJoin: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const navigate = useNavigate();
+  const [userList, setUserList] = useState<VoiceRoomUserInfo[]>([
+    {
+      x: 3,
+      y: 5,
+      userInfo: {
+        userId: 179,
+        userName: "양석준",
+        profileImgUrl: null,
+        userAuth: "normal",
+      },
+      isSpeaking: false,
+    },
+    {
+      x: 10,
+      y: 10,
+      userInfo: {
+        userId: 224,
+        userName: "양석준",
+        profileImgUrl: null,
+        userAuth: "normal",
+      },
+      isSpeaking: false,
+    },
+  ]);
+  const [isCamera, setIsCamera] = useState<boolean>(false);
   const [room] = useState(new Room());
   const [token, setToken] = useState<string | undefined>("");
   const [isConnected, setIsConnected] = useState(false);
@@ -52,6 +87,17 @@ const VoiceRoomPage = ({
       setToken("");
     }
   }, []);
+
+  const VoiceRoomContainer = () => {
+    return (
+      <s.VoiceRoomDiv>
+        {userList?.map((value) => {
+          return <MainVoiceRoomUser props={value}></MainVoiceRoomUser>;
+        })}
+      </s.VoiceRoomDiv>
+    );
+  };
+
   return (
     <div>
       <sty.StyledTopBarDiv>
@@ -69,6 +115,14 @@ const VoiceRoomPage = ({
           <img src={setting} alt="setting" />
         </sty.StyledRightDiv>
       </sty.StyledTopBarDiv>
+      {isCamera ? (
+        <div>dd</div>
+      ) : (
+        <>
+          <VoiceRoomContainer />
+          <SpaceControlBar />
+        </>
+      )}
 
       {/* <LiveKitRoom
         video={true}

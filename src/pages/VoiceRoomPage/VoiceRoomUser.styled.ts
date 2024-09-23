@@ -1,5 +1,10 @@
 import styled from "styled-components";
 
+interface props {
+  x: number;
+  y: number;
+}
+
 export const VRuserA = styled.a`
   color: var(--Foundation-Gray-white, #fff);
 
@@ -34,14 +39,18 @@ export const MicImg = styled.img`
   margin-left: auto;
 `;
 
-export const MyDiv = styled.div`
+export const MyDiv = styled.div<props>`
   width: 5rem;
   height: 5rem;
+
+  position: relative;
+  top: ${(props) => props.x + "rem"};
+  left: ${(props) => props.y + "rem"};
 
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px red solid;
+  border: 1px white solid;
   border-radius: 50%;
 `;
 
