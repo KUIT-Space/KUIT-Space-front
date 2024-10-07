@@ -1,15 +1,15 @@
-export interface RequestOptions {
+export interface RequestOptions extends RequestInit {
   method: "GET" | "POST" | "PATCH" | "PUT" | "DELETE";
   body?: BodyInit;
   headers?: HeadersInit;
   redirect?: RequestRedirect;
 }
 
-// export interface ResponseType {
-//   code: number;
-//   status: string | number;
-//   message: string;
-// }
+export interface ResponseType {
+  code: number;
+  status: string | number;
+  message: string;
+}
 
 export const createRequestOptionsJSON = (
   method: RequestOptions["method"],
@@ -101,4 +101,17 @@ export const fetchApi = async <T>(
     });
 
   return response;
+};
+
+/** new fetch
+ *
+ */
+export const new_fetch = () => {};
+
+export const getAuthToken = (): string | null => {
+  return localStorage.getItem("Authorization");
+};
+
+export const getRefreshToken = (): string | null => {
+  return localStorage.getItem("refreshToken");
 };
