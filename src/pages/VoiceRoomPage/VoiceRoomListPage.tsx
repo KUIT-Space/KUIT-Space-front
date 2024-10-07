@@ -13,6 +13,8 @@ export type participantInfo = {
   name: string;
   profileImage: string;
   mute: boolean;
+  userId: number;
+  userSpaceId: number;
 };
 
 export type VrList = {
