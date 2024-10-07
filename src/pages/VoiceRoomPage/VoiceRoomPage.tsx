@@ -8,11 +8,14 @@ import {
   FocusToggle,
   GridLayout,
   LiveKitRoom,
+  ParticipantLoop,
+  ParticipantName,
   ParticipantTile,
   RoomAudioRenderer,
+  useParticipants,
   useTracks,
 } from "@livekit/components-react";
-import { Room, Track } from "livekit-client";
+import { Participant, Room, RoomEvent, Track } from "livekit-client";
 
 import back from "@/assets/icon_back.svg";
 import plus from "@/assets/VoiceRoom/icon_plus.svg";
@@ -24,61 +27,104 @@ import * as s from "@/pages/VoiceRoomPage/VoiceRoomListPage.styled";
 
 import "@livekit/components-styles";
 import SpaceControlBar from "@/pages/VoiceRoomPage/ControlBar";
-import { UserInfoInSpace } from "@/apis";
+import { UserInfoInSpace, VrParticipantApi } from "@/apis";
 import { MainVoiceRoomUser, VoiceRoomUser } from "./VoiceRoomUser";
+import { participantInfo } from "./VoiceRoomListPage";
 
-export interface VoiceRoomUserInfo {
+export type VoiceRoomUserInfo = {
   x: number;
   y: number;
-  userInfo: UserInfoInSpace;
+  userInfo: participantInfo;
   isSpeaking: boolean;
-}
+};
 
 const VoiceRoomPage = ({
+  vrId,
   VoiceRoomName,
   setJoin,
 }: {
+  vrId: number;
   VoiceRoomName: string;
   setJoin: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const navigate = useNavigate();
-  const [userList, setUserList] = useState<VoiceRoomUserInfo[]>([
-    {
-      x: 3,
-      y: 5,
-      userInfo: {
-        userId: 179,
-        userName: "양석준",
-        profileImgUrl: null,
-        userAuth: "normal",
-      },
-      isSpeaking: false,
-    },
-    {
-      x: 10,
-      y: 10,
-      userInfo: {
-        userId: 224,
-        userName: "양석준",
-        profileImgUrl: null,
-        userAuth: "normal",
-      },
-      isSpeaking: false,
-    },
-  ]);
+  const [userList, setUserList] = useState<VoiceRoomUserInfo[]>([]);
   const [isCamera, setIsCamera] = useState<boolean>(false);
   const [room] = useState(new Room());
   const [token, setToken] = useState<string | undefined>("");
   const [isConnected, setIsConnected] = useState(false);
   const [connect, setConnect] = useState(false);
+  const [parList, setParList] = useState<participantInfo[]>();
+  const [vrUserList, setVrUserList] = useState<VoiceRoomUserInfo[]>();
+  const [speakerList, setSpeakerList] = useState<string[]>();
+
+  // const participants = useParticipants();
 
   const handleDisconnect = () => {
     setIsConnected(false);
     setConnect(false);
     navigate("/voiceroom");
   };
+  room.on(RoomEvent.Connected, () => {
+    console.log("hello!");
+  });
+
+  room.on(RoomEvent.ActiveSpeakersChanged, (speakers: Participant[]) => {
+    // Speakers contain all of the current active speakers
+    console.log(speakers);
+    setSpeakerList(
+      speakers.map((value) => {
+        return value.attributes.id;
+      }),
+    );
+  });
+
+  const handleParticipantSpeaking = () => {};
+  function MyVideoConference() {
+    // `useTracks` returns all camera and screen share tracks. If a user
+    // joins without a published camera track, a placeholder track is returned.
+    const [mode, setMode] = useState(true);
+    const navigator = useNavigate();
+
+    const nextMode = () => {
+      navigator("/specialvoiceroom");
+    };
+    useEffect(() => {
+      // let track2 = tracks.find((trackRef) => trackRef.source === "screen_share");
+    }, [mode]);
+    const tracks = useTracks(
+      [
+        { source: Track.Source.Camera, withPlaceholder: true },
+        { source: Track.Source.ScreenShare, withPlaceholder: false },
+      ],
+      { onlySubscribed: false },
+    );
+    return (
+      <>
+        <VoiceRoomContainer />
+        {/* <ParticipantLoop participants={participants}>
+          <ParticipantName />
+        </ParticipantLoop> */}
+        <SpaceControlBar />
+      </>
+    );
+  }
 
   useEffect(() => {
+    // setUserList(
+    const a = parList?.map((value) => {
+      return {
+        userInfo: value,
+        x: 80, //0~80
+        y: 84, //0~84
+        isSpeaking: false,
+      } as VoiceRoomUserInfo;
+    });
+    setUserList(a!);
+  }, [parList]);
+
+  useEffect(() => {
+    const spaceId = localStorage.getItem("spaceId");
     const temp = localStorage.getItem("VrToken");
     if (temp) {
       const temp2 = temp.substring(7);
@@ -86,13 +132,18 @@ const VoiceRoomPage = ({
     } else {
       setToken("");
     }
+    if (spaceId !== null) {
+      VrParticipantApi(parseInt(spaceId), vrId).then((res) => {
+        setParList(res?.result.participantInfoList);
+      });
+    }
   }, []);
 
   const VoiceRoomContainer = () => {
     return (
       <s.VoiceRoomDiv>
         {userList?.map((value) => {
-          return <MainVoiceRoomUser props={value}></MainVoiceRoomUser>;
+          return <MainVoiceRoomUser props={value} speakerList={speakerList}></MainVoiceRoomUser>;
         })}
       </s.VoiceRoomDiv>
     );
@@ -115,16 +166,9 @@ const VoiceRoomPage = ({
           <img src={setting} alt="setting" />
         </sty.StyledRightDiv>
       </sty.StyledTopBarDiv>
-      {isCamera ? (
-        <div>dd</div>
-      ) : (
-        <>
-          <VoiceRoomContainer />
-          <SpaceControlBar />
-        </>
-      )}
+      {isCamera ? <div>dd</div> : <></>}
 
-      {/* <LiveKitRoom
+      <LiveKitRoom
         video={true}
         audio={true}
         token={token}
@@ -140,35 +184,9 @@ const VoiceRoomPage = ({
 
         {isConnected && <MyVideoConference />}
         <ControlBar />
-      </LiveKitRoom> */}
+      </LiveKitRoom>
     </div>
   );
 };
-function MyVideoConference() {
-  // `useTracks` returns all camera and screen share tracks. If a user
-  // joins without a published camera track, a placeholder track is returned.
-  const [mode, setMode] = useState(true);
-  const navigator = useNavigate();
 
-  const nextMode = () => {
-    navigator("/specialvoiceroom");
-  };
-  useEffect(() => {
-    // let track2 = tracks.find((trackRef) => trackRef.source === "screen_share");
-  }, [mode]);
-  const tracks = useTracks(
-    [
-      { source: Track.Source.Camera, withPlaceholder: true },
-      { source: Track.Source.ScreenShare, withPlaceholder: false },
-    ],
-    { onlySubscribed: false },
-  );
-  return (
-    <GridLayout tracks={tracks} style={{ height: "90vh" }}>
-      {/* The GridLayout accepts zero or one child. The child is used
-      as a template to render all passed in tracks. */}
-      <ParticipantTile onPaste={nextMode}></ParticipantTile>
-    </GridLayout>
-  );
-}
 export default VoiceRoomPage;

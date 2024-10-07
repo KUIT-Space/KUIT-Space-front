@@ -19,6 +19,7 @@ const JoinVoiceRoomPage = () => {
   const location = useLocation();
   const data: VrList = location.state;
 
+  const id = data.id;
   const title = data.name;
   const user_num = data.numParticipant;
 
@@ -70,7 +71,7 @@ const JoinVoiceRoomPage = () => {
     <div>
       {isJoined ? (
         <>
-          <VoiceRoomPage VoiceRoomName={title} setJoin={setJoin}></VoiceRoomPage>
+          <VoiceRoomPage VoiceRoomName={title} setJoin={setJoin} vrId={id} />
         </>
       ) : (
         <>

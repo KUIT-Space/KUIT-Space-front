@@ -1,8 +1,9 @@
-import styled from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 
 interface props {
   x: number;
   y: number;
+  $enabled?: boolean;
 }
 
 export const VRuserA = styled.a`
@@ -38,19 +39,39 @@ export const MicImg = styled.img`
   height: 1.5rem;
   margin-left: auto;
 `;
+const ripple = keyframes`
+
+  0% {
+    box-shadow: 0 0 0 0 rgba(101, 255, 120, 0.3),
+                0 0 0 0.5em rgba(101, 255, 120, 0.3),
+                0 0 0 1em rgba(101, 255, 120, 0.3),
+                0 0 0 1.5em rgba(101, 255, 120, 0.3);
+  }
+  100% {
+    box-shadow: 0 0 0 1em rgba(101, 255, 120, 0.3),
+                0 0 0 1.5em rgba(101, 255, 120, 0.3),
+                0 0 0 2em rgba(101, 255, 120, 0.3),
+                0 0 0 2.5em rgba(101, 255, 120, 0);
+  }
+`;
 
 export const MyDiv = styled.div<props>`
   width: 5rem;
   height: 5rem;
 
   position: relative;
-  top: ${(props) => props.x + "rem"};
-  left: ${(props) => props.y + "rem"};
+  top: ${(props) => props.x + "%"};
+  left: ${(props) => props.y + "%"};
 
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px white solid;
+  border: ${(props) => (props.$enabled ? "1px white solid" : "1px green solid")};
+  animation: ${(props) =>
+    !props.$enabled &&
+    css`
+      ${ripple} 2s linear infinite
+    `};
   border-radius: 50%;
 `;
 
