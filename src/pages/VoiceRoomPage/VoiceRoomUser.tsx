@@ -22,21 +22,10 @@ export const VoiceRoomUser = ({ props }: { props: participantInfo }) => {
   );
 };
 
-export const MainVoiceRoomUser = ({
-  props,
-  speakerList,
-}: {
-  props: VoiceRoomUserInfo | undefined;
-  speakerList: string[] | undefined;
-}) => {
+export const MainVoiceRoomUser = ({ props }: { props: VoiceRoomUserInfo | undefined }) => {
   const userId = Number.parseInt(localStorage.getItem("userId")!);
-  console.log(props?.x, props?.y);
   return (
-    <s.MyDiv
-      x={props?.x!}
-      y={props?.y!}
-      $enabled={speakerList?.includes(props?.userInfo.profileImage!)}
-    >
+    <s.MyDiv x={props?.x!} y={props?.y!} $enabled={props?.isSpeaking}>
       <s.MainVRuserImg
         src={
           props?.userInfo.profileImage

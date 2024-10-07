@@ -15,7 +15,7 @@ import {
   useParticipants,
   useTracks,
 } from "@livekit/components-react";
-import { Participant, Room, RoomEvent, Track } from "livekit-client";
+import { Participant, RemoteParticipant, Room, RoomEvent, Track } from "livekit-client";
 
 import back from "@/assets/icon_back.svg";
 import plus from "@/assets/VoiceRoom/icon_plus.svg";
@@ -60,6 +60,16 @@ const VoiceRoomPage = ({
 
   // const participants = useParticipants();
 
+  const handleSpeaking = (id: number) => {
+    setUserList(
+      userList.map((value) =>
+        value.userInfo.userId === id
+          ? { ...value, isSpeaking: true }
+          : { ...value, isSpeaking: false },
+      ),
+    );
+  };
+
   const handleDisconnect = () => {
     setIsConnected(false);
     setConnect(false);
@@ -71,13 +81,22 @@ const VoiceRoomPage = ({
 
   room.on(RoomEvent.ActiveSpeakersChanged, (speakers: Participant[]) => {
     // Speakers contain all of the current active speakers
-    console.log(speakers);
     setSpeakerList(
       speakers.map((value) => {
-        return value.attributes.id;
+        return value.identity;
       }),
     );
+    // console.log("speakers", speakers);
   });
+  useEffect(() => {
+    speakerList?.forEach((value) => {
+      handleSpeaking(parseInt(value));
+    });
+  }, [speakerList]);
+
+  useEffect(() => {
+    console.log("user", userList);
+  }, [userList]);
 
   const handleParticipantSpeaking = () => {};
   function MyVideoConference() {
@@ -102,9 +121,6 @@ const VoiceRoomPage = ({
     return (
       <>
         <VoiceRoomContainer />
-        {/* <ParticipantLoop participants={participants}>
-          <ParticipantName />
-        </ParticipantLoop> */}
         <SpaceControlBar />
       </>
     );
@@ -143,7 +159,7 @@ const VoiceRoomPage = ({
     return (
       <s.VoiceRoomDiv>
         {userList?.map((value) => {
-          return <MainVoiceRoomUser props={value} speakerList={speakerList}></MainVoiceRoomUser>;
+          return <MainVoiceRoomUser props={value}></MainVoiceRoomUser>;
         })}
       </s.VoiceRoomDiv>
     );

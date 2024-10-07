@@ -40,7 +40,6 @@ export const MicImg = styled.img`
   margin-left: auto;
 `;
 const ripple = keyframes`
-
   0% {
     box-shadow: 0 0 0 0 rgba(101, 255, 120, 0.3),
                 0 0 0 0.5em rgba(101, 255, 120, 0.3),
@@ -66,11 +65,11 @@ export const MyDiv = styled.div<props>`
   display: flex;
   align-items: center;
   justify-content: center;
-  border: ${(props) => (props.$enabled ? "1px white solid" : "1px green solid")};
+  border: "1px white solid";
   animation: ${(props) =>
-    !props.$enabled &&
+    props.$enabled &&
     css`
-      ${ripple} 2s linear infinite
+      ${ripple} 1s ease-in
     `};
   border-radius: 50%;
 `;
