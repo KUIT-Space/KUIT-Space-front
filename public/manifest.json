@@ -1,7 +1,7 @@
 {
   "name": "Space Project",
   "short_name": "Space",
-  "start_url": "/login",
+  "start_url": "/",
   "display": "standalone",
   "icons": [
     {
@@ -457,5 +457,9 @@
       "sizes": "1024x1024"
     }
   ],
-  "prefer_related_applications": true
+  "prefer_related_applications": true,
+  "theme_color": "#36bf8e",
+  "background_color": "#ffffff",
+  "id": "space",
+  "description": "단 하나의 동아리 / 모임을 위한 커뮤니티 서비스"
 }
