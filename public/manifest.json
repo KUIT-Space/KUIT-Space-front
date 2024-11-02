@@ -1,0 +1,13 @@
+{
+  "name": "Space Project",
+  "short_name": "Space",
+  "start_url": "/login",
+  "display": "standalone",
+  "icons": [
+    {
+      "sizes": "128x128",
+      "src": "./space_logo.png"
+    }
+  ],
+  "prefer_related_applications": true
+}
