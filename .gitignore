@@ -26,3 +26,5 @@ localhost-key.pem
 localhost.pem
 *_mockChat.tsx
 .env
+
+*storybook.log
