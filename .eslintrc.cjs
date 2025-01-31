@@ -2,11 +2,12 @@ module.exports = {
   root: true,
   env: { browser: true, es2020: true },
   extends: [
-    "plugin:react/recommended", // 리액트 추천 룰셋
+    "plugin:react/recommended",
     "eslint:recommended",
-    "plugin:@typescript-eslint/recommended", // 타입스크립트 추천 룰셋
+    "plugin:@typescript-eslint/recommended",
     "plugin:react-hooks/recommended",
-    "plugin:prettier/recommended", // eslint의 포매팅 기능을 prettier로 사용함. 항상 마지막에 세팅 되어야 함. (eslint-plugin-prettier)
+    "plugin:prettier/recommended",
+    "plugin:storybook/recommended"
   ],
   ignorePatterns: ["dist", ".eslintrc.cjs", "mock"],
   parser: "@typescript-eslint/parser",
