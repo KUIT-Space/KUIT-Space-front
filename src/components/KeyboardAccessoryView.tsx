@@ -7,7 +7,7 @@ export interface KeyboardAccessoryViewProps {
 
 const StyledKeyboardAccessoryView = styled.div`
   position: absolute;
-  bottom: 100px;
+  bottom: 10px;
 `;
 
 const KeyboardAccessoryView: React.FC<KeyboardAccessoryViewProps> = ({ children }) => {
