@@ -30,7 +30,6 @@ const KeyboardAccessoryView: React.FC<KeyboardAccessoryViewProps> = ({ children 
     }
 
     return () => {
-      console.log("visualViewport unregistered");
       resizeAbortController.abort();
     };
   }, []);
