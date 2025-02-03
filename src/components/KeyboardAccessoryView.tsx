@@ -11,29 +11,6 @@ const StyledKeyboardAccessoryView = styled.div`
 `;
 
 const KeyboardAccessoryView: React.FC<KeyboardAccessoryViewProps> = ({ children }) => {
-  const divRef = useRef<HTMLDivElement>(null);
-
-  const handleVisualViewportResize = (event: Event) => {
-    const visualViewportHeight = window.visualViewport?.height;
-    if (visualViewportHeight && divRef.current) {
-      divRef.current.style.height = `${visualViewportHeight - 30}px`;
-    }
-  };
-
-  useEffect(() => {
-    const resizeAbortController = new AbortController();
-
-    if (visualViewport) {
-      visualViewport.addEventListener("resize", handleVisualViewportResize, {
-        signal: resizeAbortController.signal,
-      });
-    }
-
-    return () => {
-      resizeAbortController.abort();
-    };
-  }, []);
-
   return <StyledKeyboardAccessoryView>{children}</StyledKeyboardAccessoryView>;
 };
 
