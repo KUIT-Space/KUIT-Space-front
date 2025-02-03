@@ -17,7 +17,6 @@ const KeyboardAccessoryView: React.FC<KeyboardAccessoryViewProps> = ({ children 
     const visualViewportHeight = window.visualViewport?.height;
     if (visualViewportHeight && divRef.current) {
       divRef.current.style.height = `${visualViewportHeight - 30}px`;
-      window.scrollTo(0, 40);
     }
   };
 
