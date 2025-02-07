@@ -130,8 +130,9 @@ import {
 const LoginPage = () => {
   const navigate = useNavigate();
   const handleDiscordLogin = () => {
-    const link = ``;
-    window.location.href = link;
+    {
+      /**/
+    }
   };
 
   return (
@@ -195,7 +196,7 @@ const LoginPage = () => {
           프로젝트 커뮤니티
         </Description>
 
-        <LoginButton>
+        <LoginButton onClick={handleDiscordLogin}>
           <>
             <DiscordLogo>
               <img src={discordLogo} style={{ width: "100%" }} alt="Logo" />
