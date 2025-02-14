@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 const StyledTag = styled.button<{ isSelected?: boolean }>`
   display: flex;
+  width: fit-content;
   padding: 4px 12px;
   justify-content: center;
   align-items: center;
