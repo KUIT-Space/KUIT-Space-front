@@ -1,8 +1,10 @@
 import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { userEvent, within } from "@storybook/test";
+import { expect } from "@storybook/test";
 
 import Tag from "../pages/WritePostPage/Tag";
+import { theme } from "../styles/theme";
 
 const meta = {
   title: "Tag",
@@ -134,8 +136,13 @@ export const InteractiveDefault: Story = {
   render: ({ children }) => <InteractiveTag>{children}</InteractiveTag>,
   play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement);
-    const tag = canvas.getByText(args.children as string);
+    const tag = canvas.getByRole("button", { name: args.children as string });
+
+    // 초기 상태 확인 (미선택)
+    await expect(tag).toHaveStyle({ "background-color": theme.colors.BG850 });
     await userEvent.click(tag);
+    // 클릭 후 상태 확인 (선택)
+    await expect(tag).not.toHaveStyle({ "background-color": theme.colors.BG850 });
   },
 };
 
@@ -146,8 +153,13 @@ export const InteractiveAndroid: Story = {
   render: ({ children }) => <InteractiveTag>{children}</InteractiveTag>,
   play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement);
-    const tag = canvas.getByText(args.children as string);
+    const tag = canvas.getByRole("button", { name: args.children as string });
+
+    // 초기 상태 확인 (미선택)
+    await expect(tag).toHaveStyle({ "background-color": theme.colors.BG850 });
     await userEvent.click(tag);
+    // 클릭 후 상태 확인 (선택)
+    await expect(tag).not.toHaveStyle({ "background-color": theme.colors.BG850 });
   },
 };
 
@@ -158,8 +170,13 @@ export const InteractiveIOS: Story = {
   render: ({ children }) => <InteractiveTag>{children}</InteractiveTag>,
   play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement);
-    const tag = canvas.getByText(args.children as string);
+    const tag = canvas.getByRole("button", { name: args.children as string });
+
+    // 초기 상태 확인 (미선택)
+    await expect(tag).toHaveStyle({ "background-color": theme.colors.BG850 });
     await userEvent.click(tag);
+    // 클릭 후 상태 확인 (선택)
+    await expect(tag).not.toHaveStyle({ "background-color": theme.colors.BG850 });
   },
 };
 
@@ -170,8 +187,13 @@ export const InteractiveBackend: Story = {
   render: ({ children }) => <InteractiveTag>{children}</InteractiveTag>,
   play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement);
-    const tag = canvas.getByText(args.children as string);
+    const tag = canvas.getByRole("button", { name: args.children as string });
+
+    // 초기 상태 확인 (미선택)
+    await expect(tag).toHaveStyle({ "background-color": theme.colors.BG850 });
     await userEvent.click(tag);
+    // 클릭 후 상태 확인 (선택)
+    await expect(tag).not.toHaveStyle({ "background-color": theme.colors.BG850 });
   },
 };
 
@@ -182,8 +204,13 @@ export const InteractiveFrontend: Story = {
   render: ({ children }) => <InteractiveTag>{children}</InteractiveTag>,
   play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement);
-    const tag = canvas.getByText(args.children as string);
+    const tag = canvas.getByRole("button", { name: args.children as string });
+
+    // 초기 상태 확인 (미선택)
+    await expect(tag).toHaveStyle({ "background-color": theme.colors.BG850 });
     await userEvent.click(tag);
+    // 클릭 후 상태 확인 (선택)
+    await expect(tag).not.toHaveStyle({ "background-color": theme.colors.BG850 });
   },
 };
 
@@ -194,8 +221,13 @@ export const InteractivePM: Story = {
   render: ({ children }) => <InteractiveTag>{children}</InteractiveTag>,
   play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement);
-    const tag = canvas.getByText(args.children as string);
+    const tag = canvas.getByRole("button", { name: args.children as string });
+
+    // 초기 상태 확인 (미선택)
+    await expect(tag).toHaveStyle({ "background-color": theme.colors.BG850 });
     await userEvent.click(tag);
+    // 클릭 후 상태 확인 (선택)
+    await expect(tag).not.toHaveStyle({ "background-color": theme.colors.BG850 });
   },
 };
 
@@ -206,7 +238,12 @@ export const InteractiveDesign: Story = {
   render: ({ children }) => <InteractiveTag>{children}</InteractiveTag>,
   play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement);
-    const tag = canvas.getByText(args.children as string);
+    const tag = canvas.getByRole("button", { name: args.children as string });
+
+    // 초기 상태 확인 (미선택)
+    await expect(tag).toHaveStyle({ "background-color": theme.colors.BG850 });
     await userEvent.click(tag);
+    // 클릭 후 상태 확인 (선택)
+    await expect(tag).not.toHaveStyle({ "background-color": theme.colors.BG850 });
   },
 };
