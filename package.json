@@ -11,7 +11,9 @@
     "lint--fix": "eslint --fix . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "test-storybook": "test-storybook",
+    "test-storybook:ci": "start-server-and-test storybook http://localhost:6006 test-storybook"
   },
   "dependencies": {
     "@livekit/components-react": "^2.4.3",
@@ -63,6 +65,7 @@
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "eslint-plugin-storybook": "^0.11.2",
     "prettier": "^3.3.3",
+    "start-server-and-test": "^2.0.10",
     "storybook": "^8.5.2",
     "typescript": "^5.2.2",
     "vite": "^5.4.8",
