@@ -4,7 +4,7 @@ import { userEvent, within } from "@storybook/test";
 import { expect } from "@storybook/test";
 
 import Tag from "../pages/WritePostPage/Tag";
-import { theme } from "../styles/theme";
+import { theme } from "../styles/Theme";
 
 const meta = {
   title: "Tag",
@@ -140,9 +140,16 @@ export const InteractiveDefault: Story = {
 
     // 초기 상태 확인 (미선택)
     await expect(tag).toHaveStyle({ "background-color": theme.colors.BG850 });
+
+    // 첫 번째 클릭
     await userEvent.click(tag);
     // 클릭 후 상태 확인 (선택)
     await expect(tag).not.toHaveStyle({ "background-color": theme.colors.BG850 });
+
+    // 두 번째 클릭
+    await userEvent.click(tag);
+    // 다시 클릭 후 상태 확인 (미선택)
+    await expect(tag).toHaveStyle({ "background-color": theme.colors.BG850 });
   },
 };
 
@@ -157,9 +164,16 @@ export const InteractiveAndroid: Story = {
 
     // 초기 상태 확인 (미선택)
     await expect(tag).toHaveStyle({ "background-color": theme.colors.BG850 });
+
+    // 첫 번째 클릭
     await userEvent.click(tag);
     // 클릭 후 상태 확인 (선택)
     await expect(tag).not.toHaveStyle({ "background-color": theme.colors.BG850 });
+
+    // 두 번째 클릭
+    await userEvent.click(tag);
+    // 다시 클릭 후 상태 확인 (미선택)
+    await expect(tag).toHaveStyle({ "background-color": theme.colors.BG850 });
   },
 };
 
@@ -174,9 +188,16 @@ export const InteractiveIOS: Story = {
 
     // 초기 상태 확인 (미선택)
     await expect(tag).toHaveStyle({ "background-color": theme.colors.BG850 });
+
+    // 첫 번째 클릭
     await userEvent.click(tag);
     // 클릭 후 상태 확인 (선택)
     await expect(tag).not.toHaveStyle({ "background-color": theme.colors.BG850 });
+
+    // 두 번째 클릭
+    await userEvent.click(tag);
+    // 다시 클릭 후 상태 확인 (미선택)
+    await expect(tag).toHaveStyle({ "background-color": theme.colors.BG850 });
   },
 };
 
@@ -191,9 +212,16 @@ export const InteractiveBackend: Story = {
 
     // 초기 상태 확인 (미선택)
     await expect(tag).toHaveStyle({ "background-color": theme.colors.BG850 });
+
+    // 첫 번째 클릭
     await userEvent.click(tag);
     // 클릭 후 상태 확인 (선택)
     await expect(tag).not.toHaveStyle({ "background-color": theme.colors.BG850 });
+
+    // 두 번째 클릭
+    await userEvent.click(tag);
+    // 다시 클릭 후 상태 확인 (미선택)
+    await expect(tag).toHaveStyle({ "background-color": theme.colors.BG850 });
   },
 };
 
@@ -208,9 +236,16 @@ export const InteractiveFrontend: Story = {
 
     // 초기 상태 확인 (미선택)
     await expect(tag).toHaveStyle({ "background-color": theme.colors.BG850 });
+
+    // 첫 번째 클릭
     await userEvent.click(tag);
     // 클릭 후 상태 확인 (선택)
     await expect(tag).not.toHaveStyle({ "background-color": theme.colors.BG850 });
+
+    // 두 번째 클릭
+    await userEvent.click(tag);
+    // 다시 클릭 후 상태 확인 (미선택)
+    await expect(tag).toHaveStyle({ "background-color": theme.colors.BG850 });
   },
 };
 
@@ -225,9 +260,16 @@ export const InteractivePM: Story = {
 
     // 초기 상태 확인 (미선택)
     await expect(tag).toHaveStyle({ "background-color": theme.colors.BG850 });
+
+    // 첫 번째 클릭
     await userEvent.click(tag);
     // 클릭 후 상태 확인 (선택)
     await expect(tag).not.toHaveStyle({ "background-color": theme.colors.BG850 });
+
+    // 두 번째 클릭
+    await userEvent.click(tag);
+    // 다시 클릭 후 상태 확인 (미선택)
+    await expect(tag).toHaveStyle({ "background-color": theme.colors.BG850 });
   },
 };
 
@@ -242,8 +284,15 @@ export const InteractiveDesign: Story = {
 
     // 초기 상태 확인 (미선택)
     await expect(tag).toHaveStyle({ "background-color": theme.colors.BG850 });
+
+    // 첫 번째 클릭
     await userEvent.click(tag);
     // 클릭 후 상태 확인 (선택)
     await expect(tag).not.toHaveStyle({ "background-color": theme.colors.BG850 });
+
+    // 두 번째 클릭
+    await userEvent.click(tag);
+    // 다시 클릭 후 상태 확인 (미선택)
+    await expect(tag).toHaveStyle({ "background-color": theme.colors.BG850 });
   },
 };
