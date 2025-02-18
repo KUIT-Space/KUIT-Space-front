@@ -116,15 +116,16 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import logoSpace from "@/assets/logo_space.svg";
 import discordLogo from "@/assets/Login/discordLogo.svg";
+import star from "@/assets/Login/star.svg";
 
 import {
   Container,
   Logo,
-  Dot,
   LogoContainer,
   Description,
   LoginButton,
   DiscordLogo,
+  Star,
 } from "@/pages/LoginPage/LoginPage.styled.ts";
 
 const LoginPage = () => {
@@ -142,52 +143,9 @@ const LoginPage = () => {
           <Logo>
             <img src={logoSpace} style={{ width: "100%" }} alt="Logo" />
           </Logo>
-
-          <Dot size={0.15625} top={0.65} left={7.19}>
-            <circle cx="1.25" cy="1.25" r="1.25" fill="white" />
-          </Dot>
-          <Dot size={0.109} top={1.56} left={8.41}>
-            <circle cx="1.40047" cy="1.41072" r="0.872145" fill="white" />
-          </Dot>
-          <Dot size={0.109} top={2.1} left={19.4}>
-            <circle cx="1.04988" cy="1.13191" r="0.872145" fill="white" />
-          </Dot>
-          <Dot size={0.08719} top={2.7} left={20.8}>
-            <circle cx="0.72506" cy="1.55123" r="0.697716" fill="white" />
-          </Dot>
-          <Dot size={0.08719} top={1.92} left={4.06}>
-            <circle cx="1.62838" cy="0.992149" r="0.697716" fill="white" />
-          </Dot>
-          <Dot size={0.15263} top={2.44} left={17.5}>
-            <circle cx="1.69854" cy="1.888" r="1.221" fill="white" />
-          </Dot>
-          <Dot size={0.08719} top={2.92} left={15}>
-            <circle cx="1.27877" cy="1.03902" r="0.697716" fill="white" />
-          </Dot>
-          <Dot size={0.0545} top={1.38} left={19}>
-            <circle cx="0.811072" cy="1.18363" r="0.436072" fill="white" />
-          </Dot>
-          <Dot size={0.04363} top={2.3} left={9.49}>
-            <circle cx="1.14573" cy="0.748272" r="0.348858" fill="white" />
-          </Dot>
-          <Dot size={0.04363} top={0} left={13.8}>
-            <circle cx="0.917217" cy="0.943585" r="0.348858" fill="white" />
-          </Dot>
-          <Dot size={0.04363} top={0.65} left={0}>
-            <circle cx="0.348858" cy="0.348858" r="0.348858" fill="white" />
-          </Dot>
-          <Dot size={0.05581} top={2.85} left={3.67}>
-            <circle cx="1.12703" cy="0.570877" r="0.446365" fill="white" />
-          </Dot>
-          <Dot size={0.05581} top={10.2} left={15.9}>
-            <circle cx="0.528396" cy="0.708084" r="0.446365" fill="white" />
-          </Dot>
-          <Dot size={0.04363} top={4.59} left={1.81}>
-            <circle cx="0.348858" cy="0.348858" r="0.348858" fill="white" />
-          </Dot>
-          <Dot size={0.04363} top={5.46} left={19.9}>
-            <circle cx="0.348858" cy="0.348858" r="0.348858" fill="white" />
-          </Dot>
+          <Star>
+            <img src={star} alt="Star" />
+          </Star>
         </LogoContainer>
 
         <Description>

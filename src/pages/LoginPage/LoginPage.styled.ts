@@ -142,6 +142,12 @@ export const Logo = styled.div`
   margin-top: 1.45rem;
 `;
 
+export const Star = styled.div`
+  display: flex;
+  zindex: -1;
+  position: absolute;
+`;
+
 export const Dot = styled.svg<{ size: number; top: number; left: number }>`
   position: absolute;
   width: ${({ size }) => size}rem;
