@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import SignUpHeader from "@/components/SignUpHeader";
-import StopModal from "@/components/StopModal";
+import Modal from "@/components/Modal";
 import {
   Container,
   Explanation,
@@ -113,7 +113,7 @@ const SignUp: React.FC = () => {
 
       // try {
       axios
-        .post(`${import.meta.env.VITE_API_BACK_URL}/user/signup`, {
+        .post(``, {
           email: email,
           password: password,
           userName: name,
@@ -275,18 +275,15 @@ const SignUp: React.FC = () => {
             </NextButton>
           </>
         )}
-        <StopModal
+        {/*<Modal
           isOpen={isModalOpen}
           onClose={handleCloseModal}
           onConfirm={handleConfirmModal}
           title="회원가입 그만두기"
           content={["여기서 그만두면 스페이스의", "서비스를 이용할 수 없어요!"]}
-          confirmButtonColor="#48FFBD"
-          cancelButtonText="취소"
-          confirmButtonText="확인"
-          contentColor={""}
-          confirmButtonTextColor={""}
-        />
+          leftButtonText="취소"
+          rightButtonText="확인"
+        />*/}
       </Container>
     </>
   );
