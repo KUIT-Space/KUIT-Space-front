@@ -17,8 +17,7 @@ import ChatSettingNamePage from "@/pages/ChatPage/ChatSettingPage/ChatSettingNam
 import ChatSettingPage from "@/pages/ChatPage/ChatSettingPage/ChatSettingPage";
 import ChattingPage from "@/pages/ChatPage/ChattingPage/ChattingPage";
 import HomePage from "@/pages/HomePage/HomePage";
-import LoginPage from "@/pages/LoginPage/LoginPage";
-//import SignUpPage from "@/pages/LoginPage/SignUpPage";
+import SignUpPage from "@/pages/LoginPage/SignUpPage";
 import CompletePay from "@/pages/PayPage/CompletePay";
 import CreateRequestPage from "@/pages/PayPage/CreateRequestPage";
 import MyRequestPayPage from "@/pages/PayPage/MyRequestPayPage";
@@ -43,10 +42,11 @@ import BoardRegisterPage from "./pages/BoardPage/BoardRegisterPage/BoardRegister
 import HomePageMemberPage from "./pages/HomePage/HomePageMember";
 import HomePageProfile from "./pages/HomePage/HomePageProfile";
 import KakaoRedirection from "./pages/LoginPage/KakaoRedirection";
-//import LoginModal from "./pages/LoginPage/LoginModal";
 import InviteSpace from "./pages/SpacePage/InviteSpace";
 import InviteSpace2 from "./pages/SpacePage/InviteSpace2";
 import SpecialVoiceRoom from "./pages/VoiceRoomPage/SpecialVoiceRoom";
+import DiscordLoginPage from "@/pages/LoginPage/DiscordLogin";
+import LoginPage from "@/pages/LoginPage/KakaoLogin";
 
 // will we need constant path in later..?
 // const PATH = {
@@ -145,7 +145,8 @@ function App() {
 
   const routes_children_login = [
     { path: "/login", element: <LoginPage />, hasBottombar: false },
-    //{ path: "/signup", element: <SignUpPage />, hasBottombar: false },
+    { path: "/discordlogin", element: <DiscordLoginPage />, hasBottombar: false }, //아직 디스코드 로그인이 다 구현 안돼서 둘다 살려둠 완성시 수정 필요
+    { path: "/signup", element: <SignUpPage />, hasBottombar: false },
     { path: "/oauth/callback/kakao", element: <KakaoRedirection />, hasBottombar: true },
   ];
 
