@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { Chatroom } from "@/apis";
 import { ChatroomDeleteApi, ChatroomExitApi } from "@/apis/Chat/ChatroomExitDelete";
 import RightArrowImg from "@/assets/Space/icon_right_arrow.svg";
-import StopModal from "@/components/StopModal";
+import StopModal from "@/components/Modal";
 import { ToggleBtn } from "@/components/ToggleBtn";
 import TopBarText, { LeftEnum } from "@/components/TopBarText";
 

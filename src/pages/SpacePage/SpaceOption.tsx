@@ -3,8 +3,8 @@ import { To, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 import right_arrow from "@/assets/Space/icon_right_arrow.svg";
-import StopModal from "@/components/StopModal";
-import * as S from "@/components/StopModal.styled";
+import StopModal from "@/components/Modal";
+import * as S from "@/components/Modal.styled";
 import TopBarText, { LeftEnum } from "@/components/TopBarText";
 import NotDevelopModal from "@/utils/NotDevelopModal";
 
