@@ -45,8 +45,12 @@ import KakaoRedirection from "./pages/LoginPage/KakaoRedirection";
 import InviteSpace from "./pages/SpacePage/InviteSpace";
 import InviteSpace2 from "./pages/SpacePage/InviteSpace2";
 import SpecialVoiceRoom from "./pages/VoiceRoomPage/SpecialVoiceRoom";
+
 import DiscordLoginPage from "@/pages/LoginPage/DiscordLogin";
 import LoginPage from "@/pages/LoginPage/KakaoLogin";
+
+import WritePostPage from "./pages/WritePostPage";
+
 
 // will we need constant path in later..?
 // const PATH = {
@@ -69,7 +73,7 @@ const LayoutContainer = styled.div`
   margin: 0 auto;
 
   #content {
-    min-height: calc(100vh - 3.75rem);
+    height: calc(100vh - 3.75rem);
   }
 `;
 
@@ -155,6 +159,10 @@ function App() {
     { path: "/member/:id", element: <HomePageProfile />, hasBottombar: false },
   ];
 
+  const routes_children_write = [
+    { path: "/write", element: <WritePostPage />, hasBottombar: false },
+  ];
+
   const routes_children = [
     { path: "/", element: <HomePage />, hasBottomBar: true },
     ...routes_children_chat,
@@ -164,6 +172,7 @@ function App() {
     ...routes_children_space,
     ...routes_children_login,
     ...routes_children_home,
+    ...routes_children_write,
     { path: "/*", element: <HomePage />, hasBottomBar: true },
   ];
 
