@@ -51,3 +51,17 @@ export const kakaoLoginApi = async (code: string) => {
     return res;
   });
 };
+
+export const discordLoginApi = async (code: string) => {
+  const requestOptions = createRequestOptionsJSON("GET");
+
+  return await fetchLoginApi(
+    `${import.meta.env.VITE_API_BACK_URL}/oauth/discord?code=${code}`,
+    requestOptions,
+  ).then((res) => {
+    if (res.result?.userId) {
+      localStorage.setItem("userId", res.result.userId.toString());
+    }
+    return res;
+  });
+};

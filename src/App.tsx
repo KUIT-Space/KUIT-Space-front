@@ -42,6 +42,7 @@ import BoardDetailPage from "./pages/BoardPage/BoardDetailpage/BoardDetailPage";
 import BoardRegisterPage from "./pages/BoardPage/BoardRegisterPage/BoardRegisterPage";
 import HomePageMemberPage from "./pages/HomePage/HomePageMember";
 import HomePageProfile from "./pages/HomePage/HomePageProfile";
+import DiscordRedirection from "./pages/LoginPage/DiscordRedirection";
 import KakaoRedirection from "./pages/LoginPage/KakaoRedirection";
 import LoginModal from "./pages/LoginPage/LoginModal";
 import InviteSpace from "./pages/SpacePage/InviteSpace";
@@ -148,6 +149,7 @@ function App() {
     { path: "/login", element: <LoginPage />, hasBottombar: false },
     { path: "/signup", element: <SignUpPage />, hasBottombar: false },
     { path: "/oauth/callback/kakao", element: <KakaoRedirection />, hasBottombar: true },
+    { path: "/discord-oauth", element: <DiscordRedirection />, hasBottombar: true },
   ];
 
   const routes_children_home = [

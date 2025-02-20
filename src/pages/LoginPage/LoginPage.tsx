@@ -51,6 +51,17 @@ const LoginPage = () => {
     window.location.href = link;
   };
 
+  const handleDiscordLogin = () => {
+    if (import.meta.env.DEV) {
+      const link = `https://discord.com/oauth2/authorize?client_id=1331873954553532486&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A5173%2FKUIT-Space-front%2Fdiscord-oauth&scope=identify+email`;
+      window.location.href = link;
+    } else {
+      const link = `https://discord.com/oauth2/authorize?client_id=1331873954553532486&response_type=code&redirect_uri=https%3A%2F%2Fkuit-space.github.io%2FKUIT-Space-front%2Fdiscord-oauth&scope=identify+email`;
+      window.location.href = link;
+    }
+    return;
+  };
+
   useEffect(() => {
     const jwt = new URL(document.location.toString()).searchParams.get("jwt");
     const userId = new URL(document.location.toString()).searchParams.get("userId");
@@ -101,6 +112,9 @@ const LoginPage = () => {
           </Social>
           <Social style={{ opacity: 0.5, cursor: "default" }} disabled>
             <img src={naver} alt="naver" />
+          </Social>
+          <Social onClick={handleDiscordLogin}>
+            <img src={""} alt="discord" />
           </Social>
         </ScContainer>
       </Container>
