@@ -106,11 +106,11 @@ const SpaceOption = () => {
           onConfirm={handleConfirmLogoutModal}
           title="로그아웃"
           content={["로그아웃 하시겠어요?"]}
-          contentColor="#767681"
-          confirmButtonColor="#48FFBD"
-          cancelButtonText="취소"
-          confirmButtonText="확인"
-          confirmButtonTextColor="#171719"
+          leftButtonText="취소"
+          rightButtonText="확인"
+          leftButtonColor="gray"
+          rightButtonColor="#48FFBD"
+          rightButtonTextColor="#171719"
         />
         <StopModal
           isOpen={isWithdrawModalOpen}
@@ -118,11 +118,11 @@ const SpaceOption = () => {
           onConfirm={handleConfirmWithdrawModal}
           title="탈퇴하기"
           content={["탈퇴하면 현재 가입중인", "모든 스페이스에서 탈퇴돼요."]}
-          contentColor="#767681"
-          confirmButtonColor="#FF5656"
-          cancelButtonText="취소"
-          confirmButtonText="탈퇴하기"
-          confirmButtonTextColor="#FFFFFF"
+          leftButtonText="취소"
+          rightButtonText="탈퇴하기"
+          leftButtonColor="gray"
+          rightButtonColor="#FF5656"
+          rightButtonTextColor="#FFFFFF"
         />
         <NotDevelopModal isModalOpen={isNotDevModal} setIsModalOpen={setIsNotDevModal} />
       </div>

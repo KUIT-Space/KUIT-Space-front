@@ -26,11 +26,11 @@ export const NotDevelopModal = ({
       }}
       title={"💻  공사 중  💻"}
       content={["아직 개발 중인 페이지에요", "조금만 기다려 주세요"]}
-      contentColor="#767681"
-      confirmButtonColor="#48FFBD"
-      cancelButtonText="취소"
-      confirmButtonText="확인"
-      confirmButtonTextColor="#171719"
+      leftButtonText="취소"
+      rightButtonText="확인"
+      leftButtonColor="gray"
+      rightButtonColor="#48FFBD"
+      rightButtonTextColor="#171719"
     />
   );
 };

@@ -115,11 +115,11 @@ const ChatSettingPage = () => {
         }}
         title="채팅방 나가기"
         content={["나가면 다시 초대를 받아야 들어올 수 있어요", "채팅방을 정말로 나가시겠어요?"]}
-        contentColor="#767681"
-        confirmButtonColor="#48FFBD"
-        cancelButtonText="취소"
-        confirmButtonText="나가기"
-        confirmButtonTextColor="#171719"
+        leftButtonText="취소"
+        rightButtonText="나가기"
+        leftButtonColor="gray"
+        rightButtonColor="#48FFBD"
+        rightButtonTextColor="#171719"
       />
       <StopModal
         isOpen={isDeleteModal}
@@ -133,11 +133,11 @@ const ChatSettingPage = () => {
         }}
         title="채팅방 삭제하기"
         content={["모든 사람들이 채팅방에서 나가져요.", "정말로 삭제하시겠어요?"]}
-        contentColor="#767681"
-        confirmButtonColor="#FF5656"
-        cancelButtonText="취소"
-        confirmButtonText="삭제하기"
-        confirmButtonTextColor="#FFFFFF"
+        leftButtonText="취소"
+        rightButtonText="삭제하기"
+        leftButtonColor="gray"
+        rightButtonColor="#FF5656"
+        rightButtonTextColor="#FFFFFF"
       />
     </>
   );
