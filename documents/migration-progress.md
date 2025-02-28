@@ -36,17 +36,15 @@
      - `VrCreateApi` 함수 마이그레이션
      - `VrEditApi` 함수 마이그레이션
 
-## 남은 작업
-1. JSDoc 개선 (모든 마이그레이션된 API 파일에 적용 필요)
+6. JSDoc 개선 (완료)
    - Login 관련 API
    - Space 관련 API
    - Chat 관련 API
    - Voice Room 관련 API
    - 모든 API 함수의 JSDoc `@returns` 태그에서 반환 타입을 `Promise<~ApiResponse>`로 명시
-   - 예: `@returns {Promise<LoginApiResponse | null>} 로그인 결과 또는 에러 발생 시 null`
+   - 인터페이스에 대한 JSDoc 추가
 
 ## 다음 작업
-- JSDoc 반환 타입 일괄 수정
 - 변환된 코드 테스트
 - PR 생성 및 리뷰 요청
 
