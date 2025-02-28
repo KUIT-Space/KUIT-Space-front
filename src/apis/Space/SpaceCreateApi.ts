@@ -22,7 +22,7 @@ interface CreateSpaceApiRequestType {
  * 새로운 스페이스를 생성하는 API
  * @param spaceName - 생성할 스페이스 이름
  * @param spaceProfileImg - 스페이스 프로필 이미지 (선택적)
- * @returns { spaceId: number } | null - 생성된 스페이스 ID 또는 null
+ * @returns CreateSpaceApiResponseType | null - 생성된 스페이스 정보를 포함한 응답 또는 null
  */
 export const createSpaceApi = async (spaceName: string, spaceProfileImg?: File | null) => {
   const formData = new FormData();
@@ -41,7 +41,7 @@ export const createSpaceApi = async (spaceName: string, spaceProfileImg?: File |
       return null;
     }
 
-    return response.result;
+    return response;
   } catch (error) {
     console.error("[createSpaceApi error]", error);
     throw error;
