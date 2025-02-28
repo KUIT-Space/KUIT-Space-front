@@ -1,11 +1,11 @@
-import { createRequestOptionsFORM_AUTH, fetchApi } from "@/apis/_createRequestOptions";
+import { ApiResponse, client } from "@/apis/client";
 
-interface SpaceUserJoinResponse {
-  code: number;
-  status: string;
-  message: string;
-  result?: string;
-  timestamp?: string;
+interface SpaceUserJoinResult {
+  message?: string;
+}
+
+interface SpaceUserJoinResponse extends ApiResponse {
+  result?: SpaceUserJoinResult;
 }
 
 /**
@@ -14,7 +14,7 @@ interface SpaceUserJoinResponse {
  * @param userProfileImg - 유저 프로필 사진 파일 / 인자가 없다면 null, 사진을 없앨 수 있다
  * @param userName - 유저 이름
  * @param userProfileMsg - 유저 프로필 상태 메시지
- * @returns 성공 메시지
+ * @returns SpaceUserJoinResponse | null - 성공 메시지 또는 null
  */
 export const SpaceUserJoinApi = async (
   spaceId: number,
@@ -23,14 +23,25 @@ export const SpaceUserJoinApi = async (
   userProfileMsg: string,
 ) => {
   const formData = new FormData();
-
   formData.append("userProfileImg", userProfileImg);
   formData.append("userName", userName);
   formData.append("userProfileMsg", userProfileMsg);
 
-  const requestOptions = createRequestOptionsFORM_AUTH("POST", formData);
+  try {
+    const response = await client
+      .post(`space/${spaceId}/join`, {
+        body: formData,
+      })
+      .json<SpaceUserJoinResponse>();
 
-  const url = `${import.meta.env.VITE_API_BACK_URL}/space/${spaceId}/join`;
+    if (response.status !== 200) {
+      console.warn(response.message);
+      return null;
+    }
 
-  return await fetchApi<SpaceUserJoinResponse>(url, requestOptions);
+    return response;
+  } catch (error) {
+    console.error("[SpaceUserJoinApi error]", error);
+    return null;
+  }
 };
