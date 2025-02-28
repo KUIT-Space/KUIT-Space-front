@@ -19,10 +19,11 @@ interface UserSpaceListResponse extends ApiResponse {
   result: UserSpaceListResult;
 }
 
-/** 유저가 속한 스페이스 목록을 조회하는 API
+/**
+ * 유저가 속한 스페이스 목록을 조회하는 API
  * @param size 요청할 스페이스 정보 개수
  * @param lastUserSpaceId 마지막으로 얻은 userSpaceId 값 (초기 요청 시 0)
- * @returns UserSpaceListResponse | null - 스페이스 목록과 lastUserSpaceId 정보를 포함한 응답 또는 null
+ * @returns {Promise<UserSpaceListResponse | null>} 스페이스 목록과 lastUserSpaceId 정보를 포함한 응답 또는 에러 발생 시 null
  */
 export const SpaceSelectApi = async (size: number, lastUserSpaceId: number) => {
   try {

@@ -12,12 +12,13 @@ interface UserProfileResponse extends ApiResponse {
   result: UserProfileResult;
 }
 
-/** 스페이스내의 유저 프로필 view를 조회하는 api
+/**
+ * 스페이스내의 유저 프로필 view를 조회하는 API
  * @param spaceId - 조회할 스페이스 ID
  * @param userId - 조회할 유저 ID (선택적)
  * → userId : 스페이스 멤버 목록 → 스페이스 내의 특정 유저의 프로필 정보 조회를 위해 필요한 request param 입니다!
  * 만약 본인의 프로필 정보 조회일 경우 userId는 빼놓고 request를 구성해주시면 됩니다
- * @returns UserProfileResponse | null - 유저 프로필 정보를 포함한 응답 또는 null, if null, 재로그인 필요
+ * @returns {Promise<UserProfileResponse | null>} 유저 프로필 정보를 포함한 응답 또는 에러 발생 시 null
  */
 export const SpaceSearchUserProfile = async (spaceId: number, userId?: number) => {
   try {

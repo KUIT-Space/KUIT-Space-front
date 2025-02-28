@@ -18,7 +18,7 @@ interface SpaceSearchAllUserApiResponseType extends ApiResponse {
 /**
  * 스페이스 내 모든 사용자 정보를 조회하는 API
  * @param spaceId - 조회할 스페이스 ID
- * @returns SpaceSearchAllUserApiResponseType | null - 스페이스 내 사용자 목록을 포함한 응답 또는 null
+ * @returns {Promise<SpaceSearchAllUserApiResponseType | null>} 스페이스 내 사용자 목록을 포함한 응답 또는 에러 발생 시 null
  */
 export const spaceSearchAllUserApi = async (spaceId: number) => {
   try {
