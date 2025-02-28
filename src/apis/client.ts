@@ -3,7 +3,7 @@ import ky from "ky";
 export interface ApiResponse<T = unknown> {
   code: number;
   message: string;
-  status: string;
+  status: number;
   timestamp?: string;
   result?: T;
 }

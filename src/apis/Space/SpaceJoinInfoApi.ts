@@ -1,4 +1,4 @@
-import { createRequestOptionsJSON_AUTH, fetchApi } from "@/apis/_createRequestOptions";
+import { ApiResponse, client } from "@/apis/client";
 
 export interface SpaceJoinInfo {
   spaceProfileImg: string | null; // 스페이스 썸네일 이미지 url
@@ -7,31 +7,27 @@ export interface SpaceJoinInfo {
   memberNum: number; // 스페이스 멤버 수
 }
 
-interface SpaceJoinInfoResponse {
-  code: number;
-  status: string;
-  message: string;
-  timestamp?: string;
+interface SpaceJoinInfoResponse extends ApiResponse {
   result: SpaceJoinInfo;
 }
 
 /**
  * 초대링크를 받은 유저에게 스페이스 정보를 보여주는 API
  * @param spaceId - 유저를 초대할 스페이스의 ID
- * @returns SpaceInfoResponse | null - 스페이스 정보 또는 이미 가입된 유저 메시지
+ * @returns SpaceJoinInfo | null - 스페이스 정보 또는 이미 가입된 유저 메시지
  */
 export const SpaceJoinInfoApi = async (spaceId: number) => {
-  const requestOptions = createRequestOptionsJSON_AUTH("GET");
-  if (!requestOptions) return null;
+  try {
+    const response = await client.get(`space/${spaceId}/join`).json<SpaceJoinInfoResponse>();
 
-  const url = `${import.meta.env.VITE_API_BACK_URL}/space/${spaceId}/join`;
+    if (response.status !== 200) {
+      console.warn(response.message);
+      return null;
+    }
 
-  const response = await fetchApi<SpaceJoinInfoResponse>(url, requestOptions);
-
-  if (response && response.status !== "OK") {
-    console.warn(response.message);
+    return response.result;
+  } catch (error) {
+    console.error("[SpaceJoinInfoApi error]", error);
     return null;
   }
-
-  return response;
 };
