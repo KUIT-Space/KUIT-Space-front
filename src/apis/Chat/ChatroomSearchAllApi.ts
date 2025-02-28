@@ -1,5 +1,5 @@
 import { ChatContent } from "@/apis";
-import { createRequestOptionsJSON_AUTH, fetchApi } from "@/apis/_createRequestOptions";
+import { ApiResponse, client } from "@/apis/client";
 
 export interface Chatroom {
   id: number;
@@ -10,17 +10,27 @@ export interface Chatroom {
   unreadMsgCount: number;
 }
 
-interface ChatroomSearchApiResponse {
-  code: number;
-  status: number;
-  message: string;
-  result: { chatRoomList: Chatroom[] };
+interface ChatroomSearchApiResponse extends ApiResponse {
+  result: {
+    chatRoomList: Chatroom[];
+  };
 }
 
-export const chatroomSearchAllApi = async (spaceId: number) => {
-  const requestOptions = createRequestOptionsJSON_AUTH("GET");
-  if (!requestOptions) return null;
-
-  const url = `${import.meta.env.VITE_API_BACK_URL}/space/${spaceId}/chat/chatroom`;
-  return await fetchApi<ChatroomSearchApiResponse>(url, requestOptions);
+/**
+ * 채팅방 목록을 조회하는 API
+ * @param spaceId 스페이스 ID
+ * @returns 채팅방 목록 정보
+ */
+export const chatroomSearchAllApi = async (
+  spaceId: number,
+): Promise<ChatroomSearchApiResponse | null> => {
+  try {
+    const response = await client
+      .get(`space/${spaceId}/chat/chatroom`)
+      .json<ChatroomSearchApiResponse>();
+    return response;
+  } catch (error) {
+    console.error("[chatroomSearchAllApi error]", error);
+    return null;
+  }
 };
