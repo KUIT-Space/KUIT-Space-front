@@ -19,7 +19,7 @@ interface ChatroomSearchApiResponse extends ApiResponse {
 /**
  * 채팅방 목록을 조회하는 API
  * @param spaceId 스페이스 ID
- * @returns 채팅방 목록 정보
+ * @returns {Promise<ChatroomSearchApiResponse | null>} 채팅방 목록 정보 또는 에러 발생 시 null
  */
 export const chatroomSearchAllApi = async (
   spaceId: number,
