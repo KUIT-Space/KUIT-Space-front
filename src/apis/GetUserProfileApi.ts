@@ -20,9 +20,9 @@ interface UserProfileResponse {
   timestamp?: string;
 }
 
-/** 스페이스 전체설정 중 스페이스 프로필 관리 view 를 위한 api
- * @returns UserProfileResponse
- * - 유저의 프로필 리스트를 반환합니다.
+/**
+ * 스페이스 전체설정 중 스페이스 프로필 관리 view를 위한 API
+ * @returns {Promise<UserProfileResponse | null>} 유저의 프로필 리스트 정보 또는 에러 발생 시 null
  */
 export const GetUserProfileApi = async (): Promise<UserProfileResponse | null> => {
   try {
