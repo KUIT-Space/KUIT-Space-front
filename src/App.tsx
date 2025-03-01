@@ -50,7 +50,7 @@ import DiscordLoginPage from "@/pages/LoginPage/DiscordLogin";
 import LoginPage from "@/pages/LoginPage/KakaoLogin";
 
 import WritePostPage from "./pages/WritePostPage";
-
+import QRPage from "./pages/QRPage/QRPage";
 
 // will we need constant path in later..?
 // const PATH = {
@@ -103,6 +103,7 @@ function Layout({ routes_children }: { routes_children: RouteChildren[] }) {
 }
 
 function App() {
+  const routes_children_qr = [{ path: "/qr", element: <QRPage /> }];
   const routes_children_chat = [
     { path: "/chat", element: <ChatPage />, hasBottomBar: true },
     { path: "/chat/create", element: <ChatCreatePage /> },
@@ -173,6 +174,7 @@ function App() {
     ...routes_children_login,
     ...routes_children_home,
     ...routes_children_write,
+    ...routes_children_qr,
     { path: "/*", element: <HomePage />, hasBottomBar: true },
   ];
 
