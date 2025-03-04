@@ -46,11 +46,11 @@ import InviteSpace from "./pages/SpacePage/InviteSpace";
 import InviteSpace2 from "./pages/SpacePage/InviteSpace2";
 import SpecialVoiceRoom from "./pages/VoiceRoomPage/SpecialVoiceRoom";
 
+import OAuthRedirect from "@/pages/LoginPage/DiscordRedirect";
 import DiscordLoginPage from "@/pages/LoginPage/DiscordLogin";
 import LoginPage from "@/pages/LoginPage/KakaoLogin";
 
 import WritePostPage from "./pages/WritePostPage";
-
 
 // will we need constant path in later..?
 // const PATH = {
@@ -149,9 +149,10 @@ function App() {
 
   const routes_children_login = [
     { path: "/login", element: <LoginPage />, hasBottombar: false },
-    { path: "/discordlogin", element: <DiscordLoginPage />, hasBottombar: false }, //아직 디스코드 로그인이 다 구현 안돼서 둘다 살려둠 완성시 수정 필요
+    { path: "/discordlogin", element: <DiscordLoginPage />, hasBottombar: false },
     { path: "/signup", element: <SignUpPage />, hasBottombar: false },
     { path: "/oauth/callback/kakao", element: <KakaoRedirection />, hasBottombar: true },
+    { path: "discord-oauth", element: <OAuthRedirect />, hasBottombar: false }, // ✅ `basename`을 고려한 상대 경로로 변경!
   ];
 
   const routes_children_home = [
