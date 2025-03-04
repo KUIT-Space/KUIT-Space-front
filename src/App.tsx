@@ -51,6 +51,8 @@ import LoginPage from "@/pages/LoginPage/KakaoLogin";
 
 import WritePostPage from "./pages/WritePostPage";
 import QRPage from "./pages/QRPage/QRPage";
+import HomePageSetting from "./pages/HomePage/HomePageSetting";
+import QRHome from "./pages/QRPage/QRHome";
 
 // will we need constant path in later..?
 // const PATH = {
@@ -103,7 +105,10 @@ function Layout({ routes_children }: { routes_children: RouteChildren[] }) {
 }
 
 function App() {
-  const routes_children_qr = [{ path: "/qr", element: <QRPage /> }];
+  const routes_children_qr = [
+    { path: "/qr", element: <QRPage /> },
+    { path: "/qr/home", element: <QRHome />, hasBottomBar: true },
+  ];
   const routes_children_chat = [
     { path: "/chat", element: <ChatPage />, hasBottomBar: true },
     { path: "/chat/create", element: <ChatCreatePage /> },
@@ -158,6 +163,7 @@ function App() {
   const routes_children_home = [
     { path: "/members", element: <HomePageMemberPage />, hasBottombar: false },
     { path: "/member/:id", element: <HomePageProfile />, hasBottombar: false },
+    { path: "/setting", element: <HomePageSetting />, hasBottombar: false },
   ];
 
   const routes_children_write = [

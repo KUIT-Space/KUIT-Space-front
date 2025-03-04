@@ -34,9 +34,109 @@ export const DateDiv = styled.div`
 
   /* text/Medium 20pt */
   font-family: Freesentation;
-  font-size: 20px;
+  font-size: 1.25rem;
   font-style: normal;
   font-weight: 500;
-  line-height: 140%; /* 28px */
-  letter-spacing: 0.4px;
+  line-height: 140%; /* 1.75rem */
+  letter-spacing: 0.025rem;
+`;
+
+export const QRHomeContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0.625rem 1.25rem 1.0625rem 1.25rem;
+`;
+
+export const QRAttendContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.4375rem;
+`;
+
+export const QRAttendWrapper = styled.div`
+  border-radius: 0.75rem;
+
+  padding: 1rem 0.875rem 0.75rem 0.875rem;
+  background: #222226;
+  gap: 0.625rem;
+
+  display: flex;
+  flex-direction: row;
+
+  position: relative;
+`;
+
+export const QRAttendDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+export const QRAttendTitle = styled.div`
+  color: #fff;
+  font-family: Freesentation;
+  font-size: 1.25rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 100%; /* 1.25rem */
+  letter-spacing: 0.025rem;
+  margin-bottom: 0.3125rem;
+`;
+
+export const QRAttendContent1 = styled.div`
+  color: #acacb5;
+
+  /* text/Regular 14pt */
+  font-family: Freesentation;
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 140%; /* 1.225rem */
+  letter-spacing: 0.035rem;
+`;
+
+export const QRAttendContent2 = styled.div`
+  color: var(--foundation-main-color-normal-active, #3acc97);
+
+  /* text/Regular 14pt */
+  font-family: Freesentation;
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 140%; /* 1.225rem */
+  letter-spacing: 0.035rem;
+`;
+
+export const QRAttendDate = styled.div`
+  color: #acacb5;
+
+  /* text/Regular 10pt */
+  font-family: Freesentation;
+  font-size: 0.625rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 140%; /* 0.875rem */
+  letter-spacing: 0.0125rem;
+`;
+
+export const QRAttendDelete = styled.img`
+  position: absolute;
+  top: 0.5625rem;
+  right: 0.5625rem;
+`;
+
+export const QRImgContainer = styled.img`
+  display: flex;
+  justify-content: center;
+`;
+
+export const QRAttendListDiv = styled.div`
+  display: flex;
+  margin-top: 44px;
+  gap: 12px;
+`;
+
+export const QRAttendListContainer = styled.div`
+  display: flex;
+  gap: 8px;
 `;
