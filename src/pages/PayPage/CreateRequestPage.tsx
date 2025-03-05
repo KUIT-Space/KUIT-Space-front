@@ -199,7 +199,7 @@ const CreateRequestPage2 = ({
         </s.TabMenu>
         {tabIndex === 0 ? (
           <div>
-            <>{console.log(JSON.parse(JSON.stringify(chatUserInfoData)), userInfoData)}</>
+            {/*<>{console.log(JSON.parse(JSON.stringify(chatUserInfoData)), userInfoData)}</>*/}
             {chatUserInfoData &&
               chatUserInfoData.map((value, index) => (
                 <PayChatDiv key={index} info={value}></PayChatDiv>
