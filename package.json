@@ -19,6 +19,7 @@
     "@livekit/components-react": "^2.4.3",
     "@livekit/components-styles": "^1.0.12",
     "@stomp/stompjs": "^7.0.0",
+    "@tanstack/react-query": "^5.67.2",
     "@types/sockjs-client": "^1.5.4",
     "@types/stompjs": "^2.3.9",
     "axios": "^1.7.4",
