@@ -15,8 +15,14 @@ import {
 } from "@/pages/LoginPage/DiscordLogin.styled";
 
 const getDiscordConfig = () => {
-  const clientId = "1331873954553532486";
-  const redirectUri = "http://localhost:5173/KUIT-Space-front/discord-oauth"; //배포Uri도 추가할게요!
+  const clientId = import.meta.env.VITE_DISCORD_CLIENT_ID;
+  const redirectUri = import.meta.env.VITE_DISCORD_REDIRECT_URI;
+
+  if (!clientId || !redirectUri) {
+    console.error(
+      "❌ 환경 변수(`VITE_DISCORD_CLIENT_ID`, `VITE_DISCORD_REDIRECT_URI`)가 설정되지 않음!",
+    );
+  }
 
   return { clientId, redirectUri };
 };
@@ -27,41 +33,58 @@ const DiscordLoginPage = () => {
   const [loading, setLoading] = useState(false);
 
   const handleDiscordLogin = () => {
-    const { clientId, redirectUri } = getDiscordConfig();
-    const SCOPE = "identify email";
+    console.log("🟢 handleDiscordLogin() 실행됨!");
 
+    const { clientId, redirectUri } = getDiscordConfig();
+
+    if (!clientId || !redirectUri) {
+      console.error("❌ OAuth 설정 오류: 환경 변수가 설정되지 않음");
+      return;
+    }
+
+    const SCOPE = "identify email";
     const DISCORD_OAUTH_URL = `https://discord.com/oauth2/authorize?client_id=${clientId}&response_type=code&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${SCOPE}`;
 
-    console.log("디스코드 OAuth URL:", DISCORD_OAUTH_URL);
+    console.log("🟢 생성된 디스코드 OAuth URL:", DISCORD_OAUTH_URL);
     window.location.href = DISCORD_OAUTH_URL;
   };
 
   useEffect(() => {
+    console.log("🟢 useEffect 실행됨!");
     const code = searchParams.get("code");
-    console.log("받은 `code` 값:", code);
+    console.log("🟢 받은 `code` 값:", code);
 
     if (!code) {
+      console.error("❌ code 값이 없음!");
       return;
     }
 
     setLoading(true);
-    const BACKEND_TOKEN_URL = `http://13.125.180.149:8080/oauth/discord?code=${code}`;
-    console.log("백엔드로 보낼 요청:", BACKEND_TOKEN_URL);
+    const BACKEND_TOKEN_URL = `${import.meta.env.VITE_API_BACK_URL}/oauth/discord?code=${code}`;
+    console.log("🟢 백엔드로 보낼 요청:", BACKEND_TOKEN_URL);
 
     fetch(BACKEND_TOKEN_URL, { method: "GET" })
       .then((res) => res.json())
       .then((data) => {
-        console.log("백엔드 응답 데이터:", data);
-        if (data.status === 200 && data.result) {
-          localStorage.setItem("Authorization", data.jwt || "");
-          localStorage.setItem("userId", data.userId || "");
-          console.log("디스코드 로그인 성공, JWT 저장 완료");
-          navigate("/space");
+        console.log("🟢 백엔드 응답 데이터:", data);
+
+        if (!data?.result) {
+          console.error("❌ 올바르지 않은 응답 데이터:", data);
+          return;
+        }
+
+        if (data.status === 200 || data.status === "OK") {
+          if (data.result.success) {
+            console.log("✅ 로그인 성공!");
+            navigate("/space");
+          } else {
+            console.error("❌ 로그인 실패: result.success 값이 false임.");
+          }
         } else {
-          console.error("서버 응답이 정상적이지 않음:", data);
+          console.error("❌ 백엔드 응답 오류, status 값:", data.status);
         }
       })
-      .catch((err) => console.error("디스코드 로그인 실패:", err))
+      .catch((err) => console.error("❌ 디스코드 로그인 실패:", err))
       .finally(() => setLoading(false));
   }, [searchParams, navigate]);
 
@@ -75,13 +98,11 @@ const DiscordLoginPage = () => {
           <img src={star} alt="Star" />
         </Star>
       </LogoContainer>
-
       <Description>
         단 하나의 동아리/팀
         <br />
         프로젝트 커뮤니티
       </Description>
-
       <LoginButton onClick={handleDiscordLogin} disabled={loading}>
         <DiscordLogo>
           <img src={discordLogo} style={{ width: "100%" }} alt="Logo" />

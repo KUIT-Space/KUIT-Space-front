@@ -51,6 +51,7 @@ import DiscordLoginPage from "@/pages/LoginPage/DiscordLogin";
 import LoginPage from "@/pages/LoginPage/KakaoLogin";
 
 import WritePostPage from "./pages/WritePostPage";
+import { JSX } from "react";
 
 // will we need constant path in later..?
 // const PATH = {

@@ -54,8 +54,7 @@ jobs:
           VITE_API_REST_API: ${{ secrets.VITE_API_REST_API }}
           VITE_API_CLIENT_SECRET: ${{ secrets.VITE_API_CLIENT_SECRET }}
           VITE_API_REDIRECT_URI: ${{ secrets.VITE_API_REDIRECT_URI }}
-          VITE_DISCORD_CLIENT_ID: ${{ secrets.VITE_DISCORD_CLIENT_ID }}
-          VITE_DISCORD_REDIRECT_URI: ${{ secrets.VITE_DISCORD_REDIRECT_URI }}
+
 
         
       - name: Build
