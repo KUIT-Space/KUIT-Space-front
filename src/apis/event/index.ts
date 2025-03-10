@@ -1,4 +1,14 @@
+import { useSuspenseQuery } from "@tanstack/react-query";
+
 import { ApiResponse, client } from "../client";
+
+export const eventKeys = {
+  all: (spaceId: number) => ["events", spaceId] as const,
+  lists: (spaceId: number) => [...eventKeys.all(spaceId), "list"] as const,
+  list: (spaceId: number, filters: string) => [...eventKeys.lists(spaceId), { filters }] as const,
+  details: (spaceId: number) => [...eventKeys.all(spaceId), "detail"] as const,
+  detail: (spaceId: number, eventId: number) => [...eventKeys.details(spaceId), eventId] as const,
+};
 
 // Type Definitions
 interface EventInfoResponse {
@@ -75,6 +85,13 @@ export const getEvents = async (spaceId: number): Promise<ApiResponse<ReadEvents
   return client.get(`space/${spaceId}/events`).json();
 };
 
+export const useEventsQuery = (spaceId: number) => {
+  return useSuspenseQuery({
+    queryKey: eventKeys.lists(spaceId),
+    queryFn: () => getEvents(spaceId),
+  });
+};
+
 /**
  * Get details of a specific event
  * @param spaceId Space ID
@@ -86,6 +103,13 @@ export const getEvent = async (
   eventId: number,
 ): Promise<ApiResponse<ReadEventInfoResponse>> => {
   return client.get(`space/${spaceId}/event/${eventId}`).json();
+};
+
+export const useEventQuery = (spaceId: number, eventId: number) => {
+  return useSuspenseQuery({
+    queryKey: eventKeys.detail(spaceId, eventId),
+    queryFn: () => getEvent(spaceId, eventId),
+  });
 };
 
 /**
