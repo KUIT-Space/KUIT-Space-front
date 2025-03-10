@@ -1,4 +1,4 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useMutation, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 
 import { ApiResponse, client } from "../client";
 
@@ -57,10 +57,10 @@ interface UpdateEventParticipantRequest {
 }
 
 /**
- * Create a new event
+ * Create a new event in a space
  * @param spaceId Space ID
- * @param eventData Event data to create
- * @returns Created event response with ID
+ * @param eventData Event data
+ * @returns Created event ID
  */
 export const createEvent = async (
   spaceId: number,
@@ -68,12 +68,24 @@ export const createEvent = async (
 ): Promise<ApiResponse<CreateEventResponse>> => {
   const params = new URLSearchParams();
 
-  // Add event data to URL params
   Object.entries(eventData).forEach(([key, value]) => {
     params.append(key, value.toString());
   });
 
   return client.post(`space/${spaceId}/event?${params.toString()}`).json();
+};
+
+export const useCreateEvent = (spaceId: number) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (eventData: CreateEventRequest) => createEvent(spaceId, eventData),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: eventKeys.lists(spaceId),
+      });
+    },
+  });
 };
 
 /**
@@ -125,6 +137,19 @@ export const deleteEvent = async (
   return client.delete(`space/${spaceId}/event/${eventId}`).json();
 };
 
+export const useDeleteEvent = (spaceId: number) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (eventId: number) => deleteEvent(spaceId, eventId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: eventKeys.lists(spaceId),
+      });
+    },
+  });
+};
+
 /**
  * Join an event
  * @param spaceId Space ID
@@ -136,6 +161,19 @@ export const joinEvent = async (
   eventId: number,
 ): Promise<ApiResponse<{ success: boolean }>> => {
   return client.post(`space/${spaceId}/event/${eventId}/join`).json();
+};
+
+export const useJoinEvent = (spaceId: number, eventId: number) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: () => joinEvent(spaceId, eventId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: eventKeys.detail(spaceId, eventId),
+      });
+    },
+  });
 };
 
 /**
@@ -157,6 +195,19 @@ export const addEventParticipants = async (
     .json();
 };
 
+export const useAddEventParticipants = (spaceId: number, eventId: number) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (members: number[]) => addEventParticipants(spaceId, eventId, members),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: eventKeys.detail(spaceId, eventId),
+      });
+    },
+  });
+};
+
 /**
  * Remove participants from an event
  * @param spaceId Space ID
@@ -174,4 +225,17 @@ export const removeEventParticipants = async (
       json: { spaceMemberId: members },
     })
     .json();
+};
+
+export const useRemoveEventParticipants = (spaceId: number, eventId: number) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (members: number[]) => removeEventParticipants(spaceId, eventId, members),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: eventKeys.detail(spaceId, eventId),
+      });
+    },
+  });
 };
