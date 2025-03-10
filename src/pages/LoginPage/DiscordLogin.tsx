@@ -15,13 +15,14 @@ import {
 } from "@/pages/LoginPage/DiscordLogin.styled";
 
 const getDiscordConfig = () => {
-  const clientId = import.meta.env.VITE_DISCORD_CLIENT_ID;
-  const redirectUri = import.meta.env.VITE_DISCORD_REDIRECT_URI;
+  const clientId = import.meta.env.VITE_DISCORD_CLIENT_ID; // ✅ 환경 변수에서 가져오기
+  const redirectUri = import.meta.env.VITE_DISCORD_REDIRECT_URI; // ✅ 환경 변수에서 가져오기
+
+  console.log("🔹 clientId:", clientId); // 🛠️ 디버깅 로그
+  console.log("🔹 redirectUri:", redirectUri); // 🛠️ 디버깅 로그
 
   if (!clientId || !redirectUri) {
-    console.error(
-      "❌ 환경 변수(`VITE_DISCORD_CLIENT_ID`, `VITE_DISCORD_REDIRECT_URI`)가 설정되지 않음!",
-    );
+    console.error("❌ 환경 변수가 설정되지 않음! 배포 환경에서 확인 필요");
   }
 
   return { clientId, redirectUri };
