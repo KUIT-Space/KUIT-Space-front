@@ -54,6 +54,7 @@ import QRPage from "./pages/QRPage/QRPage";
 import HomePageSetting from "./pages/HomePage/HomePageSetting";
 import QRHome from "./pages/QRPage/QRHome";
 import QRDetail from "./pages/QRPage/QRDetail";
+import { JSX } from "react";
 
 // will we need constant path in later..?
 // const PATH = {
@@ -157,7 +158,7 @@ function App() {
 
   const routes_children_login = [
     { path: "/login", element: <LoginPage />, hasBottombar: false },
-    { path: "/discordlogin", element: <DiscordLoginPage />, hasBottombar: false }, //아직 디스코드 로그인이 다 구현 안돼서 둘다 살려둠 완성시 수정 필요
+    { path: "/discordlogin", element: <DiscordLoginPage />, hasBottombar: false },
     { path: "/signup", element: <SignUpPage />, hasBottombar: false },
     { path: "/oauth/callback/kakao", element: <KakaoRedirection />, hasBottombar: true },
   ];

@@ -49,7 +49,7 @@ const ChatSettingNamePage = () => {
     const spaceId = Number(localStorage.getItem("spaceId"));
     ChatroomUpdateNameApi(spaceId, chatroomInfo.id, name).then((res) => {
       if (res) {
-        if (res.status === "OK") {
+        if (`${res.status}` === "200" || `${res.status}`.toUpperCase() === "OK") {
           navigate(`/chat`);
 
           //TODO: 채팅방name(title) 정보를 받으려면 "전체 채팅방 조회" API 호출 뿐이어서, navigate /chat으로 함. 추후 수정 필요
