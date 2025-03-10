@@ -1,5 +1,5 @@
-import { createRequestOptionsJSON_AUTH, fetchApi } from "@/apis/_createRequestOptions";
 import { User } from "@/apis/Chat/ChatroomSearchAllUserApi";
+import { ApiResponse, client } from "@/apis/client";
 
 // 인터페이스 정의
 export interface UserInfoInSpace extends User {
@@ -9,21 +9,31 @@ export interface UserInfoInSpace extends User {
   userAuth: "manager" | "normal";
 }
 
-interface SpaceSearchAllUserApiResponseType {
-  code: number;
-  status: number;
-  message: string;
+interface SpaceSearchAllUserApiResponseType extends ApiResponse {
   result: {
     userInfoInSpaceList: UserInfoInSpace[];
   };
 }
 
-// API 함수 정의
+/**
+ * 스페이스 내 모든 사용자 정보를 조회하는 API
+ * @param spaceId - 조회할 스페이스 ID
+ * @returns {Promise<SpaceSearchAllUserApiResponseType | null>} 스페이스 내 사용자 목록을 포함한 응답 또는 에러 발생 시 null
+ */
 export const spaceSearchAllUserApi = async (spaceId: number) => {
-  const requestOptions = createRequestOptionsJSON_AUTH("GET");
+  try {
+    const response = await client
+      .get(`space/${spaceId}/all-member`)
+      .json<SpaceSearchAllUserApiResponseType>();
 
-  if (!requestOptions) return null;
+    if (response.status !== 200) {
+      console.warn(response.message);
+      return null;
+    }
 
-  const url = `${import.meta.env.VITE_API_BACK_URL}/space/${spaceId}/all-member`;
-  return await fetchApi<SpaceSearchAllUserApiResponseType>(url, requestOptions);
+    return response;
+  } catch (error) {
+    console.error("[spaceSearchAllUserApi error]", error);
+    return null;
+  }
 };

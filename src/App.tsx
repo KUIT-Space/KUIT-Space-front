@@ -46,12 +46,14 @@ import InviteSpace from "./pages/SpacePage/InviteSpace";
 import InviteSpace2 from "./pages/SpacePage/InviteSpace2";
 import SpecialVoiceRoom from "./pages/VoiceRoomPage/SpecialVoiceRoom";
 
-import OAuthRedirect from "@/pages/LoginPage/DiscordRedirect";
 import DiscordLoginPage from "@/pages/LoginPage/DiscordLogin";
 import LoginPage from "@/pages/LoginPage/KakaoLogin";
 
 import WritePostPage from "./pages/WritePostPage";
-import { JSX } from "react";
+import QRPage from "./pages/QRPage/QRPage";
+import HomePageSetting from "./pages/HomePage/HomePageSetting";
+import QRHome from "./pages/QRPage/QRHome";
+import QRDetail from "./pages/QRPage/QRDetail";
 
 // will we need constant path in later..?
 // const PATH = {
@@ -104,6 +106,11 @@ function Layout({ routes_children }: { routes_children: RouteChildren[] }) {
 }
 
 function App() {
+  const routes_children_qr = [
+    { path: "/qr", element: <QRPage /> },
+    { path: "/qr/home", element: <QRHome />, hasBottomBar: true },
+    { path: "/qr/detail", element: <QRDetail />, hasBottomBar: true },
+  ];
   const routes_children_chat = [
     { path: "/chat", element: <ChatPage />, hasBottomBar: true },
     { path: "/chat/create", element: <ChatCreatePage /> },
@@ -153,12 +160,12 @@ function App() {
     { path: "/discordlogin", element: <DiscordLoginPage />, hasBottombar: false },
     { path: "/signup", element: <SignUpPage />, hasBottombar: false },
     { path: "/oauth/callback/kakao", element: <KakaoRedirection />, hasBottombar: true },
-    { path: "discord-oauth", element: <OAuthRedirect />, hasBottombar: false }, // ✅ `basename`을 고려한 상대 경로로 변경!
   ];
 
   const routes_children_home = [
     { path: "/members", element: <HomePageMemberPage />, hasBottombar: false },
     { path: "/member/:id", element: <HomePageProfile />, hasBottombar: false },
+    { path: "/setting", element: <HomePageSetting />, hasBottombar: false },
   ];
 
   const routes_children_write = [
@@ -175,6 +182,7 @@ function App() {
     ...routes_children_login,
     ...routes_children_home,
     ...routes_children_write,
+    ...routes_children_qr,
     { path: "/*", element: <HomePage />, hasBottomBar: true },
   ];
 
