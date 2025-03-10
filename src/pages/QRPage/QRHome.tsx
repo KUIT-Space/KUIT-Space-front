@@ -34,7 +34,6 @@ const QRHome = () => {
     <>
       <TopBarText left={LeftEnum.Back} center={"QR 출석 관리"} right={<></>} />
       <s.QRHomeContainer>
-        <GradientBtn>출석 생성하기</GradientBtn>
         <s.QRAttendContainer>
           <QRAttendWrapper />
           <QRAttendWrapper />
