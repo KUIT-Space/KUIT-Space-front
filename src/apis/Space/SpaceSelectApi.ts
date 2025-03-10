@@ -1,4 +1,4 @@
-import { createRequestOptionsJSON_AUTH, fetchApi } from "@/apis/_createRequestOptions";
+import { ApiResponse, client } from "@/apis/client";
 
 export interface SpaceInfo {
   spaceId: number; // 스페이스 id 값
@@ -15,23 +15,32 @@ export interface UserSpaceListResult {
   spaceInfoList: SpaceInfo[]; // 유저가 속한 스페이스 정보의 목록
 }
 
-interface UserSpaceListResponse {
-  code: number;
-  status: string;
-  message: string;
+interface UserSpaceListResponse extends ApiResponse {
   result: UserSpaceListResult;
 }
 
-/** 유저가 속한 스페이스 목록을 조회하는 API
+/**
+ * 유저가 속한 스페이스 목록을 조회하는 API
  * @param size 요청할 스페이스 정보 개수
  * @param lastUserSpaceId 마지막으로 얻은 userSpaceId 값 (초기 요청 시 0)
- * @returns 스페이스 목록과 lastUserSpaceId 정보, 없으면 null 반환 (재로그인 필요)
+ * @returns {Promise<UserSpaceListResponse | null>} 스페이스 목록과 lastUserSpaceId 정보를 포함한 응답 또는 에러 발생 시 null
  */
 export const SpaceSelectApi = async (size: number, lastUserSpaceId: number) => {
-  const requestOptions = createRequestOptionsJSON_AUTH("GET");
-  if (!requestOptions) return null;
+  try {
+    const response = await client
+      .get("user/space-choice", {
+        searchParams: { size, lastUserSpaceId },
+      })
+      .json<UserSpaceListResponse>();
 
-  const url = `${import.meta.env.VITE_API_BACK_URL}/user/space-choice?size=${size}&lastUserSpaceId=${lastUserSpaceId}`;
+    if (response.status !== 200) {
+      console.warn(response.message);
+      return null;
+    }
 
-  return await fetchApi<UserSpaceListResponse>(url, requestOptions);
+    return response;
+  } catch (error) {
+    console.error("[SpaceSelectApi error]", error);
+    return null;
+  }
 };

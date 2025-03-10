@@ -24,6 +24,7 @@
     "axios": "^1.7.4",
     "choco": "^0.2.1",
     "es-hangul": "^1.4.5",
+    "ky": "^1.7.5",
     "livekit-client": "^2.4.2",
     "qrcode.react": "^4.2.0",
     "react": "^18.3.1",

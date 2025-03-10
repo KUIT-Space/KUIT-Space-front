@@ -1,9 +1,6 @@
-import { createRequestOptionsFORM_AUTH, fetchApi } from "@/apis/_createRequestOptions";
+import { ApiResponse, client } from "@/apis/client";
 
-interface CreateChatroomApiResponseType {
-  code: number;
-  status: number;
-  message: string;
+interface CreateChatroomApiResponse extends ApiResponse {
   result: {
     chatRoomId: number;
   };
@@ -18,30 +15,41 @@ interface CreateChatroomApiRequestType {
 const createChatroomFormData = (body: CreateChatroomApiRequestType): FormData => {
   const formData = new FormData();
   formData.append("name", body.name);
-
   formData.append("img", body.img);
 
-  // formData.append("memberList[]", `[${body.memberList.toString()}]`);
-  // formData.append("memberList", JSON.stringify(body.memberList));
-
   body.memberList.forEach((memberId) => {
-    formData.append("memberList", JSON.stringify(memberId));
+    formData.append("memberList", String(memberId));
   });
 
   return formData;
 };
 
+/**
+ * 채팅방을 생성하는 API
+ * @param spaceId 스페이스 ID
+ * @param name 채팅방 이름
+ * @param memberList 초대할 멤버 ID 목록
+ * @param img 채팅방 이미지 파일
+ * @returns {Promise<CreateChatroomApiResponse | null>} 생성된 채팅방 ID 또는 에러 발생 시 null
+ */
 export const ChatroomCreateApi = async (
   spaceId: number,
   name: string,
   memberList: number[],
   img: File,
-) => {
-  const formData = createChatroomFormData({ name, memberList, img: img });
-  const requestOptions = createRequestOptionsFORM_AUTH("POST", formData);
+): Promise<CreateChatroomApiResponse | null> => {
+  try {
+    const formData = createChatroomFormData({ name, memberList, img });
 
-  if (!requestOptions) return null;
+    const response = await client
+      .post(`space/${spaceId}/chat/chatroom`, {
+        body: formData,
+      })
+      .json<CreateChatroomApiResponse>();
 
-  const url = `${import.meta.env.VITE_API_BACK_URL}/space/${spaceId}/chat/chatroom`;
-  return await fetchApi<CreateChatroomApiResponseType>(url, requestOptions);
+    return response;
+  } catch (error) {
+    console.error("[ChatroomCreateApi error]", error);
+    return null;
+  }
 };

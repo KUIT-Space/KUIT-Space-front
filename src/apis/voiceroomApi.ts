@@ -1,121 +1,146 @@
 import { VrList, participantInfo } from "@/pages/VoiceRoomPage/VoiceRoomListPage";
-import {
-  createRequestOptionsJSON,
-  RequestOptions,
-  createRequestOptionsJSON_AUTH,
-  fetchApi,
-} from "@/apis/_createRequestOptions";
 import { updateRoom } from "@/pages/VoiceRoomPage/EditVoiceRoomPage";
 import { UserInfo } from "@livekit/components-react";
+import { ApiResponse, client } from "@/apis/client";
 
-interface VoiceRoomParticipantInfoResponseType {
-  code: number;
-  status: number;
-  message: string;
+interface VoiceRoomParticipantInfoResponse extends ApiResponse {
   result: {
     participantInfoList: participantInfo[];
   };
 }
 
-const fetchVrApi = async (url: string, options: RequestOptions) => {
-  const response = await fetch(url, options).catch((err) => console.error(err));
-  return response;
+interface VoiceRoomListResponse extends ApiResponse {
+  result: {
+    voiceRoomList: VrList[];
+  };
+}
+
+interface VoiceRoomTokenResponse extends ApiResponse {
+  result: {
+    token: string;
+  };
+}
+
+interface VoiceRoomCreateResponse extends ApiResponse {
+  result: {
+    id: number;
+    name: string;
+  };
+}
+
+interface VoiceRoomEditResponse extends ApiResponse {
+  result: {
+    isSuccess: boolean;
+  };
+}
+
+/**
+ * 음성 채팅방 참가자 정보를 조회하는 API
+ * @param spaceId 스페이스 ID
+ * @param vrId 음성 채팅방 ID
+ * @returns {Promise<VoiceRoomParticipantInfoResponse | null>} 음성 채팅방 참가자 정보 또는 에러 발생 시 null
+ */
+export const VrParticipantApi = async (
+  spaceId: number,
+  vrId: number,
+): Promise<VoiceRoomParticipantInfoResponse | null> => {
+  try {
+    const response = await client
+      .get(`space/${spaceId}/voiceRoom/${vrId}/participant`)
+      .json<VoiceRoomParticipantInfoResponse>();
+    return response;
+  } catch (error) {
+    console.error("[VrParticipantApi error]", error);
+    return null;
+  }
 };
 
-// API 함수 정의
-export const VrParticipantApi = async (spaceId: number, vrId: number) => {
-  const requestOptions = createRequestOptionsJSON_AUTH("GET");
-
-  if (!requestOptions) return null;
-
-  const url = `${import.meta.env.VITE_API_BACK_URL}/space/${spaceId}/voiceRoom/${vrId}/participant`;
-  return await fetchApi<VoiceRoomParticipantInfoResponseType>(url, requestOptions);
-};
-
+/**
+ * 음성 채팅방 목록을 조회하는 API
+ * @param spaceID 스페이스 ID
+ * @param setVRList 음성 채팅방 목록을 설정하는 함수
+ * @returns {Promise<void>} 음성 채팅방 목록 설정 완료 또는 에러 발생 시 빈 배열 설정
+ */
 export const VrListApi = async (
   spaceID: number,
   setVRList: React.Dispatch<React.SetStateAction<VrList[] | undefined>>,
-) => {
-  const requestOptions = createRequestOptionsJSON_AUTH("GET");
-  if (!requestOptions) {
-    return null;
-  }
-  const response = await fetchVrApi(
-    `${import.meta.env.VITE_API_BACK_URL}/space/${spaceID}/voiceRoom?showParticipant=true`,
-    requestOptions,
-  );
-  if (response) {
-    response.json().then((data) => {
-      const _temp: VrList[] = data.result.voiceRoomList;
-      // _temp.participantInfoList =
-      // _temp.map((value, index) =>
-      //   VrParticipantApi(spaceID, value.id).then((res) => {
-      //     if (res?.result.participantInfoList !== undefined) {
-      //       value.participantInfoList = res?.result.participantInfoList;
-      //     }
-      //   }),
-      // );
-      setVRList(_temp);
-    });
-  } else {
+): Promise<void> => {
+  try {
+    const response = await client
+      .get(`space/${spaceID}/voiceRoom`, {
+        searchParams: { showParticipant: "true" },
+      })
+      .json<VoiceRoomListResponse>();
+
+    setVRList(response.result.voiceRoomList);
+  } catch (error) {
+    console.error("[VrListApi error]", error);
     setVRList([]);
   }
 };
 
+/**
+ * 음성 채팅방 토큰을 조회하는 API
+ * @param spaceID 스페이스 ID
+ * @param VrID 음성 채팅방 ID
+ * @param setJoin 참가 상태를 설정하는 함수
+ * @returns {Promise<void>} 토큰 설정 완료 또는 에러 발생 시 null
+ */
 export const VrTokenApi = async (
   spaceID: number,
   VrID: number,
   setJoin: React.Dispatch<React.SetStateAction<boolean>>,
-) => {
-  const requestOptions = createRequestOptionsJSON_AUTH("GET");
-  if (!requestOptions) {
-    return null;
+): Promise<void> => {
+  try {
+    const response = await client.get(`space/${spaceID}/voiceRoom/${VrID}/token`);
+
+    const authHeader = response.headers.get("Authorization");
+    if (authHeader) {
+      localStorage.setItem("VrToken", authHeader);
+      setJoin(true);
+    }
+  } catch (error) {
+    console.error("[VrTokenApi error]", error);
   }
-  const response = await fetchVrApi(
-    `${import.meta.env.VITE_API_BACK_URL}/space/${spaceID}/voiceRoom/${VrID}/token`,
-    requestOptions,
-  );
-  if (response) {
-    response.json().then((data) => {
-      const tmp = response.headers.get("Authorization");
-      if (tmp) {
-        localStorage.setItem("VrToken", tmp);
-        setJoin(true);
-      }
+};
+
+/**
+ * 음성 채팅방을 생성하는 API
+ * @param spaceID 스페이스 ID
+ * @param name 음성 채팅방 이름
+ * @returns {Promise<Response | null>} 생성 결과 또는 에러 발생 시 null
+ */
+export const VrCreateApi = async (spaceID: number, name: string): Promise<Response | null> => {
+  try {
+    const response = await client.post(`space/${spaceID}/voiceRoom`, {
+      json: { name },
     });
+
+    return response;
+  } catch (error) {
+    console.error("[VrCreateApi error]", error);
+    return null;
   }
 };
 
-export const VrCreateApi = async (spaceID: number, name: string) => {
-  const body = {
-    name: name,
-  };
+/**
+ * 음성 채팅방을 수정하는 API
+ * @param spaceID 스페이스 ID
+ * @param vrList 수정할 음성 채팅방 목록
+ * @returns {Promise<Response | null>} 수정 결과 또는 에러 발생 시 null
+ */
+export const VrEditApi = async (
+  spaceID: number,
+  vrList: updateRoom[],
+): Promise<Response | null> => {
+  try {
+    const response = await client.patch(`space/${spaceID}/voiceRoom`, {
+      json: { updateRoomList: vrList },
+    });
 
-  const requestOptions = createRequestOptionsJSON_AUTH("POST", JSON.stringify(body));
-  if (!requestOptions) {
+    return response;
+  } catch (error) {
+    console.error("[VrEditApi error]", error);
     return null;
   }
-  const response = await fetchVrApi(
-    `${import.meta.env.VITE_API_BACK_URL}/space/${spaceID}/voiceRoom`,
-    requestOptions,
-  );
-
-  return response;
-};
-
-export const VrEditApi = async (spaceID: number, vrList: updateRoom[]) => {
-  const body = {
-    updateRoomList: vrList,
-  };
-
-  const requestOptions = createRequestOptionsJSON_AUTH("PATCH", JSON.stringify(body));
-  if (!requestOptions) {
-    return null;
-  }
-  const response = await fetchVrApi(
-    `${import.meta.env.VITE_API_BACK_URL}/space/${spaceID}/voiceRoom`,
-    requestOptions,
-  );
-
-  return response;
 };
