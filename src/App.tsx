@@ -53,6 +53,7 @@ import WritePostPage from "./pages/WritePostPage";
 import QRPage from "./pages/QRPage/QRPage";
 import HomePageSetting from "./pages/HomePage/HomePageSetting";
 import QRHome from "./pages/QRPage/QRHome";
+import QRDetail from "./pages/QRPage/QRDetail";
 
 // will we need constant path in later..?
 // const PATH = {
@@ -108,6 +109,7 @@ function App() {
   const routes_children_qr = [
     { path: "/qr", element: <QRPage /> },
     { path: "/qr/home", element: <QRHome />, hasBottomBar: true },
+    { path: "/qr/detail", element: <QRDetail />, hasBottomBar: true },
   ];
   const routes_children_chat = [
     { path: "/chat", element: <ChatPage />, hasBottomBar: true },

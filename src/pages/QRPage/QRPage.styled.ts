@@ -123,20 +123,28 @@ export const QRAttendDelete = styled.img`
   position: absolute;
   top: 0.5625rem;
   right: 0.5625rem;
+  cursor: pointer;
 `;
 
-export const QRImgContainer = styled.img`
+export const QRAttendEdit = styled.img`
+  position: absolute;
+  top: 0.5625rem;
+  right: 2.1875rem;
+  cursor: pointer;
+`;
+export const QRImgContainer = styled.div`
   display: flex;
   justify-content: center;
 `;
 
 export const QRAttendListDiv = styled.div`
   display: flex;
-  margin-top: 44px;
-  gap: 12px;
+  margin: 2.75rem 1.25rem 0 1.25rem;
+  gap: 0.75rem;
 `;
 
 export const QRAttendListContainer = styled.div`
   display: flex;
   gap: 8px;
+  flex-direction: column;
 `;
