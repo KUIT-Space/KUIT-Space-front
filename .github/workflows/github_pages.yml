@@ -38,7 +38,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # env 파일 생성 후 backend url 넣어주기
+           # env 파일 생성 후 backend url 넣어주기
       - name: Generate env file
         run: |
           touch .env
@@ -46,13 +46,16 @@ jobs:
           echo "VITE_API_REST_API=$VITE_API_REST_API" >> .env
           echo "VITE_API_CLIENT_SECRET=$VITE_API_CLIENT_SECRET" >> .env
           echo "VITE_API_REDIRECT_URI=$VITE_API_REDIRECT_URI" >> .env
-
+          echo "VITE_DISCORD_CLIENT_ID=$VITE_DISCORD_CLIENT_ID" >> .env
+          echo "VITE_DISCORD_REDIRECT_URI=$VITE_DISCORD_REDIRECT_URI" >> .env
 
         env:
           VITE_API_BACK_URL: ${{ secrets.VITE_API_BACK_URL }}
           VITE_API_REST_API: ${{ secrets.VITE_API_REST_API }}
           VITE_API_CLIENT_SECRET: ${{ secrets.VITE_API_CLIENT_SECRET }}
           VITE_API_REDIRECT_URI: ${{ secrets.VITE_API_REDIRECT_URI }}
+
+
         
       - name: Build
         run: npm run build
