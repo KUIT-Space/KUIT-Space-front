@@ -54,6 +54,7 @@ import QRPage from "./pages/QRPage/QRPage";
 import HomePageSetting from "./pages/HomePage/HomePageSetting";
 import QRHome from "./pages/QRPage/QRHome";
 import QRDetail from "./pages/QRPage/QRDetail";
+import { JSX } from "react";
 
 // will we need constant path in later..?
 // const PATH = {
