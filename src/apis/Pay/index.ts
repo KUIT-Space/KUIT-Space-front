@@ -333,7 +333,6 @@ export const useAllChatRoomsWithMembersQuery = (spaceId: number) => {
 
       const chatRoomsWithMembers: ChatUserInfoInSpace[] = [];
 
-      // Fetch members for each chat room
       await Promise.all(
         chatRooms.map(async (chatRoom) => {
           const membersResponse = await getChatRoomMembers(spaceId, chatRoom.id);
