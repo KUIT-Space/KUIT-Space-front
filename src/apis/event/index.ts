@@ -66,13 +66,15 @@ export const createEvent = async (
   spaceId: number,
   eventData: CreateEventRequest,
 ): Promise<ApiResponse<CreateEventResponse>> => {
-  const params = new URLSearchParams();
+  const formData = new FormData();
 
-  Object.entries(eventData).forEach(([key, value]) => {
-    params.append(key, value.toString());
-  });
+  formData.append("name", eventData.name);
+  formData.append("image", eventData.image);
+  formData.append("date", eventData.date);
+  formData.append("startTime", eventData.startTime);
+  formData.append("endTime", eventData.endTime);
 
-  return client.post(`space/${spaceId}/event?${params.toString()}`).json();
+  return client.post(`space/${spaceId}/event`, { body: formData }).json();
 };
 
 export const useCreateEvent = (spaceId: number) => {
