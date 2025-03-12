@@ -11,7 +11,7 @@ export * from "@/apis/Chat/ChatroomUpdateNameApi";
 
 export * from "@/apis/Chat/Socket";
 
-export * from "@/apis/Pay/PayPageAPI";
+export * from "@/apis/Pay";
 
 export * from "@/apis/Space/SpaceCreateApi";
 export * from "@/apis/Space/SpaceJoinInfoApi";

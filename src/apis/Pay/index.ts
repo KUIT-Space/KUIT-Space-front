@@ -6,7 +6,6 @@ import { DetailPayData, PayReceiveInfo, PayRequestInfo } from "@/pages/PayPage/P
 import { ApiResponse, client } from "../client";
 import { UserInfoInSpace } from "../Space/SpaceSearchAllUserApi";
 
-// Define query keys for Pay API
 export const payKeys = {
   all: (spaceId: number) => ["pay", spaceId] as const,
   home: (spaceId: number) => [...payKeys.all(spaceId), "home"] as const,
@@ -14,34 +13,72 @@ export const payKeys = {
   receives: (spaceId: number) => [...payKeys.all(spaceId), "receives"] as const,
   detail: (spaceId: number, payRequestId: number) =>
     [...payKeys.all(spaceId), "detail", payRequestId] as const,
-  recentAccounts: () => ["pay", "recent-accounts"] as const,
+  recentAccounts: (spaceId: number) => [...payKeys.all(spaceId), "bank"] as const,
   allMembers: (spaceId: number) => ["space", spaceId, "all-members"] as const,
   chatMembers: (spaceId: number) => ["space", spaceId, "chat-members"] as const,
 };
 
-// Type definitions
 export interface TargetInfoList {
-  targetUserId: number;
-  requestAmount: number;
+  targetMemberId: number;
+  requestedAmount: number;
+}
+export interface CreatePayRequest {
+  totalAmount: number;
+  bankName: string;
+  bankAccountNum: string;
+  targets: TargetInfoList[];
+  valueOfPayType?: string;
 }
 
-interface PayHomeResponse {
-  payRequestInfoDtoList: PayRequestInfo[];
-  payReceiveInfoDtoList: PayReceiveInfo[];
+interface ResponseOfPayRequestInfo {
+  payRequestId: number;
+  totalAmount: number;
+  receivedAmount: number;
+  totalTargetNum: number;
+  sendCompleteTargetNum: number;
+}
+
+interface ResponseOfRequestedPayInfo {
+  payRequestTargetId: number;
+  payCreatorName: string;
+  payCreatorProfileImageUrl: string;
+  requestedAmount: number;
+  bankName: string;
+  bankAccountNum: string;
+}
+
+interface PayRequestInfoInHome {
+  payRequestId: number;
+  totalAmount: number;
+  receivedAmount: number;
+  totalTargetNum: number;
+  sendCompleteTargetNum: number;
+}
+
+interface RequestedPayInfoInHome {
+  payRequestTargetId: number;
+  payCreatorName: string;
+  payCreatorProfileImgUrl: string;
+  requestedAmount: number;
 }
 
 interface PayRequestListResponse {
-  payRequestInfoDtoListInComplete: PayRequestInfo[];
-  payRequestInfoDtoListComplete: PayRequestInfo[];
+  inCompletePayRequestList: ResponseOfPayRequestInfo[];
+  completePayRequestList: ResponseOfPayRequestInfo[];
 }
 
 interface PayReceiveListResponse {
-  payReceiveInfoDtoListIncomplete: PayReceiveInfo[];
-  payReceiveInfoDtoListComplete: PayReceiveInfo[];
+  inCompleteRequestedPayList: ResponseOfRequestedPayInfo[];
+  completeRequestedPayList: ResponseOfRequestedPayInfo[];
+}
+
+interface PayHomeResponse {
+  requestInfoInHome: PayRequestInfoInHome[];
+  requestedPayInfoInHome: RequestedPayInfoInHome[];
 }
 
 interface RecentBankInfoResponse {
-  recentPayRequestBankInfoDtoList: BankInfo[];
+  bankInfos: BankInfo[];
 }
 
 interface AllMembersResponse {
@@ -73,11 +110,7 @@ export const completePayment = async (
   spaceId: number,
   payRequestTargetId: number,
 ): Promise<ApiResponse<{ success: boolean }>> => {
-  return client
-    .post(`space/${spaceId}/pay/complete`, {
-      json: { payRequestTargetId },
-    })
-    .json();
+  return client.patch(`space/${spaceId}/pay/${payRequestTargetId}/complete`).json();
 };
 
 export const useCompletePayment = (spaceId: number) => {
@@ -104,7 +137,7 @@ export const useCompletePayment = (spaceId: number) => {
 export const getPayReceives = async (
   spaceId: number,
 ): Promise<ApiResponse<PayReceiveListResponse>> => {
-  return client.get(`space/${spaceId}/pay/receive`).json();
+  return client.get(`space/${spaceId}/pay/requested`).json();
 };
 
 export const usePayReceivesQuery = (spaceId: number) => {
@@ -150,16 +183,19 @@ export const usePayHomeQuery = (spaceId: number) => {
 
 /**
  * Get recent bank account information
+ * @param spaceId Space ID
  * @returns Recent bank account information
  */
-export const getRecentAccounts = async (): Promise<ApiResponse<RecentBankInfoResponse>> => {
-  return client.get(`space/pay/recent-bank-info`).json();
+export const getRecentAccounts = async (
+  spaceId: number,
+): Promise<ApiResponse<RecentBankInfoResponse>> => {
+  return client.get(`space/${spaceId}/pay/bank`).json();
 };
 
-export const useRecentAccountsQuery = () => {
+export const useRecentAccountsQuery = (spaceId: number) => {
   return useSuspenseQuery({
-    queryKey: payKeys.recentAccounts(),
-    queryFn: () => getRecentAccounts(),
+    queryKey: payKeys.recentAccounts(spaceId),
+    queryFn: () => getRecentAccounts(spaceId),
   });
 };
 
@@ -180,6 +216,71 @@ export const usePayDetailQuery = (spaceId: number, payRequestId: number) => {
   return useSuspenseQuery({
     queryKey: payKeys.detail(spaceId, payRequestId),
     queryFn: () => getPayDetail(spaceId, payRequestId),
+  });
+};
+
+/**
+ * Delete a payment request
+ * @param spaceId Space ID
+ * @param payRequestId Payment request ID
+ * @returns Success response
+ */
+export const deletePayRequest = async (
+  spaceId: number,
+  payRequestId: number,
+): Promise<ApiResponse<{ success: boolean }>> => {
+  return client.delete(`space/${spaceId}/pay/${payRequestId}`).json();
+};
+
+export const useDeletePayRequest = (spaceId: number) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (payRequestId: number) => deletePayRequest(spaceId, payRequestId),
+    onSuccess: (_, payRequestId) => {
+      queryClient.invalidateQueries({
+        queryKey: payKeys.requests(spaceId),
+      });
+      queryClient.invalidateQueries({
+        queryKey: payKeys.home(spaceId),
+      });
+      queryClient.invalidateQueries({
+        queryKey: payKeys.detail(spaceId, payRequestId),
+      });
+    },
+  });
+};
+
+/**
+ * Create a payment request
+ * @param spaceId Space ID
+ * @param payRequest Payment request data
+ * @returns Created payment request ID
+ */
+export const createPayRequest = async (
+  spaceId: number,
+  payRequest: CreatePayRequest,
+): Promise<ApiResponse<{ payRequestId: number }>> => {
+  return client
+    .post(`space/${spaceId}/pay/create`, {
+      json: payRequest,
+    })
+    .json();
+};
+
+export const useCreatePayRequest = (spaceId: number) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (payRequest: CreatePayRequest) => createPayRequest(spaceId, payRequest),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: payKeys.requests(spaceId),
+      });
+      queryClient.invalidateQueries({
+        queryKey: payKeys.home(spaceId),
+      });
+    },
   });
 };
 
@@ -234,76 +335,20 @@ export const useAllChatRoomsWithMembersQuery = (spaceId: number) => {
 
       // Fetch members for each chat room
       await Promise.all(
-        chatRooms.map(async (room) => {
-          const membersResponse = await getChatRoomMembers(spaceId, room.id);
+        chatRooms.map(async (chatRoom) => {
+          const membersResponse = await getChatRoomMembers(spaceId, chatRoom.id);
           const members = membersResponse.result?.userList || [];
 
           chatRoomsWithMembers.push({
-            chatRoomId: room.id,
-            chatRoomName: room.name,
+            chatRoomId: chatRoom.id,
+            chatRoomName: chatRoom.name,
             userList: members,
-            imgUrl: room.imgUrl,
+            imgUrl: chatRoom.imgUrl,
           });
         }),
       );
 
       return { chatRooms: chatRoomsWithMembers };
-    },
-  });
-};
-
-/**
- * Create a payment request
- * @param spaceId Space ID
- * @param totalAmount Total amount
- * @param bankName Bank name
- * @param bankAccountNum Bank account number
- * @param targetInfoList Target information list
- * @returns Created payment request ID
- */
-export const createPayRequest = async (
-  spaceId: number,
-  totalAmount: number,
-  bankName: string,
-  bankAccountNum: string,
-  targetInfoList: TargetInfoList[],
-): Promise<ApiResponse<{ payRequestId: number }>> => {
-  return client
-    .post(`space/${spaceId}/pay`, {
-      json: {
-        totalAmount,
-        bankName,
-        bankAccountNum,
-        targetInfoList,
-      },
-    })
-    .json();
-};
-
-export const useCreatePayRequest = (spaceId: number) => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: (params: {
-      totalAmount: number;
-      bankName: string;
-      bankAccountNum: string;
-      targetInfoList: TargetInfoList[];
-    }) =>
-      createPayRequest(
-        spaceId,
-        params.totalAmount,
-        params.bankName,
-        params.bankAccountNum,
-        params.targetInfoList,
-      ),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: payKeys.requests(spaceId),
-      });
-      queryClient.invalidateQueries({
-        queryKey: payKeys.home(spaceId),
-      });
     },
   });
 };
