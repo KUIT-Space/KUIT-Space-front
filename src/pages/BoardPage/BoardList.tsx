@@ -1,10 +1,11 @@
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import TopBarText, { LeftEnum } from "@/components/TopBarText";
-import search from "@/assets/Board/search.svg";
+
 import offPin from "@/assets/Board/pin1.svg";
 import onPin from "@/assets/Board/pin2.svg";
+import search from "@/assets/Board/search.svg";
+import TopBarText, { LeftEnum } from "@/components/TopBarText";
 
 const BoardListContainer = styled.div`
   display: flex;
@@ -31,7 +32,7 @@ const Divider = styled.div`
 
 const BoardList = () => {
   const navigate = useNavigate();
-  const Toggle = ({ id, title }) => {
+  const Toggle = ({ id, title }: { id: number; title: string }) => {
     setBoardList(
       boardList.map((item) =>
         item.id === id && item.title === title
