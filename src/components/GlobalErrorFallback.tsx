@@ -43,6 +43,7 @@ const GlobalErrorFallback = ({ error, resetErrorBoundary }: FallbackProps) => {
 
   useEffect(() => {
     if (error instanceof UnauthorizedError) {
+      resetErrorBoundary();
       navigate("/discordlogin");
     }
   }, [error, navigate]);
