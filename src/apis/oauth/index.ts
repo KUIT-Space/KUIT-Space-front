@@ -2,7 +2,6 @@ import { useMutation } from "@tanstack/react-query";
 
 import { ApiResponse, client } from "../client";
 
-// Response type for the OAuth token exchange
 interface TokenResult {
   success: boolean;
 }
@@ -47,14 +46,15 @@ export const exchangeCodeForTokens = async (
 ): Promise<ApiResponse<TokenResult> & { accessToken?: string; refreshToken?: string }> => {
   const response = await client.get(`oauth/discord?code=${code}`);
 
-  // Extract tokens from headers
   const accessToken = response.headers.get("Authorization") || undefined;
-  const refreshToken = response.headers.get("Authorization-refresh") || undefined;
+  const refreshToken =
+    response.headers.get("Authorization-refresh") ||
+    response.headers.get("authorization-refresh") ||
+    response.headers.get("Authorization-Refresh") ||
+    undefined;
 
-  // Parse the response body
   const data = await response.json<ApiResponse<TokenResult>>();
 
-  // Return both the response data and the tokens
   return {
     ...data,
     accessToken,
