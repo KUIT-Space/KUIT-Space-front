@@ -4,24 +4,41 @@ import { ColumnFlexDiv } from "../HomePage/HomePage.styled";
 import * as s from "@/pages/QRPage/QRPage.styled";
 
 import tmp from "@/assets/react.svg";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useEventQuery, useJoinEvent } from "@/apis/event";
+
 const QRPage = () => {
+  const { id } = useParams();
   const [title, setTitle] = useState<string>("");
   const [date, setDate] = useState<string>("");
+  const [src, setSrc] = useState<string>("");
+  const { mutate: joinEvent } = useJoinEvent(1, Number(id));
 
   const navigate = useNavigate();
   const onAttendClick = () => {
+    joinEvent();
     // Toast 메시지 띄우자
     navigate("/");
   };
+
+  const { data } = useEventQuery(1, Number(id));
+  useEffect(() => {
+    if (data.result == undefined) {
+      return;
+    }
+    setTitle(data.result.name);
+    setSrc(data.result.image);
+    setDate(data.result.date);
+  }, []);
+
   return (
     <div>
       <TopBarText left={LeftEnum.Back} center={"QR 출석"} right={<></>}></TopBarText>
       <s.Container>
-        <s.ImgQR src={tmp}></s.ImgQR>
-        <s.TitleDiv>Git 세션</s.TitleDiv>
-        <s.DateDiv>2024년 6월 20일</s.DateDiv>
+        <s.ImgQR src={src}></s.ImgQR>
+        <s.TitleDiv>{title}</s.TitleDiv>
+        <s.DateDiv>{date}</s.DateDiv>
       </s.Container>
       <BottomBtn onClick={onAttendClick}>출석하기</BottomBtn>
     </div>

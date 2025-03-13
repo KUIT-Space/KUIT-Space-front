@@ -26,10 +26,10 @@ interface EventParticipantInfo {
 }
 
 interface ReadEventsResponse {
-  events: EventInfoResponse[];
+  events: ReadEventInfoResponse[];
 }
 
-interface ReadEventInfoResponse {
+export interface ReadEventInfoResponse {
   id: number;
   name: string;
   image: string;
@@ -143,11 +143,10 @@ export const useDeleteEvent = (spaceId: number) => {
 
   return useMutation({
     mutationFn: (eventId: number) => deleteEvent(spaceId, eventId),
-    onSuccess: () => {
+    onSuccess: () =>
       queryClient.invalidateQueries({
         queryKey: eventKeys.lists(spaceId),
-      });
-    },
+      }),
   });
 };
 
