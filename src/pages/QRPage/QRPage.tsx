@@ -4,17 +4,26 @@ import { ColumnFlexDiv } from "../HomePage/HomePage.styled";
 import * as s from "@/pages/QRPage/QRPage.styled";
 
 import tmp from "@/assets/react.svg";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 const QRPage = () => {
   const [title, setTitle] = useState<string>("");
   const [date, setDate] = useState<string>("");
 
+  const { id } = useParams();
   const navigate = useNavigate();
   const onAttendClick = () => {
     // Toast 메시지 띄우자
     navigate("/");
   };
+
+  useEffect(() => {
+    // TODO 지우기
+    localStorage.setItem(
+      "Authorization",
+      "eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3NDE4NDk3MDksImV4cCI6MTc0MTk0OTcwOSwic3BhY2VNZW1iZXJJZCI6Niwic3BhY2VJZCI6MX0.Iu5MAp1cNZjiQkhSQwAidPXHUHV6qE8RRaiAHOlmauc",
+    );
+  }, []);
   return (
     <div>
       <TopBarText left={LeftEnum.Back} center={"QR 출석"} right={<></>}></TopBarText>

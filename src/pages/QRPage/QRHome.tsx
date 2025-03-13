@@ -1,8 +1,6 @@
 import TopBarText, { LeftEnum } from "@/components/TopBarText";
 
 import * as s from "@/pages/QRPage/QRPage.styled";
-import { CreateBtn } from "../VoiceRoomPage/JoinVoiceRoom.styled";
-import { GradientBtn } from "../PayPage/GradientBtn";
 import ReactIcon from "@/assets/react.svg";
 import QRDelete from "@/assets/QR/qr_delete.svg";
 import { RowFlexDiv } from "../HomePage/HomePage.styled";
