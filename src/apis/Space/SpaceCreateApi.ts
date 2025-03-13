@@ -5,13 +5,9 @@
  * * spaceProfileImg	File	nullable / 이미지 파일 확장자 형식을 지키는 이미지 파일
  * @return status OK - success response
  */
-import { createRequestOptionsFORM_AUTH, RequestOptions } from "@/apis/_createRequestOptions";
+import { ApiResponse, client } from "@/apis/client";
 
-interface CreateSpaceApiResponseType {
-  code: number;
-  message: string;
-  status: string;
-  timestamp?: string;
+interface CreateSpaceApiResponseType extends ApiResponse {
   result: {
     spaceId: number;
   };
@@ -22,33 +18,32 @@ interface CreateSpaceApiRequestType {
   spaceProfileImg?: File | null; // 이미지 파일은 선택적
 }
 
-const fetchCreateSpaceApi = async (url: string, options: RequestOptions) => {
-  const response: CreateSpaceApiResponseType = await fetch(url, options)
-    .then((res) => res.json())
-    .catch((err) => {
-      console.error("[fetch error]", err);
-      throw err;
-    });
-
-  return response;
-};
-
+/**
+ * 새로운 스페이스를 생성하는 API
+ * @param spaceName - 생성할 스페이스 이름
+ * @param spaceProfileImg - 스페이스 프로필 이미지 (선택적)
+ * @returns {Promise<CreateSpaceApiResponseType | null>} 생성된 스페이스 정보를 포함한 응답 또는 에러 발생 시 null
+ */
 export const createSpaceApi = async (spaceName: string, spaceProfileImg?: File | null) => {
-  const body: CreateSpaceApiRequestType = {
-    spaceName: spaceName,
-    spaceProfileImg: spaceProfileImg || null,
-  };
-
   const formData = new FormData();
-  formData.append("spaceName", body.spaceName);
-  if (body.spaceProfileImg) {
-    formData.append("spaceProfileImg", body.spaceProfileImg);
+  formData.append("spaceName", spaceName);
+  if (spaceProfileImg) formData.append("spaceProfileImg", spaceProfileImg);
+
+  try {
+    const response = await client
+      .post("space", {
+        body: formData,
+      })
+      .json<CreateSpaceApiResponseType>();
+
+    if (response.status !== 200) {
+      console.warn(response.message);
+      return null;
+    }
+
+    return response;
+  } catch (error) {
+    console.error("[createSpaceApi error]", error);
+    throw error;
   }
-
-  const requestOptions = createRequestOptionsFORM_AUTH("POST", formData);
-  const result = requestOptions
-    ? await fetchCreateSpaceApi(`${import.meta.env.VITE_API_BACK_URL}/space`, requestOptions)
-    : null;
-
-  return result;
 };

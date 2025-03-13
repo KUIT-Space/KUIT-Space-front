@@ -16,7 +16,7 @@ import {
   Logo,
   ScContainer,
   Social,
-} from "@/pages/LoginPage/LoginPage.styled.ts";
+} from "@/pages/LoginPage/KakaoLogin.styled.ts";
 
 const LoginPage = () => {
   const navigate = useNavigate();

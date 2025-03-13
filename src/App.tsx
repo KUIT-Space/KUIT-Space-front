@@ -17,7 +17,6 @@ import ChatSettingNamePage from "@/pages/ChatPage/ChatSettingPage/ChatSettingNam
 import ChatSettingPage from "@/pages/ChatPage/ChatSettingPage/ChatSettingPage";
 import ChattingPage from "@/pages/ChatPage/ChattingPage/ChattingPage";
 import HomePage from "@/pages/HomePage/HomePage";
-import LoginPage from "@/pages/LoginPage/LoginPage";
 import SignUpPage from "@/pages/LoginPage/SignUpPage";
 import CompletePay from "@/pages/PayPage/CompletePay";
 import CreateRequestPage from "@/pages/PayPage/CreateRequestPage";
@@ -44,13 +43,21 @@ import BoardRegisterPage from "./pages/BoardPage/BoardRegisterPage/BoardRegister
 import HomePageMemberPage from "./pages/HomePage/HomePageMember";
 import HomePageProfile from "./pages/HomePage/HomePageProfile";
 import KakaoRedirection from "./pages/LoginPage/KakaoRedirection";
-import LoginModal from "./pages/LoginPage/LoginModal";
 import InviteSpace from "./pages/SpacePage/InviteSpace";
 import InviteSpace2 from "./pages/SpacePage/InviteSpace2";
 import SpecialVoiceRoom from "./pages/VoiceRoomPage/SpecialVoiceRoom";
-import WritePostPage from "./pages/WritePostPage";
-import MenuList from "./pages/MenuPage/MenuList";
 
+import DiscordLoginPage from "@/pages/LoginPage/DiscordLogin";
+import LoginPage from "@/pages/LoginPage/KakaoLogin";
+
+import WritePostPage from "./pages/WritePostPage";
+import QRPage from "./pages/QRPage/QRPage";
+import HomePageSetting from "./pages/HomePage/HomePageSetting";
+import QRHome from "./pages/QRPage/QRHome";
+import QRDetail from "./pages/QRPage/QRDetail";
+import { JSX } from "react";
+import MenuList from "./pages/MenuPage/MenuList";
+        
 // will we need constant path in later..?
 // const PATH = {
 // 	HOME: "/",
@@ -68,7 +75,6 @@ const LayoutContainer = styled.div`
   position: relative;
   min-width: 360px;
   max-width: 720px;
-  min-height: 100vh;
   width: 100%;
   margin: 0 auto;
 
@@ -92,7 +98,7 @@ function Layout({ routes_children }: { routes_children: RouteChildren[] }) {
       <LayoutContainer>
         <div id="content">
           <Outlet />
-          <LoginModal exceptionRouters={["/login", "/signup"]} />
+          {/*<LoginModal exceptionRouters={["/login", "/signup"]} />*/}
         </div>
         {routes_children.find((child) => matchPath(child.path, pathname))?.hasBottomBar && (
           <BottomNavBar />
@@ -103,6 +109,11 @@ function Layout({ routes_children }: { routes_children: RouteChildren[] }) {
 }
 
 function App() {
+  const routes_children_qr = [
+    { path: "/qr", element: <QRPage /> },
+    { path: "/qr/home", element: <QRHome />, hasBottomBar: true },
+    { path: "/qr/detail", element: <QRDetail />, hasBottomBar: true },
+  ];
   const routes_children_chat = [
     { path: "/chat", element: <ChatPage />, hasBottomBar: true },
     { path: "/chat/create", element: <ChatCreatePage /> },
@@ -125,9 +136,9 @@ function App() {
   const routes_children_voice = [
     { path: "/voiceroom", element: <VoiceRoomListPage />, hasBottomBar: true },
     { path: "/createvoiceroom", element: <CreateVoiceRoomPage />, hasBottomBar: false },
-    { path: "/joinvoiceroom", element: <JoinVoiceRoomPage />, hasBottomBar: false },
-    { path: "/editvoiceroom", element: <EditVoiceRoomPage />, hasBottomBar: false },
-    { path: "/specialvoiceroom", element: <SpecialVoiceRoom />, hasBottomBar: false },
+    { path: "/joinvoiceroom", element: <JoinVoiceRoomPage />, hasBottombar: false },
+    { path: "/editvoiceroom", element: <EditVoiceRoomPage />, hasBottombar: false },
+    { path: "/specialvoiceroom", element: <SpecialVoiceRoom />, hasBottombar: false },
   ];
 
   const routes_children_board = [
@@ -149,21 +160,25 @@ function App() {
   ];
 
   const routes_children_login = [
-    { path: "/login", element: <LoginPage />, hasBottomBar: false },
-    { path: "/signup", element: <SignUpPage />, hasBottomBar: false },
-    { path: "/oauth/callback/kakao", element: <KakaoRedirection />, hasBottomBar: true },
+    { path: "/login", element: <LoginPage />, hasBottombar: false },
+    { path: "/discordlogin", element: <DiscordLoginPage />, hasBottombar: false },
+    { path: "/signup", element: <SignUpPage />, hasBottombar: false },
+    { path: "/oauth/callback/kakao", element: <KakaoRedirection />, hasBottombar: true },
   ];
 
   const routes_children_home = [
-    { path: "/members", element: <HomePageMemberPage />, hasBottomBar: false },
-    { path: "/member/:id", element: <HomePageProfile />, hasBottomBar: false },
+    { path: "/members", element: <HomePageMemberPage />, hasBottombar: false },
+    { path: "/member/:id", element: <HomePageProfile />, hasBottombar: false },
+    { path: "/setting", element: <HomePageSetting />, hasBottombar: false },
   ];
 
   const routes_children_write = [
-    { path: "/write", element: <WritePostPage />, hasBottomBar: false },
+    { path: "/write", element: <WritePostPage />, hasBottombar: false },
   ];
-
-  const routes_children_menu = [{ path: "/menu", element: <MenuList />, hasBottomBar: true }];
+    
+  const routes_children_menu = [
+    { path: "/menu", element: <MenuList />, hasBottomBar: true },
+  ];
 
   const routes_children = [
     { path: "/", element: <HomePage />, hasBottomBar: true },
@@ -176,6 +191,7 @@ function App() {
     ...routes_children_home,
     ...routes_children_write,
     ...routes_children_menu,
+    ...routes_children_qr,
     { path: "/*", element: <HomePage />, hasBottomBar: true },
   ];
 

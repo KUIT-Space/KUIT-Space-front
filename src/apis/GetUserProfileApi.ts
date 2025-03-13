@@ -1,4 +1,4 @@
-import { createRequestOptionsJSON_AUTH, fetchApi } from "@/apis/_createRequestOptions";
+import { client } from "./client";
 
 // 응답 타입 정의
 export interface UserProfile {
@@ -20,19 +20,13 @@ interface UserProfileResponse {
   timestamp?: string;
 }
 
-/** 스페이스 전체설정 중 스페이스 프로필 관리 view 를 위한 api
- * @returns UserProfileResponse
- * - 유저의 프로필 리스트를 반환합니다.
+/**
+ * 스페이스 전체설정 중 스페이스 프로필 관리 view를 위한 API
+ * @returns {Promise<UserProfileResponse | null>} 유저의 프로필 리스트 정보 또는 에러 발생 시 null
  */
-export const GetUserProfileApi = async () => {
-  const requestOptions = createRequestOptionsJSON_AUTH("GET");
-  if (!requestOptions) return null;
-
-  const url = `${import.meta.env.VITE_API_BACK_URL}/user/profile`;
-
+export const GetUserProfileApi = async (): Promise<UserProfileResponse | null> => {
   try {
-    const response = await fetchApi<UserProfileResponse>(url, requestOptions);
-    return response;
+    return await client.get("user/profile").json<UserProfileResponse>();
   } catch (error) {
     console.error("Error fetching user profile:", error);
     return null;
