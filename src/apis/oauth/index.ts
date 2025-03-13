@@ -4,11 +4,7 @@ import { ApiResponse, client } from "../client";
 
 // Response type for the OAuth token exchange
 interface TokenResult {
-  access_token: string;
-  refresh_token: string;
-  token_type: string;
-  expires_in: number;
-  scope: string;
+  success: boolean;
 }
 
 /**
@@ -44,10 +40,26 @@ export const validateState = (state: string): boolean => {
 /**
  * Exchange the authorization code for tokens
  * @param {string} code The authorization code from the callback
- * @returns {Promise<ApiResponse<TokenResult>>} The response from the token exchange
+ * @returns {Promise<ApiResponse<TokenResult> & { accessToken?: string, refreshToken?: string }>} The response with tokens
  */
-export const exchangeCodeForTokens = async (code: string): Promise<ApiResponse<TokenResult>> => {
-  return client.get(`oauth/discord?code=${code}`).json();
+export const exchangeCodeForTokens = async (
+  code: string,
+): Promise<ApiResponse<TokenResult> & { accessToken?: string; refreshToken?: string }> => {
+  const response = await client.get(`oauth/discord?code=${code}`);
+
+  // Extract tokens from headers
+  const accessToken = response.headers.get("Authorization") || undefined;
+  const refreshToken = response.headers.get("Authorization-refresh") || undefined;
+
+  // Parse the response body
+  const data = await response.json<ApiResponse<TokenResult>>();
+
+  // Return both the response data and the tokens
+  return {
+    ...data,
+    accessToken,
+    refreshToken,
+  };
 };
 
 /**
@@ -56,14 +68,16 @@ export const exchangeCodeForTokens = async (code: string): Promise<ApiResponse<T
  * @returns React Query mutation object
  */
 export const useExchangeCodeForTokens = (options?: {
-  onSuccess?: (data: ApiResponse<TokenResult>) => void;
+  onSuccess?: (
+    data: ApiResponse<TokenResult> & { accessToken?: string; refreshToken?: string },
+  ) => void;
   onError?: (error: Error) => void;
 }) => {
   return useMutation({
     mutationFn: (code: string) => exchangeCodeForTokens(code),
     onSuccess: (data) => {
-      if (data.result?.access_token && data.result?.refresh_token) {
-        storeTokens(data.result.access_token, data.result.refresh_token);
+      if (data.accessToken && data.refreshToken) {
+        storeTokens(data.accessToken, data.refreshToken);
       }
       options?.onSuccess?.(data);
     },
