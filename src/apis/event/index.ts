@@ -106,14 +106,13 @@ const getEvents = async (spaceId: number): Promise<ApiResponse<ReadEventsRespons
 
 export const useEventsQuery = (
   spaceId: number,
-  options?: Omit<
+  options?: Partial<
     UseSuspenseQueryOptions<
       ApiResponse<ReadEventsResponse>,
       Error,
       ApiResponse<ReadEventsResponse>,
       ReturnType<typeof eventKeys.lists>
-    >,
-    "queryKey" | "queryFn"
+    >
   >,
 ) => {
   return useSuspenseQuery({
@@ -139,7 +138,14 @@ const getEvent = async (
 export const useEventQuery = (
   spaceId: number,
   eventId: number,
-  options?: Partial<UseSuspenseQueryOptions>,
+  options?: Partial<
+    UseSuspenseQueryOptions<
+      ApiResponse<ReadEventInfoResponse>,
+      Error,
+      ApiResponse<ReadEventInfoResponse>,
+      ReturnType<typeof eventKeys.detail>
+    >
+  >,
 ) => {
   return useSuspenseQuery({
     queryKey: eventKeys.detail(spaceId, eventId),
