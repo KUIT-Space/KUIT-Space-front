@@ -1,4 +1,7 @@
-import ky from "ky";
+import ky, { BeforeErrorHook, HTTPError } from "ky";
+import { match } from "ts-pattern";
+
+import { UnauthorizedError } from "@/utils/HttpErrors";
 
 export interface ApiResponse<T = unknown> {
   code: number;
@@ -7,6 +10,19 @@ export interface ApiResponse<T = unknown> {
   timestamp?: string;
   result?: T;
 }
+
+const handleHttpError: BeforeErrorHook = async (error) => {
+  if (error instanceof HTTPError) {
+    const { response } = error;
+
+    return match(response.status)
+      .with(401, () => {
+        throw new UnauthorizedError(response, error.request, error.options);
+      })
+      .otherwise(() => error);
+  }
+  return error;
+};
 
 export const client = ky.create({
   prefixUrl: import.meta.env.VITE_API_BACK_URL,
@@ -19,6 +35,7 @@ export const client = ky.create({
         }
       },
     ],
+    beforeError: [handleHttpError],
     afterResponse: [
       async (request, options, response) => {
         if (response.status === 401) {
