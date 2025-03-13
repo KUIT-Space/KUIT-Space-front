@@ -52,7 +52,7 @@ const BoardPage = () => {
   }, [selectedOption]);
 
   return (
-    <>
+    <div>
       <TopBarText
         left={LeftEnum.Logo}
         center="게시판"
@@ -97,7 +97,7 @@ const BoardPage = () => {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
       />
-    </>
+    </div>
   );
 };
 

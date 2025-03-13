@@ -38,6 +38,7 @@ import VoiceRoomPage from "@/pages/VoiceRoomPage/VoiceRoomPage";
 import GlobalStyle from "@/styles/GlobalStyles";
 import { theme } from "@/styles/Theme";
 
+import BoardList from "./pages/BoardPage/BoardList";
 import BoardDetailPage from "./pages/BoardPage/BoardDetailpage/BoardDetailPage";
 import BoardRegisterPage from "./pages/BoardPage/BoardRegisterPage/BoardRegisterPage";
 import HomePageMemberPage from "./pages/HomePage/HomePageMember";
@@ -48,6 +49,7 @@ import InviteSpace from "./pages/SpacePage/InviteSpace";
 import InviteSpace2 from "./pages/SpacePage/InviteSpace2";
 import SpecialVoiceRoom from "./pages/VoiceRoomPage/SpecialVoiceRoom";
 import WritePostPage from "./pages/WritePostPage";
+import MenuList from "./pages/MenuPage/MenuList";
 
 // will we need constant path in later..?
 // const PATH = {
@@ -66,6 +68,7 @@ const LayoutContainer = styled.div`
   position: relative;
   min-width: 360px;
   max-width: 720px;
+  min-height: 100vh;
   width: 100%;
   margin: 0 auto;
 
@@ -122,12 +125,13 @@ function App() {
   const routes_children_voice = [
     { path: "/voiceroom", element: <VoiceRoomListPage />, hasBottomBar: true },
     { path: "/createvoiceroom", element: <CreateVoiceRoomPage />, hasBottomBar: false },
-    { path: "/joinvoiceroom", element: <JoinVoiceRoomPage />, hasBottombar: false },
-    { path: "/editvoiceroom", element: <EditVoiceRoomPage />, hasBottombar: false },
-    { path: "/specialvoiceroom", element: <SpecialVoiceRoom />, hasBottombar: false },
+    { path: "/joinvoiceroom", element: <JoinVoiceRoomPage />, hasBottomBar: false },
+    { path: "/editvoiceroom", element: <EditVoiceRoomPage />, hasBottomBar: false },
+    { path: "/specialvoiceroom", element: <SpecialVoiceRoom />, hasBottomBar: false },
   ];
 
   const routes_children_board = [
+    { path: "/boardlist", element: <BoardList />, hasBottomBar: true },
     { path: "/board", element: <BoardPage />, hasBottomBar: true },
     { path: "/board/:id", element: <BoardDetailPage />, hasBottomBar: false },
     { path: "/board/register", element: <BoardRegisterPage />, hasBottomBar: false },
@@ -145,19 +149,21 @@ function App() {
   ];
 
   const routes_children_login = [
-    { path: "/login", element: <LoginPage />, hasBottombar: false },
-    { path: "/signup", element: <SignUpPage />, hasBottombar: false },
-    { path: "/oauth/callback/kakao", element: <KakaoRedirection />, hasBottombar: true },
+    { path: "/login", element: <LoginPage />, hasBottomBar: false },
+    { path: "/signup", element: <SignUpPage />, hasBottomBar: false },
+    { path: "/oauth/callback/kakao", element: <KakaoRedirection />, hasBottomBar: true },
   ];
 
   const routes_children_home = [
-    { path: "/members", element: <HomePageMemberPage />, hasBottombar: false },
-    { path: "/member/:id", element: <HomePageProfile />, hasBottombar: false },
+    { path: "/members", element: <HomePageMemberPage />, hasBottomBar: false },
+    { path: "/member/:id", element: <HomePageProfile />, hasBottomBar: false },
   ];
 
   const routes_children_write = [
-    { path: "/write", element: <WritePostPage />, hasBottombar: false },
+    { path: "/write", element: <WritePostPage />, hasBottomBar: false },
   ];
+
+  const routes_children_menu = [{ path: "/menu", element: <MenuList />, hasBottomBar: true }];
 
   const routes_children = [
     { path: "/", element: <HomePage />, hasBottomBar: true },
@@ -169,6 +175,7 @@ function App() {
     ...routes_children_login,
     ...routes_children_home,
     ...routes_children_write,
+    ...routes_children_menu,
     { path: "/*", element: <HomePage />, hasBottomBar: true },
   ];
 
