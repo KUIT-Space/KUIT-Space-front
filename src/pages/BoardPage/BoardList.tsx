@@ -9,7 +9,7 @@ import onPin from "@/assets/Board/pin2.svg";
 const BoardListContainer = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  padding: 20px 20px 3.75rem;
 `;
 
 const BoardElement = styled.div`

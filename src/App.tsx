@@ -55,9 +55,10 @@ import QRPage from "./pages/QRPage/QRPage";
 import HomePageSetting from "./pages/HomePage/HomePageSetting";
 import QRHome from "./pages/QRPage/QRHome";
 import QRDetail from "./pages/QRPage/QRDetail";
+import QRCreate from "./pages/QRPage/QRCreate";
 import { JSX } from "react";
 import MenuList from "./pages/MenuPage/MenuList";
-        
+
 // will we need constant path in later..?
 // const PATH = {
 // 	HOME: "/",
@@ -113,6 +114,7 @@ function App() {
     { path: "/qr", element: <QRPage /> },
     { path: "/qr/home", element: <QRHome />, hasBottomBar: true },
     { path: "/qr/detail", element: <QRDetail />, hasBottomBar: true },
+    { path: "/qr/create", element: <QRCreate />, hasBottomBar: false },
   ];
   const routes_children_chat = [
     { path: "/chat", element: <ChatPage />, hasBottomBar: true },
@@ -175,10 +177,8 @@ function App() {
   const routes_children_write = [
     { path: "/write", element: <WritePostPage />, hasBottombar: false },
   ];
-    
-  const routes_children_menu = [
-    { path: "/menu", element: <MenuList />, hasBottomBar: true },
-  ];
+
+  const routes_children_menu = [{ path: "/menu", element: <MenuList />, hasBottomBar: true }];
 
   const routes_children = [
     { path: "/", element: <HomePage />, hasBottomBar: true },
