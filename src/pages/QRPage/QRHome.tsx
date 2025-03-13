@@ -1,16 +1,16 @@
-import TopBarText, { LeftEnum } from "@/components/TopBarText";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-import * as s from "@/pages/QRPage/QRPage.styled";
-import ReactIcon from "@/assets/react.svg";
+import { ReadEventInfoResponse, useDeleteEvent, useEventsQuery } from "@/apis/event";
+import QRCreateIcon from "@/assets/QR/qr_create.svg";
 import QRDelete from "@/assets/QR/qr_delete.svg";
-import { RowFlexDiv } from "../HomePage/HomePage.styled";
 import QREdit from "@/assets/QR/qr_edit.svg";
 import { BottomFloatBtn } from "@/components/BottomFloatBtn";
-import QRCreateIcon from "@/assets/QR/qr_create.svg";
-import { ReadEventInfoResponse, getEvents, useDeleteEvent, useEventsQuery } from "@/apis/event";
-import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
 import Modal from "@/components/Modal";
+import TopBarText, { LeftEnum } from "@/components/TopBarText";
+import * as s from "@/pages/QRPage/QRPage.styled";
+
+import { RowFlexDiv } from "../HomePage/HomePage.styled";
 
 const QRAttendWrapper = ({
   event,
@@ -28,9 +28,6 @@ const QRAttendWrapper = ({
     handler(event.id);
   };
 
-  const onModifyClick = () => {
-    //navigate to modify
-  };
   return (
     <s.QRAttendWrapper>
       <s.QRAttendDelete src={QRDelete} onClick={onDeleteClick} />
