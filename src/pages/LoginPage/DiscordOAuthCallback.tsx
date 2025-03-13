@@ -4,12 +4,10 @@ import styled from "styled-components";
 
 import { clearOAuthState, useExchangeCodeForTokens, validateState } from "@/apis/oauth";
 
-// Define prop types for styled components
 interface MessageProps {
   isError?: boolean;
 }
 
-// Styled components for the UI
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -55,15 +53,11 @@ const DiscordOAuthCallback = () => {
   const [searchParams] = useSearchParams();
   const [error, setError] = useState<string | null>(null);
 
-  // Get the mutation hook for exchanging the code for tokens
   const { mutate: exchangeCode, isPending } = useExchangeCodeForTokens({
     onSuccess: (data) => {
-      // Clear the OAuth state from localStorage
       clearOAuthState();
 
-      // Check if we got tokens
       if (data.accessToken && data.refreshToken) {
-        // Redirect to home page
         navigate("/");
       } else {
         setError("서버에서 인증 토큰을 받지 못했습니다.");
@@ -75,18 +69,15 @@ const DiscordOAuthCallback = () => {
   });
 
   useEffect(() => {
-    // Extract code and state from URL parameters
     const code = searchParams.get("code");
     const state = searchParams.get("state");
 
-    // Validate parameters
     if (!code) {
       setError("인증 코드가 없습니다. 다시 로그인해 주세요.");
       return;
     }
 
     if (state) {
-      // Validate state parameter to prevent CSRF attacks
       const isValidState = validateState(state);
       if (!isValidState) {
         setError("유효하지 않은 상태 매개변수입니다. CSRF 공격 시도일 수 있습니다.");
@@ -94,7 +85,6 @@ const DiscordOAuthCallback = () => {
       }
     }
 
-    // Exchange the code for tokens
     exchangeCode(code);
   }, [searchParams, exchangeCode]);
 
