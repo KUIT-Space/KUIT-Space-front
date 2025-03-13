@@ -84,7 +84,7 @@ interface ResponseOfReadPostList {
  * @param boardData Board creation data
  * @returns Created board ID
  */
-const createBoard = async (
+export const createBoard = async (
   spaceId: number,
   boardData: Omit<RequestOfCreateBoard, "spaceId">,
 ): Promise<ApiResponse<CreateBoardResponse>> => {
@@ -141,5 +141,44 @@ export const usePostsQuery = (spaceId: number, boardId: number) => {
   return useSuspenseQuery({
     queryKey: boardKeys.posts(spaceId, boardId),
     queryFn: () => getPosts(spaceId, boardId),
+  });
+};
+
+/**
+ * Create a new post in a board
+ * @param spaceId Space ID
+ * @param boardId Board ID
+ * @param postData Post creation data
+ * @returns Created post ID
+ */
+const createPost = async (
+  spaceId: number,
+  boardId: number,
+  postData: RequestOfCreatePost,
+): Promise<ApiResponse<CreatePostResponse>> => {
+  return client
+    .post(`space/${spaceId}/board/${boardId}/post`, {
+      json: postData,
+    })
+    .json();
+};
+
+/**
+ * React Query mutation hook for creating a post
+ * @param spaceId Space ID
+ * @param boardId Board ID
+ * @returns Mutation function and state
+ */
+export const useCreatePost = (spaceId: number, boardId: number) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (postData: RequestOfCreatePost) => createPost(spaceId, boardId, postData),
+    onSuccess: () => {
+      // Invalidate posts list query to refresh data
+      queryClient.invalidateQueries({
+        queryKey: boardKeys.posts(spaceId, boardId),
+      });
+    },
   });
 };
