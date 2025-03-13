@@ -13,16 +13,16 @@ export const client = ky.create({
   hooks: {
     beforeRequest: [
       (request) => {
-        const token = localStorage.getItem("Authorization");
-        if (token) {
-          request.headers.set("Authorization", token);
+        const accessToken = localStorage.getItem("accessToken");
+        if (accessToken) {
+          request.headers.set("Authorization", accessToken);
         }
       },
     ],
     afterResponse: [
       async (request, options, response) => {
         if (response.status === 401) {
-          localStorage.removeItem("Authorization");
+          localStorage.removeItem("accessToken");
         }
       },
     ],
