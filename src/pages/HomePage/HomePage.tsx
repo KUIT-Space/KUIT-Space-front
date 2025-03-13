@@ -1,5 +1,5 @@
-import { SetStateAction, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import {
   getHomeApi,
@@ -11,13 +11,11 @@ import { noticeInfo } from "@/apis/HomePage/GetHomepageApi";
 import alarm from "@/assets/icon_alarm.svg";
 import setting from "@/assets/icon_setting.svg";
 import logoSpace from "@/assets/logo_space.svg";
-import { BottomBtn } from "@/components/BottomBtn";
 import bannerImage from "@/pages/HomePage/bannerImage.svg";
 import bannerImageCover from "@/pages/HomePage/bannerImageCover.svg";
 import * as sty from "@/pages/HomePage/HomePage.styled";
 import next from "@/pages/HomePage/icon_next.svg";
 import { addComma, PayReceiveInfo, PayRequestInfo } from "@/pages/PayPage/PayPage";
-import { VrList } from "@/pages/VoiceRoomPage/VoiceRoomListPage";
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -265,7 +263,7 @@ const HomePage = () => {
             vrData.voiceRoomList.map(
               (value, index) =>
                 value.active === true && (
-                  <sty.HomeVoiceRoomDiv>
+                  <sty.HomeVoiceRoomDiv key={value.id}>
                     <sty.ColumnFlexDiv>
                       <sty.VoiceRoomTitleDiv>{value.name}</sty.VoiceRoomTitleDiv>
                       <sty.RoundDiv
