@@ -1,3 +1,5 @@
+import { useMutation } from "@tanstack/react-query";
+
 import { ApiResponse, client } from "../client";
 
 // Response type for the OAuth token exchange
@@ -46,6 +48,27 @@ export const validateState = (state: string): boolean => {
  */
 export const exchangeCodeForTokens = async (code: string): Promise<ApiResponse<TokenResult>> => {
   return client.get(`oauth/discord?code=${code}`).json();
+};
+
+/**
+ * Custom hook for exchanging the authorization code for tokens using React Query
+ * @param options Configuration options for the mutation
+ * @returns React Query mutation object
+ */
+export const useExchangeCodeForTokens = (options?: {
+  onSuccess?: (data: ApiResponse<TokenResult>) => void;
+  onError?: (error: Error) => void;
+}) => {
+  return useMutation({
+    mutationFn: (code: string) => exchangeCodeForTokens(code),
+    onSuccess: (data) => {
+      if (data.result?.access_token && data.result?.refresh_token) {
+        storeTokens(data.result.access_token, data.result.refresh_token);
+      }
+      options?.onSuccess?.(data);
+    },
+    onError: options?.onError,
+  });
 };
 
 /**
