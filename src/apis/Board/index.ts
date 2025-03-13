@@ -76,4 +76,44 @@ interface ResponseOfReadPostList {
   readPostList: ResponseOfPostSummary[];
 }
 
-// API functions and React Query hooks will go here
+// API functions and React Query hooks
+
+/**
+ * Create a new board in a space
+ * @param spaceId Space ID
+ * @param boardData Board creation data
+ * @returns Created board ID
+ */
+const createBoard = async (
+  spaceId: number,
+  boardData: Omit<RequestOfCreateBoard, "spaceId">,
+): Promise<ApiResponse<CreateBoardResponse>> => {
+  return client
+    .post(`space/${spaceId}/board/create`, {
+      json: {
+        spaceId,
+        ...boardData,
+      },
+    })
+    .json();
+};
+
+/**
+ * React Query mutation hook for creating a board
+ * @param spaceId Space ID
+ * @returns Mutation function and state
+ */
+export const useCreateBoard = (spaceId: number) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (boardData: Omit<RequestOfCreateBoard, "spaceId">) =>
+      createBoard(spaceId, boardData),
+    onSuccess: () => {
+      // Invalidate boards list query to refresh data
+      queryClient.invalidateQueries({
+        queryKey: boardKeys.lists(spaceId),
+      });
+    },
+  });
+};
