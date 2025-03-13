@@ -117,3 +117,29 @@ export const useCreateBoard = (spaceId: number) => {
     },
   });
 };
+
+/**
+ * Get posts from a board
+ * @param spaceId Space ID
+ * @param boardId Board ID
+ * @returns List of posts
+ */
+const getPosts = async (
+  spaceId: number,
+  boardId: number,
+): Promise<ApiResponse<ResponseOfReadPostList>> => {
+  return client.get(`space/${spaceId}/board/${boardId}/post`).json();
+};
+
+/**
+ * React Query query hook for fetching posts from a board
+ * @param spaceId Space ID
+ * @param boardId Board ID
+ * @returns Query result with posts data
+ */
+export const usePostsQuery = (spaceId: number, boardId: number) => {
+  return useSuspenseQuery({
+    queryKey: boardKeys.posts(spaceId, boardId),
+    queryFn: () => getPosts(spaceId, boardId),
+  });
+};
