@@ -1,4 +1,5 @@
 import { JSX } from "react";
+import { ErrorBoundary } from "react-error-boundary";
 import {
   createBrowserRouter,
   matchPath,
@@ -9,6 +10,7 @@ import {
 import styled, { ThemeProvider } from "styled-components";
 
 import BottomNavBar from "@/components/BottomNavBar";
+import GlobalErrorFallback from "@/components/GlobalErrorFallback";
 import BoardPage from "@/pages/BoardPage/BoardPage";
 import ChatCreatePage from "@/pages/ChatPage/ChatCreatePage/ChatCreatePage";
 import ChatPage from "@/pages/ChatPage/ChatPage";
@@ -41,13 +43,14 @@ import VoiceRoomPage from "@/pages/VoiceRoomPage/VoiceRoomPage";
 import GlobalStyle from "@/styles/GlobalStyles";
 import { theme } from "@/styles/Theme";
 
-import BoardList from "./pages/BoardPage/BoardList";
 import BoardDetailPage from "./pages/BoardPage/BoardDetailpage/BoardDetailPage";
+import BoardList from "./pages/BoardPage/BoardList";
 import BoardRegisterPage from "./pages/BoardPage/BoardRegisterPage/BoardRegisterPage";
 import HomePageMemberPage from "./pages/HomePage/HomePageMember";
 import HomePageProfile from "./pages/HomePage/HomePageProfile";
 import HomePageSetting from "./pages/HomePage/HomePageSetting";
 import KakaoRedirection from "./pages/LoginPage/KakaoRedirection";
+import MenuList from "./pages/MenuPage/MenuList";
 import QRDetail from "./pages/QRPage/QRDetail";
 import QRHome from "./pages/QRPage/QRHome";
 import QRPage from "./pages/QRPage/QRPage";
@@ -55,7 +58,6 @@ import InviteSpace from "./pages/SpacePage/InviteSpace";
 import InviteSpace2 from "./pages/SpacePage/InviteSpace2";
 import SpecialVoiceRoom from "./pages/VoiceRoomPage/SpecialVoiceRoom";
 import WritePostPage from "./pages/WritePostPage";
-import MenuList from "./pages/MenuPage/MenuList";
 
 // will we need constant path in later..?
 // const PATH = {
@@ -96,7 +98,9 @@ function Layout({ routes_children }: { routes_children: RouteChildren[] }) {
       <GlobalStyle />
       <LayoutContainer>
         <div id="content">
-          <Outlet />
+          <ErrorBoundary FallbackComponent={GlobalErrorFallback}>
+            <Outlet />
+          </ErrorBoundary>
           {/*<LoginModal exceptionRouters={["/login", "/signup"]} />*/}
         </div>
         {routes_children.find((child) => matchPath(child.path, pathname))?.hasBottomBar && (

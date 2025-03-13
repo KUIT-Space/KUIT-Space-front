@@ -30,11 +30,13 @@
     "qrcode.react": "^4.2.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-error-boundary": "^5.0.0",
     "react-router-dom": "^6.24.1",
     "react-toastify": "^10.0.5",
     "sockjs-client": "^1.6.1",
     "styled-components": "^6.1.12",
     "styled-reset": "^4.5.2",
+    "ts-pattern": "^5.6.2",
     "vite-plugin-mkcert": "^1.17.5",
     "vite-plugin-svgr": "^4.2.0",
     "ws": "^8.18.0"
