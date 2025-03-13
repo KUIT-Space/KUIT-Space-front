@@ -7,7 +7,7 @@ import tmp from "@/assets/react.svg";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getEvent, getEvents, useEventQuery, useEventsQuery } from "@/apis/event";
-import { useSuspenseQuery } from "@tanstack/react-query";
+
 const QRPage = () => {
   const [title, setTitle] = useState<string>("");
   const [date, setDate] = useState<string>("");
@@ -19,10 +19,6 @@ const QRPage = () => {
     // Toast 메시지 띄우자
     navigate("/");
   };
-  localStorage.setItem(
-    "Authorization",
-    "Bearer eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3NDE4NTE2MDgsImV4cCI6MTc0MTk1MTYwOCwic3BhY2VNZW1iZXJJZCI6OCwic3BhY2VJZCI6MX0.06fa_R0ypRpWQv5ELCDrfnMDTOHzVRvp_5v5ye7vK30",
-  );
 
   const { data } = useEventQuery(1, Number(id));
   useEffect(() => {

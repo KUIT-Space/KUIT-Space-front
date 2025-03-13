@@ -27,10 +27,10 @@ interface EventParticipantInfo {
 }
 
 interface ReadEventsResponse {
-  events: EventInfoResponse[];
+  events: ReadEventInfoResponse[];
 }
 
-interface ReadEventInfoResponse {
+export interface ReadEventInfoResponse {
   id: number;
   name: string;
   image: string;

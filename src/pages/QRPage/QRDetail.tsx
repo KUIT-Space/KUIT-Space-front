@@ -7,7 +7,15 @@ import { RowFlexDiv } from "../PayPage/PayPage.styled";
 import { Member } from "../ChatPage/ChatCreatePage/ChatCreatePage.styled";
 
 import ReactIcon from "@/assets/react.svg";
+import { useLocation, useParams } from "react-router-dom";
+import { useEventQuery } from "@/apis/event";
+
 const QRDetail = () => {
+  const { id } = useParams();
+  const { data } = useEventQuery(1, Number(id));
+  const location = useLocation();
+  console.log(window.location.origin + `/KUIT-Space-front/qr/${id}`);
+
   return (
     <>
       <TopBarText left={LeftEnum.Back} center="세션 이름 출석" right={<></>} />
