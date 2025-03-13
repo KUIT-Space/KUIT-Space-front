@@ -85,7 +85,7 @@ export const RetryButton: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const retryButton = canvas.getByText("다시 시도");
+    const retryButton = canvas.getByText("다시 시도하기");
 
     // Click the retry button
     await userEvent.click(retryButton);

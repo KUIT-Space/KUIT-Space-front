@@ -29,7 +29,8 @@ const RetryButton = styled.button`
   background-color: ${({ theme }) => theme.colors.normal};
   color: ${({ theme }) => theme.colors.BG900};
   border: none;
-  border-radius: 4px;
+  font-weight: 600;
+  border-radius: 12px;
   cursor: pointer;
 
   &:hover {
@@ -50,7 +51,7 @@ const GlobalErrorFallback = ({ error, resetErrorBoundary }: FallbackProps) => {
     <ErrorContainer>
       <ErrorTitle>문제가 발생했습니다</ErrorTitle>
       <ErrorMessage>{error.message}</ErrorMessage>
-      <RetryButton onClick={resetErrorBoundary}>다시 시도</RetryButton>
+      <RetryButton onClick={resetErrorBoundary}>다시 시도하기</RetryButton>
     </ErrorContainer>
   );
 };
