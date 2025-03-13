@@ -17,7 +17,7 @@ const QRDetail = () => {
   const { id } = useParams();
 
   const url = window.location.origin + `/KUIT-Space-front/qr/${id}`;
-  const { data } = useEventQuery(1, Number(id), { refetchInterval: 5000 });
+  const { data } = useEventQuery(1, Number(id), { refetchInterval: 10000 });
   if (data == undefined) return <></>;
 
   const participants = data.result?.participants;
