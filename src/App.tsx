@@ -37,6 +37,7 @@ import VoiceRoomPage from "@/pages/VoiceRoomPage/VoiceRoomPage";
 import GlobalStyle from "@/styles/GlobalStyles";
 import { theme } from "@/styles/Theme";
 
+import BoardList from "./pages/BoardPage/BoardList";
 import BoardDetailPage from "./pages/BoardPage/BoardDetailpage/BoardDetailPage";
 import BoardRegisterPage from "./pages/BoardPage/BoardRegisterPage/BoardRegisterPage";
 import HomePageMemberPage from "./pages/HomePage/HomePageMember";
@@ -55,6 +56,7 @@ import HomePageSetting from "./pages/HomePage/HomePageSetting";
 import QRHome from "./pages/QRPage/QRHome";
 import QRDetail from "./pages/QRPage/QRDetail";
 import { JSX } from "react";
+import MenuList from "./pages/MenuPage/MenuList";
 
 // will we need constant path in later..?
 // const PATH = {
@@ -140,6 +142,7 @@ function App() {
   ];
 
   const routes_children_board = [
+    { path: "/boardlist", element: <BoardList />, hasBottomBar: true },
     { path: "/board", element: <BoardPage />, hasBottomBar: true },
     { path: "/board/:id", element: <BoardDetailPage />, hasBottomBar: false },
     { path: "/board/register", element: <BoardRegisterPage />, hasBottomBar: false },
@@ -173,6 +176,8 @@ function App() {
     { path: "/write", element: <WritePostPage />, hasBottombar: false },
   ];
 
+  const routes_children_menu = [{ path: "/menu", element: <MenuList />, hasBottomBar: true }];
+
   const routes_children = [
     { path: "/", element: <HomePage />, hasBottomBar: true },
     ...routes_children_chat,
@@ -183,6 +188,7 @@ function App() {
     ...routes_children_login,
     ...routes_children_home,
     ...routes_children_write,
+    ...routes_children_menu,
     ...routes_children_qr,
     { path: "/*", element: <HomePage />, hasBottomBar: true },
   ];
