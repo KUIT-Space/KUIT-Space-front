@@ -1,4 +1,10 @@
-import { useMutation, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
+import {
+  QueryObserverOptions,
+  useMutation,
+  useQueryClient,
+  useSuspenseQuery,
+  UseSuspenseQueryOptions,
+} from "@tanstack/react-query";
 
 import { ApiResponse, client } from "../client";
 
@@ -98,10 +104,22 @@ const getEvents = async (spaceId: number): Promise<ApiResponse<ReadEventsRespons
   return client.get(`space/${spaceId}/events`).json();
 };
 
-export const useEventsQuery = (spaceId: number) => {
+export const useEventsQuery = (
+  spaceId: number,
+  options?: Omit<
+    UseSuspenseQueryOptions<
+      ApiResponse<ReadEventsResponse>,
+      Error,
+      ApiResponse<ReadEventsResponse>,
+      ReturnType<typeof eventKeys.lists>
+    >,
+    "queryKey" | "queryFn"
+  >,
+) => {
   return useSuspenseQuery({
     queryKey: eventKeys.lists(spaceId),
     queryFn: () => getEvents(spaceId),
+    ...options,
   });
 };
 
@@ -118,10 +136,15 @@ const getEvent = async (
   return client.get(`space/${spaceId}/event/${eventId}`).json();
 };
 
-export const useEventQuery = (spaceId: number, eventId: number) => {
+export const useEventQuery = (
+  spaceId: number,
+  eventId: number,
+  options?: Partial<UseSuspenseQueryOptions>,
+) => {
   return useSuspenseQuery({
     queryKey: eventKeys.detail(spaceId, eventId),
     queryFn: () => getEvent(spaceId, eventId),
+    ...options,
   });
 };
 

@@ -1,21 +1,23 @@
-import TopBarText, { LeftEnum } from "@/components/TopBarText";
-import * as s from "./QRPage.styled";
+import { useRef } from "react";
+import { useLocation, useParams } from "react-router-dom";
 import { QRCodeSVG } from "qrcode.react";
+
+import { useEventQuery } from "@/apis/event";
 import QRDownIcon from "@/assets/QR/qr_down.svg";
 import QRShareIcon from "@/assets/QR/qr_share.svg";
-import { RowFlexDiv } from "../PayPage/PayPage.styled";
-import { Member } from "../ChatPage/ChatCreatePage/ChatCreatePage.styled";
-
 import ReactIcon from "@/assets/react.svg";
-import { useLocation, useParams } from "react-router-dom";
-import { useEventQuery } from "@/apis/event";
-import { useRef } from "react";
+import TopBarText, { LeftEnum } from "@/components/TopBarText";
+
+import { Member } from "../ChatPage/ChatCreatePage/ChatCreatePage.styled";
+import { RowFlexDiv } from "../PayPage/PayPage.styled";
+
+import * as s from "./QRPage.styled";
 
 const QRDetail = () => {
   const { id } = useParams();
 
   const url = window.location.origin + `/KUIT-Space-front/qr/${id}`;
-  const { data } = useEventQuery(1, Number(id));
+  const { data } = useEventQuery(1, Number(id), { refetchInterval: 5000 });
   if (data == undefined) return <></>;
 
   const participants = data.result?.participants;
@@ -54,7 +56,7 @@ const QRDetail = () => {
           </RowFlexDiv>
           {participants.map((value) => {
             return (
-              <Member $cursor="default">
+              <Member key={value.id} $cursor="default">
                 <section>
                   <img
                     // src={member.profileImgUrl ?? getUserDefaultImageURL(member.userId)}
