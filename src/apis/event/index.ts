@@ -62,7 +62,7 @@ interface UpdateEventParticipantRequest {
  * @param eventData Event data
  * @returns Created event ID
  */
-export const createEvent = async (
+const createEvent = async (
   spaceId: number,
   eventData: CreateEventRequest,
 ): Promise<ApiResponse<CreateEventResponse>> => {
@@ -112,7 +112,7 @@ export const useEventsQuery = (spaceId: number) => {
  * @param eventId Event ID
  * @returns Event details including participants
  */
-export const getEvent = async (
+const getEvent = async (
   spaceId: number,
   eventId: number,
 ): Promise<ApiResponse<ReadEventInfoResponse>> => {
@@ -132,7 +132,7 @@ export const useEventQuery = (spaceId: number, eventId: number) => {
  * @param eventId Event ID
  * @returns Success response
  */
-export const deleteEvent = async (
+const deleteEvent = async (
   spaceId: number,
   eventId: number,
 ): Promise<ApiResponse<{ success: boolean }>> => {
@@ -144,11 +144,10 @@ export const useDeleteEvent = (spaceId: number) => {
 
   return useMutation({
     mutationFn: (eventId: number) => deleteEvent(spaceId, eventId),
-    onSuccess: () => {
+    onSuccess: () =>
       queryClient.invalidateQueries({
         queryKey: eventKeys.lists(spaceId),
-      });
-    },
+      }),
   });
 };
 
@@ -158,7 +157,7 @@ export const useDeleteEvent = (spaceId: number) => {
  * @param eventId Event ID
  * @returns Success response
  */
-export const joinEvent = async (
+const joinEvent = async (
   spaceId: number,
   eventId: number,
 ): Promise<ApiResponse<{ success: boolean }>> => {
@@ -185,7 +184,7 @@ export const useJoinEvent = (spaceId: number, eventId: number) => {
  * @param members Array of space member IDs to add as participants
  * @returns Success response
  */
-export const addEventParticipants = async (
+const addEventParticipants = async (
   spaceId: number,
   eventId: number,
   members: number[],
@@ -217,7 +216,7 @@ export const useAddEventParticipants = (spaceId: number, eventId: number) => {
  * @param members Array of space member IDs to remove as participants
  * @returns Success response
  */
-export const removeEventParticipants = async (
+const removeEventParticipants = async (
   spaceId: number,
   eventId: number,
   members: number[],

@@ -9,18 +9,24 @@ import { Member } from "../ChatPage/ChatCreatePage/ChatCreatePage.styled";
 import ReactIcon from "@/assets/react.svg";
 import { useLocation, useParams } from "react-router-dom";
 import { useEventQuery } from "@/apis/event";
+import { useRef } from "react";
 
 const QRDetail = () => {
   const { id } = useParams();
+
+  const url = window.location.origin + `/KUIT-Space-front/qr/${id}`;
   const { data } = useEventQuery(1, Number(id));
-  const location = useLocation();
-  console.log(window.location.origin + `/KUIT-Space-front/qr/${id}`);
+  if (data == undefined) return <></>;
+
+  const participants = data.result?.participants;
+  if (participants == undefined) return <></>;
+  const cnt = participants.length;
 
   return (
     <>
       <TopBarText left={LeftEnum.Back} center="세션 이름 출석" right={<></>} />
       <s.QRImgContainer>
-        <QRCodeSVG value={"https://naver.com"} size={188} marginSize={1} />
+        <QRCodeSVG value={url} size={188} marginSize={1} />
       </s.QRImgContainer>
       <div
         style={{
@@ -44,18 +50,22 @@ const QRDetail = () => {
         <s.QRAttendListContainer>
           <RowFlexDiv style={{ gap: "0.25rem", alignItems: "baseline" }}>
             <div>참가 멤버</div>
-            <s.QRAttendContent2>{3}</s.QRAttendContent2>
+            <s.QRAttendContent2>{cnt}</s.QRAttendContent2>
           </RowFlexDiv>
-          <Member $cursor="default">
-            <section>
-              <img
-                // src={member.profileImgUrl ?? getUserDefaultImageURL(member.userId)}
-                src={ReactIcon}
-                alt="member profile img"
-              />
-              <span className="name">유저 이름</span>
-            </section>
-          </Member>
+          {participants.map((value) => {
+            return (
+              <Member $cursor="default">
+                <section>
+                  <img
+                    // src={member.profileImgUrl ?? getUserDefaultImageURL(member.userId)}
+                    src={value.profileImageUrl}
+                    alt="member profile img"
+                  />
+                  <span className="name">{value.name}</span>
+                </section>
+              </Member>
+            );
+          })}
         </s.QRAttendListContainer>
       </s.QRAttendListDiv>
     </>

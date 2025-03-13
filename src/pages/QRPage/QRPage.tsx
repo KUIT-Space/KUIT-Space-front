@@ -6,16 +6,18 @@ import * as s from "@/pages/QRPage/QRPage.styled";
 import tmp from "@/assets/react.svg";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getEvent, getEvents, useEventQuery, useEventsQuery } from "@/apis/event";
+import { useEventQuery, useJoinEvent } from "@/apis/event";
 
 const QRPage = () => {
+  const { id } = useParams();
   const [title, setTitle] = useState<string>("");
   const [date, setDate] = useState<string>("");
   const [src, setSrc] = useState<string>("");
+  const { mutate: joinEvent } = useJoinEvent(1, Number(id));
 
-  const { id } = useParams();
   const navigate = useNavigate();
   const onAttendClick = () => {
+    joinEvent();
     // Toast 메시지 띄우자
     navigate("/");
   };
