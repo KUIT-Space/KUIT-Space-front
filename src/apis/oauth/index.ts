@@ -36,6 +36,17 @@ export const validateState = (state: string): boolean => {
   return storedState === state;
 };
 
+export const parseBearerToken = (headerValue: string | null): string | undefined => {
+  if (!headerValue) return undefined;
+
+  const bearerPrefix = "Bearer ";
+  if (headerValue.startsWith(bearerPrefix)) {
+    return headerValue.slice(bearerPrefix.length);
+  }
+
+  return headerValue;
+};
+
 /**
  * Exchange the authorization code for tokens
  * @param {string} code The authorization code from the callback
@@ -46,12 +57,14 @@ export const exchangeCodeForTokens = async (
 ): Promise<ApiResponse<TokenResult> & { accessToken?: string; refreshToken?: string }> => {
   const response = await client.get(`oauth/discord?code=${code}`);
 
-  const accessToken = response.headers.get("Authorization") || undefined;
-  const refreshToken =
+  const authHeader = response.headers.get("Authorization");
+  const accessToken = parseBearerToken(authHeader);
+
+  const refreshHeader =
     response.headers.get("Authorization-refresh") ||
     response.headers.get("authorization-refresh") ||
-    response.headers.get("Authorization-Refresh") ||
-    undefined;
+    response.headers.get("Authorization-Refresh");
+  const refreshToken = parseBearerToken(refreshHeader);
 
   const data = await response.json<ApiResponse<TokenResult>>();
 
