@@ -1,8 +1,7 @@
-import { HTTPError } from "ky";
-
+import { HTTPError, KyRequest, KyResponse, NormalizedOptions } from "ky";
 export class UnauthorizedError extends HTTPError {
-  constructor(response: Response, request?: Request, options?: any) {
-    super(response, request || new Request(""), options || {});
+  constructor(response: KyResponse, request: KyRequest, options: NormalizedOptions) {
+    super(response, request, options);
     this.name = "UnauthorizedError";
   }
 }
