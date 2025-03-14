@@ -115,7 +115,9 @@ const DiscordOAuthCallback = () => {
       clearOAuthState();
 
       if (data.accessToken && data.refreshToken) {
-        navigate("/");
+        const redirectPath = localStorage.getItem("redirectPathAfterLogin") || "/";
+        localStorage.removeItem("redirectPathAfterLogin");
+        navigate(redirectPath);
       } else {
         setError("서버에서 인증 토큰을 받지 못했습니다.");
       }
