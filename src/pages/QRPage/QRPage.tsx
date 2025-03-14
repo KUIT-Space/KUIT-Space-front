@@ -6,6 +6,7 @@ import tmp from "@/assets/react.svg";
 import { BottomBtn } from "@/components/BottomBtn";
 import TopBarText, { LeftEnum } from "@/components/TopBarText";
 import * as s from "@/pages/QRPage/QRPage.styled";
+import { SPACE_ID } from "@/utils/constants";
 
 import { ColumnFlexDiv } from "../HomePage/HomePage.styled";
 
@@ -14,7 +15,7 @@ const QRPage = () => {
   const [title, setTitle] = useState<string>("");
   const [date, setDate] = useState<string>("");
   const [src, setSrc] = useState<string>("");
-  const { mutate: joinEvent } = useJoinEvent(1, Number(id));
+  const { mutate: joinEvent } = useJoinEvent(SPACE_ID, Number(id));
 
   const navigate = useNavigate();
   const onAttendClick = () => {
@@ -23,7 +24,7 @@ const QRPage = () => {
     navigate("/");
   };
 
-  const { data } = useEventQuery(1, Number(id), { refetchInterval: 10000 });
+  const { data } = useEventQuery(SPACE_ID, Number(id), { refetchInterval: 10000 });
   useEffect(() => {
     if (data.result == undefined) {
       return;

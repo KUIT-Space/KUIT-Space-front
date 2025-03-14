@@ -10,6 +10,7 @@ import { BottomFloatBtn } from "@/components/BottomFloatBtn";
 import Modal from "@/components/Modal";
 import TopBarText, { LeftEnum } from "@/components/TopBarText";
 import * as s from "@/pages/QRPage/QRPage.styled";
+import { SPACE_ID } from "@/utils/constants";
 
 import { RowFlexDiv } from "../HomePage/HomePage.styled";
 
@@ -54,8 +55,8 @@ const QRHome = () => {
   const [isModal, setIsModal] = useState<boolean>(false);
   const [index, setIndex] = useState<number>(-1);
 
-  const { mutate: deleteEvent } = useDeleteEvent(1);
-  const { data } = useEventsQuery(1, { refetchInterval: 10000 });
+  const { mutate: deleteEvent } = useDeleteEvent(SPACE_ID);
+  const { data } = useEventsQuery(SPACE_ID, { refetchInterval: 10000 });
 
   if (data.result == undefined) {
     return <></>;
