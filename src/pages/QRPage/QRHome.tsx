@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { ReadEventInfoResponse, useDeleteEvent, useEventsQuery } from "@/apis/event";
@@ -29,9 +29,6 @@ const QRAttendWrapper = ({
     handler(event.id);
   };
 
-  const onModifyClick = () => {
-    //navigate to modify
-  };
   return (
     <s.QRAttendWrapper>
       <s.QRAttendDelete src={QRDelete} onClick={onDeleteClick} />

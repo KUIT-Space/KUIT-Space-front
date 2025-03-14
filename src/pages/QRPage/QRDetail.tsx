@@ -24,11 +24,58 @@ const QRDetail = () => {
   if (participants == undefined) return <></>;
   const cnt = participants.length;
 
+  const downloadData = (url: string, fileName: string) => {
+    fetch(url)
+      .then((response) => response.blob())
+      .then((blob) => {
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = fileName;
+        link.click();
+      })
+      .catch(console.error);
+  };
+  const downloadQRHandler = (name: string | undefined) => {
+    const qrRef = document.getElementById("qrcode-svg");
+    if (qrRef === null) {
+      alert("다운로드 과정에 문제가 발생하였습니다. 유니페스 개발팀에 문의바랍니다");
+      return;
+    }
+    const _qrRef = qrRef;
+    _qrRef.setAttribute("width", "1024");
+    _qrRef.setAttribute("height", "1024");
+    const serializer = new XMLSerializer();
+    const url =
+      "data:image/svg+xml;charset=utf-8," +
+      encodeURIComponent(
+        '<?xml version="1.0" standalone="no"?>' + serializer.serializeToString(_qrRef),
+      );
+
+    let canvas = document.createElement("canvas");
+    canvas.width = 1024;
+    canvas.height = 1024;
+
+    let img = new Image();
+    let ctx = canvas.getContext("2d");
+    img.src = url;
+    img.onload = () => {
+      ctx?.drawImage(img, 0, 0);
+      let pngUrl = canvas.toDataURL("image/png");
+      downloadData(pngUrl, name + ".png");
+    };
+    _qrRef.setAttribute("width", "188");
+    _qrRef.setAttribute("height", "188");
+  };
+
+  const onDownloadClick = () => {
+    downloadQRHandler(data.result?.name);
+  };
+
   return (
     <>
-      <TopBarText left={LeftEnum.Back} center="세션 이름 출석" right={<></>} />
+      <TopBarText left={LeftEnum.Back} center={`${data.result?.name} 출석`} right={<></>} />
       <s.QRImgContainer>
-        <QRCodeSVG value={url} size={188} marginSize={1} />
+        <QRCodeSVG value={url} size={188} marginSize={1} id="qrcode-svg" />
       </s.QRImgContainer>
       <div
         style={{
@@ -39,7 +86,7 @@ const QRDetail = () => {
           marginTop: "0.5rem",
         }}
       >
-        <RowFlexDiv style={{ alignItems: "end", width: "5rem" }}>
+        <RowFlexDiv style={{ alignItems: "end", width: "5rem" }} onClick={onDownloadClick}>
           <img src={QRDownIcon}></img>
           <div>다운로드</div>
         </RowFlexDiv>
