@@ -44,7 +44,6 @@ export const client = ky.create({
     beforeError: [handleHttpError],
     afterResponse: [
       async (request, options, response) => {
-        // Check for HTTP status code 401 first
         if (response.status === 401) {
           localStorage.removeItem("accessToken");
           return;
