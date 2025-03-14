@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { FallbackProps } from "react-error-boundary";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 import { UnauthorizedError } from "@/utils/HttpErrors";
@@ -40,13 +40,15 @@ const RetryButton = styled.button`
 
 const GlobalErrorFallback = ({ error, resetErrorBoundary }: FallbackProps) => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     if (error instanceof UnauthorizedError) {
+      localStorage.setItem("redirectPathAfterLogin", location.pathname);
       resetErrorBoundary();
       navigate("/discordlogin");
     }
-  }, [error, navigate]);
+  }, [error, navigate, location, resetErrorBoundary]);
 
   return (
     <ErrorContainer>
