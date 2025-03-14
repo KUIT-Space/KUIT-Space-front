@@ -1,12 +1,13 @@
-import { BottomBtn } from "@/components/BottomBtn";
-import TopBarText, { LeftEnum } from "@/components/TopBarText";
-import { ColumnFlexDiv } from "../HomePage/HomePage.styled";
-import * as s from "@/pages/QRPage/QRPage.styled";
-
-import tmp from "@/assets/react.svg";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+
 import { useEventQuery, useJoinEvent } from "@/apis/event";
+import tmp from "@/assets/react.svg";
+import { BottomBtn } from "@/components/BottomBtn";
+import TopBarText, { LeftEnum } from "@/components/TopBarText";
+import * as s from "@/pages/QRPage/QRPage.styled";
+
+import { ColumnFlexDiv } from "../HomePage/HomePage.styled";
 
 const QRPage = () => {
   const { id } = useParams();
@@ -22,7 +23,7 @@ const QRPage = () => {
     navigate("/");
   };
 
-  const { data } = useEventQuery(1, Number(id));
+  const { data } = useEventQuery(1, Number(id), { refetchInterval: 10000 });
   useEffect(() => {
     if (data.result == undefined) {
       return;

@@ -17,7 +17,7 @@ const QRDetail = () => {
   const { id } = useParams();
 
   const url = window.location.origin + `/KUIT-Space-front/qr/${id}`;
-  const { data } = useEventQuery(1, Number(id));
+  const { data } = useEventQuery(1, Number(id), { refetchInterval: 10000 });
   if (data == undefined) return <></>;
 
   const participants = data.result?.participants;
@@ -101,9 +101,9 @@ const QRDetail = () => {
             <div>참가 멤버</div>
             <s.QRAttendContent2>{cnt}</s.QRAttendContent2>
           </RowFlexDiv>
-          {participants.map((value, index) => {
+          {participants.map((value) => {
             return (
-              <Member key={index} $cursor="default">
+              <Member key={value.id} $cursor="default">
                 <section>
                   <img
                     // src={member.profileImgUrl ?? getUserDefaultImageURL(member.userId)}

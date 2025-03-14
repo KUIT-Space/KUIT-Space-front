@@ -5,6 +5,7 @@ import { ReadEventInfoResponse, useDeleteEvent, useEventsQuery } from "@/apis/ev
 import QRCreateIcon from "@/assets/QR/qr_create.svg";
 import QRDelete from "@/assets/QR/qr_delete.svg";
 import QREdit from "@/assets/QR/qr_edit.svg";
+import ReactIcon from "@/assets/react.svg";
 import { BottomFloatBtn } from "@/components/BottomFloatBtn";
 import Modal from "@/components/Modal";
 import TopBarText, { LeftEnum } from "@/components/TopBarText";
@@ -54,7 +55,7 @@ const QRHome = () => {
   const [index, setIndex] = useState<number>(-1);
 
   const { mutate: deleteEvent } = useDeleteEvent(1);
-  const { data } = useEventsQuery(1);
+  const { data } = useEventsQuery(1, { refetchInterval: 10000 });
 
   if (data.result == undefined) {
     return <></>;
