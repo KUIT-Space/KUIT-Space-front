@@ -71,7 +71,7 @@ const QRDetail = () => {
 
   return (
     <>
-      <TopBarText left={LeftEnum.Back} center="세션 이름 출석" right={<></>} />
+      <TopBarText left={LeftEnum.Back} center={`${data.result?.name} 출석`} right={<></>} />
       <s.QRImgContainer>
         <QRCodeSVG value={url} size={188} marginSize={1} id="qrcode-svg" />
       </s.QRImgContainer>
