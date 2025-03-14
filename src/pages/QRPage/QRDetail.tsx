@@ -1,15 +1,17 @@
-import TopBarText, { LeftEnum } from "@/components/TopBarText";
-import * as s from "./QRPage.styled";
+import { useRef } from "react";
+import { useLocation, useParams } from "react-router-dom";
 import { QRCodeSVG } from "qrcode.react";
+
+import { useEventQuery } from "@/apis/event";
 import QRDownIcon from "@/assets/QR/qr_down.svg";
 import QRShareIcon from "@/assets/QR/qr_share.svg";
-import { RowFlexDiv } from "../PayPage/PayPage.styled";
-import { Member } from "../ChatPage/ChatCreatePage/ChatCreatePage.styled";
-
 import ReactIcon from "@/assets/react.svg";
-import { useLocation, useParams } from "react-router-dom";
-import { useEventQuery } from "@/apis/event";
-import { useRef } from "react";
+import TopBarText, { LeftEnum } from "@/components/TopBarText";
+
+import { Member } from "../ChatPage/ChatCreatePage/ChatCreatePage.styled";
+import { RowFlexDiv } from "../PayPage/PayPage.styled";
+
+import * as s from "./QRPage.styled";
 
 const QRDetail = () => {
   const { id } = useParams();
@@ -36,7 +38,7 @@ const QRDetail = () => {
   const downloadQRHandler = (name: string | undefined) => {
     const qrRef = document.getElementById("qrcode-svg");
     if (qrRef === null) {
-      alert("다운로드 과정에 문제가 발생하였습니다. 유니페스 개발팀에 문의바랍니다");
+      alert("다운로드 과정에 문제가 발생하였습니다. 개발팀에 문의바랍니다");
       return;
     }
     const _qrRef = qrRef;
@@ -49,16 +51,16 @@ const QRDetail = () => {
         '<?xml version="1.0" standalone="no"?>' + serializer.serializeToString(_qrRef),
       );
 
-    let canvas = document.createElement("canvas");
+    const canvas = document.createElement("canvas");
     canvas.width = 1024;
     canvas.height = 1024;
 
-    let img = new Image();
-    let ctx = canvas.getContext("2d");
+    const img = new Image();
+    const ctx = canvas.getContext("2d");
     img.src = url;
     img.onload = () => {
       ctx?.drawImage(img, 0, 0);
-      let pngUrl = canvas.toDataURL("image/png");
+      const pngUrl = canvas.toDataURL("image/png");
       downloadData(pngUrl, name + ".png");
     };
     _qrRef.setAttribute("width", "188");
@@ -99,9 +101,9 @@ const QRDetail = () => {
             <div>참가 멤버</div>
             <s.QRAttendContent2>{cnt}</s.QRAttendContent2>
           </RowFlexDiv>
-          {participants.map((value) => {
+          {participants.map((value, index) => {
             return (
-              <Member $cursor="default">
+              <Member key={index} $cursor="default">
                 <section>
                   <img
                     // src={member.profileImgUrl ?? getUserDefaultImageURL(member.userId)}
