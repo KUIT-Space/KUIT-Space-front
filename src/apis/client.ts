@@ -44,8 +44,14 @@ export const client = ky.create({
     beforeError: [handleHttpError],
     afterResponse: [
       async (request, options, response) => {
-        const responseData = (await response.clone().json()) as ApiResponse;
-        if (responseData.code === 4001) {
+        // Check for HTTP status code 401 first
+        if (response.status === 401) {
+          localStorage.removeItem("accessToken");
+          return;
+        }
+
+        const apiResponse = (await response.clone().json()) as ApiResponse;
+        if (apiResponse.code === 4001) {
           localStorage.removeItem("accessToken");
         }
       },
