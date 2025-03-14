@@ -15,6 +15,10 @@ const handleHttpError: BeforeErrorHook = async (error) => {
   if (error instanceof HTTPError) {
     const { request, response, options } = error;
 
+    if (response.status === 401) {
+      throw new UnauthorizedError(response, request, options);
+    }
+
     const apiResponse = (await response.clone().json()) as ApiResponse;
 
     return match(apiResponse.code)
