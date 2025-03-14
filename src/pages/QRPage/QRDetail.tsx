@@ -7,6 +7,7 @@ import QRDownIcon from "@/assets/QR/qr_down.svg";
 import QRShareIcon from "@/assets/QR/qr_share.svg";
 import ReactIcon from "@/assets/react.svg";
 import TopBarText, { LeftEnum } from "@/components/TopBarText";
+import { SPACE_ID } from "@/utils/constants";
 
 import { Member } from "../ChatPage/ChatCreatePage/ChatCreatePage.styled";
 import { RowFlexDiv } from "../PayPage/PayPage.styled";
@@ -17,7 +18,7 @@ const QRDetail = () => {
   const { id } = useParams();
 
   const url = window.location.origin + `/KUIT-Space-front/qr/${id}`;
-  const { data } = useEventQuery(1, Number(id), { refetchInterval: 10000 });
+  const { data } = useEventQuery(SPACE_ID, Number(id), { refetchInterval: 10000 });
   if (data == undefined) return <></>;
 
   const participants = data.result?.participants;
@@ -51,16 +52,16 @@ const QRDetail = () => {
         '<?xml version="1.0" standalone="no"?>' + serializer.serializeToString(_qrRef),
       );
 
-    let canvas = document.createElement("canvas");
+    const canvas = document.createElement("canvas");
     canvas.width = 1024;
     canvas.height = 1024;
 
-    let img = new Image();
-    let ctx = canvas.getContext("2d");
+    const img = new Image();
+    const ctx = canvas.getContext("2d");
     img.src = url;
     img.onload = () => {
       ctx?.drawImage(img, 0, 0);
-      let pngUrl = canvas.toDataURL("image/png");
+      const pngUrl = canvas.toDataURL("image/png");
       downloadData(pngUrl, name + ".png");
     };
     _qrRef.setAttribute("width", "188");

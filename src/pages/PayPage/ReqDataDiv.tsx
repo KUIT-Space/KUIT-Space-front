@@ -13,8 +13,6 @@ import * as s from "@/pages/PayPage/PayPage.styled";
 import "react-toastify/dist/ReactToastify.css";
 
 const ReqDataDiv = ({ data }: { data: PayReceiveInfo }) => {
-  const spaceID = 3;
-
   useEffect(() => {
     console.log(data);
   }, []);

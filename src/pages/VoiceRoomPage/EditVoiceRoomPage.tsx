@@ -1,11 +1,13 @@
-import TopBarText, { LeftEnum } from "@/components/TopBarText";
-import * as s from "@/pages/VoiceRoomPage/EditVoiceRoomPage.styled";
-import menu from "@/assets/VoiceRoom/icon_menu_icon.svg";
-import clear from "@/assets/VoiceRoom/icon_delete_X.svg";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 import { VrEditApi, VrListApi } from "@/apis/voiceroomApi";
+import clear from "@/assets/VoiceRoom/icon_delete_X.svg";
+import menu from "@/assets/VoiceRoom/icon_menu_icon.svg";
+import TopBarText, { LeftEnum } from "@/components/TopBarText";
+import * as s from "@/pages/VoiceRoomPage/EditVoiceRoomPage.styled";
 import { VrList } from "@/pages/VoiceRoomPage/VoiceRoomListPage";
+import { SPACE_ID } from "@/utils/constants";
 
 export type updateRoom = {
   roomId: number;
@@ -31,7 +33,7 @@ const EditVoiceRoomPage = () => {
 
   useEffect(() => {
     if (newRoomInfo.length > 0) {
-      VrEditApi(3, newRoomInfo).then(() => {
+      VrEditApi(SPACE_ID, newRoomInfo).then(() => {
         navigator("/voiceroom");
       });
     }
@@ -40,7 +42,7 @@ const EditVoiceRoomPage = () => {
   //_name 바뀔 이름
   const editVrList = (index: number, _name: string) => {
     if (vrList === undefined) return;
-    let temp = vrList.findIndex((value) => value.id === index);
+    const temp = vrList.findIndex((value) => value.id === index);
 
     vrList[temp].name = _name;
   };
