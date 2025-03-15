@@ -16,13 +16,14 @@ export const eventKeys = {
   detail: (spaceId: number, eventId: number) => [...eventKeys.details(spaceId), eventId] as const,
 };
 
-interface EventInfoResponse {
+export interface EventInfoResponse {
   id: number;
   name: string;
   image: string;
   date: string;
   startTime: string;
   endTime: string;
+  totalNumberOfParticipants: number;
 }
 
 interface EventParticipantInfo {
@@ -32,7 +33,7 @@ interface EventParticipantInfo {
 }
 
 interface ReadEventsResponse {
-  events: ReadEventInfoResponse[];
+  events: EventInfoResponse[];
 }
 
 export interface ReadEventInfoResponse {
