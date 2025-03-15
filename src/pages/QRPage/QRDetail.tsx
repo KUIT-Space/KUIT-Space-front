@@ -39,7 +39,7 @@ const QRDetail = () => {
   const downloadQRHandler = (name: string | undefined) => {
     const qrRef = document.getElementById("qrcode-svg");
     if (qrRef === null) {
-      alert("다운로드 과정에 문제가 발생하였습니다. 유니페스 개발팀에 문의바랍니다");
+      alert("다운로드 과정에 문제가 발생하였습니다. 개발팀에 문의바랍니다");
       return;
     }
     const _qrRef = qrRef;
