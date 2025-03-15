@@ -1,7 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { ReadEventInfoResponse, useDeleteEvent, useEventsQuery } from "@/apis/event";
+import {
+  EventInfoResponse,
+  ReadEventInfoResponse,
+  useDeleteEvent,
+  useEventsQuery,
+} from "@/apis/event";
 import QRCreateIcon from "@/assets/QR/qr_create.svg";
 import QRDelete from "@/assets/QR/qr_delete.svg";
 import QREdit from "@/assets/QR/qr_edit.svg";
@@ -18,7 +23,7 @@ const QRAttendWrapper = ({
   event,
   handler,
 }: {
-  event: ReadEventInfoResponse;
+  event: EventInfoResponse;
   handler: (i: number) => void;
 }) => {
   const navigate = useNavigate();
@@ -40,9 +45,7 @@ const QRAttendWrapper = ({
           <s.QRAttendTitle>{event.name}</s.QRAttendTitle>
           <RowFlexDiv>
             <s.QRAttendContent1>현재 참가 인원&nbsp;</s.QRAttendContent1>
-            <s.QRAttendContent2>
-              {!event.participants ? 0 : event.participants.length}
-            </s.QRAttendContent2>
+            <s.QRAttendContent2>{event.totalNumberOfParticipants ?? 0}</s.QRAttendContent2>
             <s.QRAttendContent1>명</s.QRAttendContent1>
           </RowFlexDiv>
           <s.QRAttendDate>{event.date}</s.QRAttendDate>
@@ -61,7 +64,7 @@ const QRHome = () => {
   if (data.result == undefined) {
     return <></>;
   }
-  const events: ReadEventInfoResponse[] = data.result.events;
+  const events: EventInfoResponse[] = data.result.events;
 
   const togleModal = (i: number) => {
     setIsModal(!isModal);
