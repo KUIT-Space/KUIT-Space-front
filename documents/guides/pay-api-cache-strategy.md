@@ -63,14 +63,6 @@ const { data } = usePayHomeQuery(spaceId, {
 });
 ```
 
-### 4. UI/UX 개선 방안
-
-데이터의 신선도와 관련하여 사용자에게 투명성을 제공하기 위한 UI/UX 개선 방안:
-
-- 마지막 데이터 업데이트 시간 표시
-- 수동 새로고침 버튼 제공
-- 데이터 로딩/fetching 상태를 명확히 표시
-
 ## 결론
 
 cacheTime을 0으로 설정하는 극단적인 방법보다는, React Query의 다양한 기능(staleTime, refetchOnFocus, mutation 후 invalidation 등)을 활용하여 실시간성과 사용자 경험 사이의 균형을 맞추는 것이 효과적입니다. 이를 통해 데이터의 정확성은 유지하면서도 사용자에게 매끄러운 경험을 제공할 수 있습니다.
