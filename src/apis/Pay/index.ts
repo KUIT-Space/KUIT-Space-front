@@ -124,6 +124,7 @@ export const usePayHomeQuery = (
   return useSuspenseQuery({
     queryKey: payKeys.home(spaceId),
     queryFn: () => getPayHome(spaceId),
+    gcTime: 30 * 1000,
     ...options,
   });
 };
@@ -150,6 +151,7 @@ export const usePayDetailQuery = (
   return useSuspenseQuery({
     queryKey: payKeys.detail(spaceId, payRequestId),
     queryFn: () => getPayDetail(spaceId, payRequestId),
+    gcTime: 30 * 1000,
     ...options,
   });
 };
@@ -174,6 +176,7 @@ export const useRequestedPayListQuery = (
   return useSuspenseQuery({
     queryKey: payKeys.requested(spaceId),
     queryFn: () => getRequestedPayList(spaceId),
+    gcTime: 30 * 1000,
     ...options,
   });
 };
@@ -198,6 +201,7 @@ export const usePayRequestListQuery = (
   return useSuspenseQuery({
     queryKey: payKeys.request(spaceId),
     queryFn: () => getPayRequestList(spaceId),
+    gcTime: 30 * 1000,
     ...options,
   });
 };
@@ -220,6 +224,7 @@ export const useBankInfoQuery = (
   return useSuspenseQuery({
     queryKey: payKeys.bank(spaceId),
     queryFn: () => getBankInfo(spaceId),
+    gcTime: 30 * 1000,
     ...options,
   });
 };
