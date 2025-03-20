@@ -125,6 +125,7 @@ export const usePayHomeQuery = (
     queryKey: payKeys.home(spaceId),
     queryFn: () => getPayHome(spaceId),
     gcTime: 30 * 1000,
+    refetchInterval: 30 * 1000,
     ...options,
   });
 };
@@ -152,6 +153,7 @@ export const usePayDetailQuery = (
     queryKey: payKeys.detail(spaceId, payRequestId),
     queryFn: () => getPayDetail(spaceId, payRequestId),
     gcTime: 30 * 1000,
+    refetchInterval: 30 * 1000,
     ...options,
   });
 };
@@ -177,6 +179,7 @@ export const useRequestedPayListQuery = (
     queryKey: payKeys.requested(spaceId),
     queryFn: () => getRequestedPayList(spaceId),
     gcTime: 30 * 1000,
+    refetchInterval: 30 * 1000,
     ...options,
   });
 };
@@ -202,6 +205,7 @@ export const usePayRequestListQuery = (
     queryKey: payKeys.request(spaceId),
     queryFn: () => getPayRequestList(spaceId),
     gcTime: 30 * 1000,
+    refetchInterval: 30 * 1000,
     ...options,
   });
 };
@@ -225,6 +229,7 @@ export const useBankInfoQuery = (
     queryKey: payKeys.bank(spaceId),
     queryFn: () => getBankInfo(spaceId),
     gcTime: 30 * 1000,
+    refetchInterval: 30 * 1000,
     ...options,
   });
 };
