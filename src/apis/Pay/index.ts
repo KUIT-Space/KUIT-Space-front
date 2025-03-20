@@ -1,4 +1,5 @@
 import { useSuspenseQuery, UseSuspenseQueryOptions } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { ApiResponse, client } from "../client";
 
@@ -234,6 +235,18 @@ export const createPay = async (
     .json();
 };
 
+export const useCreatePay = (spaceId: number) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (data: RequestOfCreatePay) => createPay(spaceId, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: payKeys.home(spaceId) });
+      queryClient.invalidateQueries({ queryKey: payKeys.request(spaceId) });
+    },
+  });
+};
+
 export const completePay = async (
   spaceId: number,
   payRequestTargetId: number,
@@ -241,9 +254,35 @@ export const completePay = async (
   return client.patch(`space/${spaceId}/pay/${payRequestTargetId}/complete`).json();
 };
 
+export const useCompletePay = (spaceId: number) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (payRequestTargetId: number) => completePay(spaceId, payRequestTargetId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: payKeys.home(spaceId) });
+      queryClient.invalidateQueries({ queryKey: payKeys.requested(spaceId) });
+      // We don't know which specific detail page might be affected, so invalidate all pay queries
+      queryClient.invalidateQueries({ queryKey: payKeys.all(spaceId) });
+    },
+  });
+};
+
 export const deletePay = async (
   spaceId: number,
   payRequestId: number,
 ): Promise<ApiResponse<{ success: boolean }>> => {
   return client.delete(`space/${spaceId}/pay/${payRequestId}`).json();
+};
+
+export const useDeletePay = (spaceId: number) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (payRequestId: number) => deletePay(spaceId, payRequestId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: payKeys.home(spaceId) });
+      queryClient.invalidateQueries({ queryKey: payKeys.request(spaceId) });
+    },
+  });
 };
