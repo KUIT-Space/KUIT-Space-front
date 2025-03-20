@@ -1,5 +1,15 @@
 import { ApiResponse, client } from "../client";
 
+export const payKeys = {
+  all: (spaceId: number) => ["pay", spaceId] as const,
+  home: (spaceId: number) => [...payKeys.all(spaceId), "home"] as const,
+  detail: (spaceId: number, payRequestId: number) =>
+    [...payKeys.all(spaceId), "detail", payRequestId] as const,
+  requested: (spaceId: number) => [...payKeys.all(spaceId), "requested"] as const,
+  request: (spaceId: number) => [...payKeys.all(spaceId), "request"] as const,
+  bank: (spaceId: number) => [...payKeys.all(spaceId), "bank"] as const,
+};
+
 export interface TargetOfPayRequest {
   targetMemberId: number;
   requestedAmount: number;
