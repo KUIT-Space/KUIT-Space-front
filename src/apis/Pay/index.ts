@@ -106,7 +106,7 @@ export const payKeys = {
   bank: (spaceId: number) => [...payKeys.all(spaceId), "bank"] as const,
 };
 
-export const getPayHome = async (spaceId: number): Promise<ApiResponse<ResponseOfReadPayHome>> => {
+const getPayHome = async (spaceId: number): Promise<ApiResponse<ResponseOfReadPayHome>> => {
   return client.get(`space/${spaceId}/pay`).json();
 };
 
@@ -128,7 +128,7 @@ export const usePayHomeQuery = (
   });
 };
 
-export const getPayDetail = async (
+const getPayDetail = async (
   spaceId: number,
   payRequestId: number,
 ): Promise<ApiResponse<ResponseOfReadPayDetail>> => {
@@ -154,7 +154,7 @@ export const usePayDetailQuery = (
   });
 };
 
-export const getRequestedPayList = async (
+const getRequestedPayList = async (
   spaceId: number,
 ): Promise<ApiResponse<ResponseOfReadRequestedPayList>> => {
   return client.get(`space/${spaceId}/pay/requested`).json();
@@ -178,7 +178,7 @@ export const useRequestedPayListQuery = (
   });
 };
 
-export const getPayRequestList = async (
+const getPayRequestList = async (
   spaceId: number,
 ): Promise<ApiResponse<ResponseOfReadPayRequestList>> => {
   return client.get(`space/${spaceId}/pay/request`).json();
@@ -202,7 +202,7 @@ export const usePayRequestListQuery = (
   });
 };
 
-export const getBankInfo = async (spaceId: number): Promise<ApiResponse<ResponseOfBankInfo>> => {
+const getBankInfo = async (spaceId: number): Promise<ApiResponse<ResponseOfBankInfo>> => {
   return client.get(`space/${spaceId}/pay/bank`).json();
 };
 
@@ -224,7 +224,7 @@ export const useBankInfoQuery = (
   });
 };
 
-export const createPay = async (
+const createPay = async (
   spaceId: number,
   data: RequestOfCreatePay,
 ): Promise<ApiResponse<ResponseOfCreatePay>> => {
@@ -247,7 +247,7 @@ export const useCreatePay = (spaceId: number) => {
   });
 };
 
-export const completePay = async (
+const completePay = async (
   spaceId: number,
   payRequestTargetId: number,
 ): Promise<ApiResponse<{ success: boolean }>> => {
@@ -268,7 +268,7 @@ export const useCompletePay = (spaceId: number) => {
   });
 };
 
-export const deletePay = async (
+const deletePay = async (
   spaceId: number,
   payRequestId: number,
 ): Promise<ApiResponse<{ success: boolean }>> => {
