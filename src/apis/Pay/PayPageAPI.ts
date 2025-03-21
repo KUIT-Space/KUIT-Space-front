@@ -7,8 +7,9 @@ import {
   RequestOptions,
 } from "@/apis/_createRequestOptions";
 import { UserInfoInSpace } from "@/apis/Space/SpaceSearchAllUserApi";
-import { BankInfo, ChatUserInfoInSpace } from "@/pages/PayPage/CreateRequestPage";
+import { ChatUserInfoInSpace } from "@/pages/PayPage/CreateRequestPage";
 import { DetailPayData, PayReceiveInfo, PayRequestInfo } from "@/pages/PayPage/PayPage";
+import { BankInfo, TargetOfPayRequest } from ".";
 
 interface SpaceSearchAllUserApiResponseType {
   code: number;
@@ -152,12 +153,14 @@ export const payDetailApi = async (
 
 export const getAllMemberApi = async (
   spaceID: number,
-  setUserInfoData: React.Dispatch<React.SetStateAction<UserInfoInSpace[] | undefined>>,
+  setUserInfoData: React.Dispatch<React.SetStateAction<UserInfoInSpace[]>>,
 ) => {
+  console.log("aaa");
   const requestOptions = createRequestOptionsJSON_AUTH("GET");
   if (!requestOptions) {
     return null;
   }
+  console.log("bbb");
   const response = await fetchPayApi(
     `${import.meta.env.VITE_API_BACK_URL}/space/${spaceID}/all-member`,
     requestOptions,

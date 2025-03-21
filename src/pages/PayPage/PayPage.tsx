@@ -7,6 +7,8 @@ import right from "@/assets/PayPage/arrow_right.svg";
 import TopBarText, { LeftEnum } from "@/components/TopBarText";
 import { GradientBtn } from "@/pages/PayPage/GradientBtn";
 import * as s from "@/pages/PayPage/PayPage.styled";
+import { PayRequestInfoInHome, RequestedPayInfoInHome, usePayHomeQuery } from "@/apis/Pay";
+import { SPACE_ID } from "@/utils/constants";
 
 export const addComma = (price: number) => {
   const returnString = price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -46,9 +48,9 @@ export type payTargetInfoDtoList = {
   requestAmount: number;
   complete: boolean;
 };
-const PayRequestInfo = ({ data }: { data: PayRequestInfo }) => {
-  const res: number = data.totalTargetNum - data.receiveTargetNum;
-  const now = addComma(data.receiveAmount);
+const PayRequestInfo = ({ data }: { data: PayRequestInfoInHome }) => {
+  const res: number = data.totalTargetNum - data.receivedAmount;
+  const now = addComma(data.receivedAmount);
   const all = addComma(data.totalAmount);
   return (
     <s.ContentDiv style={{ marginBottom: "0.5rem" }}>
@@ -61,8 +63,8 @@ const PayRequestInfo = ({ data }: { data: PayRequestInfo }) => {
   );
 };
 
-const PayReceiveInfo = ({ data }: { data: PayReceiveInfo }) => {
-  const now = addComma(data.requestAmount);
+const PayReceiveInfo = ({ data }: { data: RequestedPayInfoInHome }) => {
+  const now = addComma(data.requestedAmount);
   return (
     <s.ContentDiv style={{ marginBottom: "0.5rem" }}>
       <s.TextDiv>{data.payCreatorName}님이 정산을 요청했어요</s.TextDiv>
@@ -72,21 +74,29 @@ const PayReceiveInfo = ({ data }: { data: PayReceiveInfo }) => {
 };
 
 const PayPage = () => {
-  const [reqData, setReqData] = useState<PayRequestInfo[] | undefined>([]);
-  const [recData, setRecData] = useState<PayReceiveInfo[] | undefined>([]);
+  // const [reqData, setReqData] = useState<PayRequestInfo[] | undefined>([]);
+  // const [recData, setRecData] = useState<PayReceiveInfo[] | undefined>([]);
 
-  useEffect(() => {
-    console.log(reqData);
-    // RequestPayInfo(setReqData, setRecData);
-  }, [reqData]);
-  useEffect(() => {
-    const str = localStorage.getItem("spaceId");
+  // useEffect(() => {
+  //   console.log(reqData);
+  //   // RequestPayInfo(setReqData, setRecData);
+  // }, [reqData]);
+  // useEffect(() => {
+  //   const str = localStorage.getItem("spaceId");
 
-    if (str !== null) {
-      const SpaceID = Number.parseInt(str);
-      payHomeApi(SpaceID, setReqData, setRecData);
-    }
-  }, []);
+  //   if (str !== null) {
+  //     const SpaceID = Number.parseInt(str);
+  //     payHomeApi(SpaceID, setReqData, setRecData);
+  //   }
+  // }, []);
+
+  const { data } = usePayHomeQuery(SPACE_ID);
+
+  if (data.result == undefined) {
+    return <></>;
+  }
+  const reqData = data.result.requestInfoInHome;
+  const recData = data.result.requestedPayInfoInHome;
 
   const navigator = useNavigate();
 
@@ -94,6 +104,7 @@ const PayPage = () => {
     <>
       <TopBarText left={LeftEnum.Logo} center="정산하기" right=""></TopBarText>
       <s.ContainerDiv>
+        {/* TODO : 운영자에게만 보이게 */}
         <GradientBtn
           onClick={() => {
             navigator("/pay/create");
@@ -112,6 +123,7 @@ const PayPage = () => {
             <img src={right} alt="right" />
             {/* <img src={right} onClick={navigator("요청정산페이지")} alt="right" /> */}
           </s.TitleDiv>
+          {}
           {reqData?.length == 0 ? (
             <s.NoAlertDiv>요청한 정산이 없어요!</s.NoAlertDiv>
           ) : (

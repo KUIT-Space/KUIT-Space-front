@@ -10,18 +10,13 @@ import { useEffect, useState } from "react";
 import { payReceiveApi } from "@/apis/Pay/PayPageAPI";
 import { PayReceiveInfo } from "@/pages/PayPage/PayPage";
 import CompleteReqDataDiv from "@/pages/PayPage/CompleteReqDataDiv";
+import { useRequestedPayListQuery } from "@/apis/Pay";
+import { SPACE_ID } from "@/utils/constants";
 
 const RequestedPayPage = () => {
-  const [currentData, setCurrentData] = useState<PayReceiveInfo[] | undefined>([]);
-  const [completeData, setCompleteData] = useState<PayReceiveInfo[] | undefined>([]);
-  useEffect(() => {
-    const str = localStorage.getItem("spaceId");
-
-    if (str !== null) {
-      const spaceId = Number.parseInt(str);
-      payReceiveApi(spaceId, setCurrentData, setCompleteData);
-    }
-  }, []);
+  const { data } = useRequestedPayListQuery(SPACE_ID);
+  const currentData = data.result?.inCompleteRequestedPayList;
+  const completeData = data.result?.completeRequestedPayList;
   return (
     <>
       <TopBarText left={LeftEnum.Back} center="요청받은 정산" right=""></TopBarText>
