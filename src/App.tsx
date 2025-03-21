@@ -1,3 +1,5 @@
+import { JSX } from "react";
+import { ErrorBoundary } from "react-error-boundary";
 import {
   createBrowserRouter,
   matchPath,
@@ -8,6 +10,7 @@ import {
 import styled, { ThemeProvider } from "styled-components";
 
 import BottomNavBar from "@/components/BottomNavBar";
+import GlobalErrorFallback from "@/components/GlobalErrorFallback";
 import BoardPage from "@/pages/BoardPage/BoardPage";
 import ChatCreatePage from "@/pages/ChatPage/ChatCreatePage/ChatCreatePage";
 import ChatPage from "@/pages/ChatPage/ChatPage";
@@ -17,6 +20,9 @@ import ChatSettingNamePage from "@/pages/ChatPage/ChatSettingPage/ChatSettingNam
 import ChatSettingPage from "@/pages/ChatPage/ChatSettingPage/ChatSettingPage";
 import ChattingPage from "@/pages/ChatPage/ChattingPage/ChattingPage";
 import HomePage from "@/pages/HomePage/HomePage";
+import DiscordLoginPage from "@/pages/LoginPage/DiscordLogin";
+import DiscordOAuthCallback from "@/pages/LoginPage/DiscordOAuthCallback";
+import LoginPage from "@/pages/LoginPage/KakaoLogin";
 import SignUpPage from "@/pages/LoginPage/SignUpPage";
 import CompletePay from "@/pages/PayPage/CompletePay";
 import CreateRequestPage from "@/pages/PayPage/CreateRequestPage";
@@ -37,27 +43,22 @@ import VoiceRoomPage from "@/pages/VoiceRoomPage/VoiceRoomPage";
 import GlobalStyle from "@/styles/GlobalStyles";
 import { theme } from "@/styles/Theme";
 
-import BoardList from "./pages/BoardPage/BoardList";
 import BoardDetailPage from "./pages/BoardPage/BoardDetailpage/BoardDetailPage";
+import BoardList from "./pages/BoardPage/BoardList";
 import BoardRegisterPage from "./pages/BoardPage/BoardRegisterPage/BoardRegisterPage";
 import HomePageMemberPage from "./pages/HomePage/HomePageMember";
 import HomePageProfile from "./pages/HomePage/HomePageProfile";
+import HomePageSetting from "./pages/HomePage/HomePageSetting";
 import KakaoRedirection from "./pages/LoginPage/KakaoRedirection";
+import MenuList from "./pages/MenuPage/MenuList";
+import QRDetail from "./pages/QRPage/QRDetail";
+import QRHome from "./pages/QRPage/QRHome";
+import QRPage from "./pages/QRPage/QRPage";
 import InviteSpace from "./pages/SpacePage/InviteSpace";
 import InviteSpace2 from "./pages/SpacePage/InviteSpace2";
 import SpecialVoiceRoom from "./pages/VoiceRoomPage/SpecialVoiceRoom";
-
-import DiscordLoginPage from "@/pages/LoginPage/DiscordLogin";
-import LoginPage from "@/pages/LoginPage/KakaoLogin";
-
 import WritePostPage from "./pages/WritePostPage";
-import QRPage from "./pages/QRPage/QRPage";
-import HomePageSetting from "./pages/HomePage/HomePageSetting";
-import QRHome from "./pages/QRPage/QRHome";
-import QRDetail from "./pages/QRPage/QRDetail";
 import QRCreate from "./pages/QRPage/QRCreate";
-import { JSX } from "react";
-import MenuList from "./pages/MenuPage/MenuList";
 
 // will we need constant path in later..?
 // const PATH = {
@@ -98,7 +99,9 @@ function Layout({ routes_children }: { routes_children: RouteChildren[] }) {
       <GlobalStyle />
       <LayoutContainer>
         <div id="content">
-          <Outlet />
+          <ErrorBoundary FallbackComponent={GlobalErrorFallback}>
+            <Outlet />
+          </ErrorBoundary>
           {/*<LoginModal exceptionRouters={["/login", "/signup"]} />*/}
         </div>
         {routes_children.find((child) => matchPath(child.path, pathname))?.hasBottomBar && (
@@ -111,10 +114,9 @@ function Layout({ routes_children }: { routes_children: RouteChildren[] }) {
 
 function App() {
   const routes_children_qr = [
-    { path: "/qr", element: <QRPage /> },
+    { path: "/qr/:id", element: <QRPage /> },
     { path: "/qr/home", element: <QRHome />, hasBottomBar: true },
-    { path: "/qr/detail", element: <QRDetail />, hasBottomBar: true },
-    { path: "/qr/create", element: <QRCreate />, hasBottomBar: false },
+    { path: "/qr/detail/:id", element: <QRDetail />, hasBottomBar: true },
   ];
   const routes_children_chat = [
     { path: "/chat", element: <ChatPage />, hasBottomBar: true },
@@ -166,6 +168,7 @@ function App() {
     { path: "/discordlogin", element: <DiscordLoginPage />, hasBottombar: false },
     { path: "/signup", element: <SignUpPage />, hasBottombar: false },
     { path: "/oauth/callback/kakao", element: <KakaoRedirection />, hasBottombar: true },
+    { path: "/discord-oauth", element: <DiscordOAuthCallback />, hasBottombar: false },
   ];
 
   const routes_children_home = [

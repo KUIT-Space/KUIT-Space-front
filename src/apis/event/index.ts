@@ -1,4 +1,10 @@
-import { useMutation, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
+import {
+  QueryObserverOptions,
+  useMutation,
+  useQueryClient,
+  useSuspenseQuery,
+  UseSuspenseQueryOptions,
+} from "@tanstack/react-query";
 
 import { ApiResponse, client } from "../client";
 
@@ -10,7 +16,6 @@ export const eventKeys = {
   detail: (spaceId: number, eventId: number) => [...eventKeys.details(spaceId), eventId] as const,
 };
 
-// Type Definitions
 interface EventInfoResponse {
   id: number;
   name: string;
@@ -27,10 +32,10 @@ interface EventParticipantInfo {
 }
 
 interface ReadEventsResponse {
-  events: EventInfoResponse[];
+  events: ReadEventInfoResponse[];
 }
 
-interface ReadEventInfoResponse {
+export interface ReadEventInfoResponse {
   id: number;
   name: string;
   image: string;
@@ -46,7 +51,7 @@ interface CreateEventResponse {
 
 interface CreateEventRequest {
   name: string;
-  image: string; // This would be a URL after image upload
+  image: string;
   date: string;
   startTime: string;
   endTime: string;
@@ -62,7 +67,7 @@ interface UpdateEventParticipantRequest {
  * @param eventData Event data
  * @returns Created event ID
  */
-export const createEvent = async (
+const createEvent = async (
   spaceId: number,
   eventData: CreateEventRequest,
 ): Promise<ApiResponse<CreateEventResponse>> => {
@@ -95,14 +100,25 @@ export const useCreateEvent = (spaceId: number) => {
  * @param spaceId Space ID
  * @returns List of events
  */
-export const getEvents = async (spaceId: number): Promise<ApiResponse<ReadEventsResponse>> => {
+const getEvents = async (spaceId: number): Promise<ApiResponse<ReadEventsResponse>> => {
   return client.get(`space/${spaceId}/events`).json();
 };
 
-export const useEventsQuery = (spaceId: number) => {
+export const useEventsQuery = (
+  spaceId: number,
+  options?: Partial<
+    UseSuspenseQueryOptions<
+      ApiResponse<ReadEventsResponse>,
+      Error,
+      ApiResponse<ReadEventsResponse>,
+      ReturnType<typeof eventKeys.lists>
+    >
+  >,
+) => {
   return useSuspenseQuery({
     queryKey: eventKeys.lists(spaceId),
     queryFn: () => getEvents(spaceId),
+    ...options,
   });
 };
 
@@ -112,17 +128,29 @@ export const useEventsQuery = (spaceId: number) => {
  * @param eventId Event ID
  * @returns Event details including participants
  */
-export const getEvent = async (
+const getEvent = async (
   spaceId: number,
   eventId: number,
 ): Promise<ApiResponse<ReadEventInfoResponse>> => {
   return client.get(`space/${spaceId}/event/${eventId}`).json();
 };
 
-export const useEventQuery = (spaceId: number, eventId: number) => {
+export const useEventQuery = (
+  spaceId: number,
+  eventId: number,
+  options?: Partial<
+    UseSuspenseQueryOptions<
+      ApiResponse<ReadEventInfoResponse>,
+      Error,
+      ApiResponse<ReadEventInfoResponse>,
+      ReturnType<typeof eventKeys.detail>
+    >
+  >,
+) => {
   return useSuspenseQuery({
     queryKey: eventKeys.detail(spaceId, eventId),
     queryFn: () => getEvent(spaceId, eventId),
+    ...options,
   });
 };
 
@@ -132,7 +160,7 @@ export const useEventQuery = (spaceId: number, eventId: number) => {
  * @param eventId Event ID
  * @returns Success response
  */
-export const deleteEvent = async (
+const deleteEvent = async (
   spaceId: number,
   eventId: number,
 ): Promise<ApiResponse<{ success: boolean }>> => {
@@ -144,11 +172,10 @@ export const useDeleteEvent = (spaceId: number) => {
 
   return useMutation({
     mutationFn: (eventId: number) => deleteEvent(spaceId, eventId),
-    onSuccess: () => {
+    onSuccess: () =>
       queryClient.invalidateQueries({
         queryKey: eventKeys.lists(spaceId),
-      });
-    },
+      }),
   });
 };
 
@@ -158,7 +185,7 @@ export const useDeleteEvent = (spaceId: number) => {
  * @param eventId Event ID
  * @returns Success response
  */
-export const joinEvent = async (
+const joinEvent = async (
   spaceId: number,
   eventId: number,
 ): Promise<ApiResponse<{ success: boolean }>> => {
@@ -185,7 +212,7 @@ export const useJoinEvent = (spaceId: number, eventId: number) => {
  * @param members Array of space member IDs to add as participants
  * @returns Success response
  */
-export const addEventParticipants = async (
+const addEventParticipants = async (
   spaceId: number,
   eventId: number,
   members: number[],
@@ -217,7 +244,7 @@ export const useAddEventParticipants = (spaceId: number, eventId: number) => {
  * @param members Array of space member IDs to remove as participants
  * @returns Success response
  */
-export const removeEventParticipants = async (
+const removeEventParticipants = async (
   spaceId: number,
   eventId: number,
   members: number[],

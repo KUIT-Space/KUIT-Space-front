@@ -33,6 +33,7 @@ import {
   ImgPreview,
   StyledMessage,
 } from "@/pages/ChatPage/ChattingPage/ChattingPage.styled";
+import { SPACE_ID } from "@/utils/constants";
 import { decodedJWT } from "@/utils/decodedJWT";
 import { getUserDefaultImageURL } from "@/utils/getUserDefaultImageURL";
 import { isoStringToDateString } from "@/utils/isoStringToDateString";
@@ -46,7 +47,7 @@ const ChattingPage = () => {
   const {
     state: { chatroomInfo },
   }: { state: { chatroomInfo: Chatroom } } = useLocation();
-  const spaceId = Number(localStorage.getItem("spaceId")) || 3;
+  const spaceId = Number(localStorage.getItem("spaceId")) || SPACE_ID;
 
   const stompClient = useRef<any>(null);
 

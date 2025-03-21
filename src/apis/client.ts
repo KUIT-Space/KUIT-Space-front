@@ -1,4 +1,7 @@
-import ky from "ky";
+import ky, { BeforeErrorHook, HTTPError } from "ky";
+import { match } from "ts-pattern";
+
+import { UnauthorizedError } from "@/utils/HttpErrors";
 
 export interface ApiResponse<T = unknown> {
   code: number;
@@ -8,21 +11,47 @@ export interface ApiResponse<T = unknown> {
   result?: T;
 }
 
+const handleHttpError: BeforeErrorHook = async (error) => {
+  if (error instanceof HTTPError) {
+    const { request, response, options } = error;
+
+    if (response.status === 401) {
+      throw new UnauthorizedError(response, request, options);
+    }
+
+    const apiResponse = (await response.clone().json()) as ApiResponse;
+
+    return match(apiResponse.code)
+      .with(4001, () => {
+        throw new UnauthorizedError(response, request, options);
+      })
+      .otherwise(() => error);
+  }
+  return error;
+};
+
 export const client = ky.create({
   prefixUrl: import.meta.env.VITE_API_BACK_URL,
   hooks: {
     beforeRequest: [
       (request) => {
-        const token = localStorage.getItem("Authorization");
-        if (token) {
-          request.headers.set("Authorization", token);
+        const accessToken = localStorage.getItem("accessToken");
+        if (accessToken) {
+          request.headers.set("Authorization", accessToken);
         }
       },
     ],
+    beforeError: [handleHttpError],
     afterResponse: [
       async (request, options, response) => {
         if (response.status === 401) {
-          localStorage.removeItem("Authorization");
+          localStorage.removeItem("accessToken");
+          return;
+        }
+
+        const apiResponse = (await response.clone().json()) as ApiResponse;
+        if (apiResponse.code === 4001) {
+          localStorage.removeItem("accessToken");
         }
       },
     ],
