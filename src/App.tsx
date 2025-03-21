@@ -80,7 +80,7 @@ const LayoutContainer = styled.div`
   margin: 0 auto;
 
   #content {
-    height: calc(100vh - 3.75rem);
+    min-height: calc(100vh - 3.75rem);
   }
 `;
 
