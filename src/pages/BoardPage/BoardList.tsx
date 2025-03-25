@@ -10,24 +10,24 @@ import TopBarText, { LeftEnum } from "@/components/TopBarText";
 const BoardListContainer = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 20px 20px 3.75rem;
+  padding: 1.25rem 1.25rem 3.75rem;
 `;
 
 const BoardElement = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
 `;
 
 const BoardName = styled.div`
-  margin-left: 25px;
+  margin-left: 1.5625rem;
   font-size: 1.2rem;
 `;
 
 const Divider = styled.div`
-  height: 1px;
+  height: 0.0625rem;
   background-color: ${({ theme }) => theme.colors.BG600};
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
 `;
 
 const BoardList = () => {
