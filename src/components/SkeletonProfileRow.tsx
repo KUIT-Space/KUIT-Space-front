@@ -26,7 +26,7 @@ const ActionContainer = styled.div`
   margin-left: auto;
 `;
 
-const SkeletonProfileRow: React.FC<SkeletonProfileRowProps> = ({ showAction = false }) => {
+function SkeletonProfileRow({ showAction = false }: SkeletonProfileRowProps) {
   return (
     <Container>
       <Skeleton width="3rem" height="3rem" borderRadius="50%" />
@@ -43,6 +43,6 @@ const SkeletonProfileRow: React.FC<SkeletonProfileRowProps> = ({ showAction = fa
       )}
     </Container>
   );
-};
+}
 
 export default SkeletonProfileRow;
