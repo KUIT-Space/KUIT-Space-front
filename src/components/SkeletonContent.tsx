@@ -3,10 +3,6 @@ import styled from "styled-components";
 
 import Skeleton from "./Skeleton";
 
-interface SkeletonContentProps {
-  className?: string;
-}
-
 const Container = styled.div`
   width: 100%;
   padding: 1rem;
@@ -44,9 +40,9 @@ const DataRow = styled.div`
   align-items: center;
 `;
 
-const SkeletonContent: React.FC<SkeletonContentProps> = ({ className }) => {
+function SkeletonContent() {
   return (
-    <Container className={className}>
+    <Container>
       <TopRow>
         <TitleContainer>
           <Skeleton height="1.25rem" width="90%" />
@@ -71,6 +67,6 @@ const SkeletonContent: React.FC<SkeletonContentProps> = ({ className }) => {
       </MetadataContainer>
     </Container>
   );
-};
+}
 
 export default SkeletonContent;

@@ -4,7 +4,6 @@ import styled from "styled-components";
 import Skeleton from "./Skeleton";
 
 interface SkeletonProfileRowProps {
-  className?: string;
   showAction?: boolean;
 }
 
@@ -27,12 +26,9 @@ const ActionContainer = styled.div`
   margin-left: auto;
 `;
 
-const SkeletonProfileRow: React.FC<SkeletonProfileRowProps> = ({
-  className,
-  showAction = false,
-}) => {
+const SkeletonProfileRow: React.FC<SkeletonProfileRowProps> = ({ showAction = false }) => {
   return (
-    <Container className={className}>
+    <Container>
       <Skeleton width="3rem" height="3rem" borderRadius="50%" />
 
       <ProfileInfo>
