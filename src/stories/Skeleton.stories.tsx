@@ -1,6 +1,8 @@
 import { Meta, StoryObj } from "@storybook/react";
 import styled from "styled-components";
 
+import SkeletonDetailPage from "@/components/SkeletonDetailPage";
+
 import Skeleton from "../components/Skeleton";
 import SkeletonContent from "../components/SkeletonContent";
 import SkeletonItem from "../components/SkeletonItem";
@@ -129,14 +131,7 @@ export const Item: Story = {
 export const DetailPage: Story = {
   render: () => (
     <div style={{ width: "400px" }}>
-      <SkeletonItem />
-      <SkeletonItem />
-      <SkeletonItem />
-      <SkeletonItem />
-      <SkeletonItem />
-      <SkeletonItem />
-      <SkeletonItem />
-      <SkeletonItem />
+      <SkeletonDetailPage />
     </div>
   ),
 };
