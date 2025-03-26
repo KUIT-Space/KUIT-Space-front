@@ -3,14 +3,21 @@ import { create } from "zustand";
 interface AuthState {
   isAuthenticated: boolean;
   isLoading: boolean;
+}
+
+interface AuthActions {
   login: (accessToken: string, refreshToken: string) => void;
   logout: () => void;
   checkAuth: () => Promise<boolean>;
 }
 
-export const useAuthStore = create<AuthState>((set, get) => ({
+const initialState: AuthState = {
   isAuthenticated: false,
   isLoading: true,
+};
+
+export const useAuthStore = create<AuthState & AuthActions>((set, get) => ({
+  ...initialState,
 
   login: (accessToken: string, refreshToken: string) => {
     localStorage.setItem("accessToken", accessToken);
