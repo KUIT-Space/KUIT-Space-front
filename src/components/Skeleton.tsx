@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import styled, { keyframes } from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 
 interface SkeletonProps {
   width?: string | number;
@@ -34,16 +34,16 @@ const StyledSkeleton = styled.div<SkeletonProps>`
 
   ${(props) =>
     props.animation &&
-    `
-    background: linear-gradient(
-      90deg,
-      ${props.theme.colors.BG700} 25%,
-      ${props.theme.colors.BG600} 50%,
-      ${props.theme.colors.BG700} 75%
-    );
-    background-size: 200% 100%;
-    animation: ${shimmerAnimation} 1.5s infinite;
-  `}
+    css`
+      background: linear-gradient(
+        90deg,
+        ${props.theme.colors.BG700} 25%,
+        ${props.theme.colors.BG600} 50%,
+        ${props.theme.colors.BG700} 75%
+      );
+      background-size: 200% 100%;
+      animation: ${shimmerAnimation} 1.5s infinite;
+    `}
 `;
 
 const Skeleton = ({
