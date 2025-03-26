@@ -3,69 +3,50 @@ import styled from "styled-components";
 
 import Skeleton from "./Skeleton";
 
-const Container = styled.div`
+const StyledContainer = styled.div`
   width: 100%;
-  padding: 1rem;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  border-bottom: 1px solid ${(props) => props.theme.colors.BG800};
+  /* gap: 1rem; */
 `;
 
-const TopRow = styled.div`
+const StyledMetadataContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
 `;
 
-const TitleContainer = styled.div`
+const StyledTextContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  width: 70%;
 `;
 
-const MetadataContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  margin-top: 0.25rem;
-`;
-
-const DataRow = styled.div`
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
+const StyledImageContainer = styled.div`
+  /* width: fit-content; */
+  /* height: fit-content; */
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 `;
 
 function SkeletonContent() {
   return (
-    <Container>
-      <TopRow>
-        <TitleContainer>
-          <Skeleton height="1.25rem" width="90%" />
-          <Skeleton height="0.875rem" width="60%" />
-        </TitleContainer>
-
-        <Skeleton width="4rem" height="4rem" borderRadius={8} />
-      </TopRow>
-
-      <Skeleton height="2.5rem" width="100%" />
-
-      <MetadataContainer>
-        <DataRow>
-          <Skeleton width="3.5rem" height="0.75rem" />
-          <Skeleton width="2.5rem" height="0.75rem" />
-        </DataRow>
-
-        <DataRow>
-          <Skeleton width="2rem" height="0.75rem" />
-          <Skeleton width="2.5rem" height="0.75rem" />
-        </DataRow>
-      </MetadataContainer>
-    </Container>
+    <StyledContainer>
+      <StyledTextContainer>
+        <Skeleton height="1.25rem" width="60%" />
+        <Skeleton height="2.5rem" width="100%" />
+      </StyledTextContainer>
+      <StyledImageContainer>
+        <Skeleton width="100%" height="10rem" />
+      </StyledImageContainer>
+      <StyledMetadataContainer>
+        <Skeleton width="6rem" height="1rem" />
+        <Skeleton width="6rem" height="1rem" />
+      </StyledMetadataContainer>
+    </StyledContainer>
   );
 }
 

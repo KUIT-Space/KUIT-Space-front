@@ -3,45 +3,20 @@ import styled from "styled-components";
 
 import Skeleton from "./Skeleton";
 
-interface SkeletonProfileRowProps {
-  showAction?: boolean;
-}
-
-const Container = styled.div`
+const StyledContainer = styled.div`
   display: flex;
+  justify-content: flex-start;
   align-items: center;
   width: 100%;
-  padding: 0.75rem 1rem;
-  gap: 1rem;
-`;
-
-const ProfileInfo = styled.div`
-  display: flex;
-  flex-direction: column;
   gap: 0.5rem;
-  flex: 1;
 `;
 
-const ActionContainer = styled.div`
-  margin-left: auto;
-`;
-
-function SkeletonProfileRow({ showAction = false }: SkeletonProfileRowProps) {
+function SkeletonProfileRow() {
   return (
-    <Container>
-      <Skeleton width="3rem" height="3rem" borderRadius="50%" />
-
-      <ProfileInfo>
-        <Skeleton height="1rem" width="40%" />
-        <Skeleton height="0.75rem" width="60%" />
-      </ProfileInfo>
-
-      {showAction && (
-        <ActionContainer>
-          <Skeleton width="4rem" height="1.5rem" borderRadius="1rem" />
-        </ActionContainer>
-      )}
-    </Container>
+    <StyledContainer>
+      <Skeleton width="20px" height="20px" borderRadius="50%" />
+      <Skeleton height="1rem" width="106px" />
+    </StyledContainer>
   );
 }
 
