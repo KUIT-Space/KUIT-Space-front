@@ -1,24 +1,25 @@
 import { useEffect, useState } from "react";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 
+import { ResponseOfRequestedPayInfo } from "@/apis/Pay";
 import { payCompleteApi } from "@/apis/Pay/PayPageAPI";
 import check from "@/assets/PayPage/check.svg";
 import reactIcon from "@/assets/react.svg";
 import { DarkNormalBtn } from "@/pages/PayPage/DarkNormalBtn";
 import { GradientBtn } from "@/pages/PayPage/GradientBtn";
 import { NormalBtn } from "@/pages/PayPage/NormalBtn";
-import { addComma, PayReceiveInfo } from "@/pages/PayPage/PayPage";
+import { addComma } from "@/pages/PayPage/PayPage";
 import * as s from "@/pages/PayPage/PayPage.styled";
 
 import "react-toastify/dist/ReactToastify.css";
 
-const ReqDataDiv = ({ data }: { data: PayReceiveInfo }) => {
+const ReqDataDiv = ({ data }: { data: ResponseOfRequestedPayInfo }) => {
   useEffect(() => {
     console.log(data);
   }, []);
   // true : 송금하기 false : 송금완료
   const [chk, setChk] = useState(0);
-  const price = addComma(data.requestAmount);
+  const price = addComma(data.requestedAmount);
 
   const nextChk = () => {
     setChk(chk + 1);
@@ -47,7 +48,7 @@ const ReqDataDiv = ({ data }: { data: PayReceiveInfo }) => {
     nextChk();
     //모달 생성
     //클립보드 복사
-    copyToClipboard("씨앗은행 1231109999");
+    copyToClipboard(data.bankName + " " + data.bankAccountNum);
   };
 
   const onCompleteClick = () => {

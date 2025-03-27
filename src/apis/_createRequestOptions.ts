@@ -58,8 +58,8 @@ export const createRequestOptionsJSON_AUTH = (
   method: RequestOptions["method"],
   body?: RequestOptions["body"],
 ): RequestOptions | null => {
-  const token = localStorage.getItem("Authorization");
-
+  const token = localStorage.getItem("accessToken");
+  console.log(token);
   return token
     ? {
         method: method,

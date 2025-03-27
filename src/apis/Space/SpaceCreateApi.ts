@@ -13,6 +13,7 @@ interface CreateSpaceApiResponseType extends ApiResponse {
   };
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface CreateSpaceApiRequestType {
   spaceName: string;
   spaceProfileImg?: File | null; // 이미지 파일은 선택적

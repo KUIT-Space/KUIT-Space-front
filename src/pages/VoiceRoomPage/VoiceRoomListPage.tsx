@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
 
 import { VrListApi } from "@/apis/voiceroomApi";
 import plus from "@/assets/VoiceRoom/icon_plus.svg";
@@ -86,7 +85,7 @@ const VoiceRoomListPage = () => {
     } else {
       setIsLoading(false);
     }
-  }, [vrList]);
+  }, [filterVrList, vrList]);
 
   useEffect(() => {
     if (inactiveVrList?.length !== 0 || activeVrList?.length !== 0) {
@@ -117,7 +116,7 @@ const VoiceRoomListPage = () => {
           <s.NoAlertDiv>활동 중인 보이스룸이 없어요!</s.NoAlertDiv>
         ) : (
           <>
-            {activeVrList?.map((value, index) => (
+            {activeVrList?.map((value) => (
               <VoiceRoomPortal key={value.id} vrList={value}></VoiceRoomPortal>
             ))}
           </>
@@ -131,18 +130,16 @@ const VoiceRoomListPage = () => {
           <s.NoAlertDiv>조용한 보이스룸이 없어요!</s.NoAlertDiv>
         ) : (
           <div>
-            {inactiveVrList?.map((value, index) => {
-              return (
-                <s.RoundDiv2
-                  key={value.id}
-                  onClick={() => {
-                    onClickInActiveVrRoom(value);
-                  }}
-                >
-                  {value.name}
-                </s.RoundDiv2>
-              );
-            })}
+            {inactiveVrList?.map((value) => (
+              <s.RoundDiv2
+                key={value.id}
+                onClick={() => {
+                  onClickInActiveVrRoom(value);
+                }}
+              >
+                {value.name}
+              </s.RoundDiv2>
+            ))}
           </div>
         )}
         <div>
