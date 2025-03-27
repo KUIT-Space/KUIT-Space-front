@@ -28,6 +28,7 @@ const PayChatMemberDiv = ({ info }: { info: UserInfoInSpace }) => {
     </s.RowFlexDiv>
   );
 };
+
 export const PayChatDiv = ({ info }: { info: ChatUserInfoInSpace }) => {
   const [flag, setFlag] = useState(false);
   const controlFlag = () => {

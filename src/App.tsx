@@ -116,7 +116,8 @@ function App() {
   const routes_children_qr = [
     { path: "/qr/:id", element: <QRPage /> },
     { path: "/qr/home", element: <QRHome />, hasBottomBar: true },
-    { path: "/qr/detail/:id", element: <QRDetail />, hasBottomBar: true },
+    { path: "/qr/detail/:id", element: <QRDetail />, hasBottomBar: false },
+    { path: "/qr/create", element: <QRCreate /> },
   ];
   const routes_children_chat = [
     { path: "/chat", element: <ChatPage />, hasBottomBar: true },

@@ -51,7 +51,7 @@ interface CreateEventResponse {
 
 interface CreateEventRequest {
   name: string;
-  image: string;
+  image: File | null;
   date: string;
   startTime: string;
   endTime: string;
@@ -72,9 +72,9 @@ const createEvent = async (
   eventData: CreateEventRequest,
 ): Promise<ApiResponse<CreateEventResponse>> => {
   const formData = new FormData();
-
+  console.log("AAA", eventData.name);
   formData.append("name", eventData.name);
-  formData.append("image", eventData.image);
+  formData.append("image", eventData.image!);
   formData.append("date", eventData.date);
   formData.append("startTime", eventData.startTime);
   formData.append("endTime", eventData.endTime);

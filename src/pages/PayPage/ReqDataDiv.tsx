@@ -12,7 +12,23 @@ import * as s from "@/pages/PayPage/PayPage.styled";
 
 import "react-toastify/dist/ReactToastify.css";
 import { ResponseOfPayRequestInfo, ResponseOfRequestedPayInfo } from "@/apis/Pay";
-
+export const copyToClipboard = async (text: string) => {
+  try {
+    await navigator.clipboard.writeText(text);
+    toast.success("클립보드 복사 완료!", {
+      position: "bottom-center",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
+  } catch (e) {
+    alert(e);
+  }
+};
 const ReqDataDiv = ({ data }: { data: ResponseOfRequestedPayInfo }) => {
   useEffect(() => {
     console.log(data);
@@ -24,24 +40,6 @@ const ReqDataDiv = ({ data }: { data: ResponseOfRequestedPayInfo }) => {
   const nextChk = () => {
     setChk(chk + 1);
     chk % 3;
-  };
-
-  const copyToClipboard = async (text: string) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      toast.success("클립보드에 계좌번호가 복사되었습니다!", {
-        position: "bottom-center",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
-    } catch (e) {
-      alert(e);
-    }
   };
 
   const onPayClick = () => {

@@ -30,11 +30,16 @@ const QRAttendWrapper = ({
     handler(event.id);
   };
 
+  const onEditClick = () => {
+    alert("아직 미구현 기능입니다! 스페이스 개발팀에 문의주세요!");
+  };
+
+  console.log(event);
   return (
     <s.QRAttendWrapper>
       <s.QRAttendDelete src={QRDelete} onClick={onDeleteClick} />
-      <s.QRAttendEdit src={QREdit} />
-      <RowFlexDiv style={{ gap: "0.625rem", cursor: "pointer" }} onClick={onQRClick}>
+      <s.QRAttendEdit src={QREdit} onClick={onEditClick} />
+      <RowFlexDiv style={{ gap: "0.625rem", cursor: "pointer", flexGrow: 1 }} onClick={onQRClick}>
         <img src={event.image} width={"60px"} height={"60px"} />
         <s.QRAttendDiv>
           <s.QRAttendTitle>{event.name}</s.QRAttendTitle>
