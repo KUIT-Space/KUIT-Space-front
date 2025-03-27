@@ -11,7 +11,6 @@ import styled, { ThemeProvider } from "styled-components";
 
 import BottomNavBar from "@/components/BottomNavBar";
 import GlobalErrorFallback from "@/components/GlobalErrorFallback";
-import { useAuthGuard } from "@/hooks/useAuthGuard";
 import BoardPage from "@/pages/BoardPage/BoardPage";
 import ChatCreatePage from "@/pages/ChatPage/ChatCreatePage/ChatCreatePage";
 import ChatPage from "@/pages/ChatPage/ChatPage";
