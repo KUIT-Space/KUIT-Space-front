@@ -11,6 +11,7 @@ import styled, { ThemeProvider } from "styled-components";
 
 import BottomNavBar from "@/components/BottomNavBar";
 import GlobalErrorFallback from "@/components/GlobalErrorFallback";
+import { useAuthRedirect } from "@/hooks/useAuthRedirect";
 import BoardPage from "@/pages/BoardPage/BoardPage";
 import ChatCreatePage from "@/pages/ChatPage/ChatCreatePage/ChatCreatePage";
 import ChatPage from "@/pages/ChatPage/ChatPage";
@@ -91,6 +92,7 @@ interface RouteChildren {
 
 function Layout({ routes_children }: { routes_children: RouteChildren[] }) {
   const { pathname } = useLocation();
+  useAuthRedirect();
 
   return (
     <ThemeProvider theme={theme}>
