@@ -32,7 +32,7 @@ interface EventParticipantInfo {
 }
 
 interface ReadEventsResponse {
-  events: ReadEventInfoResponse[];
+  events: ReadEventsInfoResponse[];
 }
 
 export interface ReadEventInfoResponse {
@@ -43,6 +43,16 @@ export interface ReadEventInfoResponse {
   startTime: string;
   endTime: string;
   participants: EventParticipantInfo[];
+}
+
+export interface ReadEventsInfoResponse {
+  id: number;
+  name: string;
+  image: string;
+  date: string;
+  startTime: string;
+  endTime: string;
+  totalNumberOfParticipants: number;
 }
 
 interface CreateEventResponse {

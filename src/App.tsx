@@ -1,4 +1,4 @@
-import { JSX } from "react";
+import { JSX, Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import {
   createBrowserRouter,
@@ -57,6 +57,8 @@ import InviteSpace from "./pages/SpacePage/InviteSpace";
 import InviteSpace2 from "./pages/SpacePage/InviteSpace2";
 import SpecialVoiceRoom from "./pages/VoiceRoomPage/SpecialVoiceRoom";
 import WritePostPage from "./pages/WritePostPage";
+import QRCreate from "./pages/QRPage/QRCreate";
+import SkeletonDetailPage from "./components/SkeletonDetailPage";
 
 // will we need constant path in later..?
 // const PATH = {
@@ -98,8 +100,11 @@ function Layout({ routes_children }: { routes_children: RouteChildren[] }) {
       <LayoutContainer>
         <div id="content">
           <ErrorBoundary FallbackComponent={GlobalErrorFallback}>
-            <Outlet />
+            <Suspense fallback={<SkeletonDetailPage />}>
+              <Outlet />
+            </Suspense>
           </ErrorBoundary>
+
           {/*<LoginModal exceptionRouters={["/login", "/signup"]} />*/}
         </div>
         {routes_children.find((child) => matchPath(child.path, pathname))?.hasBottomBar && (

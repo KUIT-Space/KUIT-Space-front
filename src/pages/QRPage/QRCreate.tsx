@@ -95,15 +95,20 @@ const ChooseImgBtn = styled.label<{ $backgroundImage: string | null }>`
     display: none;
   }
 `;
+interface QRCreateInputProps {
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+}
+const QRCreateInput: React.FC<QRCreateInputProps> = ({ onChange }) => {
+  return <InputText type="text" onChange={onChange} placeholder="제목을 입력해주세요." />;
+};
 
 const QRCreate = () => {
   const { mutate: createEvent } = useCreateEvent(SPACE_ID);
   const maxChars = 12;
   const [uploadedImage, setUploadedImage] = useState<File | null>(null);
-  const [title, setTitle] = useState("");
+  let title = "";
   const navigate = useNavigate();
   const onCreateClick = () => {
-    console.log(title);
     const eventData = {
       name: title,
       image: uploadedImage,
@@ -117,7 +122,8 @@ const QRCreate = () => {
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     if (value.length <= maxChars) {
-      setTitle(value);
+      title = value;
+      console.log(title);
     }
   };
   const handleImageImport = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -145,7 +151,7 @@ const QRCreate = () => {
         </ChooseImgBtn>
       </ImgContainer>
       <InputContainer>
-        <InputText type="text" onChange={handleInputChange} placeholder="제목을 입력해주세요." />
+        <QRCreateInput onChange={handleInputChange} />
 
         <Divider />
         <Today>
@@ -167,9 +173,7 @@ const QRCreate = () => {
           <TimePicker initialPeriod="오후" initialHour="06" initialMinute="00" />
         </TimeContainer> */}
       </InputContainer>
-      <CreateBtn disabled={title === "" ? true : false} onClick={onCreateClick}>
-        출석 생성
-      </CreateBtn>
+      <CreateBtn onClick={onCreateClick}>출석 생성</CreateBtn>
     </>
   );
 };

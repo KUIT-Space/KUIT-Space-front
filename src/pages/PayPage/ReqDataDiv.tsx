@@ -12,7 +12,6 @@ import { addComma } from "@/pages/PayPage/PayPage";
 import * as s from "@/pages/PayPage/PayPage.styled";
 
 import "react-toastify/dist/ReactToastify.css";
-import { ResponseOfPayRequestInfo, ResponseOfRequestedPayInfo } from "@/apis/Pay";
 export const copyToClipboard = async (text: string) => {
   try {
     await navigator.clipboard.writeText(text);
