@@ -1,28 +1,18 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { useAuthStore } from "../store/authStore";
+import { useAuthQuery } from "../apis/oauth";
 
-export const useAuthRedirect = (options?: { redirectTo?: string; skipIfLoading?: boolean }) => {
+export const useAuthRedirect = (options?: { redirectTo?: string }) => {
   const navigate = useNavigate();
-  const { isAuthenticated, isLoading, checkAuth } = useAuthStore();
-
+  const { data: isAuthenticated } = useAuthQuery();
   const redirectTo = options?.redirectTo || "/discordlogin";
-  const skipIfLoading = options?.skipIfLoading !== false;
 
   useEffect(() => {
-    checkAuth();
-  }, [checkAuth]);
-
-  useEffect(() => {
-    if (isLoading && skipIfLoading) {
-      return;
-    }
-
     if (!isAuthenticated) {
       navigate(redirectTo, { replace: true });
     }
-  }, [isAuthenticated, isLoading, navigate, redirectTo, skipIfLoading]);
+  }, [isAuthenticated, navigate, redirectTo]);
 
-  return { isAuthenticated, isLoading };
+  return { isAuthenticated };
 };
