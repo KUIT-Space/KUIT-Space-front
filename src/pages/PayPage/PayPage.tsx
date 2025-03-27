@@ -1,13 +1,10 @@
-import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
-import { payCompleteApi, payDetailApi, payHomeApi } from "@/apis/Pay/PayPageAPI";
+import { PayRequestInfoInHome, RequestedPayInfoInHome, usePayHomeQuery } from "@/apis/Pay";
 import right from "@/assets/PayPage/arrow_right.svg";
 import TopBarText, { LeftEnum } from "@/components/TopBarText";
 import { GradientBtn } from "@/pages/PayPage/GradientBtn";
 import * as s from "@/pages/PayPage/PayPage.styled";
-import { PayRequestInfoInHome, RequestedPayInfoInHome, usePayHomeQuery } from "@/apis/Pay";
 import { SPACE_ID } from "@/utils/constants";
 
 export const addComma = (price: number) => {

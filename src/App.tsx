@@ -39,7 +39,6 @@ import CreateVoiceRoomPage from "@/pages/VoiceRoomPage/CreateVoiceRoom";
 import EditVoiceRoomPage from "@/pages/VoiceRoomPage/EditVoiceRoomPage";
 import JoinVoiceRoomPage from "@/pages/VoiceRoomPage/JoinVoiceRoomPage";
 import VoiceRoomListPage from "@/pages/VoiceRoomPage/VoiceRoomListPage";
-import VoiceRoomPage from "@/pages/VoiceRoomPage/VoiceRoomPage";
 import GlobalStyle from "@/styles/GlobalStyles";
 import { theme } from "@/styles/Theme";
 
@@ -58,7 +57,6 @@ import InviteSpace from "./pages/SpacePage/InviteSpace";
 import InviteSpace2 from "./pages/SpacePage/InviteSpace2";
 import SpecialVoiceRoom from "./pages/VoiceRoomPage/SpecialVoiceRoom";
 import WritePostPage from "./pages/WritePostPage";
-import QRCreate from "./pages/QRPage/QRCreate";
 
 // will we need constant path in later..?
 // const PATH = {

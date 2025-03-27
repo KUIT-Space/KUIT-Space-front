@@ -1,29 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ProgressBar } from "react-toastify/dist/components";
-import { UserInfo, userInfo } from "os";
 
-import { chatroomSearchAllApi, SpaceSearchUserProfile, UserProfileResult } from "@/apis";
-import {
-  getAllChatMemberApi,
-  getAllMemberApi,
-  recentAccountApi,
-  targetInfoList,
-} from "@/apis/Pay/PayPageAPI";
-import { UserInfoInSpace } from "@/apis/Space/SpaceSearchAllUserApi";
-import SearchIcon from "@/assets/PayPage/search_icon.svg";
-import Kookmin from "@/assets/PayPage/test_bank.svg";
-import ReactImg from "@/assets/react.svg";
-import { BottomBtn } from "@/components/BottomBtn";
-import CheckBox from "@/components/CheckBox";
-import TopBarText, { LeftEnum } from "@/components/TopBarText";
-import { Member } from "@/pages/ChatPage/ChatCreatePage/ChatCreatePage.styled";
-import CompleteCreatePay from "@/pages/PayPage/CompleteCreatePay";
-import { PayChatDiv } from "@/pages/PayPage/CreatePayComponents";
-import * as s from "@/pages/PayPage/PayPage.styled";
-import { getUserDefaultImageURL } from "@/utils/getUserDefaultImageURL";
-
-import { addComma } from "./PayPage";
+import { SpaceSearchUserProfile, UserProfileResult } from "@/apis";
 import {
   BankInfo,
   RequestOfCreatePay,
@@ -31,7 +9,21 @@ import {
   useBankInfoQuery,
   useCreatePay,
 } from "@/apis/Pay";
+import { getAllChatMemberApi, getAllMemberApi, targetInfoList } from "@/apis/Pay/PayPageAPI";
+import { UserInfoInSpace } from "@/apis/Space/SpaceSearchAllUserApi";
+import SearchIcon from "@/assets/PayPage/search_icon.svg";
+import Kookmin from "@/assets/PayPage/test_bank.svg";
+import { BottomBtn } from "@/components/BottomBtn";
+import CheckBox from "@/components/CheckBox";
+import TopBarText, { LeftEnum } from "@/components/TopBarText";
+import { Member } from "@/pages/ChatPage/ChatCreatePage/ChatCreatePage.styled";
+import CompleteCreatePay from "@/pages/PayPage/CompleteCreatePay";
+import { PayChatDiv } from "@/pages/PayPage/CreatePayComponents";
+import * as s from "@/pages/PayPage/PayPage.styled";
 import { SPACE_ID } from "@/utils/constants";
+import { getUserDefaultImageURL } from "@/utils/getUserDefaultImageURL";
+
+import { addComma } from "./PayPage";
 
 // type payUserInfo = {
 //   name: number;

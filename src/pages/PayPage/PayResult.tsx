@@ -1,11 +1,10 @@
+import { ResponseOfTargetDetail } from "@/apis/Pay";
 import bell from "@/assets/PayPage/bell.svg";
 import check from "@/assets/PayPage/check.svg";
-import ReactImg from "@/assets/react.svg";
 import * as s from "@/pages/PayPage/PayPage.styled";
 import { getUserDefaultImageURL } from "@/utils/getUserDefaultImageURL";
 
-import { addComma, payTargetInfoDtoList } from "./PayPage";
-import { ResponseOfTargetDetail } from "@/apis/Pay";
+import { addComma } from "./PayPage";
 
 const PayResult = ({ props }: { props: ResponseOfTargetDetail | undefined }) => {
   if (props === undefined) {

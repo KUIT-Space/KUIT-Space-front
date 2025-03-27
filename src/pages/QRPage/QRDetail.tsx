@@ -1,11 +1,9 @@
-import { useRef } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { QRCodeSVG } from "qrcode.react";
 
 import { useEventQuery } from "@/apis/event";
 import QRDownIcon from "@/assets/QR/qr_down.svg";
 import QRShareIcon from "@/assets/QR/qr_share.svg";
-import ReactIcon from "@/assets/react.svg";
 import TopBarText, { LeftEnum } from "@/components/TopBarText";
 import { SPACE_ID } from "@/utils/constants";
 

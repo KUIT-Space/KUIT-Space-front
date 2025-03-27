@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 
+import { ResponseOfRequestedPayInfo } from "@/apis/Pay";
 import { payCompleteApi } from "@/apis/Pay/PayPageAPI";
 import check from "@/assets/PayPage/check.svg";
 import reactIcon from "@/assets/react.svg";
 import { DarkNormalBtn } from "@/pages/PayPage/DarkNormalBtn";
 import { GradientBtn } from "@/pages/PayPage/GradientBtn";
 import { NormalBtn } from "@/pages/PayPage/NormalBtn";
-import { addComma, PayReceiveInfo } from "@/pages/PayPage/PayPage";
+import { addComma } from "@/pages/PayPage/PayPage";
 import * as s from "@/pages/PayPage/PayPage.styled";
 
 import "react-toastify/dist/ReactToastify.css";
-import { ResponseOfPayRequestInfo, ResponseOfRequestedPayInfo } from "@/apis/Pay";
 
 const ReqDataDiv = ({ data }: { data: ResponseOfRequestedPayInfo }) => {
   useEffect(() => {

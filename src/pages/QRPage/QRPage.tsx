@@ -2,13 +2,10 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { useEventQuery, useJoinEvent } from "@/apis/event";
-import tmp from "@/assets/react.svg";
 import { BottomBtn } from "@/components/BottomBtn";
 import TopBarText, { LeftEnum } from "@/components/TopBarText";
 import * as s from "@/pages/QRPage/QRPage.styled";
 import { SPACE_ID } from "@/utils/constants";
-
-import { ColumnFlexDiv } from "../HomePage/HomePage.styled";
 
 const QRPage = () => {
   const { id } = useParams();
@@ -32,7 +29,7 @@ const QRPage = () => {
     setTitle(data.result.name);
     setSrc(data.result.image);
     setDate(data.result.date);
-  }, []);
+  }, [data.result]);
 
   return (
     <div>

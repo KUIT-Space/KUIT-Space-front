@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-import SignUpHeader from "@/components/SignUpHeader";
 import Modal from "@/components/Modal";
+import SignUpHeader from "@/components/SignUpHeader";
 import {
   Container,
   Explanation,
