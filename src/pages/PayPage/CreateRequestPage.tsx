@@ -7,7 +7,6 @@ import { chatroomSearchAllApi, SpaceSearchUserProfile, UserProfileResult } from 
 import {
   getAllChatMemberApi,
   getAllMemberApi,
-  payCreateApi,
   recentAccountApi,
   targetInfoList,
 } from "@/apis/Pay/PayPageAPI";
@@ -25,6 +24,14 @@ import * as s from "@/pages/PayPage/PayPage.styled";
 import { getUserDefaultImageURL } from "@/utils/getUserDefaultImageURL";
 
 import { addComma } from "./PayPage";
+import {
+  BankInfo,
+  RequestOfCreatePay,
+  TargetOfPayRequest,
+  useBankInfoQuery,
+  useCreatePay,
+} from "@/apis/Pay";
+import { SPACE_ID } from "@/utils/constants";
 
 // type payUserInfo = {
 //   name: number;
@@ -38,10 +45,6 @@ export type ChatUserInfoInSpace = {
   userList: UserInfoInSpace[] | null;
 };
 
-export type BankInfo = {
-  bankName: string;
-  bankAccountNum: string;
-};
 // type NextPageType = {
 //   nextPage: () => void;
 //   setAccount?: () => void;
@@ -55,7 +58,7 @@ const RecentAccountDiv = ({ data }: { data: BankInfo }) => {
       <img style={{ marginRight: "0.75rem" }} src={Kookmin} alt="kookmin 은행" />
       <s.ColumnFlexDiv>
         <s.GrayTextDiv>{data.bankName}</s.GrayTextDiv>
-        <s.RegularText>{data.bankAccountNum}</s.RegularText>
+        <s.RegularText>{data.bankAccountNumber}</s.RegularText>
       </s.ColumnFlexDiv>
     </s.RowFlexDiv>
   );
@@ -70,23 +73,18 @@ const CreateRequestPage1 = ({
   setAccount: React.Dispatch<React.SetStateAction<string>>;
   setBankName: React.Dispatch<React.SetStateAction<string>>;
 }) => {
-  const [bankData, setBankData] = useState<BankInfo[] | undefined>([]);
+  const { data } = useBankInfoQuery(SPACE_ID);
+
+  // const [bankData, setBankData] = useState<BankInfo[] | undefined>([]);
   const [bankValue, setBankValue] = useState("국민은행");
   const [acc, setAcc] = useState("");
-
-  useEffect(() => {
-    const spaceId = localStorage.getItem("spaceId");
-    if (spaceId !== null) {
-      recentAccountApi(Number.parseInt(spaceId), setBankData);
-    }
-  }, []);
+  const bankData = data.result?.bankInfos;
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAcc(e.target.value);
   };
   const onChangeOption = (e: any) => {
     setBankValue(e.target.value);
-    console.log(e.target.value);
   };
 
   return (
@@ -147,17 +145,19 @@ const CreateRequestPage2 = ({
   setCheckUsers: React.Dispatch<React.SetStateAction<Set<number>>>;
   checkUsers: Set<number>;
   userInfoData: UserInfoInSpace[] | undefined;
-  setUserInfoData: React.Dispatch<React.SetStateAction<UserInfoInSpace[] | undefined>>;
+  setUserInfoData: React.Dispatch<React.SetStateAction<UserInfoInSpace[]>>;
 }) => {
   const [tabIndex, setTabIndex] = useState(0);
   const [search, setSearch] = useState("");
   const [chatUserInfoData, setChatUserInfoData] = useState<ChatUserInfoInSpace[] | undefined>([]);
 
   useEffect(() => {
-    const id = Number(localStorage.getItem("spaceId"));
+    const id = SPACE_ID;
     setCheckUsers(new Set<number>());
 
+    console.log("aaa");
     getAllMemberApi(id, setUserInfoData);
+
     getAllChatMemberApi(id, setChatUserInfoData);
   }, []);
 
@@ -313,12 +313,11 @@ const CreateRequestPage3 = ({
 
   useEffect(() => {
     const _tempArr: UserProfileResult[] = [];
-    const spaceId = localStorage.getItem("spaceId");
 
-    if (checkUsers !== undefined && spaceId !== null) {
+    if (checkUsers !== undefined) {
       if (checkUsers?.size > 0) {
         for (const value of checkUsers) {
-          const response = SpaceSearchUserProfile(Number.parseInt(spaceId), value).then((res) => {
+          const response = SpaceSearchUserProfile(Number(SPACE_ID), value).then((res) => {
             if (res?.result !== undefined) {
               const _tempObj = res.result;
               _tempObj.userId = value;
@@ -452,12 +451,6 @@ const CreateRequestPage4 = ({
   array: targetInfoList[];
   setArray: React.Dispatch<React.SetStateAction<targetInfoList[]>>;
 }) => {
-  useEffect(() => {
-    setArray(
-      [...idToPrice!].map(([targetUserId, requestAmount]) => ({ targetUserId, requestAmount })),
-    );
-  }, []);
-
   const price = addComma(totalPrice);
   return (
     <>
@@ -505,9 +498,11 @@ const CreateRequestPage = () => {
   const [bankAccount, setBankAccount] = useState("");
   const [bankName, setBankName] = useState("");
   const [totalPrice, setTotalPrice] = useState(0);
-  const [userInfoData, setUserInfoData] = useState<UserInfoInSpace[] | undefined>([]);
+  const [userInfoData, setUserInfoData] = useState<UserInfoInSpace[]>([]);
   const [isComplete, setIsComplete] = useState(false);
   const [array, setArray] = useState<targetInfoList[]>([]);
+  const arr: TargetOfPayRequest[] = [];
+  const { mutate: createPay } = useCreatePay(SPACE_ID);
 
   const navigate = useNavigate();
 
@@ -528,11 +523,18 @@ const CreateRequestPage = () => {
   };
 
   useEffect(() => {
-    const spaceId = localStorage.getItem("spaceId");
+    const spaceId = SPACE_ID;
     if (page === 4 && spaceId !== null) {
-      payCreateApi(totalPrice, bankName, bankAccount, array, Number.parseInt(spaceId)).then(() => {
-        setIsComplete(true);
-      });
+      const data: RequestOfCreatePay = {
+        totalAmount: totalPrice,
+        bankName: bankName,
+        bankAccountNum: bankAccount,
+        targets: arr,
+      };
+      createPay(data);
+      // payCreateApi(totalPrice, bankName, bankAccount, array, Number.parseInt(spaceId)).then(() => {
+      //   setIsComplete(true);
+      // });
     }
   }, [page]);
 

@@ -9,14 +9,15 @@ import { addComma, PayReceiveInfo } from "@/pages/PayPage/PayPage";
 import * as s from "@/pages/PayPage/PayPage.styled";
 
 import "react-toastify/dist/ReactToastify.css";
+import { ResponseOfRequestedPayInfo } from "@/apis/Pay";
 
-const ReqDataDiv = ({ data }: { data: PayReceiveInfo }) => {
+const ReqDataDiv = ({ data }: { data: ResponseOfRequestedPayInfo }) => {
   // useEffect(() => {
   //   console.log(data);
   // }, []);
   // true : 송금하기 false : 송금완료
   const [chk, setChk] = useState(true);
-  const price = addComma(data.requestAmount);
+  const price = addComma(data.requestedAmount);
 
   return (
     <s.GrayRoundDiv>

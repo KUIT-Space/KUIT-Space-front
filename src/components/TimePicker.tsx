@@ -67,20 +67,28 @@ const DisplayContainer = styled.div`
   width: 120px;
 `;
 
-const TimePicker = ({ initialPeriod, initialHour, initialMinute }) => {
+const TimePicker = ({
+  initialPeriod,
+  initialHour,
+  initialMinute,
+}: {
+  initialPeriod: string;
+  initialHour: string;
+  initialMinute: string;
+}) => {
   const [period, setPeriod] = useState(initialPeriod);
   const [hour, setHour] = useState(initialHour);
   const [minute, setMinute] = useState(initialMinute);
   const [isOpen, setIsOpen] = useState(false);
-  const pickerRef = useRef(null);
+  const pickerRef = useRef<HTMLDivElement | null>(null);
 
   const periods = ["오전", "오후"];
   const hours = Array.from({ length: 12 }, (_, i) => String(i + 1).padStart(2, "0"));
   const minutes = Array.from({ length: 6 }, (_, i) => String(i * 10).padStart(2, "0"));
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (pickerRef.current && !pickerRef.current.contains(event.target)) {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (pickerRef.current && !pickerRef.current.contains(event.target as Node)) {
         setIsOpen(false);
       }
     };
@@ -88,7 +96,7 @@ const TimePicker = ({ initialPeriod, initialHour, initialMinute }) => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const handleScroll = (type, value) => {
+  const handleScroll = (type: string, value: string) => {
     switch (type) {
       case "period":
         setPeriod(value);
@@ -102,7 +110,8 @@ const TimePicker = ({ initialPeriod, initialHour, initialMinute }) => {
     }
   };
 
-  const handleWheel = (e, type, values) => {
+  const handleWheel = (e: React.WheelEvent, type: string, values: string[]) => {
+    console.log(typeof e);
     e.preventDefault();
     const currentValue = type === "period" ? period : type === "hour" ? hour : minute;
     const currentIndex = values.findIndex((val) => val === currentValue);
