@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import StopModal from "@/components/Modal";
 
 interface ModalType {

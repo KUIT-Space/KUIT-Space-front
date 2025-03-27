@@ -1,10 +1,11 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
-import TopBarText, { LeftEnum } from "@/components/TopBarText";
+import { ChangeEvent, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+
 import testIcon from "@/assets/react.svg";
 import { BottomBtn } from "@/components/BottomBtn";
 import TimePicker from "@/components/TimePicker";
-import { useNavigate } from "react-router-dom";
+import TopBarText, { LeftEnum } from "@/components/TopBarText";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import camera from "@/assets/Space/icon_camera.svg";

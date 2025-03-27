@@ -1,29 +1,15 @@
-import TopBarText from "@/components/TopBarText";
-import { LeftEnum } from "@/components/TopBarText";
-import plus from "@/assets/VoiceRoom/icon_plus.svg";
-import back from "@/assets/icon_back.svg";
-import setting from "@/assets/VoiceRoom/icon_setting.svg";
-
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import * as s from "@/pages/VoiceRoomPage/VoiceRoomListPage.styled";
-import * as sty from "@/components/TopBarText.styled";
-
 import {
   CarouselLayout,
-  ControlBar,
-  FocusLayout,
-  FocusLayoutContainer,
-  FocusToggle,
-  GridLayout,
   LiveKitRoom,
   ParticipantTile,
   RoomAudioRenderer,
   useTracks,
 } from "@livekit/components-react";
-import "@livekit/components-styles";
 import { Room, Track } from "livekit-client";
-import { sleep } from "livekit-client/dist/src/room/utils";
+
+import "@livekit/components-styles";
 
 const SpecialVoiceRoom = () => {
   const navigate = useNavigate();

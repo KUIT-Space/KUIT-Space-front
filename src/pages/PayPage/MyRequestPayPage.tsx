@@ -1,19 +1,16 @@
-import TopBarText, { LeftEnum } from "@/components/TopBarText";
-import * as s from "@/pages/PayPage/PayPage.styled";
-import { useEffect, useState } from "react";
-import MyReqDataDiv from "@/pages/PayPage/MyReqDataDiv";
-import GrayMyReqDataDiv from "@/pages/PayPage/GrayMyReqDataDiv";
+import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-import PayResult from "@/pages/PayPage/PayResult";
-import { DetailPayData, PayRequestInfo, addComma } from "@/pages/PayPage/PayPage";
-import { payDetailApi, payRequestApi } from "@/apis/Pay/PayPageAPI";
-import { payTargetInfoDtoList } from "@/pages/PayPage/PayPage";
 import { usePayDetailQuery, usePayRequestListQuery } from "@/apis/Pay";
+import TopBarText, { LeftEnum } from "@/components/TopBarText";
+import GrayMyReqDataDiv from "@/pages/PayPage/GrayMyReqDataDiv";
+import MyReqDataDiv from "@/pages/PayPage/MyReqDataDiv";
+import * as s from "@/pages/PayPage/PayPage.styled";
+import PayResult from "@/pages/PayPage/PayResult";
 import { SPACE_ID } from "@/utils/constants";
 
 const MyRequestPayPage = () => {
-  let { id } = useParams();
+  const { id } = useParams();
   const [tabIndex, setTabIndex] = useState(0);
   // const [currentData, setCurrentData] = useState<PayRequestInfo[] | undefined>([]);
   // const [completeData, setCompleteData] = useState<PayRequestInfo[] | undefined>([]);
