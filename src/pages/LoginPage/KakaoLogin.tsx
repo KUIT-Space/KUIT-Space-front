@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { c } from "vite/dist/node/types.d-aGj9QkWt";
 
 import { loginApi } from "@/apis";
 import google from "@/assets/Login/icon_google.svg";

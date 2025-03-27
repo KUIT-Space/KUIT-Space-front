@@ -1,10 +1,11 @@
-import React, { ChangeEvent, useState } from "react";
-import TopBarText, { LeftEnum } from "@/components/TopBarText";
+import { ChangeEvent, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+
 import testIcon from "@/assets/react.svg";
 import { BottomBtn } from "@/components/BottomBtn";
 import TimePicker from "@/components/TimePicker";
-import { useNavigate } from "react-router-dom";
+import TopBarText, { LeftEnum } from "@/components/TopBarText";
 
 const ImgContainer = styled.div`
   display: flex;

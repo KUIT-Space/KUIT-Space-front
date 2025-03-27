@@ -1,5 +1,5 @@
-import { ResponseOfPayRequestInfo, ResponseOfRequestedPayInfo } from "@/apis/Pay";
-import { addComma, PayRequestInfo } from "@/pages/PayPage/PayPage";
+import { ResponseOfPayRequestInfo } from "@/apis/Pay";
+import { addComma } from "@/pages/PayPage/PayPage";
 import * as s from "@/pages/PayPage/PayPage.styled";
 
 const GrayMyReqDataDiv = ({

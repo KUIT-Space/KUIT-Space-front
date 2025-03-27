@@ -1,7 +1,8 @@
-import TopBarText, { LeftEnum } from "@/components/TopBarText";
-import styled from "styled-components";
-import { ToggleBtn } from "@/components/ToggleBtn";
 import { useState } from "react";
+import styled from "styled-components";
+
+import { ToggleBtn } from "@/components/ToggleBtn";
+import TopBarText, { LeftEnum } from "@/components/TopBarText";
 
 const AlarmContainer = styled.div`
   display: flex;

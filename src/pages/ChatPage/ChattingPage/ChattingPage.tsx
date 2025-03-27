@@ -66,6 +66,7 @@ const ChattingPage = () => {
   const chattingTextareaRef = useRef<HTMLTextAreaElement | null>(null);
 
   // subscribe 시 받아온 채팅 로그 설정
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleChatMessage = (message: any) => {
     if (message.body) {
       const msg = JSON.parse(message.body);

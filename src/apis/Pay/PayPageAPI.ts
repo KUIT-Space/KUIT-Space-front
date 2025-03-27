@@ -1,7 +1,4 @@
-import { useNavigate } from "react-router-dom";
-
 import {
-  createRequestOptionsJSON,
   createRequestOptionsJSON_AUTH,
   fetchApi,
   RequestOptions,
@@ -9,7 +6,8 @@ import {
 import { UserInfoInSpace } from "@/apis/Space/SpaceSearchAllUserApi";
 import { ChatUserInfoInSpace } from "@/pages/PayPage/CreateRequestPage";
 import { DetailPayData, PayReceiveInfo, PayRequestInfo } from "@/pages/PayPage/PayPage";
-import { BankInfo, TargetOfPayRequest } from ".";
+
+import { BankInfo } from ".";
 
 interface SpaceSearchAllUserApiResponseType {
   code: number;

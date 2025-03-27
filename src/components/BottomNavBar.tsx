@@ -1,4 +1,6 @@
+import { Link, matchPath, useLocation } from "react-router-dom";
 import styled, { useTheme } from "styled-components";
+
 import {
   BoardIcon,
   ChatIcon,
@@ -6,7 +8,6 @@ import {
   MenuIcon,
   PayIcon,
 } from "@/assets/BottomNavBar/BottomNavBarIcon";
-import { Link, matchPath, useLocation } from "react-router-dom";
 
 const MenuContainer = styled.div`
   display: flex;

@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import QRCreateIcon from "@/assets/QR/qr_create.png";
 
 export const BottomFloatBtn = styled.button`
   left: 50%;
@@ -29,7 +28,7 @@ export const BottomFloatBtn = styled.button`
   font-weight: 700;
   line-height: 140%; /* 1.4rem */
   letter-spacing: 0.02rem;
-  /* 
+  /*
   background: ${(props) =>
     props.disabled
       ? "var(--Foundation-Gray-gray600, #45454B);"
