@@ -5,23 +5,27 @@ import * as s from "@/pages/PayPage/PayPage.styled";
 import { getUserDefaultImageURL } from "@/utils/getUserDefaultImageURL";
 
 import { addComma, payTargetInfoDtoList } from "./PayPage";
+import { ResponseOfTargetDetail } from "@/apis/Pay";
 
-const PayResult = ({ props }: { props: payTargetInfoDtoList }) => {
-  const price = addComma(props.requestAmount);
+const PayResult = ({ props }: { props: ResponseOfTargetDetail | undefined }) => {
+  if (props === undefined) {
+    return <></>;
+  }
+  const price = addComma(props.requestedAmount);
   return (
     <s.RowFlexDiv style={{ alignItems: "center", padding: "0.25rem" }}>
       <img
         src={
-          props.targetUserProfileImg
-            ? props.targetUserProfileImg
-            : getUserDefaultImageURL(props.targetUserId)
+          props.targetMemberProfileImageUrl
+            ? props.targetMemberProfileImageUrl
+            : getUserDefaultImageURL(props.targetMemberId)
         }
         width={"40px"}
         height={"40px"}
         alt="profile"
       />
       <s.ColumnFlexDiv style={{ marginLeft: "0.75rem", justifyContent: "start" }}>
-        <s.TextDiv>{props.targetUserName}</s.TextDiv>
+        <s.TextDiv>{props.targetMemberName}</s.TextDiv>
         <s.BoldText style={{ textAlign: "start" }}>{price}원</s.BoldText>
       </s.ColumnFlexDiv>
       <img
