@@ -147,7 +147,6 @@ const CreateRequestPage2 = ({
     const id = SPACE_ID;
     setCheckUsers(new Set<number>());
 
-    console.log("aaa");
     getAllMemberApi(id, setUserInfoData);
 
     getAllChatMemberApi(id, setChatUserInfoData);
@@ -162,7 +161,6 @@ const CreateRequestPage2 = ({
     } else {
       _checkUsers.add(id);
       setCheckUsers(_checkUsers);
-      // console.log(checkUsers);
     }
   };
   const menuArr = [

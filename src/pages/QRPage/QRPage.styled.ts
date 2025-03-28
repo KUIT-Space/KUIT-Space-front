@@ -147,4 +147,6 @@ export const QRAttendListContainer = styled.div`
   display: flex;
   gap: 8px;
   flex-direction: column;
+  width: 100%;
+  margin-bottom: 5rem;
 `;

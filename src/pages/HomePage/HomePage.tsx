@@ -184,7 +184,7 @@ const HomePage = () => {
                     <>
                       <span className="subText">정산 완료까지 </span>
                       <span className="num">
-                        {requestData?.totalTargetNum! - requestData?.receiveTargetNum!}
+                        {requestData?.totalTargetNum - requestData?.receiveTargetNum}
                       </span>
                       <span className="subText">명 남았어요</span>
                     </>
@@ -195,10 +195,8 @@ const HomePage = () => {
                   <br />
                   {requestData ? (
                     <>
-                      <span className="highlightMoney">
-                        {addComma(requestData?.receiveAmount!)}{" "}
-                      </span>
-                      <span className="totalMoney"> /{addComma(requestData?.totalAmount!)} 원</span>
+                      <span className="highlightMoney">{addComma(requestData?.receiveAmount)}</span>
+                      <span className="totalMoney"> /{addComma(requestData?.totalAmount)} 원</span>
                     </>
                   ) : (
                     <span className="subText">요청한 정산이 없습니다</span>

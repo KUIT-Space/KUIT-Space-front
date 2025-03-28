@@ -32,7 +32,7 @@ interface EventParticipantInfo {
 }
 
 interface ReadEventsResponse {
-  events: ReadEventInfoResponse[];
+  events: ReadEventsInfoResponse[];
 }
 
 export interface ReadEventInfoResponse {
@@ -45,13 +45,23 @@ export interface ReadEventInfoResponse {
   participants: EventParticipantInfo[];
 }
 
+export interface ReadEventsInfoResponse {
+  id: number;
+  name: string;
+  image: string;
+  date: string;
+  startTime: string;
+  endTime: string;
+  totalNumberOfParticipants: number;
+}
+
 interface CreateEventResponse {
   id: number;
 }
 
 interface CreateEventRequest {
   name: string;
-  image: string;
+  image: File | null;
   date: string;
   startTime: string;
   endTime: string;
@@ -72,9 +82,8 @@ const createEvent = async (
   eventData: CreateEventRequest,
 ): Promise<ApiResponse<CreateEventResponse>> => {
   const formData = new FormData();
-
   formData.append("name", eventData.name);
-  formData.append("image", eventData.image);
+  formData.append("image", eventData.image!);
   formData.append("date", eventData.date);
   formData.append("startTime", eventData.startTime);
   formData.append("endTime", eventData.endTime);
