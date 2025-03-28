@@ -26,9 +26,6 @@ const QRDetail = () => {
   const { id } = useParams();
   const { data } = useEventQuery(SPACE_ID, Number(id), { refetchInterval: 10000 });
   const members = useAllMembersQuery(SPACE_ID);
-  // const filteredMembers:SpaceMemberDetail[] = members.data.result?.spaceMemberDetails.filter((value:SpaceMemberDetail)=>{
-  // 필요할지 의문
-  // })
 
   const { mutate: addEventParticipants } = useAddEventParticipants(SPACE_ID, Number(id));
   const { mutate: removeEventParticipants } = useRemoveEventParticipants(SPACE_ID, Number(id));
