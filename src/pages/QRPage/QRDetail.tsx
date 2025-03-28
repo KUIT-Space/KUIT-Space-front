@@ -10,7 +10,7 @@ import { SPACE_ID } from "@/utils/constants";
 
 import { Member } from "../ChatPage/ChatCreatePage/ChatCreatePage.styled";
 import { RowFlexDiv } from "../PayPage/PayPage.styled";
-import AttendRemove from "@/assets/qr/atttend_remove.svg";
+import AttendRemove from "@/assets/qr/attend_remove.svg";
 import * as s from "./QRPage.styled";
 import { copyToClipboard } from "../PayPage/ReqDataDiv";
 import "react-toastify/dist/ReactToastify.css";
