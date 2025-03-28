@@ -147,7 +147,6 @@ const CreateRequestPage2 = ({
     const id = SPACE_ID;
     setCheckUsers(new Set<number>());
 
-    console.log("aaa");
     getAllMemberApi(id, setUserInfoData);
 
     getAllChatMemberApi(id, setChatUserInfoData);

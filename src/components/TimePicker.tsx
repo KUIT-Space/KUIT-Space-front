@@ -111,7 +111,6 @@ const TimePicker = ({
   };
 
   const handleWheel = (e: React.WheelEvent, type: string, values: string[]) => {
-    console.log(typeof e);
     e.preventDefault();
     const currentValue = type === "period" ? period : type === "hour" ? hour : minute;
     const currentIndex = values.findIndex((val) => val === currentValue);

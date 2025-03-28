@@ -153,7 +153,6 @@ export const getAllMemberApi = async (
   spaceID: number,
   setUserInfoData: React.Dispatch<React.SetStateAction<UserInfoInSpace[]>>,
 ) => {
-  console.log("aaa");
   const requestOptions = createRequestOptionsJSON_AUTH("GET");
   if (!requestOptions) {
     return null;
