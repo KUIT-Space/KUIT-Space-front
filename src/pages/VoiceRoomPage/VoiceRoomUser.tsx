@@ -4,7 +4,7 @@ import { participantInfo } from "@/pages/VoiceRoomPage/VoiceRoomListPage";
 import * as s from "@/pages/VoiceRoomPage/VoiceRoomUser.styled";
 import { getUserDefaultImageURL } from "@/utils/getUserDefaultImageURL";
 
-export const VoiceRoomUser = ({ props }: { props: participantInfo }) => {
+export const VoiceRoomUser = (props: participantInfo) => {
   const userId = Number.parseInt(localStorage.getItem("userId")!);
   console.log(props);
   return (

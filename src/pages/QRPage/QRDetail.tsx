@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { QRCodeSVG } from "qrcode.react";
 
@@ -113,9 +113,8 @@ const QRDetail = () => {
           setSelected((prev) => prev.filter((e) => e !== id));
           return true;
         }
-      })
+      }) === undefined
     ) {
-    } else {
       setSelected((prev) => [...prev, id]);
     }
   };
@@ -192,8 +191,8 @@ const QRDetail = () => {
             </RowFlexDiv>
             {participants.map((value) => {
               return (
-                <RowFlexDiv style={{ width: "100%", flexGrow: 1 }}>
-                  <Member key={value.id} $cursor="default" style={{ width: "100%", flexGrow: 1 }}>
+                <RowFlexDiv key={value.id} style={{ width: "100%", flexGrow: 1 }}>
+                  <Member $cursor="default" style={{ width: "100%", flexGrow: 1 }}>
                     <section>
                       <img src={value.profileImageUrl} />
                       <span className="name">{value.name}</span>

@@ -6,7 +6,7 @@ import { getUserDefaultImageURL } from "@/utils/getUserDefaultImageURL";
 
 import { addComma } from "./PayPage";
 
-const PayResult = ({ props }: { props: ResponseOfTargetDetail | undefined }) => {
+const PayResult = (props: ResponseOfTargetDetail) => {
   if (props === undefined) {
     return <></>;
   }

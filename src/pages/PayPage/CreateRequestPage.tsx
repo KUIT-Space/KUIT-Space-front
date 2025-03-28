@@ -161,7 +161,6 @@ const CreateRequestPage2 = ({
     } else {
       _checkUsers.add(id);
       setCheckUsers(_checkUsers);
-      // console.log(checkUsers);
     }
   };
   const menuArr = [

@@ -86,7 +86,7 @@ const PayPage = () => {
   //     payHomeApi(SpaceID, setReqData, setRecData);
   //   }
   // }, []);
-
+  const navigator = useNavigate();
   const { data } = usePayHomeQuery(SPACE_ID);
 
   if (data.result == undefined) {
@@ -94,8 +94,6 @@ const PayPage = () => {
   }
   const reqData = data.result.requestInfoInHome;
   const recData = data.result.requestedPayInfoInHome;
-
-  const navigator = useNavigate();
 
   return (
     <>

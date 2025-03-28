@@ -39,7 +39,7 @@ interface ToggleBtnProps {
   onToggle: () => void;
 }
 
-export const ToggleBtn: React.FC<ToggleBtnProps> = ({ isOn, onToggle }) => {
+export const ToggleBtn = ({ isOn, onToggle }: { isOn: boolean; onToggle: () => void }) => {
   return (
     <ToggleContainer onClick={onToggle}>
       <div className={`toggle-container ${isOn ? "toggle--checked" : ""}`} />

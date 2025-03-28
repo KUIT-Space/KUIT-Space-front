@@ -20,22 +20,24 @@ const MyRequestPayPage = () => {
 
   // const [completeTargetList, setCompleteTargetList] = useState<payTargetInfoDtoList[]>([]);
   // const [inCompleteTargetList, setInCompleteTargetList] = useState<payTargetInfoDtoList[]>([]);
+  const navigator = useNavigate();
   const { data } = usePayRequestListQuery(SPACE_ID);
-  const detail = id == null ? null : usePayDetailQuery(SPACE_ID, Number(id));
+  const detail = usePayDetailQuery(SPACE_ID, Number(id));
   const detailData = detail?.data.result;
+
   if (data.result == undefined) {
     return <></>;
   }
+
   const currentData = data.result.inCompletePayRequestList;
   const completeData = data.result.completePayRequestList;
+
   const completeTargetList = detailData?.responseOfTargetDetails.map((value) => {
     if (value.complete === true) return value;
   });
   const inCompleteTargetList = detailData?.responseOfTargetDetails.map((value) => {
     if (value.complete === false) return value;
   });
-
-  const navigator = useNavigate();
 
   const menuArr = [
     { name: "미정산", content: "Tab menu ONE" },
@@ -120,9 +122,9 @@ const MyRequestPayPage = () => {
                 </>
               ) : (
                 <>
-                  {completeTargetList.map((value, index) => (
-                    <PayResult key={index} props={value}></PayResult>
-                  ))}
+                  {completeTargetList.map((value, index) =>
+                    value !== undefined ? <PayResult key={index} props={value} /> : <></>,
+                  )}
                 </>
               )}
             </s.RoundDiv>
@@ -134,9 +136,9 @@ const MyRequestPayPage = () => {
                 </>
               ) : (
                 <>
-                  {inCompleteTargetList.map((value, index) => (
-                    <PayResult key={index} props={value}></PayResult>
-                  ))}
+                  {inCompleteTargetList.map((value, index) =>
+                    value !== undefined ? <PayResult key={index} props={value} /> : <></>,
+                  )}
                 </>
               )}
             </s.RoundDiv>

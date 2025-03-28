@@ -131,22 +131,22 @@ const TimePicker = ({
         <PickerContainer>
           <ScrollContainer onWheel={(e) => handleWheel(e, "period", periods)}>
             <ScrollList style={{ transform: `translateY(-${periods.indexOf(period) * 40}px)` }}>
-              {periods.map((p) => (
-                <ScrollItem>{p}</ScrollItem>
+              {periods.map((p, index) => (
+                <ScrollItem key={index}>{p}</ScrollItem>
               ))}
             </ScrollList>
           </ScrollContainer>
           <ScrollContainer onWheel={(e) => handleWheel(e, "hour", hours)}>
             <ScrollList style={{ transform: `translateY(-${hours.indexOf(hour) * 40}px)` }}>
-              {hours.map((h) => (
-                <ScrollItem>{h}</ScrollItem>
+              {hours.map((h, index) => (
+                <ScrollItem key={index}>{h}</ScrollItem>
               ))}
             </ScrollList>
           </ScrollContainer>
           <ScrollContainer onWheel={(e) => handleWheel(e, "minute", minutes)}>
             <ScrollList style={{ transform: `translateY(-${minutes.indexOf(minute) * 40}px)` }}>
-              {minutes.map((m) => (
-                <ScrollItem>{m}</ScrollItem>
+              {minutes.map((m, index) => (
+                <ScrollItem key={index}>{m}</ScrollItem>
               ))}
             </ScrollList>
           </ScrollContainer>

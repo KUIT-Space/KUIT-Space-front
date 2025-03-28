@@ -72,10 +72,8 @@ const ChooseImgBtn = styled.label<{ $backgroundImage: string | null }>`
     display: none;
   }
 `;
-interface QRCreateInputProps {
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
-}
-const QRCreateInput: React.FC<QRCreateInputProps> = ({ onChange }) => {
+
+const QRCreateInput = ({ onChange }: { onChange: (e: ChangeEvent<HTMLInputElement>) => void }) => {
   return <InputText type="text" onChange={onChange} placeholder="제목을 입력해주세요." />;
 };
 
@@ -90,11 +88,10 @@ const QRCreate = () => {
   let title = "";
   const navigate = useNavigate();
   const onCreateClick = () => {
-    console.log(uploadedImage);
     const eventData = {
       name: title,
       image: uploadedImage,
-      date: startDate?.toISOString()!,
+      date: startDate!.toISOString(),
       startTime: "2025-03-26T12:13:39.238Z",
       endTime: "2025-03-26T12:13:39.238Z",
     };

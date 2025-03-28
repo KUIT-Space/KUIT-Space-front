@@ -64,7 +64,7 @@ const QRAttendWrapper = ({
 const QRHome = () => {
   const [isModal, setIsModal] = useState<boolean>(false);
   const [index, setIndex] = useState<number>(-1);
-
+  const navigate = useNavigate();
   const { mutate: deleteEvent } = useDeleteEvent(SPACE_ID);
   const { data } = useEventsQuery(SPACE_ID, { refetchInterval: 10000 });
   const onCreateClick = () => {
@@ -74,7 +74,7 @@ const QRHome = () => {
     return <></>;
   }
   const events: ReadEventsInfoResponse[] = data.result.events;
-  const navigate = useNavigate();
+
   const togleModal = (i: number) => {
     setIsModal(!isModal);
     setIndex(i);
