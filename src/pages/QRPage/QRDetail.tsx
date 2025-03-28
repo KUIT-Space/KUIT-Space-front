@@ -1,24 +1,26 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import { QRCodeSVG } from "qrcode.react";
 
 import { useAddEventParticipants, useEventQuery, useRemoveEventParticipants } from "@/apis/event";
+import { useAllMembersQuery } from "@/apis/SpaceMember";
+import addMemberIcon from "@/assets/ChatPage/btn_add_member.svg";
+import AttendRemove from "@/assets/QR/attend_remove.svg";
 import QRDownIcon from "@/assets/QR/qr_down.svg";
 import QRShareIcon from "@/assets/QR/qr_share.svg";
+import { BottomBtn } from "@/components/BottomBtn";
+import { MemberCheck } from "@/components/MemberCheck";
 import TopBarText, { LeftEnum } from "@/components/TopBarText";
 import { SPACE_ID } from "@/utils/constants";
 
 import { Member } from "../ChatPage/ChatCreatePage/ChatCreatePage.styled";
 import { RowFlexDiv } from "../PayPage/PayPage.styled";
-import AttendRemove from "@/assets/qr/attend_remove.svg";
-import * as s from "./QRPage.styled";
 import { copyToClipboard } from "../PayPage/ReqDataDiv";
+
+import * as s from "./QRPage.styled";
+
 import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer } from "react-toastify";
-import addMemberIcon from "@/assets/ChatPage/btn_add_member.svg";
-import { useAllMembersQuery } from "@/apis/SpaceMember";
-import { MemberCheck } from "@/components/MemberCheck";
-import { BottomBtn } from "@/components/BottomBtn";
 
 const QRDetail = () => {
   const [selected, setSelected] = useState<number[]>([]);
