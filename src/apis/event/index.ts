@@ -82,7 +82,6 @@ const createEvent = async (
   eventData: CreateEventRequest,
 ): Promise<ApiResponse<CreateEventResponse>> => {
   const formData = new FormData();
-  console.log("AAA", eventData.name);
   formData.append("name", eventData.name);
   formData.append("image", eventData.image!);
   formData.append("date", eventData.date);

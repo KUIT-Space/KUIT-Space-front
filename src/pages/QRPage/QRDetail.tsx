@@ -1,5 +1,5 @@
-import { useRef, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useState } from "react";
+import { useParams } from "react-router-dom";
 import { QRCodeSVG } from "qrcode.react";
 
 import { useAddEventParticipants, useEventQuery, useRemoveEventParticipants } from "@/apis/event";
@@ -14,15 +14,15 @@ import AttendRemove from "@/assets/qr/atttend_remove.svg";
 import * as s from "./QRPage.styled";
 import { copyToClipboard } from "../PayPage/ReqDataDiv";
 import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import addMemberIcon from "@/assets/ChatPage/btn_add_member.svg";
-import { SpaceMemberDetail, useAllMembersQuery } from "@/apis/SpaceMember";
+import { useAllMembersQuery } from "@/apis/SpaceMember";
 import { MemberCheck } from "@/components/MemberCheck";
 import { BottomBtn } from "@/components/BottomBtn";
 
-let selected: number[] = [];
-
 const QRDetail = () => {
+  const [selected, setSelected] = useState<number[]>([]);
+
   const { id } = useParams();
   const { data } = useEventQuery(SPACE_ID, Number(id), { refetchInterval: 10000 });
   const members = useAllMembersQuery(SPACE_ID);
@@ -34,12 +34,11 @@ const QRDetail = () => {
   const { mutate: removeEventParticipants } = useRemoveEventParticipants(SPACE_ID, Number(id));
   const url = window.location.origin + `/KUIT-Space-front/qr/${id}`;
   const [mode, setMode] = useState<boolean>(false);
-  const [num, setNum] = useState<number>(0);
 
-  if (data == undefined) return <></>;
+  if (data == undefined) return <>에러 발생</>;
 
   const participants = data.result?.participants;
-  if (participants == undefined) return <></>;
+  if (participants == undefined) return <>에러 발생</>;
   const cnt = participants.length;
 
   const downloadData = (url: string, fileName: string) => {
@@ -98,7 +97,6 @@ const QRDetail = () => {
   };
 
   const onRemoveAttendClick = (id: number) => {
-    console.log(id, "지울게");
     const arr: number[] = [];
     arr.push(id);
     removeEventParticipants(arr);
@@ -106,29 +104,22 @@ const QRDetail = () => {
   const onAddAttendClick = () => {
     addEventParticipants(selected);
     changeMode();
-    // console.log(members.data.result);
   };
   const changeMode = () => {
     setMode(!mode);
-    selected = [];
   };
   const onSelected = (id: number) => {
     // 이미 있는 id는 지운다
     if (
       selected.find((e) => {
         if (e === id) {
-          selected = selected.filter((e) => e !== id);
+          setSelected((prev) => prev.filter((e) => e !== id));
           return true;
         }
       })
     ) {
-      setNum(selected.length);
-      console.log("TRUE ", selected);
-      return;
     } else {
-      selected.push(id);
-      setNum(selected.length);
-      console.log("FALSE ", selected);
+      setSelected((prev) => [...prev, id]);
     }
   };
 
@@ -180,7 +171,7 @@ const QRDetail = () => {
               })}
             </s.QRAttendListContainer>
           </s.QRAttendListDiv>
-          <BottomBtn onClick={onAddAttendClick}>추가 완료 {num}</BottomBtn>
+          <BottomBtn onClick={onAddAttendClick}>추가 완료 {selected.length}</BottomBtn>
         </>
       ) : (
         <s.QRAttendListDiv>

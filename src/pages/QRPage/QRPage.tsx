@@ -6,6 +6,7 @@ import { BottomBtn } from "@/components/BottomBtn";
 import TopBarText, { LeftEnum } from "@/components/TopBarText";
 import * as s from "@/pages/QRPage/QRPage.styled";
 import { SPACE_ID } from "@/utils/constants";
+import PlaceholderIcon from "@/assets/KUIT.svg";
 
 const QRPage = () => {
   const { id } = useParams();
@@ -31,11 +32,14 @@ const QRPage = () => {
     setDate(data.result.date);
   }, [data.result]);
 
+  const onImageErr: React.ReactEventHandler<HTMLImageElement> = (e) => {
+    (e.target as HTMLImageElement).src = PlaceholderIcon;
+  };
   return (
     <div>
       <TopBarText left={LeftEnum.Back} center={"QR 출석"} right={<></>}></TopBarText>
       <s.Container>
-        <s.ImgQR src={src}></s.ImgQR>
+        <s.ImgQR src={src} onError={onImageErr}></s.ImgQR>
         <s.TitleDiv>{title}</s.TitleDiv>
         <s.DateDiv>{date}</s.DateDiv>
       </s.Container>

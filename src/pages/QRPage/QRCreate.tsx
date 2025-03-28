@@ -2,9 +2,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-import testIcon from "@/assets/react.svg";
 import { BottomBtn } from "@/components/BottomBtn";
-import TimePicker from "@/components/TimePicker";
 import TopBarText, { LeftEnum } from "@/components/TopBarText";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -18,25 +16,11 @@ const ImgContainer = styled.div`
   margin: 18px 0 55px;
 `;
 
-const Thumbnail = styled.img`
-  width: 200px;
-  height: 200px;
-  border-radius: 12px;
-  background-color: ${({ theme }) => theme.colors.BG700};
-`;
-
 const InputContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   margin: 0 3rem;
-`;
-
-const InputTitle = styled.input`
-  width: 100%;
-  font-size: 1.5rem;
-  background-color: ${({ theme }) => theme.colors.BG900};
-  padding: 0 50px;
 `;
 
 const Divider = styled.div`
@@ -47,13 +31,6 @@ const Divider = styled.div`
 
 const Today = styled.div`
   width: 100%;
-  font-size: 1.5rem;
-`;
-
-const TimeContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   font-size: 1.5rem;
 `;
 
@@ -105,10 +82,15 @@ const QRCreateInput: React.FC<QRCreateInputProps> = ({ onChange }) => {
 const QRCreate = () => {
   const { mutate: createEvent } = useCreateEvent(SPACE_ID);
   const maxChars = 12;
-  const [uploadedImage, setUploadedImage] = useState<File | null>(null);
+  const [uploadedImage, setUploadedImage] = useState<File>(
+    new File([new Blob([])], "default.jpg", {
+      type: "image/jpeg",
+    }),
+  );
   let title = "";
   const navigate = useNavigate();
   const onCreateClick = () => {
+    console.log(uploadedImage);
     const eventData = {
       name: title,
       image: uploadedImage,
@@ -144,7 +126,9 @@ const QRCreate = () => {
       <TopBarText left={LeftEnum.Back} center="QR 출석" right=""></TopBarText>
       <ImgContainer>
         <ChooseImgBtn
-          $backgroundImage={uploadedImage !== null ? URL.createObjectURL(uploadedImage) : null}
+          $backgroundImage={
+            uploadedImage.name !== "default.jpg" ? URL.createObjectURL(uploadedImage) : null
+          }
         >
           <img src={camera} alt="camera" />
           <input type="file" accept="image/*" onChange={handleImageImport} />

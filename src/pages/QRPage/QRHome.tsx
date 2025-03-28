@@ -16,7 +16,7 @@ import Modal from "@/components/Modal";
 import TopBarText, { LeftEnum } from "@/components/TopBarText";
 import * as s from "@/pages/QRPage/QRPage.styled";
 import { SPACE_ID } from "@/utils/constants";
-
+import PlaceholderIcon from "@/assets/KUIT.svg";
 import { RowFlexDiv } from "../HomePage/HomePage.styled";
 
 const QRAttendWrapper = ({
@@ -38,14 +38,16 @@ const QRAttendWrapper = ({
   const onEditClick = () => {
     alert("아직 미구현 기능입니다! 스페이스 개발팀에 문의주세요!");
   };
+  const onImageErr: React.ReactEventHandler<HTMLImageElement> = (e) => {
+    (e.target as HTMLImageElement).src = PlaceholderIcon;
+  };
 
-  console.log(event);
   return (
     <s.QRAttendWrapper>
       <s.QRAttendDelete src={QRDelete} onClick={onDeleteClick} />
       <s.QRAttendEdit src={QREdit} onClick={onEditClick} />
       <RowFlexDiv style={{ gap: "0.625rem", cursor: "pointer", flexGrow: 1 }} onClick={onQRClick}>
-        <img src={event.image} width={"60px"} height={"60px"} />
+        <img src={event.image} width={"60px"} height={"60px"} onError={onImageErr} />
         <s.QRAttendDiv>
           <s.QRAttendTitle>{event.name}</s.QRAttendTitle>
           <RowFlexDiv>
