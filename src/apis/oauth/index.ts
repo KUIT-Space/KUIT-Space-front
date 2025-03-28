@@ -1,5 +1,6 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 
+import { useAuthStore } from "../../store/authStore";
 import { ApiResponse, client } from "../client";
 
 interface TokenResult {
@@ -100,4 +101,13 @@ export const storeTokens = (accessToken: string, refreshToken: string): void => 
  */
 export const clearOAuthState = (): void => {
   localStorage.removeItem("discordOauthState");
+};
+
+export const useAuthQuery = () => {
+  const { checkAuth } = useAuthStore();
+
+  return useSuspenseQuery({
+    queryKey: ["auth"],
+    queryFn: checkAuth,
+  });
 };

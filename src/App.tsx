@@ -1,4 +1,4 @@
-import { JSX } from "react";
+import { JSX, Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import {
   createBrowserRouter,
@@ -42,6 +42,8 @@ import VoiceRoomListPage from "@/pages/VoiceRoomPage/VoiceRoomListPage";
 import GlobalStyle from "@/styles/GlobalStyles";
 import { theme } from "@/styles/Theme";
 
+import AuthGuardProvider from "./components/AuthGuardProvider";
+import SkeletonDetailPage from "./components/SkeletonDetailPage";
 import BoardDetailPage from "./pages/BoardPage/BoardDetailpage/BoardDetailPage";
 import BoardList from "./pages/BoardPage/BoardList";
 import BoardRegisterPage from "./pages/BoardPage/BoardRegisterPage/BoardRegisterPage";
@@ -98,7 +100,11 @@ function Layout({ routes_children }: { routes_children: RouteChildren[] }) {
       <LayoutContainer>
         <div id="content">
           <ErrorBoundary FallbackComponent={GlobalErrorFallback}>
-            <Outlet />
+            <Suspense fallback={<SkeletonDetailPage />}>
+              <AuthGuardProvider>
+                <Outlet />
+              </AuthGuardProvider>
+            </Suspense>
           </ErrorBoundary>
           {/*<LoginModal exceptionRouters={["/login", "/signup"]} />*/}
         </div>
