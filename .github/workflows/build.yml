@@ -6,6 +6,9 @@ on:
 
 jobs:
   build:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
 
     steps:
@@ -22,3 +25,4 @@ jobs:
 
     - name: Build
       run: npm run build
+      working-directory: ./KUIT-Space-front
