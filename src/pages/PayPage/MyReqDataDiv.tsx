@@ -1,7 +1,7 @@
-import * as s from "@/pages/PayPage/PayPage.styled";
+import { ResponseOfPayRequestInfo } from "@/apis/Pay";
 import { PayRequestInfo } from "@/pages/PayPage/PayPage";
 import { addComma } from "@/pages/PayPage/PayPage";
-import { ResponseOfPayRequestInfo } from "@/apis/Pay";
+import * as s from "@/pages/PayPage/PayPage.styled";
 
 const MyReqDataDiv = ({
   data,

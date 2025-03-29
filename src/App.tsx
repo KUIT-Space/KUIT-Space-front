@@ -52,6 +52,7 @@ import HomePageProfile from "./pages/HomePage/HomePageProfile";
 import HomePageSetting from "./pages/HomePage/HomePageSetting";
 import KakaoRedirection from "./pages/LoginPage/KakaoRedirection";
 import MenuList from "./pages/MenuPage/MenuList";
+import QRCreate from "./pages/QRPage/QRCreate";
 import QRDetail from "./pages/QRPage/QRDetail";
 import QRHome from "./pages/QRPage/QRHome";
 import QRPage from "./pages/QRPage/QRPage";
@@ -59,7 +60,6 @@ import InviteSpace from "./pages/SpacePage/InviteSpace";
 import InviteSpace2 from "./pages/SpacePage/InviteSpace2";
 import SpecialVoiceRoom from "./pages/VoiceRoomPage/SpecialVoiceRoom";
 import WritePostPage from "./pages/WritePostPage";
-import QRCreate from "./pages/QRPage/QRCreate";
 
 // will we need constant path in later..?
 // const PATH = {

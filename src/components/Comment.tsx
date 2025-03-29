@@ -1,8 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import logoSpace from "./assets/profile_image.svg";
-import like from "./assets/like.svg";
+
 import commentIcon from "./assets/comment_icon.svg";
+import like from "./assets/like.svg";
+import logoSpace from "./assets/profile_image.svg";
 
 interface CommentProps {
   nickname: string;

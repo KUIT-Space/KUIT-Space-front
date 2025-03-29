@@ -7,6 +7,7 @@ import {
   useDeleteEvent,
   useEventsQuery,
 } from "@/apis/event";
+import PlaceholderIcon from "@/assets/KUIT.svg";
 import QRCreateIcon from "@/assets/QR/qr_create.svg";
 import QRDelete from "@/assets/QR/qr_delete.svg";
 import QREdit from "@/assets/QR/qr_edit.svg";
@@ -16,7 +17,7 @@ import Modal from "@/components/Modal";
 import TopBarText, { LeftEnum } from "@/components/TopBarText";
 import * as s from "@/pages/QRPage/QRPage.styled";
 import { SPACE_ID } from "@/utils/constants";
-import PlaceholderIcon from "@/assets/KUIT.svg";
+
 import { RowFlexDiv } from "../HomePage/HomePage.styled";
 
 const QRAttendWrapper = ({
