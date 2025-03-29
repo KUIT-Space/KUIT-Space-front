@@ -238,7 +238,7 @@ const getPosts = async (
 
 export const usePostsQuery = (spaceId: number, boardId: number) => {
   return useSuspenseQuery({
-    queryKey: boardKeys.posts(spaceId, boardId),
+    queryKey: postKeys.lists(spaceId, boardId),
     queryFn: () => getPosts(spaceId, boardId),
   });
 };
