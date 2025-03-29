@@ -24,6 +24,11 @@ import { SPACE_ID } from "@/utils/constants";
 import { getUserDefaultImageURL } from "@/utils/getUserDefaultImageURL";
 
 import { addComma } from "./PayPage";
+import { spaceMemberKeys } from "@/apis/SpaceMember";
+import { useAllMembersQuery } from "@/apis/SpaceMember";
+import { SpaceMemberDetail } from "@/apis/SpaceMember";
+import { check } from "prettier";
+import { getEvent, useEventsQuery } from "@/apis/event";
 
 // type payUserInfo = {
 //   name: number;
@@ -134,40 +139,66 @@ const CreateRequestPage2 = ({
 }: {
   nextPage: () => void;
   prevPage: () => void;
-  setCheckUsers: React.Dispatch<React.SetStateAction<Set<number>>>;
-  checkUsers: Set<number>;
-  userInfoData: UserInfoInSpace[] | undefined;
+  setCheckUsers: React.Dispatch<React.SetStateAction<Set<SpaceMemberDetail>>>;
+  checkUsers: Set<SpaceMemberDetail>;
+  userInfoData: SpaceMemberDetail[] | undefined;
   setUserInfoData: React.Dispatch<React.SetStateAction<UserInfoInSpace[]>>;
 }) => {
+  let event_id = 1;
   const [tabIndex, setTabIndex] = useState(0);
   const [search, setSearch] = useState("");
-  const [chatUserInfoData, setChatUserInfoData] = useState<ChatUserInfoInSpace[] | undefined>([]);
+  const { data } = useEventsQuery(SPACE_ID);
 
-  useEffect(() => {
-    const id = SPACE_ID;
-    setCheckUsers(new Set<number>());
-
-    getAllMemberApi(id, setUserInfoData);
-
-    getAllChatMemberApi(id, setChatUserInfoData);
-  }, []);
-
-  const checkUserHandler = (id: number) => {
+  const checkUserHandler = (data: SpaceMemberDetail) => {
     const _checkUsers = new Set(checkUsers);
-
-    if (_checkUsers.has(id)) {
-      _checkUsers.delete(id);
+    if (Array.from(_checkUsers).some((value) => value.spaceMemberId === data.spaceMemberId)) {
+      _checkUsers.delete(data);
       setCheckUsers(_checkUsers);
     } else {
-      _checkUsers.add(id);
+      _checkUsers.add(data);
       setCheckUsers(_checkUsers);
     }
   };
+  const checkUsersHandler = (data: SpaceMemberDetail[]) => {
+    const _checkUsers = new Set(checkUsers);
+    data.forEach((k) => {
+      const found = Array.from(_checkUsers).find(
+        (value) => value.spaceMemberId === k.spaceMemberId,
+      );
+      if (found !== undefined) {
+        _checkUsers.delete(found);
+        setCheckUsers(_checkUsers);
+      } else {
+        _checkUsers.add(k);
+        setCheckUsers(_checkUsers);
+      }
+    });
+    console.log(_checkUsers);
+  };
   const menuArr = [
-    { name: "채팅방", content: "Tab menu ONE" },
+    { name: "QR 출석", content: "Tab menu ONE" },
     { name: "멤버", content: "Tab menu TWO" },
   ];
 
+  const onEventPayHandler = (id: number) => {
+    const res = data.result?.events.find((value) => value.id === id);
+    if (res !== undefined) {
+      const event_id = res.id;
+      const event = getEvent(SPACE_ID, event_id).then((res) => {
+        const arr: SpaceMemberDetail[] = [];
+        res.result?.participants.forEach((value) => {
+          const d = {
+            spaceMemberId: value.id,
+            nickname: value.name,
+            profileImageUrl: value.profileImageUrl,
+            isManager: false,
+          };
+          arr.push(d);
+        });
+        checkUsersHandler(arr);
+      });
+    }
+  };
   return (
     <>
       <TopBarText left={LeftEnum.Back} center="" right="" backHandler={prevPage}></TopBarText>
@@ -189,14 +220,12 @@ const CreateRequestPage2 = ({
         </s.TabMenu>
         {tabIndex === 0 ? (
           <div>
-            {/*<>{console.log(JSON.parse(JSON.stringify(chatUserInfoData)), userInfoData)}</>*/}
-            {chatUserInfoData &&
-              chatUserInfoData.map((value, index) => (
-                <PayChatDiv key={index} info={value}></PayChatDiv>
-              ))}
+            {data.result?.events.map((value, index) => (
+              <PayChatDiv key={index} info={value} handler={onEventPayHandler}></PayChatDiv>
+            ))}
           </div>
         ) : (
-          <s.ColumnFlexDiv style={{ width: "100%" }}>
+          <s.ColumnFlexDiv style={{ width: "100%", paddingBottom: "5rem" }}>
             <s.SearchBarDiv>
               <s.SearchIconImg src={SearchIcon}></s.SearchIconImg>
               <s.SearchBar
@@ -205,35 +234,27 @@ const CreateRequestPage2 = ({
                 onChange={(e) => setSearch(e.target.value)}
               ></s.SearchBar>
             </s.SearchBarDiv>
-
             {userInfoData !== undefined ? (
               <>
                 {userInfoData
                   ?.filter((val) => {
                     if (search == "") {
                       return val;
-                    } else if (val.userName.toLowerCase().includes(search.toLowerCase())) {
+                    } else if (val.nickname.toLowerCase().includes(search.toLowerCase())) {
                       return val;
                     }
                   })
                   .map((value) => (
-                    <Member key={value.userId}>
+                    <Member key={value.spaceMemberId}>
                       <section>
-                        <img
-                          src={
-                            value.profileImgUrl
-                              ? value.profileImgUrl
-                              : getUserDefaultImageURL(value.userId)
-                          }
-                          alt="profile img"
-                        />
-                        <span className="name">{value.userName}</span>
+                        <img src={value.profileImageUrl} alt="profile img" />
+                        <span className="name">{value.nickname}</span>
                       </section>
                       <CheckBox
                         onClick={() => {
-                          checkUserHandler(value.userId);
+                          checkUserHandler(value);
                         }}
-                      ></CheckBox>
+                      />
                     </Member>
                   ))}
               </>
@@ -253,13 +274,16 @@ const CreateRequestPage3 = ({
   prevPage,
   checkUsers,
   setTotalPrice,
+  tabIndex,
+  setTabIndex,
 }: {
   nextPage: () => void;
   prevPage: () => void;
-  checkUsers: Set<number>;
+  checkUsers: Set<SpaceMemberDetail>;
   setTotalPrice: React.Dispatch<React.SetStateAction<number>>;
+  tabIndex: number;
+  setTabIndex: React.Dispatch<React.SetStateAction<number>>;
 }) => {
-  const [tabIndex, setTabIndex] = useState(0);
   const [nPrice, setNPrice] = useState<number>();
   const [_totalPrice, _setTotalPrice] = useState<number>(0);
 
@@ -275,7 +299,6 @@ const CreateRequestPage3 = ({
     const price = Number.parseInt(e.target.value);
     setNPrice(price);
   };
-  const [tempArr, setTempArr] = useState<UserProfileResult[]>([]);
 
   const selfChangePriceHandler = (id: number, e: React.ChangeEvent<HTMLInputElement>) => {
     let sum = 0;
@@ -287,38 +310,19 @@ const CreateRequestPage3 = ({
       sum = sum + value;
     }
 
-    console.log(idToPrice);
+    console.log(idToPrice, "KKKKK");
     _setTotalPrice(sum);
   };
 
   const nPriceHandler = () => {
     if (nPrice !== undefined) {
-      tempArr.forEach((value) => {
-        idToPrice?.set(value.userId!, Number.parseInt((nPrice / tempArr.length).toString()));
+      Array.from(checkUsers).forEach((value) => {
+        idToPrice?.set(value.spaceMemberId, Number.parseInt((nPrice / checkUsers.size).toString()));
       });
     } else {
       alert("에러!");
     }
   };
-
-  useEffect(() => {
-    const _tempArr: UserProfileResult[] = [];
-
-    if (checkUsers !== undefined) {
-      if (checkUsers?.size > 0) {
-        for (const value of checkUsers) {
-          const response = SpaceSearchUserProfile(Number(SPACE_ID), value).then((res) => {
-            if (res?.result !== undefined) {
-              const _tempObj = res.result;
-              _tempObj.userId = value;
-              _tempArr.push(_tempObj);
-            }
-          });
-        }
-        setTempArr(_tempArr);
-      }
-    }
-  }, []);
 
   return (
     <>
@@ -346,23 +350,16 @@ const CreateRequestPage3 = ({
               onChange={changePriceHandler}
             ></s.PriceInput>
             <div style={{ marginTop: "1.5rem" }}>
-              {tempArr.map((value) => (
-                <Member key={value.userId}>
+              {Array.from(checkUsers).map((value) => (
+                <Member key={value.spaceMemberId}>
                   <section>
-                    <img
-                      src={
-                        value.userProfileImg
-                          ? value.userProfileImg
-                          : getUserDefaultImageURL(value.userId!)
-                      }
-                      alt="profile img"
-                    />
-                    <span className="name">{value.userName}</span>
+                    <img src={value.profileImageUrl} alt="profile img" />
+                    <span className="name">{value.nickname}</span>
                   </section>
                   <s.RowFlexDiv>
                     <s.NormalTextDiv>
                       {nPrice !== undefined
-                        ? Number.parseInt((nPrice / tempArr.length).toString())
+                        ? Number.parseInt((nPrice / checkUsers.size).toString())
                         : "NaN"}
                     </s.NormalTextDiv>
                     <s.TextDiv>원</s.TextDiv>
@@ -374,25 +371,18 @@ const CreateRequestPage3 = ({
         ) : (
           <div style={{ margin: "1.25rem" }}>
             <div style={{ marginTop: "1.5rem" }}>
-              {tempArr.map((value) => (
-                <Member key={value.userId}>
+              {Array.from(checkUsers).map((value) => (
+                <Member key={value.spaceMemberId}>
                   <section>
-                    <img
-                      src={
-                        value.userProfileImg
-                          ? value.userProfileImg
-                          : getUserDefaultImageURL(value.userId!)
-                      }
-                      alt="profile img"
-                    />
-                    <span className="name">{value.userName}</span>
+                    <img src={value.profileImageUrl} alt="profile img" />
+                    <span className="name">{value.nickname}</span>
                   </section>
                   <s.RowFlexDiv>
                     <s.PriceInput2
                       placeholder="금액입력"
-                      value={idToPrice?.get(value.userId!)}
+                      value={idToPrice?.get(value.spaceMemberId)}
                       onChange={(e) => {
-                        selfChangePriceHandler(value.userId!, e);
+                        selfChangePriceHandler(value.spaceMemberId, e);
                       }}
                     ></s.PriceInput2>
                   </s.RowFlexDiv>
@@ -433,6 +423,8 @@ const CreateRequestPage4 = ({
   totalPrice,
   array,
   setArray,
+  checkUsers,
+  tabIndex,
 }: {
   nextPage: () => void;
   prevPage: () => void;
@@ -440,6 +432,8 @@ const CreateRequestPage4 = ({
   totalPrice: number;
   array: targetInfoList[];
   setArray: React.Dispatch<React.SetStateAction<targetInfoList[]>>;
+  checkUsers: Set<SpaceMemberDetail>;
+  tabIndex: number;
 }) => {
   const price = addComma(totalPrice);
   return (
@@ -453,21 +447,14 @@ const CreateRequestPage4 = ({
             <s.NowPriceDiv style={{ marginLeft: "auto" }}> {price}&nbsp;원</s.NowPriceDiv>
           </s.RowFlexDiv>
           <hr style={{ border: "0.0625rem solid var(--GRAY-700, #45454B)" }}></hr>
-          {array.map((value) => {
-            const _userData = userInfoData?.find((i) => i.userId === value.targetUserId);
-            const _price = addComma(Number.parseInt(value.requestAmount.toString()));
+          {Array.from(idToPrice).map((value) => {
+            const _userData = Array.from(checkUsers).find((i) => i.spaceMemberId === value[0]);
+            const _price = addComma(Number.parseInt(value[1].toString()));
             return (
-              <Member key={value.targetUserId}>
+              <Member key={value[0]}>
                 <section>
-                  <img
-                    src={
-                      _userData?.profileImgUrl
-                        ? _userData?.profileImgUrl
-                        : getUserDefaultImageURL(_userData!.userId)
-                    }
-                    alt="profile img"
-                  />
-                  <span className="name">{_userData?.userName}</span>
+                  <img src={_userData?.profileImageUrl} alt="profile img" />
+                  <span className="name">{_userData?.nickname}</span>
                 </section>
                 <div>{_price}&nbsp;원</div>
               </Member>
@@ -484,21 +471,22 @@ const CreateRequestPage = () => {
   const [page, setPage] = useState(0);
   // const [refresh, setRefresh] = useState(0);
 
-  const [checkUsers, setCheckUsers] = useState(new Set<number>());
+  const [checkUsers, setCheckUsers] = useState(new Set<SpaceMemberDetail>());
   const [bankAccount, setBankAccount] = useState("");
   const [bankName, setBankName] = useState("");
   const [totalPrice, setTotalPrice] = useState(0);
   const [userInfoData, setUserInfoData] = useState<UserInfoInSpace[]>([]);
-  const [isComplete, setIsComplete] = useState(false);
   const [array, setArray] = useState<targetInfoList[]>([]);
+  const [tabIndex, setTabIndex] = useState(0);
   const arr: TargetOfPayRequest[] = [];
-  const { mutate: createPay } = useCreatePay(SPACE_ID);
+  const { mutate: createPay, isSuccess, isError } = useCreatePay(SPACE_ID);
+  const { data } = useAllMembersQuery(SPACE_ID);
 
   const navigate = useNavigate();
 
-  // const forceRefresh = () => {
-  //   setRefresh(refresh + 1);
-  // };
+  useEffect(() => {
+    console.log(checkUsers);
+  }, [checkUsers]);
 
   const nextPage = () => {
     setPage((prev) => prev + 1);
@@ -513,13 +501,18 @@ const CreateRequestPage = () => {
   };
 
   useEffect(() => {
+    const payType = tabIndex ? "EQUAL_SPLIT" : "INDIVIDUAL";
     const spaceId = SPACE_ID;
     if (page === 4 && spaceId !== null) {
       const data: RequestOfCreatePay = {
         totalAmount: totalPrice,
         bankName: bankName,
         bankAccountNum: bankAccount,
-        targets: arr,
+        targets: Array.from(idToPrice, ([targetMemberId, requestedAmount]) => ({
+          targetMemberId,
+          requestedAmount,
+        })),
+        valueOfPayType: payType,
       };
       createPay(data);
       // payCreateApi(totalPrice, bankName, bankAccount, array, Number.parseInt(spaceId)).then(() => {
@@ -545,7 +538,7 @@ const CreateRequestPage = () => {
           //forceRefresh={forceRefresh}
           checkUsers={checkUsers}
           setCheckUsers={setCheckUsers}
-          userInfoData={userInfoData}
+          userInfoData={data.result?.spaceMemberDetails}
           setUserInfoData={setUserInfoData}
         ></CreateRequestPage2>
       );
@@ -556,6 +549,8 @@ const CreateRequestPage = () => {
           prevPage={prevPage}
           checkUsers={checkUsers}
           setTotalPrice={setTotalPrice}
+          tabIndex={tabIndex}
+          setTabIndex={setTabIndex}
         ></CreateRequestPage3>
       );
     case 3:
@@ -568,10 +563,12 @@ const CreateRequestPage = () => {
           userInfoData={userInfoData}
           array={array}
           setArray={setArray}
+          checkUsers={checkUsers}
+          tabIndex={tabIndex}
         ></CreateRequestPage4>
       );
     case 4:
-      if (isComplete) {
+      if (isSuccess) {
         return <CompleteCreatePay></CompleteCreatePay>;
       } else {
         return <div>진행 중</div>;
