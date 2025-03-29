@@ -403,7 +403,10 @@ export const useCreateComment = (spaceId: number, boardId: number, postId: numbe
     mutationFn: (data: CreateCommentRequest) => createComment(spaceId, boardId, postId, data),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: boardKeys.detail(spaceId, boardId),
+        queryKey: postKeys.lists(spaceId, boardId),
+      });
+      queryClient.invalidateQueries({
+        queryKey: postKeys.detail(spaceId, boardId, postId),
       });
     },
   });
@@ -432,20 +435,15 @@ const updateComment = async (
     .json();
 };
 
-export const useUpdateComment = (
-  spaceId: number,
-  boardId: number,
-  postId: number,
-  commentId: number,
-) => {
+export const useUpdateComment = (spaceId: number, boardId: number, postId: number) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (data: UpdateCommentRequest) =>
-      updateComment(spaceId, boardId, postId, commentId, data),
+    mutationFn: (data: UpdateCommentRequest & { commentId: number }) =>
+      updateComment(spaceId, boardId, postId, data.commentId, data),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: boardKeys.detail(spaceId, boardId),
+        queryKey: postKeys.detail(spaceId, boardId, postId),
       });
     },
   });
@@ -477,7 +475,10 @@ export const useDeleteComment = (spaceId: number, boardId: number, postId: numbe
     mutationFn: (commentId: number) => deleteComment(spaceId, boardId, postId, commentId),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: boardKeys.detail(spaceId, boardId),
+        queryKey: postKeys.lists(spaceId, boardId),
+      });
+      queryClient.invalidateQueries({
+        queryKey: postKeys.detail(spaceId, boardId, postId),
       });
     },
   });
