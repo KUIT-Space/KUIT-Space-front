@@ -1,6 +1,5 @@
 import styled from "styled-components";
 
-import yellow from "@/assets/VoiceRoom/yellow_gradient.svg";
 import purple from "@/assets/VoiceRoom/purple_gradient.svg";
 
 export const DropdownDiv = styled.div`

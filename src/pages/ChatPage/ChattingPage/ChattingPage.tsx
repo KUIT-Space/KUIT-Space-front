@@ -33,6 +33,7 @@ import {
   ImgPreview,
   StyledMessage,
 } from "@/pages/ChatPage/ChattingPage/ChattingPage.styled";
+import { SPACE_ID } from "@/utils/constants";
 import { decodedJWT } from "@/utils/decodedJWT";
 import { getUserDefaultImageURL } from "@/utils/getUserDefaultImageURL";
 import { isoStringToDateString } from "@/utils/isoStringToDateString";
@@ -46,7 +47,7 @@ const ChattingPage = () => {
   const {
     state: { chatroomInfo },
   }: { state: { chatroomInfo: Chatroom } } = useLocation();
-  const spaceId = Number(localStorage.getItem("spaceId")) || 3;
+  const spaceId = Number(localStorage.getItem("spaceId")) || SPACE_ID;
 
   const stompClient = useRef<any>(null);
 
@@ -65,6 +66,7 @@ const ChattingPage = () => {
   const chattingTextareaRef = useRef<HTMLTextAreaElement | null>(null);
 
   // subscribe 시 받아온 채팅 로그 설정
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleChatMessage = (message: any) => {
     if (message.body) {
       const msg = JSON.parse(message.body);

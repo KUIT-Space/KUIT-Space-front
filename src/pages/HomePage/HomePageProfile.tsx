@@ -8,7 +8,7 @@ import { UserInfo } from "@livekit/components-react";
 import { getUserDefaultImageURL } from "@/utils/getUserDefaultImageURL";
 
 const HomePageProfile = () => {
-  let { id } = useParams();
+  const { id } = useParams();
   const [userInfo, setUserInfo] = useState<UserProfileResult>();
 
   const spaceId = localStorage.getItem("spaceId");

@@ -1,7 +1,8 @@
-import TopBarText, { LeftEnum } from "@/components/TopBarText";
-import styled from "styled-components";
-import { ToggleBtn } from "@/components/ToggleBtn";
 import { useState } from "react";
+import styled from "styled-components";
+
+import { ToggleBtn } from "@/components/ToggleBtn";
+import TopBarText, { LeftEnum } from "@/components/TopBarText";
 
 const AlarmContainer = styled.div`
   display: flex;
@@ -55,7 +56,10 @@ const AlarmManage = () => {
       <TopBarText left={LeftEnum.Back} center="알림 관리" right="" />
       <div style={{ margin: "0rem 1.25rem 0rem 1.25rem" }}>
         {alarms.map((alarm, index) => (
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <div
+            key={index}
+            style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}
+          >
             <AlarmContainer>
               <SpaceImg src={alarm.spaceImg} />
               {alarm.spaceName}

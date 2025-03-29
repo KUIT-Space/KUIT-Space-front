@@ -1,12 +1,13 @@
 import React from "react";
+
 import {
-  StyledBack,
-  ModalContainer,
-  Title,
-  Content,
   ButtonContainer,
   CancelButton,
   ConfirmButton,
+  Content,
+  ModalContainer,
+  StyledBack,
+  Title,
 } from "@/components/Modal.styled";
 
 interface ModalProps {

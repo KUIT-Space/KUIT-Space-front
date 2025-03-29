@@ -1,4 +1,10 @@
-import { useMutation, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
+import {
+  QueryObserverOptions,
+  useMutation,
+  useQueryClient,
+  useSuspenseQuery,
+  UseSuspenseQueryOptions,
+} from "@tanstack/react-query";
 
 import { ApiResponse, client } from "../client";
 
@@ -26,10 +32,10 @@ interface EventParticipantInfo {
 }
 
 interface ReadEventsResponse {
-  events: EventInfoResponse[];
+  events: ReadEventsInfoResponse[];
 }
 
-interface ReadEventInfoResponse {
+export interface ReadEventInfoResponse {
   id: number;
   name: string;
   image: string;
@@ -39,13 +45,23 @@ interface ReadEventInfoResponse {
   participants: EventParticipantInfo[];
 }
 
+export interface ReadEventsInfoResponse {
+  id: number;
+  name: string;
+  image: string;
+  date: string;
+  startTime: string;
+  endTime: string;
+  totalNumberOfParticipants: number;
+}
+
 interface CreateEventResponse {
   id: number;
 }
 
 interface CreateEventRequest {
   name: string;
-  image: string;
+  image: File | null;
   date: string;
   startTime: string;
   endTime: string;
@@ -66,9 +82,8 @@ const createEvent = async (
   eventData: CreateEventRequest,
 ): Promise<ApiResponse<CreateEventResponse>> => {
   const formData = new FormData();
-
   formData.append("name", eventData.name);
-  formData.append("image", eventData.image);
+  formData.append("image", eventData.image!);
   formData.append("date", eventData.date);
   formData.append("startTime", eventData.startTime);
   formData.append("endTime", eventData.endTime);
@@ -98,10 +113,21 @@ const getEvents = async (spaceId: number): Promise<ApiResponse<ReadEventsRespons
   return client.get(`space/${spaceId}/events`).json();
 };
 
-export const useEventsQuery = (spaceId: number) => {
+export const useEventsQuery = (
+  spaceId: number,
+  options?: Partial<
+    UseSuspenseQueryOptions<
+      ApiResponse<ReadEventsResponse>,
+      Error,
+      ApiResponse<ReadEventsResponse>,
+      ReturnType<typeof eventKeys.lists>
+    >
+  >,
+) => {
   return useSuspenseQuery({
     queryKey: eventKeys.lists(spaceId),
     queryFn: () => getEvents(spaceId),
+    ...options,
   });
 };
 
@@ -118,10 +144,22 @@ const getEvent = async (
   return client.get(`space/${spaceId}/event/${eventId}`).json();
 };
 
-export const useEventQuery = (spaceId: number, eventId: number) => {
+export const useEventQuery = (
+  spaceId: number,
+  eventId: number,
+  options?: Partial<
+    UseSuspenseQueryOptions<
+      ApiResponse<ReadEventInfoResponse>,
+      Error,
+      ApiResponse<ReadEventInfoResponse>,
+      ReturnType<typeof eventKeys.detail>
+    >
+  >,
+) => {
   return useSuspenseQuery({
     queryKey: eventKeys.detail(spaceId, eventId),
     queryFn: () => getEvent(spaceId, eventId),
+    ...options,
   });
 };
 
@@ -143,11 +181,10 @@ export const useDeleteEvent = (spaceId: number) => {
 
   return useMutation({
     mutationFn: (eventId: number) => deleteEvent(spaceId, eventId),
-    onSuccess: () => {
+    onSuccess: () =>
       queryClient.invalidateQueries({
         queryKey: eventKeys.lists(spaceId),
-      });
-    },
+      }),
   });
 };
 

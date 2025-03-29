@@ -1,4 +1,4 @@
-import { JSX } from "react";
+import { JSX, Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import {
   createBrowserRouter,
@@ -39,10 +39,11 @@ import CreateVoiceRoomPage from "@/pages/VoiceRoomPage/CreateVoiceRoom";
 import EditVoiceRoomPage from "@/pages/VoiceRoomPage/EditVoiceRoomPage";
 import JoinVoiceRoomPage from "@/pages/VoiceRoomPage/JoinVoiceRoomPage";
 import VoiceRoomListPage from "@/pages/VoiceRoomPage/VoiceRoomListPage";
-import VoiceRoomPage from "@/pages/VoiceRoomPage/VoiceRoomPage";
 import GlobalStyle from "@/styles/GlobalStyles";
 import { theme } from "@/styles/Theme";
 
+import AuthGuardProvider from "./components/AuthGuardProvider";
+import SkeletonDetailPage from "./components/SkeletonDetailPage";
 import BoardDetailPage from "./pages/BoardPage/BoardDetailpage/BoardDetailPage";
 import BoardList from "./pages/BoardPage/BoardList";
 import BoardRegisterPage from "./pages/BoardPage/BoardRegisterPage/BoardRegisterPage";
@@ -58,6 +59,7 @@ import InviteSpace from "./pages/SpacePage/InviteSpace";
 import InviteSpace2 from "./pages/SpacePage/InviteSpace2";
 import SpecialVoiceRoom from "./pages/VoiceRoomPage/SpecialVoiceRoom";
 import WritePostPage from "./pages/WritePostPage";
+import QRCreate from "./pages/QRPage/QRCreate";
 
 // will we need constant path in later..?
 // const PATH = {
@@ -99,8 +101,13 @@ function Layout({ routes_children }: { routes_children: RouteChildren[] }) {
       <LayoutContainer>
         <div id="content">
           <ErrorBoundary FallbackComponent={GlobalErrorFallback}>
-            <Outlet />
+            <Suspense fallback={<SkeletonDetailPage />}>
+              <AuthGuardProvider>
+                <Outlet />
+              </AuthGuardProvider>
+            </Suspense>
           </ErrorBoundary>
+
           {/*<LoginModal exceptionRouters={["/login", "/signup"]} />*/}
         </div>
         {routes_children.find((child) => matchPath(child.path, pathname))?.hasBottomBar && (
@@ -113,9 +120,10 @@ function Layout({ routes_children }: { routes_children: RouteChildren[] }) {
 
 function App() {
   const routes_children_qr = [
-    { path: "/qr", element: <QRPage /> },
+    { path: "/qr/:id", element: <QRPage /> },
     { path: "/qr/home", element: <QRHome />, hasBottomBar: true },
-    { path: "/qr/detail", element: <QRDetail />, hasBottomBar: true },
+    { path: "/qr/detail/:id", element: <QRDetail />, hasBottomBar: false },
+    { path: "/qr/create", element: <QRCreate /> },
   ];
   const routes_children_chat = [
     { path: "/chat", element: <ChatPage />, hasBottomBar: true },

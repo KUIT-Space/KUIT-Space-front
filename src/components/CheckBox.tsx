@@ -6,6 +6,7 @@ import CheckedIcon from "@/assets/ChatPage/icon_checkbox_checked.svg?react";
 
 const StyledCheckBoxContainer = styled.div`
   display: flex;
+  cursor: pointer;
 `;
 
 // const StyledCheckBox = styled.div`

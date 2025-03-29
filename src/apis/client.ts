@@ -17,11 +17,17 @@ export interface SuccessResponse {
 
 const handleHttpError: BeforeErrorHook = async (error) => {
   if (error instanceof HTTPError) {
-    const { response } = error;
+    const { request, response, options } = error;
 
-    return match(response.status)
-      .with(401, () => {
-        throw new UnauthorizedError(response, error.request, error.options);
+    if (response.status === 401) {
+      throw new UnauthorizedError(response, request, options);
+    }
+
+    const apiResponse = (await response.clone().json()) as ApiResponse;
+
+    return match(apiResponse.code)
+      .with(4001, () => {
+        throw new UnauthorizedError(response, request, options);
       })
       .otherwise(() => error);
   }
@@ -43,6 +49,12 @@ export const client = ky.create({
     afterResponse: [
       async (request, options, response) => {
         if (response.status === 401) {
+          localStorage.removeItem("accessToken");
+          return;
+        }
+
+        const apiResponse = (await response.clone().json()) as ApiResponse;
+        if (apiResponse.code === 4001) {
           localStorage.removeItem("accessToken");
         }
       },

@@ -1,8 +1,8 @@
 import { ChangeEvent, useEffect, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 
-import { SpaceInfo as SpaceInfoType } from "@/apis/Space/SpaceSelectApi";
+import { SpaceJoinInfo, SpaceJoinInfoApi } from "@/apis";
 import { SpaceUserJoinApi } from "@/apis/Space/SpaceUserJoinApi";
 import { CharacterImgs } from "@/assets/Characters";
 import ChatroomImg from "@/assets/ChatPage/btn_chatroom_img.svg";
@@ -13,7 +13,6 @@ import { getUserDefaultImageURL } from "@/utils/getUserDefaultImageURL";
 import { svgComponentToFile } from "@/utils/svgComponentToFile";
 
 import { ChatroomAddImgBtn } from "../ChatPage/ChatCreatePage/ChatCreatePage.styled";
-import { SpaceJoinInfo, SpaceJoinInfoApi } from "@/apis";
 
 const TopBarContainer = styled.div`
   display: flex;

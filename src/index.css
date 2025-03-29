@@ -33,3 +33,27 @@
   font-style: normal;
   src: url(./static/fonts/Freesentation-7Bold.ttf);
 }
+.react-datepicker-wrapper{
+  width: 100%;
+}
+.react-datepicker__input-container{
+  width: 100%;
+}
+.react-datepicker__input-container input{
+  width: 100%;
+  background: var(--Foundation-Gray-gray900_background, #171719);
+  border: none;
+  font-size: 1.5rem;
+
+}
+.react-datepicker__input-container input:focus{
+  width: 100%;
+  background: var(--Foundation-Gray-gray900_background, #171719);
+  border: none;
+  font-size: 1.5rem;
+  outline: none;
+  box-shadow: 0rem 0rem 0.25rem var(--Foundation-Main-color-Normal, #48ffbd);
+  
+}
+
+  

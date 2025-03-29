@@ -1,9 +1,16 @@
-import { addComma, PayRequestInfo } from "@/pages/PayPage/PayPage";
+import { ResponseOfPayRequestInfo } from "@/apis/Pay";
+import { addComma } from "@/pages/PayPage/PayPage";
 import * as s from "@/pages/PayPage/PayPage.styled";
 
-const GrayMyReqDataDiv = ({ data, onClick }: { data: PayRequestInfo; onClick: () => void }) => {
-  const num = data.totalTargetNum - data.receiveTargetNum;
-  const price1 = addComma(data.receiveAmount);
+const GrayMyReqDataDiv = ({
+  data,
+  onClick,
+}: {
+  data: ResponseOfPayRequestInfo;
+  onClick: () => void;
+}) => {
+  const num = data.totalTargetNum - data.sendCompleteTargetNum;
+  const price1 = addComma(data.receivedAmount);
   const price2 = addComma(data.totalAmount);
   return (
     <s.GrayRoundDiv onClick={onClick}>

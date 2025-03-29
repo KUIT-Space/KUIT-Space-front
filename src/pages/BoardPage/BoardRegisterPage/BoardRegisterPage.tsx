@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
@@ -8,6 +8,7 @@ import gallery from "@/assets/Board/gallery.svg";
 import link from "@/assets/Board/link.svg";
 import CheckBox from "@/components/CheckBox";
 import TopBarText, { LeftEnum } from "@/components/TopBarText";
+import { SPACE_ID } from "@/utils/constants";
 
 const BoardRegisterBtn = styled.button`
   color: var(--Foundation-Gray-gray500, #767681);
@@ -146,7 +147,7 @@ const BoardRegisterPage = () => {
     if (titleValue && contentValue && spaceId != null) {
       //채팅방 생성 API 호출
       CreateBoardPostApi(
-        Number.parseInt(spaceId) || 3,
+        Number.parseInt(spaceId) || SPACE_ID,
         titleValue,
         contentValue,
         isNotice ? "notice" : "general",

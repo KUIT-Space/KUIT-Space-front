@@ -1,7 +1,6 @@
-import { VrList, participantInfo } from "@/pages/VoiceRoomPage/VoiceRoomListPage";
-import { updateRoom } from "@/pages/VoiceRoomPage/EditVoiceRoomPage";
-import { UserInfo } from "@livekit/components-react";
 import { ApiResponse, client } from "@/apis/client";
+import { updateRoom } from "@/pages/VoiceRoomPage/EditVoiceRoomPage";
+import { participantInfo, VrList } from "@/pages/VoiceRoomPage/VoiceRoomListPage";
 
 interface VoiceRoomParticipantInfoResponse extends ApiResponse {
   result: {

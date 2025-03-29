@@ -1,22 +1,20 @@
-import { useEffect, useState } from "react";
-import { toast, ToastContainer } from "react-toastify";
+import { useState } from "react";
 
+import { ResponseOfRequestedPayInfo } from "@/apis/Pay";
 import reactIcon from "@/assets/react.svg";
-import { DarkNormalBtn } from "@/pages/PayPage/DarkNormalBtn";
 import { GrayBtn } from "@/pages/PayPage/GrayBtn";
-import { NormalBtn } from "@/pages/PayPage/NormalBtn";
-import { addComma, PayReceiveInfo } from "@/pages/PayPage/PayPage";
+import { addComma } from "@/pages/PayPage/PayPage";
 import * as s from "@/pages/PayPage/PayPage.styled";
 
 import "react-toastify/dist/ReactToastify.css";
 
-const ReqDataDiv = ({ data }: { data: PayReceiveInfo }) => {
+const ReqDataDiv = ({ data }: { data: ResponseOfRequestedPayInfo }) => {
   // useEffect(() => {
   //   console.log(data);
   // }, []);
   // true : 송금하기 false : 송금완료
   const [chk, setChk] = useState(true);
-  const price = addComma(data.requestAmount);
+  const price = addComma(data.requestedAmount);
 
   return (
     <s.GrayRoundDiv>

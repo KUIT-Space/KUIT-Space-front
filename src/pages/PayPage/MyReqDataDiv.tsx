@@ -1,10 +1,17 @@
 import * as s from "@/pages/PayPage/PayPage.styled";
 import { PayRequestInfo } from "@/pages/PayPage/PayPage";
 import { addComma } from "@/pages/PayPage/PayPage";
+import { ResponseOfPayRequestInfo } from "@/apis/Pay";
 
-const MyReqDataDiv = ({ data, onClick }: { data: PayRequestInfo; onClick: () => void }) => {
-  const num = data.totalTargetNum - data.receiveTargetNum;
-  const price1 = addComma(data.receiveAmount);
+const MyReqDataDiv = ({
+  data,
+  onClick,
+}: {
+  data: ResponseOfPayRequestInfo;
+  onClick: () => void;
+}) => {
+  const num = data.totalTargetNum - data.sendCompleteTargetNum;
+  const price1 = addComma(data.receivedAmount);
   const price2 = addComma(data.totalAmount);
 
   return (

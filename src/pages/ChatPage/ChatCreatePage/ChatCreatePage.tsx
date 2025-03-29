@@ -20,6 +20,7 @@ import {
   Member,
 } from "@/pages/ChatPage/ChatCreatePage/ChatCreatePage.styled";
 import { Explanation } from "@/pages/LoginPage/SignUpPage.styled";
+import { SPACE_ID } from "@/utils/constants";
 import { getUserDefaultImageURL } from "@/utils/getUserDefaultImageURL";
 import { svgComponentToFile } from "@/utils/svgComponentToFile";
 
@@ -29,7 +30,7 @@ const ChatCreatePage = () => {
   const [invitedMemberList, setInvitedMemberList] = useState<UserInfoInSpace[]>([]);
   const [memberList, setMemberList] = useState<UserInfoInSpace[]>([]);
   const [searchWord, setSearchWord] = useState<string>("");
-  const [spaceId, setSpaceId] = useState<number>(3);
+  const [spaceId, setSpaceId] = useState<number>(SPACE_ID);
 
   const [uploadedImage, setUploadedImage] = useState<File | null>(null);
   const defaultImage = svgComponentToFile(

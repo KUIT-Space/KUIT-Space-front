@@ -1,11 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  CarouselLayout,
   ControlBar,
-  FocusLayout,
-  FocusLayoutContainer,
-  FocusToggle,
   GridLayout,
   LiveKitRoom,
   ParticipantTile,
@@ -15,12 +11,8 @@ import {
 import { Room, Track } from "livekit-client";
 
 import back from "@/assets/icon_back.svg";
-import plus from "@/assets/VoiceRoom/icon_plus.svg";
 import setting from "@/assets/VoiceRoom/icon_setting.svg";
-import TopBarText from "@/components/TopBarText";
-import { LeftEnum } from "@/components/TopBarText";
 import * as sty from "@/components/TopBarText.styled";
-import * as s from "@/pages/VoiceRoomPage/VoiceRoomListPage.styled";
 
 import "@livekit/components-styles";
 
@@ -35,7 +27,7 @@ const VoiceRoomPage = ({
   const [room] = useState(new Room());
   const [token, setToken] = useState<string | undefined>("");
   const [isConnected, setIsConnected] = useState(false);
-  const [connect, setConnect] = useState(false);
+  const [, setConnect] = useState(false);
 
   const handleDisconnect = () => {
     setIsConnected(false);
@@ -95,7 +87,7 @@ const VoiceRoomPage = ({
 function MyVideoConference() {
   // `useTracks` returns all camera and screen share tracks. If a user
   // joins without a published camera track, a placeholder track is returned.
-  const [mode, setMode] = useState(true);
+  const [mode] = useState(true);
   const navigator = useNavigate();
 
   const nextMode = () => {
