@@ -1,7 +1,9 @@
+import { styled } from "styled-components";
+
 import { SpaceMemberDetail } from "@/apis/SpaceMember";
 import * as s from "@/pages/PayPage/PayPage.styled";
+
 import CheckBox from "./CheckBox";
-import { styled } from "styled-components";
 
 const MemberCheckWrapper = styled.div`
   display: flex;

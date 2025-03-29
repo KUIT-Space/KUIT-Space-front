@@ -1,7 +1,9 @@
-import TopBarText, { LeftEnum } from "@/components/TopBarText";
-import { ColumnFlexDiv, RowFlexDiv } from "./HomePage.styled";
-import QRSettingIcon from "@/assets/icon_qr.svg";
 import styled from "styled-components";
+
+import QRSettingIcon from "@/assets/icon_qr.svg";
+import TopBarText, { LeftEnum } from "@/components/TopBarText";
+
+import { ColumnFlexDiv, RowFlexDiv } from "./HomePage.styled";
 
 const StyledMenuConatiner = styled.div`
   margin: 1.25rem;

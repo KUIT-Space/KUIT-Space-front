@@ -1,10 +1,11 @@
-import TopBarText, { LeftEnum } from "@/components/TopBarText";
-import ReactLogo from "@/assets/VoiceRoom/purple_gradient.svg";
-import * as s from "@/pages/HomePage/HomePage.styled";
 import { useEffect, useState } from "react";
-import { GetUserProfileApi, SpaceSearchUserProfile, UserProfile, UserProfileResult } from "@/apis";
 import { useParams } from "react-router-dom";
 import { UserInfo } from "@livekit/components-react";
+
+import { GetUserProfileApi, SpaceSearchUserProfile, UserProfile, UserProfileResult } from "@/apis";
+import ReactLogo from "@/assets/VoiceRoom/purple_gradient.svg";
+import TopBarText, { LeftEnum } from "@/components/TopBarText";
+import * as s from "@/pages/HomePage/HomePage.styled";
 import { getUserDefaultImageURL } from "@/utils/getUserDefaultImageURL";
 
 const HomePageProfile = () => {
