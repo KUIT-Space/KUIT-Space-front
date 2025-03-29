@@ -12,6 +12,17 @@ export const boardKeys = {
     [...boardKeys.detail(spaceId, boardId), "posts"] as const,
 };
 
+export const postKeys = {
+  all: (spaceId: number, boardId: number) => ["posts", spaceId, boardId] as const,
+  lists: (spaceId: number, boardId: number) => [...postKeys.all(spaceId, boardId), "list"] as const,
+  list: (spaceId: number, boardId: number, filters: string) =>
+    [...postKeys.lists(spaceId, boardId), { filters }] as const,
+  details: (spaceId: number, boardId: number) =>
+    [...postKeys.all(spaceId, boardId), "detail"] as const,
+  detail: (spaceId: number, boardId: number, postId: number) =>
+    [...postKeys.details(spaceId, boardId), postId] as const,
+};
+
 // Board-related interfaces
 export interface BoardInfo {
   boardId: number;
