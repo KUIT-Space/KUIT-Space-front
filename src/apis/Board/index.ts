@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 
-import { ApiResponse, client } from "../client";
+import { ApiResponse, client, SuccessResponse } from "../client";
 
 export const boardKeys = {
   all: (spaceId: number) => ["boards", spaceId] as const,
@@ -190,4 +190,185 @@ export const useCreatePost = (spaceId: number, boardId: number) => {
       });
     },
   });
+};
+
+/**
+ * Get list of boards in a space
+ * @param spaceId Space ID
+ * @returns List of boards
+ */
+const getBoardList = async (spaceId: number): Promise<ApiResponse<ReadBoardListResponse>> => {
+  return client.get(`space/${spaceId}/board/list`).json();
+};
+
+/**
+ * Subscribe to a board
+ * @param spaceId Space ID
+ * @param data Subscription data
+ * @returns Success response
+ */
+const subscribeBoard = async (
+  spaceId: number,
+  data: SubscribeBoardRequest,
+): Promise<ApiResponse<SuccessResponse>> => {
+  return client.post(`space/${spaceId}/board/subscribe`, { json: data }).json();
+};
+
+/**
+ * Unsubscribe from a board
+ * @param spaceId Space ID
+ * @param data Unsubscription data
+ * @returns Success response
+ */
+const unsubscribeBoard = async (
+  spaceId: number,
+  data: SubscribeBoardRequest,
+): Promise<ApiResponse<SuccessResponse>> => {
+  return client.post(`space/${spaceId}/board/unsubscribe`, { json: data }).json();
+};
+
+/**
+ * Get details of a specific post
+ * @param spaceId Space ID
+ * @param boardId Board ID
+ * @param postId Post ID
+ * @returns Post details
+ */
+const getPostDetail = async (
+  spaceId: number,
+  boardId: number,
+  postId: number,
+): Promise<ApiResponse<PostDetail>> => {
+  return client.get(`space/${spaceId}/board/${boardId}/post/${postId}`).json();
+};
+
+/**
+ * Update a post
+ * @param spaceId Space ID
+ * @param boardId Board ID
+ * @param postId Post ID
+ * @param data Updated post data
+ * @returns Success response
+ */
+const updatePost = async (
+  spaceId: number,
+  boardId: number,
+  postId: number,
+  data: CreatePostRequest,
+): Promise<ApiResponse<SuccessResponse>> => {
+  const formData = new FormData();
+  formData.append("title", data.title);
+  formData.append("content", data.content);
+  formData.append("isAnonymous", data.isAnonymous.toString());
+  if (data.tagIds) {
+    data.tagIds.forEach((tagId) => formData.append("tagIds", tagId.toString()));
+  }
+  if (data.attachments) {
+    data.attachments.forEach((file) => formData.append("attachments", file));
+  }
+
+  return client
+    .put(`space/${spaceId}/board/${boardId}/post/${postId}`, {
+      body: formData,
+    })
+    .json();
+};
+
+/**
+ * Delete a post
+ * @param spaceId Space ID
+ * @param boardId Board ID
+ * @param postId Post ID
+ * @returns Success response
+ */
+const deletePost = async (
+  spaceId: number,
+  boardId: number,
+  postId: number,
+): Promise<ApiResponse<SuccessResponse>> => {
+  return client.delete(`space/${spaceId}/board/${boardId}/post/${postId}`).json();
+};
+
+/**
+ * Create a comment on a post
+ * @param spaceId Space ID
+ * @param boardId Board ID
+ * @param postId Post ID
+ * @param data Comment data
+ * @returns Created comment ID
+ */
+const createComment = async (
+  spaceId: number,
+  boardId: number,
+  postId: number,
+  data: CreateCommentRequest,
+): Promise<ApiResponse<CreateCommentResponse>> => {
+  return client
+    .post(`space/${spaceId}/board/${boardId}/post/${postId}/comment`, {
+      json: data,
+    })
+    .json();
+};
+
+/**
+ * Update a comment
+ * @param spaceId Space ID
+ * @param boardId Board ID
+ * @param postId Post ID
+ * @param commentId Comment ID
+ * @param data Updated comment data
+ * @returns Success response
+ */
+const updateComment = async (
+  spaceId: number,
+  boardId: number,
+  postId: number,
+  commentId: number,
+  data: UpdateCommentRequest,
+): Promise<ApiResponse<SuccessResponse>> => {
+  return client
+    .put(`space/${spaceId}/board/${boardId}/post/${postId}/comment/${commentId}`, {
+      json: data,
+    })
+    .json();
+};
+
+/**
+ * Delete a comment
+ * @param spaceId Space ID
+ * @param boardId Board ID
+ * @param postId Post ID
+ * @param commentId Comment ID
+ * @returns Success response
+ */
+const deleteComment = async (
+  spaceId: number,
+  boardId: number,
+  postId: number,
+  commentId: number,
+): Promise<ApiResponse<SuccessResponse>> => {
+  return client
+    .delete(`space/${spaceId}/board/${boardId}/post/${postId}/comment/${commentId}`)
+    .json();
+};
+
+/**
+ * Toggle like state on a target (post or comment)
+ * @param spaceId Space ID
+ * @param boardId Board ID
+ * @param targetId Target ID (post or comment)
+ * @param data Like state data
+ * @returns Success response
+ */
+const toggleLike = async (
+  spaceId: number,
+  boardId: number,
+  targetId: number,
+  data: LikeStateRequest,
+): Promise<ApiResponse<SuccessResponse>> => {
+  return client
+    .patch(`space/${spaceId}/board/${boardId}/target/${targetId}/like-state`, {
+      json: data,
+    })
+    .json();
 };
