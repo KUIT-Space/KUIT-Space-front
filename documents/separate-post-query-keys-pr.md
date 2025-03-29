@@ -1,7 +1,9 @@
 ## Summary
-게시판과 게시글의 쿼리 키를 분리하여 관리하도록 변경했습니다. 이는 코드의 명확성과 유지보수성을 향상시키기 위한 리팩토링입니다.
+
+기존에 미완성되어있는 api가 백엔드에서 제공됨에 따라 게시판, 게시글, 좋아요 api를 연동하였습니다. 다만 댓글 같은 경우 백엔드에서 아직 commentId를 제공하지 못하고 있어 댓글 좋아요, 수정 및 삭제는 불가능합니다.
 
 ## PR 유형 및 세부 작업 내용
+- [x] 새로운 기능 추가
 - [x] 코드 리팩토링
   - 게시판과 게시글의 쿼리 키를 분리하여 관리하도록 변경
   - `boardKeys`에서 게시글 관련 키 제거
@@ -15,37 +17,10 @@
 ![Query Key Structure](https://www.mermaidchart.com/raw/ee1bf4d0-dfe4-472b-bb7a-be0e1d4801c8?theme=light&version=v0.1&format=svg)
 
 ## 세부 변경사항
-1. `postKeys` 구조 추가
-   ```typescript
-   export const postKeys = {
-     all: (spaceId: number, boardId: number) => ["posts", spaceId, boardId] as const,
-     lists: (spaceId: number, boardId: number) => [...postKeys.all(spaceId, boardId), "list"] as const,
-     list: (spaceId: number, boardId: number, filters: string) => [...postKeys.lists(spaceId, boardId), { filters }] as const,
-     details: (spaceId: number, boardId: number) => [...postKeys.all(spaceId, boardId), "detail"] as const,
-     detail: (spaceId: number, boardId: number, postId: number) => [...postKeys.details(spaceId, boardId), postId] as const,
-   };
-   ```
-
+1. `postKeys` 쿼리 키 추가
 2. `boardKeys` 구조 단순화
-   ```typescript
-   export const boardKeys = {
-     all: (spaceId: number) => ["boards", spaceId] as const,
-     lists: (spaceId: number) => [...boardKeys.all(spaceId), "list"] as const,
-     list: (spaceId: number, filters: string) => [...boardKeys.lists(spaceId), { filters }] as const,
-   };
-   ```
+3. custom query hook에서 의존하는 쿼리 키 목록 업데이트
+4. custom mutation hook에서 의존하는 쿼리 키 목록 업데이트
 
-3. 쿼리 키 사용 업데이트
-   - 게시글 목록 조회: `postKeys.lists`
-   - 게시글 상세 조회: `postKeys.detail`
-   - 댓글 관련 쿼리: `postKeys.lists` 및 `postKeys.detail`
-   - 좋아요 관련 쿼리: `postKeys.lists` 및 `postKeys.detail`
-
-4. Invalidate 로직 업데이트
-   - 게시글 생성: 게시글 목록만 invalidate
-   - 게시글 수정: 게시글 목록과 상세 모두 invalidate
-   - 게시글 삭제: 게시글 목록만 invalidate
-   - 댓글 생성/삭제: 게시글 목록과 상세 모두 invalidate
-   - 댓글 수정: 게시글 상세만 invalidate
-   - 좋아요 토글: 게시글 목록과 상세 모두 invalidate
-
+## 리뷰 요청 사항
+- 쿼리키 캐싱이 올바르게 설계되었는지 확인 부탁드립니다.
