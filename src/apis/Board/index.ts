@@ -12,34 +12,35 @@ export const boardKeys = {
     [...boardKeys.detail(spaceId, boardId), "posts"] as const,
 };
 
-export interface RequestOfCreateBoard {
-  spaceId: number;
-  discordId: number;
-  boardType: string;
+// Board-related interfaces
+export interface BoardInfo {
+  boardId: number;
   boardName: string;
+  tagId: number;
+  tagName: string;
+  isSubscribed: boolean;
+}
+
+export interface CreateBoardRequest {
+  boardName: string;
+  boardType: string;
+  discordId: number;
   webhookUrl: string;
 }
 
-export interface CreateBoardResponse {
-  result: number; // Board ID
+export interface SubscribeBoardRequest {
+  boardId: number;
+  tagId?: number;
 }
 
-export interface AttachmentOfCreate {
-  valueOfAttachmentType?: string;
-  attachmentUrl: string;
+export interface ReadBoardListResponse {
+  readBoardList: BoardInfo[];
 }
 
-export interface RequestOfCreatePost {
-  title: string;
-  content: string;
-  attachments?: AttachmentOfCreate[];
-}
+export type CreateBoardResponse = number; // Board ID
 
-export interface CreatePostResponse {
-  result: number; // Post ID
-}
-
-export interface ResponseOfPostSummary {
+// Post-related interfaces
+export interface PostSummary {
   postId: number;
   title: string;
   content: string;
@@ -50,8 +51,59 @@ export interface ResponseOfPostSummary {
   postImageUrl: string;
 }
 
-export interface ResponseOfReadPostList {
-  readPostList: ResponseOfPostSummary[];
+export interface PostDetail {
+  creatorName: string;
+  creatorProfileImageUrl: string;
+  createdAt: string;
+  lastModifiedAt: string;
+  title: string;
+  content: string;
+  attachmentUrls: string[];
+  likeCount: number;
+  isLiked: boolean;
+  responseOfCommentDetails: CommentDetail[];
+}
+
+export interface CreatePostRequest {
+  title: string;
+  content: string;
+  isAnonymous: boolean;
+  tagIds?: number[];
+  attachments?: File[];
+}
+
+export interface ReadPostListResponse {
+  readPostList: PostSummary[];
+}
+
+export type CreatePostResponse = number; // Post ID
+
+// Comment-related interfaces
+export interface CommentDetail {
+  creatorName: string;
+  creatorProfileImageUrl: string;
+  isPostOwner: boolean;
+  content: string;
+  createdAt: string;
+  lastModifiedAt: string;
+  likeCount: number;
+  isLiked: boolean;
+  isActiveComment: boolean;
+}
+
+export interface CreateCommentRequest {
+  content: string;
+}
+
+export interface UpdateCommentRequest {
+  content: string;
+}
+
+export type CreateCommentResponse = number; // Comment ID
+
+// Like-related interfaces
+export interface LikeStateRequest {
+  changeTo: boolean;
 }
 
 /**
@@ -62,7 +114,7 @@ export interface ResponseOfReadPostList {
  */
 const createBoard = async (
   spaceId: number,
-  boardData: Omit<RequestOfCreateBoard, "spaceId">,
+  boardData: Omit<CreateBoardRequest, "spaceId">,
 ): Promise<ApiResponse<CreateBoardResponse>> => {
   return client
     .post(`space/${spaceId}/board/create`, {
@@ -78,8 +130,7 @@ export const useCreateBoard = (spaceId: number) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (boardData: Omit<RequestOfCreateBoard, "spaceId">) =>
-      createBoard(spaceId, boardData),
+    mutationFn: (boardData: Omit<CreateBoardRequest, "spaceId">) => createBoard(spaceId, boardData),
     onSuccess: () => {
       // Invalidate boards list query to refresh data
       queryClient.invalidateQueries({
@@ -98,7 +149,7 @@ export const useCreateBoard = (spaceId: number) => {
 const getPosts = async (
   spaceId: number,
   boardId: number,
-): Promise<ApiResponse<ResponseOfReadPostList>> => {
+): Promise<ApiResponse<ReadPostListResponse>> => {
   return client.get(`space/${spaceId}/board/${boardId}/post`).json();
 };
 
@@ -119,7 +170,7 @@ export const usePostsQuery = (spaceId: number, boardId: number) => {
 const createPost = async (
   spaceId: number,
   boardId: number,
-  postData: RequestOfCreatePost,
+  postData: CreatePostRequest,
 ): Promise<ApiResponse<CreatePostResponse>> => {
   return client
     .post(`space/${spaceId}/board/${boardId}/post`, {
@@ -132,7 +183,7 @@ export const useCreatePost = (spaceId: number, boardId: number) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (postData: RequestOfCreatePost) => createPost(spaceId, boardId, postData),
+    mutationFn: (postData: CreatePostRequest) => createPost(spaceId, boardId, postData),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: boardKeys.posts(spaceId, boardId),
