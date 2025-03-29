@@ -6,10 +6,6 @@ export const boardKeys = {
   all: (spaceId: number) => ["boards", spaceId] as const,
   lists: (spaceId: number) => [...boardKeys.all(spaceId), "list"] as const,
   list: (spaceId: number, filters: string) => [...boardKeys.lists(spaceId), { filters }] as const,
-  details: (spaceId: number) => [...boardKeys.all(spaceId), "detail"] as const,
-  detail: (spaceId: number, boardId: number) => [...boardKeys.details(spaceId), boardId] as const,
-  posts: (spaceId: number, boardId: number) =>
-    [...boardKeys.detail(spaceId, boardId), "posts"] as const,
 };
 
 export const postKeys = {
