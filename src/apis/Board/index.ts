@@ -106,6 +106,8 @@ export interface LikeStateRequest {
   changeTo: boolean;
 }
 
+// =============== Board API ===============
+
 /**
  * Create a new board in a space
  * @param spaceId Space ID
@@ -139,6 +141,76 @@ export const useCreateBoard = (spaceId: number) => {
     },
   });
 };
+
+/**
+ * Get list of boards in a space
+ * @param spaceId Space ID
+ * @returns List of boards
+ */
+const getBoardList = async (spaceId: number): Promise<ApiResponse<ReadBoardListResponse>> => {
+  return client.get(`space/${spaceId}/board/list`).json();
+};
+
+export const useBoardListQuery = (spaceId: number) => {
+  return useSuspenseQuery({
+    queryKey: boardKeys.lists(spaceId),
+    queryFn: () => getBoardList(spaceId),
+  });
+};
+
+/**
+ * Subscribe to a board
+ * @param spaceId Space ID
+ * @param data Subscription data
+ * @returns Success response
+ */
+const subscribeBoard = async (
+  spaceId: number,
+  data: SubscribeBoardRequest,
+): Promise<ApiResponse<SuccessResponse>> => {
+  return client.post(`space/${spaceId}/board/subscribe`, { json: data }).json();
+};
+
+export const useSubscribeBoard = (spaceId: number) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (data: SubscribeBoardRequest) => subscribeBoard(spaceId, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: boardKeys.lists(spaceId),
+      });
+    },
+  });
+};
+
+/**
+ * Unsubscribe from a board
+ * @param spaceId Space ID
+ * @param data Unsubscription data
+ * @returns Success response
+ */
+const unsubscribeBoard = async (
+  spaceId: number,
+  data: SubscribeBoardRequest,
+): Promise<ApiResponse<SuccessResponse>> => {
+  return client.post(`space/${spaceId}/board/unsubscribe`, { json: data }).json();
+};
+
+export const useUnsubscribeBoard = (spaceId: number) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (data: SubscribeBoardRequest) => unsubscribeBoard(spaceId, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: boardKeys.lists(spaceId),
+      });
+    },
+  });
+};
+
+// =============== Post API ===============
 
 /**
  * Get posts from a board
@@ -193,41 +265,6 @@ export const useCreatePost = (spaceId: number, boardId: number) => {
 };
 
 /**
- * Get list of boards in a space
- * @param spaceId Space ID
- * @returns List of boards
- */
-const getBoardList = async (spaceId: number): Promise<ApiResponse<ReadBoardListResponse>> => {
-  return client.get(`space/${spaceId}/board/list`).json();
-};
-
-/**
- * Subscribe to a board
- * @param spaceId Space ID
- * @param data Subscription data
- * @returns Success response
- */
-const subscribeBoard = async (
-  spaceId: number,
-  data: SubscribeBoardRequest,
-): Promise<ApiResponse<SuccessResponse>> => {
-  return client.post(`space/${spaceId}/board/subscribe`, { json: data }).json();
-};
-
-/**
- * Unsubscribe from a board
- * @param spaceId Space ID
- * @param data Unsubscription data
- * @returns Success response
- */
-const unsubscribeBoard = async (
-  spaceId: number,
-  data: SubscribeBoardRequest,
-): Promise<ApiResponse<SuccessResponse>> => {
-  return client.post(`space/${spaceId}/board/unsubscribe`, { json: data }).json();
-};
-
-/**
  * Get details of a specific post
  * @param spaceId Space ID
  * @param boardId Board ID
@@ -240,6 +277,13 @@ const getPostDetail = async (
   postId: number,
 ): Promise<ApiResponse<PostDetail>> => {
   return client.get(`space/${spaceId}/board/${boardId}/post/${postId}`).json();
+};
+
+export const usePostDetailQuery = (spaceId: number, boardId: number, postId: number) => {
+  return useSuspenseQuery({
+    queryKey: boardKeys.detail(spaceId, boardId),
+    queryFn: () => getPostDetail(spaceId, boardId, postId),
+  });
 };
 
 /**
@@ -274,6 +318,22 @@ const updatePost = async (
     .json();
 };
 
+export const useUpdatePost = (spaceId: number, boardId: number, postId: number) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (data: CreatePostRequest) => updatePost(spaceId, boardId, postId, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: boardKeys.posts(spaceId, boardId),
+      });
+      queryClient.invalidateQueries({
+        queryKey: boardKeys.detail(spaceId, boardId),
+      });
+    },
+  });
+};
+
 /**
  * Delete a post
  * @param spaceId Space ID
@@ -288,6 +348,21 @@ const deletePost = async (
 ): Promise<ApiResponse<SuccessResponse>> => {
   return client.delete(`space/${spaceId}/board/${boardId}/post/${postId}`).json();
 };
+
+export const useDeletePost = (spaceId: number, boardId: number) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (postId: number) => deletePost(spaceId, boardId, postId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: boardKeys.posts(spaceId, boardId),
+      });
+    },
+  });
+};
+
+// =============== Comment API ===============
 
 /**
  * Create a comment on a post
@@ -308,6 +383,19 @@ const createComment = async (
       json: data,
     })
     .json();
+};
+
+export const useCreateComment = (spaceId: number, boardId: number, postId: number) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (data: CreateCommentRequest) => createComment(spaceId, boardId, postId, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: boardKeys.detail(spaceId, boardId),
+      });
+    },
+  });
 };
 
 /**
@@ -333,6 +421,25 @@ const updateComment = async (
     .json();
 };
 
+export const useUpdateComment = (
+  spaceId: number,
+  boardId: number,
+  postId: number,
+  commentId: number,
+) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (data: UpdateCommentRequest) =>
+      updateComment(spaceId, boardId, postId, commentId, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: boardKeys.detail(spaceId, boardId),
+      });
+    },
+  });
+};
+
 /**
  * Delete a comment
  * @param spaceId Space ID
@@ -351,6 +458,21 @@ const deleteComment = async (
     .delete(`space/${spaceId}/board/${boardId}/post/${postId}/comment/${commentId}`)
     .json();
 };
+
+export const useDeleteComment = (spaceId: number, boardId: number, postId: number) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (commentId: number) => deleteComment(spaceId, boardId, postId, commentId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: boardKeys.detail(spaceId, boardId),
+      });
+    },
+  });
+};
+
+// =============== Like API ===============
 
 /**
  * Toggle like state on a target (post or comment)
@@ -371,4 +493,17 @@ const toggleLike = async (
       json: data,
     })
     .json();
+};
+
+export const useToggleLike = (spaceId: number, boardId: number, targetId: number) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (data: LikeStateRequest) => toggleLike(spaceId, boardId, targetId, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: boardKeys.detail(spaceId, boardId),
+      });
+    },
+  });
 };
