@@ -514,7 +514,10 @@ export const useToggleLike = (spaceId: number, boardId: number, targetId: number
     mutationFn: (data: LikeStateRequest) => toggleLike(spaceId, boardId, targetId, data),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: boardKeys.detail(spaceId, boardId),
+        queryKey: postKeys.lists(spaceId, boardId),
+      });
+      queryClient.invalidateQueries({
+        queryKey: postKeys.detail(spaceId, boardId, targetId),
       });
     },
   });
