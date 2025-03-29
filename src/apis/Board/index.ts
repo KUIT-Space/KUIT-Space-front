@@ -269,7 +269,7 @@ export const useCreatePost = (spaceId: number, boardId: number) => {
     mutationFn: (postData: CreatePostRequest) => createPost(spaceId, boardId, postData),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: boardKeys.posts(spaceId, boardId),
+        queryKey: postKeys.lists(spaceId, boardId),
       });
     },
   });
@@ -292,7 +292,7 @@ const getPostDetail = async (
 
 export const usePostDetailQuery = (spaceId: number, boardId: number, postId: number) => {
   return useSuspenseQuery({
-    queryKey: boardKeys.detail(spaceId, boardId),
+    queryKey: postKeys.detail(spaceId, boardId, postId),
     queryFn: () => getPostDetail(spaceId, boardId, postId),
   });
 };
@@ -336,10 +336,10 @@ export const useUpdatePost = (spaceId: number, boardId: number, postId: number) 
     mutationFn: (data: CreatePostRequest) => updatePost(spaceId, boardId, postId, data),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: boardKeys.posts(spaceId, boardId),
+        queryKey: postKeys.lists(spaceId, boardId),
       });
       queryClient.invalidateQueries({
-        queryKey: boardKeys.detail(spaceId, boardId),
+        queryKey: postKeys.detail(spaceId, boardId, postId),
       });
     },
   });
@@ -367,7 +367,7 @@ export const useDeletePost = (spaceId: number, boardId: number) => {
     mutationFn: (postId: number) => deletePost(spaceId, boardId, postId),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: boardKeys.posts(spaceId, boardId),
+        queryKey: postKeys.lists(spaceId, boardId),
       });
     },
   });
