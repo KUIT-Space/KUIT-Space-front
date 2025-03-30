@@ -20,13 +20,16 @@ const MyRequestPayDetailPage = () => {
   const detail = usePayDetailQuery(SPACE_ID, Number(id));
   const detailData = detail?.data.result;
 
-  const completeTargetList = detailData?.responseOfTargetDetails.map((value) => {
-    if (value.complete === true) return value;
-  });
+  const completeTargetList = detailData?.responseOfTargetDetails.filter(
+    (value) => value.complete === true,
+  );
 
-  const inCompleteTargetList = detailData?.responseOfTargetDetails.map((value) => {
-    if (value.complete === false) return value;
-  });
+  const inCompleteTargetList = detailData?.responseOfTargetDetails.filter(
+    (value) => value.complete === false,
+  );
+
+  console.log(completeTargetList);
+  console.log(inCompleteTargetList);
 
   return (
     <>
