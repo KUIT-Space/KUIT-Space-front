@@ -1,10 +1,11 @@
+import { useEffect, useState } from "react";
+import { To, useNavigate } from "react-router-dom";
+import { profile } from "console";
+import styled from "styled-components";
+
 import { GetUserProfileApi, UserProfile } from "@/apis";
 import TopBarText, { LeftEnum } from "@/components/TopBarText";
 import { getUserDefaultImageURL } from "@/utils/getUserDefaultImageURL";
-import { profile } from "console";
-import { useEffect, useState } from "react";
-import { To, useNavigate } from "react-router-dom";
-import styled from "styled-components";
 
 const ProfileContainer = styled.div`
   display: flex;
