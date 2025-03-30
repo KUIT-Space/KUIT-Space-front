@@ -20,7 +20,7 @@ const ReqDataDiv = ({ data }: { data: ResponseOfRequestedPayInfo }) => {
     <s.GrayRoundDiv>
       <s.RowFlexDiv style={{ alignItems: "center" }}>
         <img
-          src={reactIcon}
+          src={data.payCreatorProfileImageUrl}
           width={"40px"}
           height={"40px"}
           style={{ marginRight: "0.625rem" }}

@@ -46,7 +46,7 @@ export type payTargetInfoDtoList = {
   complete: boolean;
 };
 const PayRequestInfo = ({ data }: { data: PayRequestInfoInHome }) => {
-  const res: number = data.totalTargetNum - data.receivedAmount;
+  const res: number = data.totalTargetNum - data.sendCompleteTargetNum;
   const now = addComma(data.receivedAmount);
   const all = addComma(data.totalAmount);
   return (

@@ -14,22 +14,6 @@ import { ReadEventInfoResponse, ReadEventsInfoResponse } from "@/apis/event";
 //   cnt: number;
 // }
 
-const PayChatMemberDiv = ({ info }: { info: UserInfoInSpace }) => {
-  return (
-    <s.RowFlexDiv style={{ alignItems: "center" }}>
-      <img
-        style={{ width: "2.5rem", height: "2.5rem", marginLeft: "1.875rem" }}
-        src={info.profileImgUrl ?? getUserDefaultImageURL(info.userId)}
-        alt="profile"
-      />
-      <span className="name" style={{ marginLeft: "0.75rem" }}>
-        {info.userName}
-      </span>
-      <CheckBox></CheckBox>
-    </s.RowFlexDiv>
-  );
-};
-
 export const PayChatDiv = ({
   info,
   handler,
@@ -60,9 +44,6 @@ export const PayChatDiv = ({
           <CheckBox checked={false} onClick={controlFlag}></CheckBox>
         )}
       </Member>
-      {/* {info.userList?.map((value, index) => {
-        return <PayChatMemberDiv key={index} info={value}></PayChatMemberDiv>;
-      })} */}
     </s.ColumnFlexDiv>
   );
 };

@@ -149,7 +149,7 @@ export const usePayDetailQuery = (
     >
   >,
 ) => {
-  if (Number.isNaN(payRequestId)) return;
+  // if (Number.isNaN(payRequestId)) return null;
   return useSuspenseQuery({
     queryKey: payKeys.detail(spaceId, payRequestId),
     queryFn: () => getPayDetail(spaceId, payRequestId),

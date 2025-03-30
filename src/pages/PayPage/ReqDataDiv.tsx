@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
-import { ResponseOfRequestedPayInfo } from "@/apis/Pay";
+import { ResponseOfRequestedPayInfo, useCompletePay } from "@/apis/Pay";
 import { payCompleteApi } from "@/apis/Pay/PayPageAPI";
 import check from "@/assets/PayPage/check.svg";
 import reactIcon from "@/assets/react.svg";
@@ -12,6 +12,7 @@ import { addComma } from "@/pages/PayPage/PayPage";
 import * as s from "@/pages/PayPage/PayPage.styled";
 
 import "react-toastify/dist/ReactToastify.css";
+import { SPACE_ID } from "@/utils/constants";
 export const copyToClipboard = async (text: string) => {
   try {
     await navigator.clipboard.writeText(text);
@@ -30,12 +31,11 @@ export const copyToClipboard = async (text: string) => {
   }
 };
 const ReqDataDiv = ({ data }: { data: ResponseOfRequestedPayInfo }) => {
-  useEffect(() => {
-    console.log(data);
-  }, []);
+  const { mutate: completePay } = useCompletePay(SPACE_ID);
   // true : 송금하기 false : 송금완료
   const [chk, setChk] = useState(0);
   const price = addComma(data.requestedAmount);
+  console.log(data);
 
   const nextChk = () => {
     setChk(chk + 1);
@@ -51,7 +51,7 @@ const ReqDataDiv = ({ data }: { data: ResponseOfRequestedPayInfo }) => {
 
   const onCompleteClick = () => {
     nextChk();
-    payCompleteApi(data.payRequestTargetId);
+    completePay(data.payRequestTargetId);
     //모달 생성
     //클립보드 복사
   };
@@ -67,7 +67,7 @@ const ReqDataDiv = ({ data }: { data: ResponseOfRequestedPayInfo }) => {
       case 1:
         return (
           <GradientBtn style={{ flexGrow: 1 }} onClick={onCompleteClick}>
-            송금완료
+            송금 완료하기
           </GradientBtn>
         );
       case 2:
@@ -84,17 +84,18 @@ const ReqDataDiv = ({ data }: { data: ResponseOfRequestedPayInfo }) => {
   return (
     <s.RoundDiv style={{ marginBottom: "2.75rem" }}>
       <s.RowFlexDiv style={{ alignItems: "center" }}>
-        <img
-          src={reactIcon}
-          width={"40px"}
-          height={"40px"}
-          style={{ marginRight: "10px" }}
-          alt="reaction"
-        />
-        <s.TextDiv style={{ color: "white" }}>{data.payCreatorName}</s.TextDiv>
-        <s.NowPriceDiv style={{ position: "absolute", right: 0, transform: "translate(-60%,0%)" }}>
-          {price}원
-        </s.NowPriceDiv>
+        <s.PayInfoWrapper>
+          <img
+            src={data.payCreatorProfileImageUrl}
+            width={"40px"}
+            height={"40px"}
+            style={{ marginRight: "10px" }}
+            alt="reaction"
+          />
+          <s.TextDiv style={{ color: "white" }}>{data.payCreatorName}</s.TextDiv>
+        </s.PayInfoWrapper>
+
+        <s.NowPriceDiv>{price}원</s.NowPriceDiv>
       </s.RowFlexDiv>
       <div style={{ width: "100%", display: "flex" }}>{statusSwitch()}</div>
     </s.RoundDiv>

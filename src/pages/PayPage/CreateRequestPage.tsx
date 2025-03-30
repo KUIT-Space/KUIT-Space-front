@@ -20,7 +20,7 @@ import { Member } from "@/pages/ChatPage/ChatCreatePage/ChatCreatePage.styled";
 import CompleteCreatePay from "@/pages/PayPage/CompleteCreatePay";
 import { PayChatDiv } from "@/pages/PayPage/CreatePayComponents";
 import * as s from "@/pages/PayPage/PayPage.styled";
-import { SPACE_ID } from "@/utils/constants";
+import { SPACE_ID, koreanBanks } from "@/utils/constants";
 import { getUserDefaultImageURL } from "@/utils/getUserDefaultImageURL";
 
 import { addComma } from "./PayPage";
@@ -29,6 +29,7 @@ import { useAllMembersQuery } from "@/apis/SpaceMember";
 import { SpaceMemberDetail } from "@/apis/SpaceMember";
 import { check } from "prettier";
 import { getEvent, useEventsQuery } from "@/apis/event";
+import SkeletonDetailPage from "@/components/SkeletonDetailPage";
 
 // type payUserInfo = {
 //   name: number;
@@ -49,10 +50,21 @@ export type ChatUserInfoInSpace = {
 // };
 
 const idToPrice = new Map<number, number>();
-const RecentAccountDiv = ({ data }: { data: BankInfo }) => {
+const RecentAccountDiv = ({
+  data,
+  onClick,
+}: {
+  data: BankInfo;
+  onClick: (data: BankInfo) => void;
+}) => {
   return (
-    <s.RowFlexDiv style={{ margin: "0.25rem" }}>
-      <img style={{ marginRight: "0.75rem" }} src={Kookmin} alt="kookmin 은행" />
+    <s.RowFlexDiv
+      style={{ margin: "0.25rem" }}
+      onClick={() => {
+        onClick(data);
+      }}
+    >
+      <img style={{ marginRight: "0.75rem" }} src={Kookmin} />
       <s.ColumnFlexDiv>
         <s.GrayTextDiv>{data.bankName}</s.GrayTextDiv>
         <s.RegularText>{data.bankAccountNumber}</s.RegularText>
@@ -83,6 +95,11 @@ const CreateRequestPage1 = ({
   const onChangeOption = (e: any) => {
     setBankValue(e.target.value);
   };
+  const onBankClick = (data: BankInfo) => {
+    setBankName(data.bankName);
+    setAccount(data.bankAccountNumber);
+    nextPage();
+  };
 
   return (
     <>
@@ -97,8 +114,9 @@ const CreateRequestPage1 = ({
             <s.BankOption disabled hidden selected>
               은행 선택
             </s.BankOption>
-            <s.BankOption value="국민은행">국민은행</s.BankOption>
-            <s.BankOption value="신한은행">신한은행</s.BankOption>
+            {koreanBanks.map((value) => {
+              return <s.BankOption value={value}>{value}</s.BankOption>;
+            })}
           </s.BankSelect>
         </div>
         <div style={{ margin: "2rem 0rem 2rem 0rem" }}>
@@ -109,7 +127,15 @@ const CreateRequestPage1 = ({
             ) : (
               <>
                 {bankData?.map((value, index) => {
-                  return <RecentAccountDiv key={index} data={value}></RecentAccountDiv>;
+                  return (
+                    <RecentAccountDiv
+                      key={index}
+                      data={value}
+                      onClick={() => {
+                        onBankClick(value);
+                      }}
+                    ></RecentAccountDiv>
+                  );
                 })}
               </>
             )}
@@ -571,7 +597,11 @@ const CreateRequestPage = () => {
       if (isSuccess) {
         return <CompleteCreatePay></CompleteCreatePay>;
       } else {
-        return <div>진행 중</div>;
+        return (
+          <s.ContainerDiv>
+            <SkeletonDetailPage></SkeletonDetailPage>
+          </s.ContainerDiv>
+        );
       }
 
     // null jsx component 보낼 수 있는 경우 고려
