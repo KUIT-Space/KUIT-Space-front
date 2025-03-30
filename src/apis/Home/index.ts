@@ -42,6 +42,8 @@ export const useHomeQuery = (
   return useSuspenseQuery({
     queryKey: spaceHomeKeys.home(spaceId),
     queryFn: () => getHome(spaceId),
+    gcTime: 30 * 1000,
+    refetchInterval: 30 * 1000,
     ...options,
   });
 };
