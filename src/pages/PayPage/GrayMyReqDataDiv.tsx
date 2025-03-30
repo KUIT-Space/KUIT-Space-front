@@ -9,7 +9,7 @@ const GrayMyReqDataDiv = ({
   data: ResponseOfPayRequestInfo;
   onClick: () => void;
 }) => {
-  const num = data.totalTargetNum - data.sendCompleteTargetNum;
+  const num = data.sendCompleteTargetNum;
   const price1 = addComma(data.receivedAmount);
   const price2 = addComma(data.totalAmount);
   return (
@@ -22,7 +22,7 @@ const GrayMyReqDataDiv = ({
             <s.GrayTextDiv> / {price2}원</s.GrayTextDiv>
           </s.PriceDiv>
         </s.ColumnFlexDiv>
-        <s.ImgDiv>이미지 넣어야댐</s.ImgDiv>
+        <s.ImgDiv></s.ImgDiv>
       </s.RowFlexDiv>
     </s.GrayRoundDiv>
   );

@@ -23,6 +23,7 @@ const QRPage = () => {
   };
 
   const { data } = useEventQuery(SPACE_ID, Number(id), { refetchInterval: 10000 });
+
   useEffect(() => {
     if (data.result == undefined) {
       return;

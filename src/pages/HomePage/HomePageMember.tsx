@@ -73,7 +73,7 @@ const HomePageMemberPage = () => {
         {userList.map((member, index) => (
           <Member
             key={member.userId}
-            $cursor="pointer"
+            $cursor="default"
             onClick={() => {
               navigate(`/member/${member.userId}`);
             }}

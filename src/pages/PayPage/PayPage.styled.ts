@@ -3,10 +3,18 @@ import styled from "styled-components";
 export const ContainerDiv = styled.div`
   display: flex;
   justify-content: center;
-  margin: 1.25rem;
+  margin: 1.25rem 1.25rem 4rem 1.25rem;
   flex-direction: column;
 `;
 
+export const CompleteContainerDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: 1.25rem 1.25rem 4rem 1.25rem;
+  flex-direction: column;
+  height: 100%;
+  padding-bottom: 14rem;
+`;
 export const RoundDiv = styled.div`
   margin: 0.75rem;
   padding: 0.75rem;
@@ -382,4 +390,9 @@ export const PriceInput2 = styled.input`
   font-weight: 500;
   line-height: 140%; /* 1.225rem */
   letter-spacing: 0.035rem;
+`;
+
+export const PayInfoWrapper = styled.div`
+  display: flex;
+  flex-grow: 1;
 `;

@@ -137,7 +137,7 @@ export const useEventsQuery = (
  * @param eventId Event ID
  * @returns Event details including participants
  */
-const getEvent = async (
+export const getEvent = async (
   spaceId: number,
   eventId: number,
 ): Promise<ApiResponse<ReadEventInfoResponse>> => {

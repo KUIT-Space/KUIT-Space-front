@@ -60,6 +60,7 @@ import InviteSpace from "./pages/SpacePage/InviteSpace";
 import InviteSpace2 from "./pages/SpacePage/InviteSpace2";
 import SpecialVoiceRoom from "./pages/VoiceRoomPage/SpecialVoiceRoom";
 import WritePostPage from "./pages/WritePostPage";
+import MyRequestPayDetailPage from "./pages/PayPage/MyRequestPayDetailPage";
 
 // will we need constant path in later..?
 // const PATH = {
@@ -139,7 +140,7 @@ function App() {
     { path: "/pay", element: <PayPage />, hasBottomBar: true },
     { path: "/pay/create", element: <CreateRequestPage />, hasBottomBar: false },
     { path: "/requestingpay", element: <MyRequestPayPage />, hasBottomBar: false },
-    { path: "/requestingpay/:id", element: <MyRequestPayPage />, hasBottomBar: false },
+    { path: "/requestingpay/:id", element: <MyRequestPayDetailPage />, hasBottomBar: false },
     { path: "/requestedpay", element: <RequestedPayPage />, hasBottomBar: false },
     { path: "/completepay", element: <CompletePay />, hasBottomBar: false },
   ];
