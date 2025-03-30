@@ -11,6 +11,10 @@ export interface ApiResponse<T = unknown> {
   result?: T;
 }
 
+export interface SuccessResponse {
+  isSuccess: boolean;
+}
+
 const handleHttpError: BeforeErrorHook = async (error) => {
   if (error instanceof HTTPError) {
     const { request, response, options } = error;
