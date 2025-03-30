@@ -24,7 +24,6 @@ import { SPACE_ID, koreanBanks } from "@/utils/constants";
 import { getUserDefaultImageURL } from "@/utils/getUserDefaultImageURL";
 
 import { addComma } from "./PayPage";
-import { spaceMemberKeys } from "@/apis/SpaceMember";
 import { useAllMembersQuery } from "@/apis/SpaceMember";
 import { SpaceMemberDetail } from "@/apis/SpaceMember";
 import { check } from "prettier";
