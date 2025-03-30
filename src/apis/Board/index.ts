@@ -332,10 +332,7 @@ export const useUpdatePost = (spaceId: number, boardId: number, postId: number) 
     mutationFn: (data: CreatePostRequest) => updatePost(spaceId, boardId, postId, data),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: postKeys.lists(spaceId, boardId),
-      });
-      queryClient.invalidateQueries({
-        queryKey: postKeys.detail(spaceId, boardId, postId),
+        queryKey: postKeys.all(spaceId, boardId),
       });
     },
   });
@@ -399,10 +396,7 @@ export const useCreateComment = (spaceId: number, boardId: number, postId: numbe
     mutationFn: (data: CreateCommentRequest) => createComment(spaceId, boardId, postId, data),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: postKeys.lists(spaceId, boardId),
-      });
-      queryClient.invalidateQueries({
-        queryKey: postKeys.detail(spaceId, boardId, postId),
+        queryKey: postKeys.all(spaceId, boardId),
       });
     },
   });
@@ -471,10 +465,7 @@ export const useDeleteComment = (spaceId: number, boardId: number, postId: numbe
     mutationFn: (commentId: number) => deleteComment(spaceId, boardId, postId, commentId),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: postKeys.lists(spaceId, boardId),
-      });
-      queryClient.invalidateQueries({
-        queryKey: postKeys.detail(spaceId, boardId, postId),
+        queryKey: postKeys.all(spaceId, boardId),
       });
     },
   });
@@ -510,10 +501,7 @@ export const useToggleLike = (spaceId: number, boardId: number, targetId: number
     mutationFn: (data: LikeStateRequest) => toggleLike(spaceId, boardId, targetId, data),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: postKeys.lists(spaceId, boardId),
-      });
-      queryClient.invalidateQueries({
-        queryKey: postKeys.detail(spaceId, boardId, targetId),
+        queryKey: postKeys.all(spaceId, boardId),
       });
     },
   });
