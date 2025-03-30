@@ -11,7 +11,7 @@ import styled, { ThemeProvider } from "styled-components";
 
 import BottomNavBar from "@/components/BottomNavBar";
 import GlobalErrorFallback from "@/components/GlobalErrorFallback";
-import BoardPage from "@/pages/BoardPage/BoardPage";
+// import BoardPage from "@/pages/BoardPage/BoardPage";
 import ChatCreatePage from "@/pages/ChatPage/ChatCreatePage/ChatCreatePage";
 import ChatPage from "@/pages/ChatPage/ChatPage";
 import ChatSettingInvitePage from "@/pages/ChatPage/ChatSettingPage/ChatSettingInvitePage";
@@ -44,14 +44,15 @@ import { theme } from "@/styles/Theme";
 
 import AuthGuardProvider from "./components/AuthGuardProvider";
 import SkeletonDetailPage from "./components/SkeletonDetailPage";
-import BoardDetailPage from "./pages/BoardPage/BoardDetailpage/BoardDetailPage";
+// import BoardDetailPage from "./pages/BoardPage/BoardDetailpage/BoardDetailPage";
 import BoardList from "./pages/BoardPage/BoardList";
-import BoardRegisterPage from "./pages/BoardPage/BoardRegisterPage/BoardRegisterPage";
+// import BoardRegisterPage from "./pages/BoardPage/BoardRegisterPage/BoardRegisterPage";
 import HomePageMemberPage from "./pages/HomePage/HomePageMember";
 import HomePageProfile from "./pages/HomePage/HomePageProfile";
 import HomePageSetting from "./pages/HomePage/HomePageSetting";
 import KakaoRedirection from "./pages/LoginPage/KakaoRedirection";
 import MenuList from "./pages/MenuPage/MenuList";
+import QRCreate from "./pages/QRPage/QRCreate";
 import QRDetail from "./pages/QRPage/QRDetail";
 import QRHome from "./pages/QRPage/QRHome";
 import QRPage from "./pages/QRPage/QRPage";
@@ -59,7 +60,6 @@ import InviteSpace from "./pages/SpacePage/InviteSpace";
 import InviteSpace2 from "./pages/SpacePage/InviteSpace2";
 import SpecialVoiceRoom from "./pages/VoiceRoomPage/SpecialVoiceRoom";
 import WritePostPage from "./pages/WritePostPage";
-import QRCreate from "./pages/QRPage/QRCreate";
 import MyRequestPayDetailPage from "./pages/PayPage/MyRequestPayDetailPage";
 
 // will we need constant path in later..?
@@ -153,12 +153,12 @@ function App() {
     { path: "/specialvoiceroom", element: <SpecialVoiceRoom />, hasBottombar: false },
   ];
 
-  const routes_children_board = [
-    { path: "/boardlist", element: <BoardList />, hasBottomBar: true },
-    { path: "/board", element: <BoardPage />, hasBottomBar: true },
-    { path: "/board/:id", element: <BoardDetailPage />, hasBottomBar: false },
-    { path: "/board/register", element: <BoardRegisterPage />, hasBottomBar: false },
-  ];
+  // const routes_children_board = [
+  //   { path: "/boardlist", element: <BoardList />, hasBottomBar: true },
+  //   { path: "/board", element: <BoardPage />, hasBottomBar: true },
+  //   { path: "/board/:id", element: <BoardDetailPage />, hasBottomBar: false },
+  //   { path: "/board/register", element: <BoardRegisterPage />, hasBottomBar: false },
+  // ];
 
   const routes_children_space = [
     { path: "/space", element: <SpacePage /> },
@@ -196,7 +196,7 @@ function App() {
     ...routes_children_chat,
     ...routes_children_pay,
     ...routes_children_voice,
-    ...routes_children_board,
+    // ...routes_children_board,
     ...routes_children_space,
     ...routes_children_login,
     ...routes_children_home,
