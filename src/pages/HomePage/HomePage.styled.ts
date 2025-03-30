@@ -82,6 +82,7 @@ export const Settlement = styled.div`
     display: flex;
     align-items: center;
     gap: 0.38rem;
+    margin-top: 12px;
     cursor: pointer;
   }
 
@@ -264,6 +265,9 @@ export const TabMenu = styled.ul`
 `;
 export const RoundDiv = styled.div`
   padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 
   border-radius: 0.75rem;
   background: var(--Foundation-Gray-gray800, #222226);
@@ -444,4 +448,34 @@ export const ProfileMsgDiv = styled.div`
   font-weight: 400;
   line-height: 140%; /* 1.4rem */
   letter-spacing: 0.04rem;
+`;
+
+export const BoardTitleDiv = styled.div`
+  overflow: hidden;
+  color: var(--Foundation-Gray-gray500, #767681);
+  text-overflow: ellipsis;
+
+  /* Regular 15pt */
+  font-family: Freesentation;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 140%; /* 21px */
+  letter-spacing: 0.6px;
+
+  margin-left: 0.75rem;
+`;
+
+export const BoardNameDiv = styled.div`
+  overflow: hidden;
+  color: var(--Foundation-Gray-white, #fff);
+  text-overflow: ellipsis;
+
+  /* Medium 15pt */
+  font-family: Freesentation;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 140%; /* 21px */
+  letter-spacing: 0.6px;
 `;

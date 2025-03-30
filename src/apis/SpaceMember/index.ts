@@ -16,7 +16,7 @@ const getAllMembers = async (spaceId: number): Promise<ApiResponse<ResponseOfAll
   return client.get(`space/${spaceId}/all-member`).json();
 };
 
-export const spaceMemberKeys = {
+const spaceMemberKeys = {
   all: (spaceId: number) => ["members", spaceId] as const,
 };
 export const useAllMembersQuery = (

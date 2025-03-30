@@ -8,39 +8,29 @@ import TopBarText, { LeftEnum } from "@/components/TopBarText";
 import { Member, MemberContainer } from "@/pages/ChatPage/ChatCreatePage/ChatCreatePage.styled";
 import * as s from "@/pages/HomePage/HomePage.styled";
 import { getUserDefaultImageURL } from "@/utils/getUserDefaultImageURL";
+import { useAllMembersQuery } from "@/apis/SpaceMember";
+import { SPACE_ID } from "@/utils/constants";
 
 const HomePageMemberPage = () => {
   const navigate = useNavigate();
+  const { data } = useAllMembersQuery(SPACE_ID);
+  if (data.result === undefined) {
+    return <>에러 발생</>;
+  }
+  const members = data.result.spaceMemberDetails;
 
-  const [userList, setUserList] = useState<User[]>([]);
+  // const [userList, setUserList] = useState<User[]>([]);
 
-  useEffect(() => {
-    //userList 조회 API 호출
-    const spaceId = Number(localStorage.getItem("spaceId"));
-    spaceSearchAllUserApi(spaceId).then((res) => {
-      if (res) {
-        setUserList(res.result.userInfoInSpaceList);
-      }
-    });
-  }, []);
+  // useEffect(() => {
+  //   //userList 조회 API 호출
+  //   const spaceId = Number(localStorage.getItem("spaceId"));
+  //   spaceSearchAllUserApi(spaceId).then((res) => {
+  //     if (res) {
+  //       setUserList(res.result.userInfoInSpaceList);
+  //     }
+  //   });
+  // }, []);
 
-  const clickInviteHandler = async () => {
-    const spaceId = localStorage.getItem("spaceId");
-    await navigator.clipboard
-      .writeText(`${window.location.origin}/KUIT-Space-front/invite/${spaceId}`)
-      .then(() => {
-        toast.success("클립보드에 초대링크가 복사되었습니다!", {
-          position: "bottom-center",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-        });
-      });
-  };
   return (
     <>
       <TopBarText
@@ -54,7 +44,7 @@ const HomePageMemberPage = () => {
                 color: `#48FFBD`,
               }}
             >
-              {userList.length}
+              {members.length}
             </span>
           </div>
         }
@@ -63,42 +53,22 @@ const HomePageMemberPage = () => {
 
       <MemberContainer>
         {/* //TODO: 자신이 관리자일 때만 뜨는 뷰 */}
-        <s.RowFlexDiv
+        {/* <s.RowFlexDiv
           onClick={clickInviteHandler}
           style={{ alignItems: "center", padding: "1rem 0rem 1rem 0rem", cursor: "pointer" }}
         >
           <img src={AddMemberImg} width={"40px"} height={"40px"} alt="add member" />
           <div style={{ marginLeft: "1rem" }}>스페이스에 초대하기</div>
-        </s.RowFlexDiv>
-        {userList.map((member, index) => (
-          <Member
-            key={member.userId}
-            $cursor="pointer"
-            onClick={() => {
-              navigate(`/member/${member.userId}`);
-            }}
-          >
+        </s.RowFlexDiv> */}
+        {members.map((member, index) => (
+          <Member key={member.spaceMemberId}>
             <section>
-              <img src={member.profileImgUrl ?? getUserDefaultImageURL(member.userId)} />
-              <span className="name">{member.userName}</span>
-              {member.userAuth === "manager" && <span className="admin">관리자</span>}
+              <img src={member.profileImageUrl} />
+              <span className="name">{member.nickname}</span>
             </section>
           </Member>
         ))}
       </MemberContainer>
-      <ToastContainer
-        style={{ width: "50%", left: "50%", transform: "translateX(-50%)" }}
-        position="top-center"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-      />
     </>
   );
 };
