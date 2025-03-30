@@ -336,7 +336,6 @@ const CreateRequestPage3 = ({
       sum = sum + value;
     }
 
-    console.log(idToPrice, "KKKKK");
     _setTotalPrice(sum);
   };
 
@@ -461,6 +460,7 @@ const CreateRequestPage4 = ({
   checkUsers: Set<SpaceMemberDetail>;
   tabIndex: number;
 }) => {
+  console.log(idToPrice);
   const price = addComma(totalPrice);
   return (
     <>
@@ -519,11 +519,7 @@ const CreateRequestPage = () => {
   };
 
   const prevPage = () => {
-    if (page > 0) {
-      setPage((prev) => prev - 1);
-    } else {
-      navigate(-1);
-    }
+    navigate("/pay");
   };
 
   useEffect(() => {
