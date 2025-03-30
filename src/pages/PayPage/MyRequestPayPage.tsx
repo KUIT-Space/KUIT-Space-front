@@ -10,14 +10,6 @@ import PayResult from "@/pages/PayPage/PayResult";
 import { SPACE_ID } from "@/utils/constants";
 
 const MyRequestPayPage = () => {
-  // const [currentData, setCurrentData] = useState<PayRequestInfo[] | undefined>([]);
-  // const [completeData, setCompleteData] = useState<PayRequestInfo[] | undefined>([]);
-  // const [detailData, setDetailData] = useState<DetailPayData | undefined>();
-  // const [currentAmount, setCurrentAmount] = useState<string>();
-  // const [totalAmount, setTotalAmount] = useState<string>();
-
-  // const [completeTargetList, setCompleteTargetList] = useState<payTargetInfoDtoList[]>([]);
-  // const [inCompleteTargetList, setInCompleteTargetList] = useState<payTargetInfoDtoList[]>([]);
   const navigator = useNavigate();
   const { data } = usePayRequestListQuery(SPACE_ID);
   if (data.result == undefined) {

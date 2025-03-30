@@ -21,6 +21,7 @@ export const PayChatDiv = ({
   info: ReadEventsInfoResponse;
   handler: (id: number) => void;
 }) => {
+  // QR정산 체크박스의 선택
   const [flag, setFlag] = useState(false);
 
   const controlFlag = () => {
@@ -32,7 +33,7 @@ export const PayChatDiv = ({
   };
   return (
     <s.ColumnFlexDiv>
-      <Member>
+      <Member $cursor="default">
         <section>
           <img src={info.image} onError={onImageErr} alt="info img" />
           <span className="name">{info.name}</span>

@@ -174,6 +174,11 @@ const CreateRequestPage2 = ({
   const [tabIndex, setTabIndex] = useState(0);
   const [search, setSearch] = useState("");
   const { data } = useEventsQuery(SPACE_ID);
+  //TODO : Suspense query 해결 (getEvent 사용 X)
+  //모든 event data에 대하여
+  //for each
+  //useEventQuery
+  //모든 hook 또는 hook을 통해 얻은 result 를 배열에 넣어서 관리한다
 
   const checkUserHandler = (data: SpaceMemberDetail) => {
     const _checkUsers = new Set(checkUsers);
@@ -199,7 +204,6 @@ const CreateRequestPage2 = ({
         setCheckUsers(_checkUsers);
       }
     });
-    console.log(_checkUsers);
   };
   const menuArr = [
     { name: "QR 출석", content: "Tab menu ONE" },
@@ -509,10 +513,6 @@ const CreateRequestPage = () => {
   const { data } = useAllMembersQuery(SPACE_ID);
 
   const navigate = useNavigate();
-
-  useEffect(() => {
-    console.log(checkUsers);
-  }, [checkUsers]);
 
   const nextPage = () => {
     setPage((prev) => prev + 1);

@@ -11,8 +11,7 @@ export type CompletePayType = {
 
 const CompletePay = ({ money, account }: CompletePayType) => {
   const navigator = useNavigate();
-  console.log(money);
-  console.log(account);
+
   return (
     <>
       {/* 여기에 지금 height 넣어줘야 */}
