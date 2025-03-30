@@ -9,11 +9,11 @@ const CompleteCreatePay = () => {
   return (
     <>
       {/* 여기에 지금 height 넣어줘야 */}
-      <s.ContainerDiv>
+      <s.CompleteContainerDiv>
         <div style={{ display: "flex", justifyContent: "center" }}>
           <img src={Check} alt="check"></img>
         </div>
-        <s.LargeTxt style={{ flex: 1, textAlign: "center" }}>
+        <s.LargeTxt style={{ textAlign: "center" }}>
           <p>정산요청을</p>
           <p>완료했어요!</p>
         </s.LargeTxt>
@@ -25,7 +25,7 @@ const CompleteCreatePay = () => {
         >
           정산 홈으로
         </BottomBtn>
-      </s.ContainerDiv>
+      </s.CompleteContainerDiv>
     </>
   );
 };

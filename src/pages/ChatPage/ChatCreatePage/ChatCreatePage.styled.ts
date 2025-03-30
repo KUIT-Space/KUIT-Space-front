@@ -103,8 +103,7 @@ export const Member = styled.label<{
   padding: 0.5rem 0.25rem;
   align-items: center;
   justify-content: space-between;
-  cursor: ${(props) => props.$cursor || "pointer"};
-
+  cursor: ${(props) => props.$cursor || "default"};
   &:active {
     background-color: ${(props) => (props.$onClickBackColor ? props.theme.colors.BG800 : "")};
     border-radius: 0.5rem;

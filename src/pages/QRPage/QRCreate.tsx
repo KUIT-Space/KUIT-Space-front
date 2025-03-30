@@ -79,6 +79,7 @@ const QRCreateInput = ({ onChange }: { onChange: (e: ChangeEvent<HTMLInputElemen
 
 const QRCreate = () => {
   const { mutate: createEvent } = useCreateEvent(SPACE_ID);
+  const [startDate, setStartDate] = useState<Date | null>(new Date());
   const maxChars = 12;
   const [uploadedImage, setUploadedImage] = useState<File>(
     new File([new Blob([])], "default.jpg", {
@@ -86,14 +87,23 @@ const QRCreate = () => {
     }),
   );
   let title = "";
+  const tempDate = new Date(startDate!);
+  const tempDate2 = new Date(startDate!);
+  tempDate?.setHours(0);
+  tempDate?.setMinutes(0);
+  tempDate?.setSeconds(0);
+  tempDate2?.setHours(23);
+  tempDate2?.setMinutes(59);
+  tempDate2?.setSeconds(59);
+
   const navigate = useNavigate();
   const onCreateClick = () => {
     const eventData = {
       name: title,
       image: uploadedImage,
-      date: startDate!.toISOString(),
-      startTime: "2025-03-26T12:13:39.238Z",
-      endTime: "2025-03-26T12:13:39.238Z",
+      date: startDate!.toISOString().split("Z")[0],
+      startTime: tempDate!.toISOString().split("Z")[0],
+      endTime: tempDate2!.toISOString().split("Z")[0],
     };
     createEvent(eventData);
     navigate("/qr/home");
@@ -116,7 +126,6 @@ const QRCreate = () => {
   const date = today.getDate() < 10 ? "0" + today.getDate() : today.getDate();
   const days = ["(일)", "(월)", "(화)", "(수)", "(목)", "(금)", "(토)"];
   const day = days[today.getDay()];
-  const [startDate, setStartDate] = useState<Date | null>(new Date());
 
   return (
     <>

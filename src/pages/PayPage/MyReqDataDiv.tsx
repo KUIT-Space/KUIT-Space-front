@@ -24,7 +24,7 @@ const MyReqDataDiv = ({
             <s.AllPriceDiv> / {price2}원 </s.AllPriceDiv>
           </s.PriceDiv>
         </s.ColumnFlexDiv>
-        <s.ImgDiv>이미지 넣어야댐</s.ImgDiv>
+        <s.ImgDiv></s.ImgDiv>
       </s.RowFlexDiv>
     </s.RoundDiv>
   );
