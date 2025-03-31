@@ -7,6 +7,7 @@ import offPin from "@/assets/Board/pin1.svg";
 import onPin from "@/assets/Board/pin2.svg";
 import search from "@/assets/Board/search.svg";
 import TopBarText, { LeftEnum } from "@/components/TopBarText";
+import { SPACE_ID } from "@/utils/constants";
 
 const BoardListContainer = styled.div`
   display: flex;
@@ -34,12 +35,9 @@ const Divider = styled.div`
 
 const BoardList = () => {
   const navigate = useNavigate();
-
-  // TODO : spaceId 동적 처리
-  const spaceId = 1;
-  const { data: boardData } = useBoardListQuery(spaceId);
-  const subscribeMutation = useSubscribeBoard(spaceId);
-  const unsubscribeMutation = useUnsubscribeBoard(spaceId);
+  const { data: boardData } = useBoardListQuery(SPACE_ID);
+  const subscribeMutation = useSubscribeBoard(SPACE_ID);
+  const unsubscribeMutation = useUnsubscribeBoard(SPACE_ID);
 
   const prevId = useRef(boardData.result?.readBoardList[0].boardId || 1);
 

@@ -7,6 +7,7 @@ import comment from "@/assets/Board/comment.svg";
 import heartLiked from "@/assets/Board/heart_liked.svg";
 import heartUnliked from "@/assets/Board/heart_unliked.svg";
 import share from "@/assets/Board/share.svg";
+import { SPACE_ID } from "@/utils/constants";
 
 const BoardPostItemContainer = styled.div`
   width: 100%;
@@ -172,11 +173,8 @@ const BoardPostItem = ({
   const [isLikeNew, setIsLikeNew] = useState<boolean>(isLike);
   const [likeCountNew, setLikeCountNew] = useState<number>(likeCount);
 
-  // TODO : spaceId 동적 처리
-  const spaceId = 1;
-
   const handleLike = () => {
-    if (spaceId !== null) {
+    if (SPACE_ID !== null) {
       // if (isLikeNew === true) {
       //   // 좋아요 해제
       //   deleteLikeOnPostApi(Number.parseInt(spaceId), postId)

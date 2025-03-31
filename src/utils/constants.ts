@@ -1,4 +1,4 @@
-export const SPACE_ID = 3;
+export const SPACE_ID = import.meta.env.DEV ? 1 : 3;
 export const koreanBanks = [
   "국민은행",
   "신한은행",

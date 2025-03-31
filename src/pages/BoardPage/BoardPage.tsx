@@ -14,6 +14,7 @@ import {
   BoardPostItemEmpty,
 } from "@/pages/BoardPage/BoardPage.styled";
 import BoardPostItem from "@/pages/BoardPage/BoardPostItem";
+import { SPACE_ID } from "@/utils/constants";
 
 export type boardSelectedOptionType = {
   id: string;
@@ -35,15 +36,11 @@ type BoardContentProps = {
 
 const BoardContent = ({ selectedOption, isModalOpen, setIsModalOpen }: BoardContentProps) => {
   const { id: boardId } = useParams();
-
-  // TODO : spaceId 동적 처리 필요
-  const spaceId = 1;
-
   const [searchParams] = useSearchParams();
   const tagId = searchParams.get("tagId");
 
   const { data: posts } = usePostsQuery(
-    spaceId,
+    SPACE_ID,
     Number(boardId),
     tagId ? Number(tagId) : undefined,
   );

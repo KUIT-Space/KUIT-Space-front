@@ -11,6 +11,7 @@ import share from "@/assets/Board/share.svg";
 import send from "@/assets/ChatPage/btn_send.svg";
 import TopBarText, { LeftEnum } from "@/components/TopBarText";
 import BoardDetailComment from "@/pages/BoardPage/BoardDetailpage/BoardDetailComment";
+import { SPACE_ID } from "@/utils/constants";
 
 import * as S from "./BoardDetailPage.styled";
 
@@ -160,13 +161,10 @@ const PostDetailContent = ({ spaceId, boardId, postId }: PostDetailContentProps)
 const BoardDetailPage = () => {
   const { id: boardId, postId } = useParams();
 
-  // TODO: spaceId 동적 처리 필요
-  const spaceId = 1;
-
   return (
     <>
       <TopBarText left={LeftEnum.Back} center="게시판" right={""} />
-      <PostDetailContent spaceId={spaceId} boardId={Number(boardId)} postId={Number(postId)} />
+      <PostDetailContent spaceId={SPACE_ID} boardId={Number(boardId)} postId={Number(postId)} />
     </>
   );
 };
