@@ -100,6 +100,7 @@ export interface CommentDetail {
 
 export interface CreateCommentRequest {
   content: string;
+  isAnonymous: boolean;
 }
 
 export interface UpdateCommentRequest {
@@ -228,14 +229,18 @@ export const useUnsubscribeBoard = (spaceId: number) => {
 const getPosts = async (
   spaceId: number,
   boardId: number,
+  tagId?: number,
 ): Promise<ApiResponse<ReadPostListResponse>> => {
+  if (tagId) {
+    return client.get(`space/${spaceId}/board/${boardId}/post?tagId=${tagId}`).json();
+  }
   return client.get(`space/${spaceId}/board/${boardId}/post`).json();
 };
 
-export const usePostsQuery = (spaceId: number, boardId: number) => {
+export const usePostsQuery = (spaceId: number, boardId: number, tagId?: number) => {
   return useSuspenseQuery({
     queryKey: postKeys.lists(spaceId, boardId),
-    queryFn: () => getPosts(spaceId, boardId),
+    queryFn: () => getPosts(spaceId, boardId, tagId),
   });
 };
 
