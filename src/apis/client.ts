@@ -1,6 +1,7 @@
 import ky, { BeforeErrorHook, HTTPError } from "ky";
 import { match } from "ts-pattern";
 
+import authSpaceStore from "@/stores/authSpaceStore";
 import { UnauthorizedError } from "@/utils/HttpErrors";
 
 export interface ApiResponse<T = unknown> {
@@ -34,12 +35,14 @@ const handleHttpError: BeforeErrorHook = async (error) => {
   return error;
 };
 
+const getAccessToken = () => authSpaceStore.getState().getAccessToken();
+
 export const client = ky.create({
   prefixUrl: import.meta.env.VITE_API_BACK_URL,
   hooks: {
     beforeRequest: [
       (request) => {
-        const accessToken = localStorage.getItem("accessToken");
+        const accessToken = getAccessToken();
         if (accessToken) {
           request.headers.set("Authorization", accessToken);
         }
@@ -49,13 +52,13 @@ export const client = ky.create({
     afterResponse: [
       async (request, options, response) => {
         if (response.status === 401) {
-          localStorage.removeItem("accessToken");
+          authSpaceStore.getState().logout();
           return;
         }
 
         const apiResponse = (await response.clone().json()) as ApiResponse;
         if (apiResponse.code === 4001) {
-          localStorage.removeItem("accessToken");
+          authSpaceStore.getState().logout();
         }
       },
     ],

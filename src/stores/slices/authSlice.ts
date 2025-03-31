@@ -3,46 +3,51 @@ import { StateCreator } from "zustand";
 export interface AuthState {
   isAuthenticated: boolean;
   isLoading: boolean;
+  accessToken: string | null;
+  refreshToken: string | null;
 }
 
 export interface AuthActions {
   login: (accessToken: string, refreshToken: string) => void;
   logout: () => void;
   checkAuth: () => Promise<boolean>;
+  getAccessToken: () => string | null;
 }
 
-type AuthSlice = AuthState & AuthActions;
+export type AuthSlice = AuthState & AuthActions;
 
-export const createAuthSlice: StateCreator<AuthSlice, [], [], AuthSlice> = (set) => ({
+export const createAuthSlice: StateCreator<AuthSlice> = (set, get) => ({
   isAuthenticated: false,
   isLoading: true,
+  accessToken: null,
+  refreshToken: null,
 
   login: (accessToken: string, refreshToken: string) => {
-    localStorage.setItem("accessToken", accessToken);
-    localStorage.setItem("refreshToken", refreshToken);
-    set((state) => ({
-      ...state,
+    set({
       isAuthenticated: true,
       isLoading: false,
-    }));
+      accessToken,
+      refreshToken,
+    });
   },
 
   logout: () => {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
-    set((state) => ({
-      ...state,
+    set({
       isAuthenticated: false,
-      isLoading: false,
-    }));
+      accessToken: null,
+      refreshToken: null,
+    });
   },
 
   checkAuth: async () => {
-    set((state) => ({ ...state, isLoading: true }));
-    const accessToken = localStorage.getItem("accessToken");
-    const refreshToken = localStorage.getItem("refreshToken");
+    set({ isLoading: true });
+    const { accessToken, refreshToken } = get();
     const hasTokens = !!accessToken && !!refreshToken;
-    set((state) => ({ ...state, isAuthenticated: hasTokens, isLoading: false }));
+    set({ isAuthenticated: hasTokens, isLoading: false });
     return hasTokens;
+  },
+
+  getAccessToken: () => {
+    return get().accessToken;
   },
 });

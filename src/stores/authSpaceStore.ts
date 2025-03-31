@@ -20,9 +20,9 @@ const authSpaceStore = create<StoreState>()(
       {
         name: "auth-space-store",
         partialize: (state) => ({
-          isAuthenticated: state.isAuthenticated,
+          accessToken: state.accessToken,
+          refreshToken: state.refreshToken,
           managedSpaces: state.managedSpaces,
-          selectedSpaceId: state.selectedSpaceId,
         }),
       },
     ),
