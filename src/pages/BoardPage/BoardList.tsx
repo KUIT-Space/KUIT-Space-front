@@ -71,7 +71,11 @@ const BoardList = () => {
                 alt="pin"
                 onClick={(e) => handlePinClick(board, e)}
               />
-              <BoardName onClick={() => navigate(`/board/${board.boardId}`)}>
+              <BoardName
+                onClick={() => {
+                  navigate(`/board/${board.boardId}${board.tagId ? `?tagId=${board.tagId}` : ""}`);
+                }}
+              >
                 {board.boardName}
                 {board.tagName && ` - ${board.tagName}`}
               </BoardName>

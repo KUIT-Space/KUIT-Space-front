@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 import { usePostsQuery } from "@/apis/Board";
 import arrowDown from "@/assets/Board/chevron_down.svg";
@@ -38,7 +39,14 @@ const BoardContent = ({ selectedOption, isModalOpen, setIsModalOpen }: BoardCont
   // TODO : spaceId 동적 처리 필요
   const spaceId = 1;
 
-  const { data: posts } = usePostsQuery(spaceId, Number(boardId));
+  const [searchParams] = useSearchParams();
+  const tagId = searchParams.get("tagId");
+
+  const { data: posts } = usePostsQuery(
+    spaceId,
+    Number(boardId),
+    tagId ? Number(tagId) : undefined,
+  );
   const allPosts = posts?.result?.readPostList || [];
 
   // Client-side filtering based on selected option
