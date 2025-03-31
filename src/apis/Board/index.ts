@@ -100,6 +100,7 @@ export interface CommentDetail {
 
 export interface CreateCommentRequest {
   content: string;
+  isAnonymous: boolean;
 }
 
 export interface UpdateCommentRequest {

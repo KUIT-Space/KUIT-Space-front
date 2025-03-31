@@ -48,7 +48,7 @@ export const BoardPostDetailContainer = styled.div`
 `;
 
 export const BoardPostDetailCommentContainer = styled.div`
-  margin-bottom: 3rem;
+  padding-bottom: 4rem;
 `;
 
 export const BoardPostDetailContent = styled.section`
@@ -160,13 +160,31 @@ export const BoardDetailInputContainer = styled.div`
   padding: 0.5rem 1rem;
   gap: 0.5rem;
   max-width: 720px;
+
+  #anonymous-icon {
+    position: absolute;
+    left: 1.5rem;
+    top: 1rem;
+  }
+
+  #send-icon {
+    cursor: pointer;
+    position: absolute;
+    right: 1.5rem;
+    top: 1rem;
+    width: 2rem;
+    height: 2rem;
+    margin-left: auto;
+  }
 `;
 
 export const BoardDetailInput = styled.input`
   width: 100%;
+  height: 3rem;
   padding: 0.5rem 1rem;
+  padding-left: 4rem;
   border: none;
-  border-radius: 1.25rem;
+  border-radius: 0.625rem;
   background: var(--Foundation-Gray-gray800, #222226);
 
   color: var(--Foundation-Gray-gray500, #767681);
@@ -177,9 +195,11 @@ export const BoardDetailInput = styled.input`
   font-weight: 400;
   line-height: 140%; /* 19.6px */
   letter-spacing: 0.56px;
+  color: var(--WHITE, #fff);
 
   &:focus {
     outline: none;
-    color: var(--WHITE, #fff);
   }
+
+  caret-color: ${(props) => props.theme.colors.normal};
 `;

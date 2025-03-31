@@ -1,12 +1,15 @@
 import { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
-import { PostDetail, useCreateComment, usePostDetailQuery, useToggleLike } from "@/apis/Board";
+import { useCreateComment, usePostDetailQuery, useToggleLike } from "@/apis/Board";
+import AnonymousIcon from "@/assets/Board/anonymous.svg";
+import CheckedAnonymousIcon from "@/assets/Board/check_anonymous.svg";
 import comment from "@/assets/Board/comment.svg";
 import heartLiked from "@/assets/Board/heart_liked.svg";
 import heartUnliked from "@/assets/Board/heart_unliked.svg";
 import share from "@/assets/Board/share.svg";
 import send from "@/assets/ChatPage/btn_send.svg";
+import Modal from "@/components/Modal";
 import TopBarText, { LeftEnum } from "@/components/TopBarText";
 import BoardDetailComment from "@/pages/BoardPage/BoardDetailpage/BoardDetailComment";
 
@@ -20,12 +23,11 @@ interface PostDetailContentProps {
 }
 
 const PostDetailContent = ({ spaceId, boardId, postId }: PostDetailContentProps) => {
-  const navigate = useNavigate();
-
   const { data: postDetail } = usePostDetailQuery(spaceId, boardId, postId);
   const toggleLikeMutation = useToggleLike(spaceId, boardId, postId);
   const createCommentMutation = useCreateComment(spaceId, boardId, postId);
   const [commentValue, setCommentValue] = useState("");
+  const [isAnonymous, setIsAnonymous] = useState(false);
 
   const handleLike = () => {
     toggleLikeMutation.mutate({
@@ -38,19 +40,19 @@ const PostDetailContent = ({ spaceId, boardId, postId }: PostDetailContentProps)
       createCommentMutation.mutate(
         {
           content: commentValue,
+          isAnonymous: isAnonymous,
         },
         {
           onSuccess: () => {
             setCommentValue("");
           },
+          onError: () => {
+            // TODO : 모달로 바꾸기
+            window.alert("해당 글은 익명으로 작성 불가능합니다");
+          },
         },
       );
     }
-  };
-
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return date.toLocaleString();
   };
 
   return (
@@ -68,7 +70,7 @@ const PostDetailContent = ({ spaceId, boardId, postId }: PostDetailContentProps)
           )}
           <div className="board-post-detail-header-text">
             <span>{postDetail.result?.creatorName}</span>
-            <span>{formatDate(postDetail.result?.createdAt)}</span>
+            <span>{postDetail.result?.createdAt ?? ""}</span>
           </div>
         </header>
         <S.BoardPostDetailContent>
@@ -110,7 +112,7 @@ const PostDetailContent = ({ spaceId, boardId, postId }: PostDetailContentProps)
               <BoardDetailComment
                 profileName={comment.creatorName}
                 profileImg={comment.creatorProfileImageUrl}
-                elapsedTime={formatDate(comment.createdAt)}
+                elapsedTime={comment.createdAt}
                 content={comment.content}
                 isLike={comment.isLiked}
                 likeCount={comment.likeCount}
@@ -125,18 +127,32 @@ const PostDetailContent = ({ spaceId, boardId, postId }: PostDetailContentProps)
           </S.BoardPostCommentEmpty>
         )}
       </S.BoardPostDetailCommentContainer>
+
       <S.BoardDetailInputContainer>
+        <img
+          id="anonymous-icon"
+          src={isAnonymous ? `${CheckedAnonymousIcon}` : `${AnonymousIcon}`}
+          alt="익명 여부 아이콘"
+          onClick={() => setIsAnonymous(!isAnonymous)}
+          style={{ cursor: "pointer", marginRight: "8px" }}
+        />
         <S.BoardDetailInput
           placeholder="댓글을 입력하세요."
           value={commentValue}
           onChange={(e) => setCommentValue(e.target.value)}
-          onKeyPress={(e) => {
+          onKeyDown={(e) => {
             if (e.key === "Enter") {
               handleRegisterComment();
             }
           }}
         />
-        <img src={send} onClick={handleRegisterComment} alt="send" style={{ cursor: "pointer" }} />
+        <img
+          id="send-icon"
+          src={send}
+          onClick={handleRegisterComment}
+          alt="send"
+          style={{ cursor: "pointer" }}
+        />
       </S.BoardDetailInputContainer>
     </>
   );
