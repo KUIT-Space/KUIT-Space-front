@@ -9,11 +9,10 @@ import heartLiked from "@/assets/Board/heart_liked.svg";
 import heartUnliked from "@/assets/Board/heart_unliked.svg";
 import share from "@/assets/Board/share.svg";
 import send from "@/assets/ChatPage/btn_send.svg";
-import Modal from "@/components/Modal";
 import TopBarText, { LeftEnum } from "@/components/TopBarText";
 import BoardDetailComment from "@/pages/BoardPage/BoardDetailpage/BoardDetailComment";
 
-import * as S from "./BoardDetailPage.styles";
+import * as S from "./BoardDetailPage.styled";
 
 // 실제 게시물 내용을 표시하는 컴포넌트
 interface PostDetailContentProps {
