@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-import { BoardInfo, useBoardListQuery } from "@/apis/Board";
+import { BoardInfo, useBoardListQuery, useSubscribeBoard, useUnsubscribeBoard } from "@/apis/Board";
 import offPin from "@/assets/Board/pin1.svg";
 import onPin from "@/assets/Board/pin2.svg";
 import search from "@/assets/Board/search.svg";
@@ -34,25 +34,24 @@ const Divider = styled.div`
 
 const BoardList = () => {
   const navigate = useNavigate();
-  // const Toggle = ({ id, title }: { id: number; title: string }) => {
-  //   setBoardList(
-  //     boardList.map((item) =>
-  //       item.boardId === id && item.boardName === title
-  //         ? {
-  //             ...item,
-  //             isPinned: !item.isSubscribed,
-  //           }
-  //         : item,
-  //     ),
-  //   );
-  // };
-
-  // const [boardList, setBoardList] = useState<BoardInfo[]>([]);
 
   // TODO : spaceId 동적 처리
   const spaceId = 1;
   const { data: boardData } = useBoardListQuery(spaceId);
+  const subscribeMutation = useSubscribeBoard(spaceId);
+  const unsubscribeMutation = useUnsubscribeBoard(spaceId);
+
   const prevId = useRef(boardData.result?.readBoardList[0].boardId || 1);
+
+  const handlePinClick = (board: BoardInfo, e: React.MouseEvent) => {
+    e.stopPropagation();
+
+    if (board.isSubscribed) {
+      unsubscribeMutation.mutate({ boardId: board.boardId, tagId: board.tagId });
+    } else {
+      subscribeMutation.mutate({ boardId: board.boardId, tagId: board.tagId });
+    }
+  };
 
   return (
     <div>
@@ -70,9 +69,9 @@ const BoardList = () => {
               <img
                 src={board.isSubscribed ? onPin : offPin}
                 alt="pin"
-                // onClick={() => Toggle({ id: board.boardId, title: board.boardName })}
+                onClick={(e) => handlePinClick(board, e)}
               />
-              <BoardName onClick={() => navigate("/board")}>
+              <BoardName onClick={() => navigate(`/board/${board.boardId}`)}>
                 {board.boardName}
                 {board.tagName && ` - ${board.tagName}`}
               </BoardName>
