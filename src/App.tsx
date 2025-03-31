@@ -44,8 +44,10 @@ import { theme } from "@/styles/Theme";
 
 import AuthGuardProvider from "./components/AuthGuardProvider";
 import SkeletonDetailPage from "./components/SkeletonDetailPage";
+import BoardDetailPage from "./pages/BoardPage/BoardDetailpage/BoardDetailPage";
 // import BoardDetailPage from "./pages/BoardPage/BoardDetailpage/BoardDetailPage";
 import BoardList from "./pages/BoardPage/BoardList";
+import BoardPage from "./pages/BoardPage/BoardPage";
 // import BoardRegisterPage from "./pages/BoardPage/BoardRegisterPage/BoardRegisterPage";
 import HomePageMemberPage from "./pages/HomePage/HomePageMember";
 import HomePageProfile from "./pages/HomePage/HomePageProfile";
@@ -155,8 +157,8 @@ function App() {
 
   const routes_children_board = [
     { path: "/boardlist", element: <BoardList />, hasBottomBar: true },
+    { path: "/board/:id", element: <BoardPage />, hasBottomBar: true },
     // { path: "/board", element: <BoardPage />, hasBottomBar: true },
-    // { path: "/board/:id", element: <BoardDetailPage />, hasBottomBar: false },
     // { path: "/board/register", element: <BoardRegisterPage />, hasBottomBar: false },
   ];
 
