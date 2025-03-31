@@ -52,6 +52,7 @@ import HomePageProfile from "./pages/HomePage/HomePageProfile";
 import HomePageSetting from "./pages/HomePage/HomePageSetting";
 import KakaoRedirection from "./pages/LoginPage/KakaoRedirection";
 import MenuList from "./pages/MenuPage/MenuList";
+import MyRequestPayDetailPage from "./pages/PayPage/MyRequestPayDetailPage";
 import QRCreate from "./pages/QRPage/QRCreate";
 import QRDetail from "./pages/QRPage/QRDetail";
 import QRHome from "./pages/QRPage/QRHome";
@@ -60,7 +61,6 @@ import InviteSpace from "./pages/SpacePage/InviteSpace";
 import InviteSpace2 from "./pages/SpacePage/InviteSpace2";
 import SpecialVoiceRoom from "./pages/VoiceRoomPage/SpecialVoiceRoom";
 import WritePostPage from "./pages/WritePostPage";
-import MyRequestPayDetailPage from "./pages/PayPage/MyRequestPayDetailPage";
 
 // will we need constant path in later..?
 // const PATH = {
@@ -153,12 +153,12 @@ function App() {
     { path: "/specialvoiceroom", element: <SpecialVoiceRoom />, hasBottombar: false },
   ];
 
-  // const routes_children_board = [
-  //   { path: "/boardlist", element: <BoardList />, hasBottomBar: true },
-  //   { path: "/board", element: <BoardPage />, hasBottomBar: true },
-  //   { path: "/board/:id", element: <BoardDetailPage />, hasBottomBar: false },
-  //   { path: "/board/register", element: <BoardRegisterPage />, hasBottomBar: false },
-  // ];
+  const routes_children_board = [
+    { path: "/boardlist", element: <BoardList />, hasBottomBar: true },
+    // { path: "/board", element: <BoardPage />, hasBottomBar: true },
+    // { path: "/board/:id", element: <BoardDetailPage />, hasBottomBar: false },
+    // { path: "/board/register", element: <BoardRegisterPage />, hasBottomBar: false },
+  ];
 
   const routes_children_space = [
     { path: "/space", element: <SpacePage /> },
@@ -196,7 +196,7 @@ function App() {
     ...routes_children_chat,
     ...routes_children_pay,
     ...routes_children_voice,
-    // ...routes_children_board,
+    ...routes_children_board,
     ...routes_children_space,
     ...routes_children_login,
     ...routes_children_home,
