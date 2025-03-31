@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 export const BoardIcon: React.FC<React.SVGProps<SVGSVGElement>> = ({ fill }) => (
   <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path
