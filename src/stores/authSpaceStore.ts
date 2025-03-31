@@ -9,7 +9,7 @@ type StoreState = ReturnType<typeof createAuthSlice> &
   ReturnType<typeof createSpaceSlice> &
   ReturnType<typeof createAuthSpaceSlice>;
 
-export const useStore = create<StoreState>()(
+const authSpaceStore = create<StoreState>()(
   devtools(
     persist(
       (...a) => ({
@@ -18,7 +18,7 @@ export const useStore = create<StoreState>()(
         ...createAuthSpaceSlice(...a),
       }),
       {
-        name: "space-store",
+        name: "auth-space-store",
         partialize: (state) => ({
           isAuthenticated: state.isAuthenticated,
           managedSpaces: state.managedSpaces,
@@ -27,7 +27,9 @@ export const useStore = create<StoreState>()(
       },
     ),
     {
-      name: "Space Store",
+      name: "auth-space-store",
     },
   ),
 );
+
+export default authSpaceStore;
