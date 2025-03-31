@@ -20,6 +20,7 @@ export type boardSelectedOptionType = {
   value: string;
 };
 
+// TODO : tag 별로 다른 Option 띄워주고, 하나의 tag Board 안에서 다른 Board로 이동 가능하게
 export const boardSelectedOption = [
   { id: "all", value: "전체" },
   { id: "notice", value: "공지 게시글" },
@@ -34,7 +35,6 @@ type BoardContentProps = {
 
 const BoardContent = ({ selectedOption, isModalOpen, setIsModalOpen }: BoardContentProps) => {
   const { id: boardId } = useParams();
-  const navigate = useNavigate();
 
   // TODO : spaceId 동적 처리 필요
   const spaceId = 1;

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 
 // import { deleteLikeOnPostApi, postLikeOnPostApi } from "@/apis/Board/BoardPostLikeApi";
@@ -153,6 +153,7 @@ export type BoardPostItemProps = {
   likeCount: number;
   commentCount: number;
 };
+
 const BoardPostItem = ({
   postId,
   profileName,
@@ -166,11 +167,13 @@ const BoardPostItem = ({
   commentCount,
 }: BoardPostItemProps) => {
   const navigate = useNavigate();
+  const { id: boardId } = useParams();
 
   const [isLikeNew, setIsLikeNew] = useState<boolean>(isLike);
   const [likeCountNew, setLikeCountNew] = useState<number>(likeCount);
 
-  const spaceId = localStorage.getItem("spaceId");
+  // TODO : spaceId 동적 처리
+  const spaceId = 1;
 
   const handleLike = () => {
     if (spaceId !== null) {
@@ -202,13 +205,13 @@ const BoardPostItem = ({
   };
 
   return (
-    <BoardPostItemContainer>
-      <header className="board-post-item-header" onClick={() => navigate(`/board/${postId}`)}>
+    <BoardPostItemContainer onClick={() => navigate(`/board/${boardId}/post/${postId}`)}>
+      <header className="board-post-item-header">
         {profileImg ? <img src={profileImg} alt="프로필 이미지" /> : <div />}
         <span>{profileName}</span>
         <span>{elapsedTime}</span>
       </header>
-      <BoardPostItemContent onClick={() => navigate(`/board/${postId}`)}>
+      <BoardPostItemContent>
         <div className="board-post-item-content-text">
           <span>{title}</span>
           <div>{content}</div>

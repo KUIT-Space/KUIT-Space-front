@@ -1,6 +1,4 @@
-import { useEffect, useState } from "react";
-import { Suspense } from "react";
-import { ErrorBoundary } from "react-error-boundary";
+import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { PostDetail, useCreateComment, usePostDetailQuery, useToggleLike } from "@/apis/Board";
@@ -15,8 +13,15 @@ import BoardDetailComment from "@/pages/BoardPage/BoardDetailpage/BoardDetailCom
 import * as S from "./BoardDetailPage.styles";
 
 // 실제 게시물 내용을 표시하는 컴포넌트
-const PostDetailContent = ({ spaceId, boardId, postId }) => {
+interface PostDetailContentProps {
+  spaceId: number;
+  boardId: number;
+  postId: number;
+}
+
+const PostDetailContent = ({ spaceId, boardId, postId }: PostDetailContentProps) => {
   const navigate = useNavigate();
+
   const { data: postDetail } = usePostDetailQuery(spaceId, boardId, postId);
   const toggleLikeMutation = useToggleLike(spaceId, boardId, postId);
   const createCommentMutation = useCreateComment(spaceId, boardId, postId);
@@ -24,7 +29,7 @@ const PostDetailContent = ({ spaceId, boardId, postId }) => {
 
   const handleLike = () => {
     toggleLikeMutation.mutate({
-      changeTo: !postDetail.data.isLiked,
+      changeTo: !postDetail.result?.isLiked,
     });
   };
 
@@ -52,9 +57,9 @@ const PostDetailContent = ({ spaceId, boardId, postId }) => {
     <>
       <S.BoardPostDetailContainer>
         <header className="board-post-detail-header">
-          {postDetail.data.creatorProfileImageUrl ? (
+          {postDetail.result?.creatorProfileImageUrl ? (
             <img
-              src={postDetail.data.creatorProfileImageUrl}
+              src={postDetail.result?.creatorProfileImageUrl}
               alt="프로필 이미지"
               className="board-post-detail-header-img"
             />
@@ -62,18 +67,18 @@ const PostDetailContent = ({ spaceId, boardId, postId }) => {
             <div className="board-post-detail-header-img" />
           )}
           <div className="board-post-detail-header-text">
-            <span>{postDetail.data.creatorName}</span>
-            <span>{formatDate(postDetail.data.createdAt)}</span>
+            <span>{postDetail.result?.creatorName}</span>
+            <span>{formatDate(postDetail.result?.createdAt)}</span>
           </div>
         </header>
         <S.BoardPostDetailContent>
           <div className="board-post-detail-content-text">
-            <span>{postDetail.data.title}</span>
-            <div>{postDetail.data.content}</div>
+            <span>{postDetail.result?.title}</span>
+            <div>{postDetail.result?.content}</div>
           </div>
           <div className="board-post-detail-content-img-container">
-            {postDetail.data.attachmentUrls &&
-              postDetail.data.attachmentUrls.map((url, i) => (
+            {postDetail.result?.attachmentUrls &&
+              postDetail.result.attachmentUrls.map((url, i) => (
                 <img
                   key={i + "img"}
                   src={url}
@@ -85,22 +90,22 @@ const PostDetailContent = ({ spaceId, boardId, postId }) => {
         </S.BoardPostDetailContent>
         <S.BoardPostDetailFooter>
           <S.BoardPostDetailLikeBtn
-            className={postDetail.data.isLiked ? "liked" : ""}
+            className={postDetail.result?.isLiked ? "liked" : ""}
             onClick={handleLike}
           >
-            <img src={postDetail.data.isLiked ? heartLiked : heartUnliked} alt="좋아요" />
-            {postDetail.data.likeCount}
+            <img src={postDetail.result?.isLiked ? heartLiked : heartUnliked} alt="좋아요" />
+            {postDetail.result?.likeCount}
           </S.BoardPostDetailLikeBtn>
           <div className="board-post-detail-footer-item">
             <img src={comment} alt="댓글" />
-            {postDetail.data.responseOfCommentDetails.length}
+            {postDetail.result?.responseOfCommentDetails.length}
           </div>
           <img src={share} alt="공유하기" />
         </S.BoardPostDetailFooter>
       </S.BoardPostDetailContainer>
       <S.BoardPostDetailCommentContainer>
-        {postDetail.data.responseOfCommentDetails.length > 0 ? (
-          postDetail.data.responseOfCommentDetails.map((comment, i) => (
+        {postDetail.result && postDetail.result.responseOfCommentDetails.length > 0 ? (
+          postDetail.result.responseOfCommentDetails.map((comment, i) => (
             <div key={i + comment.content}>
               <BoardDetailComment
                 profileName={comment.creatorName}
@@ -138,27 +143,15 @@ const PostDetailContent = ({ spaceId, boardId, postId }) => {
 };
 
 const BoardDetailPage = () => {
-  const { id: boardId } = useParams(); // 라우트에서 boardId를 가져옴
-  const navigate = useNavigate();
+  const { id: boardId, postId } = useParams();
 
-  // spaceId를 1로 고정
+  // TODO: spaceId 동적 처리 필요
   const spaceId = 1;
-  // postId도 필요하므로 쿼리 파라미터나 다른 방법으로 전달받아야 함
-  // 이 예제에서는 임시로 URL에서 postId를 추출한다고 가정
-  const searchParams = new URLSearchParams(window.location.search);
-  const postId = Number(searchParams.get("postId") || "1");
 
   return (
     <>
-      <TopBarText
-        left={LeftEnum.Back}
-        center="게시판"
-        right={""}
-        // onBackClick={() => {
-        //   navigate(-1);
-        // }}
-      />
-      <PostDetailContent spaceId={spaceId} boardId={Number(boardId)} postId={postId} />
+      <TopBarText left={LeftEnum.Back} center="게시판" right={""} />
+      <PostDetailContent spaceId={spaceId} boardId={Number(boardId)} postId={Number(postId)} />
     </>
   );
 };
