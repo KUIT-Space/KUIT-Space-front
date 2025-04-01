@@ -77,12 +77,12 @@ export const useExchangeCodeForTokens = (options?: {
   onError?: (error: Error) => void;
 }) => {
   const queryClient = useQueryClient();
-  const { login } = useAuthSpaceStore();
+  const { loginWithSpaces } = useAuthSpaceStore();
   return useMutation({
     mutationFn: (code: string) => exchangeCodeForTokens(code),
     onSuccess: (data) => {
-      if (data.accessToken && data.refreshToken) {
-        login(data.accessToken, data.refreshToken);
+      if (data.accessToken && data.refreshToken && data.result) {
+        loginWithSpaces(data.accessToken, data.refreshToken, data.result.spaceInfos);
         queryClient.invalidateQueries({ queryKey: ["auth"] });
       }
       options?.onSuccess?.(data);
