@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { devtools, persist } from "zustand/middleware";
+import { createJSONStorage, devtools, persist } from "zustand/middleware";
 
 import { createAuthSlice } from "./slices/authSlice";
 import { createAuthSpaceSlice } from "./slices/authSpaceSlice";
@@ -9,7 +9,7 @@ type StoreState = ReturnType<typeof createAuthSlice> &
   ReturnType<typeof createSpaceSlice> &
   ReturnType<typeof createAuthSpaceSlice>;
 
-const authSpaceStore = create<StoreState>()(
+const useAuthSpaceStore = create<StoreState>()(
   devtools(
     persist(
       (...a) => ({
@@ -24,6 +24,14 @@ const authSpaceStore = create<StoreState>()(
           refreshToken: state.refreshToken,
           managedSpaces: state.managedSpaces,
         }),
+        storage: createJSONStorage(() => localStorage),
+        onRehydrateStorage: () => {
+          return (state) => {
+            if (state) {
+              state.load();
+            }
+          };
+        },
       },
     ),
     {
@@ -32,4 +40,4 @@ const authSpaceStore = create<StoreState>()(
   ),
 );
 
-export default authSpaceStore;
+export default useAuthSpaceStore;
