@@ -36,6 +36,7 @@ const handleHttpError: BeforeErrorHook = async (error) => {
 };
 
 const getAccessToken = () => authSpaceStore.getState().getAccessToken();
+const logout = () => authSpaceStore.getState().logout();
 
 export const client = ky.create({
   prefixUrl: import.meta.env.VITE_API_BACK_URL,
@@ -52,13 +53,13 @@ export const client = ky.create({
     afterResponse: [
       async (request, options, response) => {
         if (response.status === 401) {
-          authSpaceStore.getState().logout();
+          logout();
           return;
         }
 
         const apiResponse = (await response.clone().json()) as ApiResponse;
         if (apiResponse.code === 4001) {
-          authSpaceStore.getState().logout();
+          logout();
         }
       },
     ],
