@@ -9,7 +9,8 @@ interface AuthGuardProviderProps extends React.PropsWithChildren {
 
 export default function AuthGuardProvider({ children, options }: AuthGuardProviderProps) {
   const navigate = useNavigate();
-  const { isAuthenticated } = useAuthQuery();
+  const { data } = useAuthQuery();
+  const { isAuthenticated } = data;
   const redirectTo = options?.redirectTo || "/discordlogin";
   const location = useLocation();
 
