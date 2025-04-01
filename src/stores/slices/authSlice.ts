@@ -3,6 +3,7 @@ import { StateCreator } from "zustand";
 export interface AuthState {
   isAuthenticated: boolean;
   isLoading: boolean;
+  isError: boolean;
   accessToken: string | null;
   refreshToken: string | null;
 }
@@ -11,6 +12,7 @@ export interface AuthActions {
   login: (accessToken: string, refreshToken: string) => void;
   logout: () => void;
   load: () => void;
+  setError: (error: boolean) => void;
   getAccessToken: () => string | null;
 }
 
@@ -19,6 +21,7 @@ export type AuthSlice = AuthState & AuthActions;
 export const createAuthSlice: StateCreator<AuthSlice> = (set, get) => ({
   isAuthenticated: false,
   isLoading: true,
+  isError: false,
   accessToken: null,
   refreshToken: null,
 
@@ -46,6 +49,13 @@ export const createAuthSlice: StateCreator<AuthSlice> = (set, get) => ({
       ...state,
       isLoading: false,
       isAuthenticated: hasTokens,
+    }));
+  },
+
+  setError: (error: boolean) => {
+    set((state) => ({
+      ...state,
+      isError: error,
     }));
   },
 

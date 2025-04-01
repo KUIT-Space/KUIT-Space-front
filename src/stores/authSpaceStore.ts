@@ -26,7 +26,10 @@ const useAuthSpaceStore = create<AuthSpaceStore>()(
         }),
         storage: createJSONStorage(() => localStorage),
         onRehydrateStorage: () => {
-          return (state) => {
+          return (state, error) => {
+            if (error) {
+              state?.setError(true);
+            }
             if (state) {
               state.load();
             }

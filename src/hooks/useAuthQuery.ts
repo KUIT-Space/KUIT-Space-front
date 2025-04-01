@@ -1,14 +1,15 @@
 import authSpaceStore, { AuthSpaceStore } from "@/stores/authSpaceStore";
 
 export interface AuthQueryData {
-  data: AuthSpaceStore;
+  data: Omit<AuthSpaceStore, "isLoading" | "isError">;
   isLoading: boolean;
+  isError: boolean;
 }
 
 export default function useAuthQuery(): AuthQueryData {
-  const state = authSpaceStore();
+  const { isLoading, isError, ...state } = authSpaceStore();
 
-  if (state.isLoading) {
+  if (isLoading) {
     throw new Promise<void>((resolve) => {
       const unsubscribe = authSpaceStore.subscribe((state) => {
         if (!state.isLoading) {
@@ -19,5 +20,5 @@ export default function useAuthQuery(): AuthQueryData {
     });
   }
 
-  return { data: state, isLoading: state.isLoading };
+  return { data: state, isLoading: isLoading, isError: isError };
 }
