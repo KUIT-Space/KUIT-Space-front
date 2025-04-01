@@ -70,6 +70,7 @@ export const NoticeContainer = styled.div`
   border-radius: 0.75rem 0.75rem 0rem 0rem;
   width: 100%;
   margin: 0 auto;
+  padding-bottom: 4rem;
 `;
 
 export const Settlement = styled.div`

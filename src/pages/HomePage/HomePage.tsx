@@ -32,16 +32,16 @@ const HomePage = () => {
 
   const { data } = useHomeQuery(SPACE_ID);
   //TODO
-  // const noticeList = data.result?.notices;
-  const noticeList = [
-    { content: "테스트", timePassed: "1일 전", postId: 1 },
-    { content: "테스트", timePassed: "1일 전", postId: 1 },
-  ];
-  // const subscribeList = data.result?.subscriptions;
-  const subscribeList = [
-    { boardId: 1, boardName: "정산게시판", boardTitle: "정산해주세요", tagName: "태그" },
-    { boardId: 2, boardName: "정산게시판", boardTitle: "정산해주세요", tagName: "태그" },
-  ];
+  const noticeList = data.result?.notices;
+  // const noticeList = [
+  //   { content: "테스트", timePassed: "1일 전", postId: 1 },
+  //   { content: "테스트", timePassed: "1일 전", postId: 1 },
+  // ];
+  const subscribeList = data.result?.subscriptions;
+  // const subscribeList = [
+  //   { boardId: 1, boardName: "정산게시판", boardTitle: "정산해주세요", tagName: "태그" },
+  //   { boardId: 2, boardName: "정산게시판", boardTitle: "정산해주세요", tagName: "태그" },
+  // ];
 
   const NoticeComponent = ({ data }: { data: NoticeDetail }) => {
     return (
@@ -97,18 +97,18 @@ const HomePage = () => {
         </button>
         <span>{data.result?.spaceName}</span>
         <sty.SettingButtonsWrapper>
-          <button
+          {/* <button
             onClick={() => {
               //TODO: 임시로 스페이스 선택으로 고
               navigate("/space");
             }}
           >
             <img src={alarm} alt="알림" />
-          </button>
+          </button> */}
           <button
             onClick={() => {
               //TODO: 임시로 스페이스 선택으로 고
-              navigate("/space");
+              navigate("/qr/home");
             }}
           >
             <img src={setting} alt="설정" />
