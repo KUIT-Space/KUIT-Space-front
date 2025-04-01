@@ -10,7 +10,7 @@ export interface AuthState {
 export interface AuthActions {
   login: (accessToken: string, refreshToken: string) => void;
   logout: () => void;
-  checkAuth: () => Promise<boolean>;
+  load: () => void;
   getAccessToken: () => string | null;
 }
 
@@ -39,12 +39,14 @@ export const createAuthSlice: StateCreator<AuthSlice> = (set, get) => ({
     });
   },
 
-  checkAuth: async () => {
-    set({ isLoading: true });
+  load: () => {
     const { accessToken, refreshToken } = get();
     const hasTokens = !!accessToken && !!refreshToken;
-    set({ isAuthenticated: hasTokens, isLoading: false });
-    return hasTokens;
+    set((state) => ({
+      ...state,
+      isLoading: false,
+      isAuthenticated: hasTokens,
+    }));
   },
 
   getAccessToken: () => {
