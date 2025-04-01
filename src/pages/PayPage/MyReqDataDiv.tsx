@@ -15,7 +15,7 @@ const MyReqDataDiv = ({
   const price2 = addComma(data.totalAmount);
 
   return (
-    <s.RoundDiv onClick={onClick}>
+    <s.RoundDiv onClick={onClick} style={{ cursor: "pointer" }}>
       <s.RowFlexDiv style={{ position: "relative" }}>
         <s.ColumnFlexDiv>
           <s.TextDiv>정산 완료까지 {num}명 남았어요</s.TextDiv>
