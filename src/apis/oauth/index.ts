@@ -1,4 +1,4 @@
-import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
+import { useMutation, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 
 import { useAuthStore } from "../../store/authStore";
 import { ApiResponse, client } from "../client";
@@ -74,11 +74,14 @@ export const useExchangeCodeForTokens = (options?: {
   ) => void;
   onError?: (error: Error) => void;
 }) => {
+  const { login } = useAuthStore();
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (code: string) => exchangeCodeForTokens(code),
     onSuccess: (data) => {
       if (data.accessToken && data.refreshToken) {
-        storeTokens(data.accessToken, data.refreshToken);
+        login(data.accessToken, data.refreshToken);
+        queryClient.invalidateQueries({ queryKey: ["auth"] });
       }
       options?.onSuccess?.(data);
     },
