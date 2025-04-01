@@ -1,6 +1,6 @@
-import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
+import { useMutation, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 
-import { useAuthStore } from "../../store/authStore";
+import useAuthSpaceStore from "../../stores/authSpaceStore";
 import { ApiResponse, client } from "../client";
 
 interface TokenResult {
@@ -74,11 +74,14 @@ export const useExchangeCodeForTokens = (options?: {
   ) => void;
   onError?: (error: Error) => void;
 }) => {
+  const queryClient = useQueryClient();
+  const { login } = useAuthSpaceStore();
   return useMutation({
     mutationFn: (code: string) => exchangeCodeForTokens(code),
     onSuccess: (data) => {
       if (data.accessToken && data.refreshToken) {
-        storeTokens(data.accessToken, data.refreshToken);
+        login(data.accessToken, data.refreshToken);
+        queryClient.invalidateQueries({ queryKey: ["auth"] });
       }
       options?.onSuccess?.(data);
     },
@@ -87,27 +90,8 @@ export const useExchangeCodeForTokens = (options?: {
 };
 
 /**
- * Store the tokens in localStorage
- * @param {string} accessToken The access token
- * @param {string} refreshToken The refresh token
- */
-export const storeTokens = (accessToken: string, refreshToken: string): void => {
-  localStorage.setItem("accessToken", accessToken);
-  localStorage.setItem("refreshToken", refreshToken);
-};
-
-/**
  * Clear the OAuth state from localStorage
  */
 export const clearOAuthState = (): void => {
   localStorage.removeItem("discordOauthState");
-};
-
-export const useAuthQuery = () => {
-  const { checkAuth } = useAuthStore();
-
-  return useSuspenseQuery({
-    queryKey: ["auth"],
-    queryFn: checkAuth,
-  });
 };
