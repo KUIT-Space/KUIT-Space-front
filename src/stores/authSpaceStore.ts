@@ -5,11 +5,11 @@ import { createAuthSlice } from "./slices/authSlice";
 import { createAuthSpaceSlice } from "./slices/authSpaceSlice";
 import { createSpaceSlice } from "./slices/spaceSlice";
 
-type StoreState = ReturnType<typeof createAuthSlice> &
+export type AuthSpaceStore = ReturnType<typeof createAuthSlice> &
   ReturnType<typeof createSpaceSlice> &
   ReturnType<typeof createAuthSpaceSlice>;
 
-const useAuthSpaceStore = create<StoreState>()(
+const useAuthSpaceStore = create<AuthSpaceStore>()(
   devtools(
     persist(
       (...a) => ({

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import { useAuthQuery } from "@/apis/oauth";
+import useAuthQuery from "@/hooks/useAuthQuery";
 
 interface AuthGuardProviderProps extends React.PropsWithChildren {
   options?: { redirectTo?: string };
@@ -9,7 +9,7 @@ interface AuthGuardProviderProps extends React.PropsWithChildren {
 
 export default function AuthGuardProvider({ children, options }: AuthGuardProviderProps) {
   const navigate = useNavigate();
-  const { data: isAuthenticated } = useAuthQuery();
+  const { isAuthenticated } = useAuthQuery();
   const redirectTo = options?.redirectTo || "/discordlogin";
   const location = useLocation();
 
