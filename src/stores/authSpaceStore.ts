@@ -31,7 +31,6 @@ const useAuthSpaceStore = create<AuthSpaceStore>()(
         const logoutWithSpaces = () => {
           get().logout();
           get().setManagedSpaces([]);
-          get().selectSpace(null);
         };
 
         return {
