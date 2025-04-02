@@ -1,6 +1,6 @@
 import { StateCreator } from "zustand";
 
-export interface AuthState {
+export interface AuthStateType {
   isAuthenticated: boolean;
   isLoading: boolean;
   isError: boolean;
@@ -8,7 +8,7 @@ export interface AuthState {
   refreshToken: string | null;
 }
 
-export interface AuthActions {
+export interface AuthActionsType {
   login: (accessToken: string, refreshToken: string) => void;
   logout: () => void;
   load: () => void;
@@ -16,9 +16,9 @@ export interface AuthActions {
   getAccessToken: () => string | null;
 }
 
-export type AuthSlice = AuthState & AuthActions;
+export type AuthSliceType = AuthStateType & AuthActionsType;
 
-export const createAuthSlice: StateCreator<AuthSlice> = (set, get) => ({
+export const createAuthSlice: StateCreator<AuthSliceType> = (set, get) => ({
   isAuthenticated: false,
   isLoading: true,
   isError: false,
