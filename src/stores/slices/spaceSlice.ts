@@ -7,34 +7,22 @@ export interface SpaceInfo {
 
 export interface SpaceState {
   managedSpaces: SpaceInfo[];
-  selectedSpaceId: number | null;
-  canManageSelectedSpace: boolean;
 }
 
 export interface SpaceActions {
   setManagedSpaces: (spaces: SpaceInfo[]) => void;
-  selectSpace: (spaceId: number | null) => void;
+  canManageSpace: (spaceId: number) => boolean;
 }
 
 type SpaceSlice = SpaceState & SpaceActions;
 
 export const createSpaceSlice: StateCreator<SpaceSlice, [], [], SpaceSlice> = (set, get) => ({
   managedSpaces: [],
-  selectedSpaceId: null,
-  canManageSelectedSpace: false,
-
   setManagedSpaces: (spaces: SpaceInfo[]) => {
     set({ managedSpaces: spaces });
-    const { selectedSpaceId } = get();
-    if (selectedSpaceId !== null) {
-      const canManage = spaces.some((space) => space.id === selectedSpaceId);
-      set({ canManageSelectedSpace: canManage });
-    }
   },
-
-  selectSpace: (spaceId: number | null) => {
+  canManageSpace: (spaceId: number) => {
     const { managedSpaces } = get();
-    const canManage = spaceId !== null && managedSpaces.some((space) => space.id === spaceId);
-    set({ selectedSpaceId: spaceId, canManageSelectedSpace: canManage });
+    return managedSpaces.some((space) => space.id === spaceId);
   },
 });
