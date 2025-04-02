@@ -1,7 +1,7 @@
-import authSpaceStore, { AuthSpaceStore } from "@/stores/authSpaceStore";
+import authSpaceStore, { AuthSpaceStoreType } from "@/stores/authSpaceStore";
 
 export interface AuthQueryData {
-  data: Omit<AuthSpaceStore, "isLoading" | "isError">;
+  data: Omit<AuthSpaceStoreType, "isLoading" | "isError">;
   isLoading: boolean;
   isError: boolean;
 }
