@@ -4,7 +4,7 @@ import { createJSONStorage, devtools, persist } from "zustand/middleware";
 import { createAuthSlice } from "./slices/authSlice";
 import { createSpaceSlice, SpaceInfoType } from "./slices/spaceSlice";
 
-interface AuthSpaceActions {
+interface AuthSpaceActionsType {
   loginWithSpaces: (
     accessToken: string,
     refreshToken: string,
@@ -13,11 +13,11 @@ interface AuthSpaceActions {
   logoutWithSpaces: () => void;
 }
 
-export type AuthSpaceStore = ReturnType<typeof createAuthSlice> &
+export type AuthSpaceStoreType = ReturnType<typeof createAuthSlice> &
   ReturnType<typeof createSpaceSlice> &
-  AuthSpaceActions;
+  AuthSpaceActionsType;
 
-const useAuthSpaceStore = create<AuthSpaceStore>()(
+const useAuthSpaceStore = create<AuthSpaceStoreType>()(
   devtools(
     persist(
       (...props) => {
