@@ -153,7 +153,7 @@ const CreateRequestPage1 = ({
     </>
   );
 };
-
+// const checkedEvents = new Set<number>();
 const CreateRequestPage2 = ({
   nextPage,
   prevPage,
@@ -173,6 +173,8 @@ const CreateRequestPage2 = ({
   const [tabIndex, setTabIndex] = useState(0);
   const [search, setSearch] = useState("");
   const { data } = useEventsQuery(SPACE_ID);
+  const [checkedEvents] = useState<Set<number>>(new Set<number>());
+
   //TODO : Suspense query 해결 (getEvent 사용 X)
   //모든 event data에 대하여
   //for each
@@ -211,6 +213,7 @@ const CreateRequestPage2 = ({
 
   const onEventPayHandler = (id: number) => {
     const res = data.result?.events.find((value) => value.id === id);
+    console.log(res);
     if (res !== undefined) {
       const event_id = res.id;
       const event = getEvent(SPACE_ID, event_id).then((res) => {
@@ -224,6 +227,7 @@ const CreateRequestPage2 = ({
           };
           arr.push(d);
         });
+        checkedEvents.add(id);
         checkUsersHandler(arr);
       });
     }
@@ -250,7 +254,12 @@ const CreateRequestPage2 = ({
         {tabIndex === 0 ? (
           <div>
             {data.result?.events.map((value, index) => (
-              <PayChatDiv key={index} info={value} handler={onEventPayHandler}></PayChatDiv>
+              <PayChatDiv
+                key={index}
+                info={value}
+                handler={onEventPayHandler}
+                checked={checkedEvents.has(value.id)}
+              ></PayChatDiv>
             ))}
           </div>
         ) : (
@@ -283,6 +292,7 @@ const CreateRequestPage2 = ({
                         onClick={() => {
                           checkUserHandler(value);
                         }}
+                        checked={checkUsers.has(value)}
                       />
                     </Member>
                   ))}
