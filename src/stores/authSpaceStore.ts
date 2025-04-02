@@ -2,10 +2,14 @@ import { create } from "zustand";
 import { createJSONStorage, devtools, persist } from "zustand/middleware";
 
 import { createAuthSlice } from "./slices/authSlice";
-import { createSpaceSlice, SpaceInfo } from "./slices/spaceSlice";
+import { createSpaceSlice, SpaceInfoType } from "./slices/spaceSlice";
 
 interface AuthSpaceActions {
-  loginWithSpaces: (accessToken: string, refreshToken: string, managedSpaces: SpaceInfo[]) => void;
+  loginWithSpaces: (
+    accessToken: string,
+    refreshToken: string,
+    managedSpaces: SpaceInfoType[],
+  ) => void;
   logoutWithSpaces: () => void;
 }
 
@@ -22,7 +26,7 @@ const useAuthSpaceStore = create<AuthSpaceStore>()(
         const loginWithSpaces = (
           accessToken: string,
           refreshToken: string,
-          managedSpaces: SpaceInfo[],
+          managedSpaces: SpaceInfoType[],
         ) => {
           get().login(accessToken, refreshToken);
           get().setManagedSpaces(managedSpaces);

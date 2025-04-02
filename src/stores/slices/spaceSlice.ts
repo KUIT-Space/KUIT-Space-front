@@ -1,24 +1,27 @@
 import { StateCreator } from "zustand";
 
-export interface SpaceInfo {
+export interface SpaceInfoType {
   id: number;
   name: string;
 }
 
-export interface SpaceState {
-  managedSpaces: SpaceInfo[];
+export interface SpaceStateType {
+  managedSpaces: SpaceInfoType[];
 }
 
-export interface SpaceActions {
-  setManagedSpaces: (spaces: SpaceInfo[]) => void;
+export interface SpaceActionsType {
+  setManagedSpaces: (spaces: SpaceInfoType[]) => void;
   canManageSpace: (spaceId: number) => boolean;
 }
 
-type SpaceSlice = SpaceState & SpaceActions;
+export type SpaceSliceType = SpaceStateType & SpaceActionsType;
 
-export const createSpaceSlice: StateCreator<SpaceSlice, [], [], SpaceSlice> = (set, get) => ({
+export const createSpaceSlice: StateCreator<SpaceSliceType, [], [], SpaceSliceType> = (
+  set,
+  get,
+) => ({
   managedSpaces: [],
-  setManagedSpaces: (spaces: SpaceInfo[]) => {
+  setManagedSpaces: (spaces: SpaceInfoType[]) => {
     set({ managedSpaces: spaces });
   },
   canManageSpace: (spaceId: number) => {

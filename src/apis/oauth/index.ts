@@ -1,12 +1,12 @@
-import { useMutation, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import useAuthSpaceStore from "../../stores/authSpaceStore";
-import { SpaceInfo } from "../../stores/slices/spaceSlice";
+import { SpaceInfoType } from "../../stores/slices/spaceSlice";
 import { ApiResponse, client } from "../client";
 
 interface OauthLoginResponse {
   isSuccess: boolean;
-  spaceInfos: SpaceInfo[];
+  spaceInfos: SpaceInfoType[];
 }
 
 /**
