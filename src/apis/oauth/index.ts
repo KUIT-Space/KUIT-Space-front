@@ -1,10 +1,12 @@
-import { useMutation, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { useAuthStore } from "../../store/authStore";
+import useAuthSpaceStore from "../../stores/authSpaceStore";
+import { SpaceInfoType } from "../../stores/slices/spaceSlice";
 import { ApiResponse, client } from "../client";
 
-interface TokenResult {
-  success: boolean;
+interface OauthLoginResponse {
+  isSuccess: boolean;
+  spaceInfos: SpaceInfoType[];
 }
 
 /**
@@ -40,11 +42,11 @@ export const validateState = (state: string): boolean => {
 /**
  * Exchange the authorization code for tokens
  * @param {string} code The authorization code from the callback
- * @returns {Promise<ApiResponse<TokenResult> & { accessToken?: string, refreshToken?: string }>} The response with tokens
+ * @returns {Promise<ApiResponse<OauthLoginResponse> & { accessToken?: string, refreshToken?: string }>} The response with tokens
  */
 export const exchangeCodeForTokens = async (
   code: string,
-): Promise<ApiResponse<TokenResult> & { accessToken?: string; refreshToken?: string }> => {
+): Promise<ApiResponse<OauthLoginResponse> & { accessToken?: string; refreshToken?: string }> => {
   const response = await client.get(`oauth/discord?code=${code}`);
 
   const accessToken = response.headers.get("Authorization") || undefined;
@@ -54,7 +56,7 @@ export const exchangeCodeForTokens = async (
     response.headers.get("Authorization-Refresh") ||
     undefined;
 
-  const data = await response.json<ApiResponse<TokenResult>>();
+  const data = await response.json<ApiResponse<OauthLoginResponse>>();
 
   return {
     ...data,
@@ -70,17 +72,17 @@ export const exchangeCodeForTokens = async (
  */
 export const useExchangeCodeForTokens = (options?: {
   onSuccess?: (
-    data: ApiResponse<TokenResult> & { accessToken?: string; refreshToken?: string },
+    data: ApiResponse<OauthLoginResponse> & { accessToken?: string; refreshToken?: string },
   ) => void;
   onError?: (error: Error) => void;
 }) => {
-  const { login } = useAuthStore();
   const queryClient = useQueryClient();
+  const { loginWithSpaces } = useAuthSpaceStore();
   return useMutation({
     mutationFn: (code: string) => exchangeCodeForTokens(code),
     onSuccess: (data) => {
-      if (data.accessToken && data.refreshToken) {
-        login(data.accessToken, data.refreshToken);
+      if (data.accessToken && data.refreshToken && data.result) {
+        loginWithSpaces(data.accessToken, data.refreshToken, data.result.spaceInfos);
         queryClient.invalidateQueries({ queryKey: ["auth"] });
       }
       options?.onSuccess?.(data);
@@ -90,27 +92,8 @@ export const useExchangeCodeForTokens = (options?: {
 };
 
 /**
- * Store the tokens in localStorage
- * @param {string} accessToken The access token
- * @param {string} refreshToken The refresh token
- */
-export const storeTokens = (accessToken: string, refreshToken: string): void => {
-  localStorage.setItem("accessToken", accessToken);
-  localStorage.setItem("refreshToken", refreshToken);
-};
-
-/**
  * Clear the OAuth state from localStorage
  */
 export const clearOAuthState = (): void => {
   localStorage.removeItem("discordOauthState");
-};
-
-export const useAuthQuery = () => {
-  const { checkAuth } = useAuthStore();
-
-  return useSuspenseQuery({
-    queryKey: ["auth"],
-    queryFn: checkAuth,
-  });
 };
