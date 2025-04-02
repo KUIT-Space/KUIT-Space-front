@@ -2,21 +2,45 @@ import { create } from "zustand";
 import { createJSONStorage, devtools, persist } from "zustand/middleware";
 
 import { createAuthSlice } from "./slices/authSlice";
-import { createAuthSpaceSlice } from "./slices/authSpaceSlice";
-import { createSpaceSlice } from "./slices/spaceSlice";
+import { createSpaceSlice, SpaceInfo } from "./slices/spaceSlice";
+
+interface AuthSpaceActions {
+  loginWithSpaces: (accessToken: string, refreshToken: string, managedSpaces: SpaceInfo[]) => void;
+  logoutWithSpaces: () => void;
+}
 
 export type AuthSpaceStore = ReturnType<typeof createAuthSlice> &
   ReturnType<typeof createSpaceSlice> &
-  ReturnType<typeof createAuthSpaceSlice>;
+  AuthSpaceActions;
 
 const useAuthSpaceStore = create<AuthSpaceStore>()(
   devtools(
     persist(
-      (...a) => ({
-        ...createAuthSlice(...a),
-        ...createSpaceSlice(...a),
-        ...createAuthSpaceSlice(...a),
-      }),
+      (...props) => {
+        const [, get] = props;
+
+        const loginWithSpaces = (
+          accessToken: string,
+          refreshToken: string,
+          managedSpaces: SpaceInfo[],
+        ) => {
+          get().login(accessToken, refreshToken);
+          get().setManagedSpaces(managedSpaces);
+        };
+
+        const logoutWithSpaces = () => {
+          get().logout();
+          get().setManagedSpaces([]);
+          get().selectSpace(null);
+        };
+
+        return {
+          ...createAuthSlice(...props),
+          ...createSpaceSlice(...props),
+          loginWithSpaces,
+          logoutWithSpaces,
+        };
+      },
       {
         name: "auth-space-store",
         partialize: (state) => ({
