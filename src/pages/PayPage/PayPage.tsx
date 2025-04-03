@@ -6,6 +6,7 @@ import TopBarText, { LeftEnum } from "@/components/TopBarText";
 import { GradientBtn } from "@/pages/PayPage/GradientBtn";
 import * as s from "@/pages/PayPage/PayPage.styled";
 import { SPACE_ID } from "@/utils/constants";
+import authSpaceStore from "@/stores/authSpaceStore";
 
 export const addComma = (price: number) => {
   const returnString = price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -94,19 +95,21 @@ const PayPage = () => {
   }
   const reqData = data.result.requestInfoInHome;
   const recData = data.result.requestedPayInfoInHome;
-
+  const canManageSpace = authSpaceStore((state) => state.canManageSpace);
   return (
     <>
       <TopBarText left={LeftEnum.Logo} center="정산하기" right=""></TopBarText>
       <s.ContainerDiv>
-        {/* TODO : 운영자에게만 보이게 */}
-        <GradientBtn
-          onClick={() => {
-            navigator("/pay/create");
-          }}
-        >
-          정산 시작하기
-        </GradientBtn>
+        {canManageSpace(SPACE_ID) && (
+          <GradientBtn
+            onClick={() => {
+              navigator("/pay/create");
+            }}
+          >
+            정산 시작하기
+          </GradientBtn>
+        )}
+
         <s.RoundDiv
           style={{ cursor: "pointer" }}
           onClick={() => {
