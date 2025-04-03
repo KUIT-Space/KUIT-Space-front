@@ -213,12 +213,11 @@ const CreateRequestPage2 = ({
 
   const onEventPayHandler = (id: number) => {
     const res = data.result?.events.find((value) => value.id === id);
-    console.log(res);
     if (res !== undefined) {
       const event_id = res.id;
-      const event = getEvent(SPACE_ID, event_id).then((res) => {
+      const event = getEvent(SPACE_ID, event_id).then((r) => {
         const arr: SpaceMemberDetail[] = [];
-        res.result?.participants.forEach((value) => {
+        r.result?.participants.forEach((value) => {
           const d = {
             spaceMemberId: value.id,
             nickname: value.name,
@@ -227,7 +226,11 @@ const CreateRequestPage2 = ({
           };
           arr.push(d);
         });
-        checkedEvents.add(id);
+        if (checkedEvents.has(res.id)) {
+          checkedEvents.delete(res.id);
+        } else {
+          checkedEvents.add(id);
+        }
         checkUsersHandler(arr);
       });
     }
@@ -473,7 +476,6 @@ const CreateRequestPage4 = ({
   checkUsers: Set<SpaceMemberDetail>;
   tabIndex: number;
 }) => {
-  console.log(idToPrice);
   const price = addComma(totalPrice);
   return (
     <>
@@ -585,7 +587,6 @@ const CreateRequestPage = () => {
         ></CreateRequestPage3>
       );
     case 3:
-      // console.log(userInfoData);
       return (
         <CreateRequestPage4
           totalPrice={totalPrice}

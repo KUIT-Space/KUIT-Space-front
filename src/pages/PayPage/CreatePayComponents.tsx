@@ -23,9 +23,7 @@ export const PayChatDiv = ({
   handler: (id: number) => void;
   checked: boolean;
 }) => {
-  console.log(info.id);
   // QR정산 체크박스의 선택
-  console.log(checked);
   const [flag, setFlag] = useState(checked ?? false);
 
   const controlFlag = () => {
