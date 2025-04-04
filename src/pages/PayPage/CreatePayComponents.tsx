@@ -17,12 +17,14 @@ import { ReadEventInfoResponse, ReadEventsInfoResponse } from "@/apis/event";
 export const PayChatDiv = ({
   info,
   handler,
+  checked,
 }: {
   info: ReadEventsInfoResponse;
   handler: (id: number) => void;
+  checked: boolean;
 }) => {
   // QR정산 체크박스의 선택
-  const [flag, setFlag] = useState(false);
+  const [flag, setFlag] = useState(checked ?? false);
 
   const controlFlag = () => {
     setFlag(!flag);

@@ -15,33 +15,17 @@ import bannerImage from "@/pages/HomePage/bannerImage.svg";
 import bannerImageCover from "@/pages/HomePage/bannerImageCover.svg";
 import * as sty from "@/pages/HomePage/HomePage.styled";
 import next from "@/pages/HomePage/icon_next.svg";
-import { addComma, PayReceiveInfo, PayRequestInfo } from "@/pages/PayPage/PayPage";
 import { NoticeDetail, SubscriptionsDetail, useHomeQuery } from "@/apis/Home";
-import { SPACE_ID } from "@/utils/constants";
+import { NOTICE_ID, SPACE_ID } from "@/utils/constants";
+import authSpaceStore from "@/stores/authSpaceStore";
 
 const HomePage = () => {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState("requested");
-  const [tabIndex, setTabIndex] = useState(0);
-
-  const menuArr = [
-    { name: "정산 현황", content: "Tab menu ONE" },
-    { name: "요청한 정산", content: "Tab menu TWO" },
-    { name: "요청받은 정산", content: "Tab menu Three" },
-  ];
 
   const { data } = useHomeQuery(SPACE_ID);
-  //TODO
   const noticeList = data.result?.notices;
-  // const noticeList = [
-  //   { content: "테스트", timePassed: "1일 전", postId: 1 },
-  //   { content: "테스트", timePassed: "1일 전", postId: 1 },
-  // ];
   const subscribeList = data.result?.subscriptions;
-  // const subscribeList = [
-  //   { boardId: 1, boardName: "정산게시판", boardTitle: "정산해주세요", tagName: "태그" },
-  //   { boardId: 2, boardName: "정산게시판", boardTitle: "정산해주세요", tagName: "태그" },
-  // ];
+  const canManageSpace = authSpaceStore((state) => state.canManageSpace);
 
   const NoticeComponent = ({ data }: { data: NoticeDetail }) => {
     return (
@@ -73,18 +57,6 @@ const HomePage = () => {
     );
   };
 
-  const selectMenuHandler = (index: number) => {
-    setTabIndex(index);
-  };
-
-  // useEffect(() => {
-  //   const id = localStorage.getItem("spaceId");
-  //   if (id !== null) {
-  //     getHomeApi(Number.parseInt(id), setHomeData);
-  //     getVrApi(Number.parseInt(id), setVrData);
-  //   }
-  // }, []);
-
   return (
     <>
       <sty.TopBar>
@@ -105,14 +77,16 @@ const HomePage = () => {
           >
             <img src={alarm} alt="알림" />
           </button> */}
-          <button
-            onClick={() => {
-              //TODO: 임시로 스페이스 선택으로 고
-              navigate("/qr/home");
-            }}
-          >
-            <img src={setting} alt="설정" />
-          </button>
+          {canManageSpace(SPACE_ID) && (
+            <button
+              onClick={() => {
+                //TODO: 임시로 스페이스 선택으로 고
+                navigate("/qr/home");
+              }}
+            >
+              <img src={setting} alt="설정" />
+            </button>
+          )}
         </sty.SettingButtonsWrapper>
       </sty.TopBar>
 
@@ -142,7 +116,7 @@ const HomePage = () => {
             <div
               className="settlementTextContainer"
               onClick={() => {
-                navigate("/board");
+                navigate(`/board/${NOTICE_ID}`);
               }}
             >
               <sty.RowFlexDiv style={{ alignItems: "center" }}>

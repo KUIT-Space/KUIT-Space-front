@@ -153,7 +153,7 @@ const CreateRequestPage1 = ({
     </>
   );
 };
-
+// const checkedEvents = new Set<number>();
 const CreateRequestPage2 = ({
   nextPage,
   prevPage,
@@ -173,6 +173,8 @@ const CreateRequestPage2 = ({
   const [tabIndex, setTabIndex] = useState(0);
   const [search, setSearch] = useState("");
   const { data } = useEventsQuery(SPACE_ID);
+  const [checkedEvents] = useState<Set<number>>(new Set<number>());
+
   //TODO : Suspense query 해결 (getEvent 사용 X)
   //모든 event data에 대하여
   //for each
@@ -213,9 +215,9 @@ const CreateRequestPage2 = ({
     const res = data.result?.events.find((value) => value.id === id);
     if (res !== undefined) {
       const event_id = res.id;
-      const event = getEvent(SPACE_ID, event_id).then((res) => {
+      const event = getEvent(SPACE_ID, event_id).then((r) => {
         const arr: SpaceMemberDetail[] = [];
-        res.result?.participants.forEach((value) => {
+        r.result?.participants.forEach((value) => {
           const d = {
             spaceMemberId: value.id,
             nickname: value.name,
@@ -224,6 +226,11 @@ const CreateRequestPage2 = ({
           };
           arr.push(d);
         });
+        if (checkedEvents.has(res.id)) {
+          checkedEvents.delete(res.id);
+        } else {
+          checkedEvents.add(id);
+        }
         checkUsersHandler(arr);
       });
     }
@@ -250,7 +257,12 @@ const CreateRequestPage2 = ({
         {tabIndex === 0 ? (
           <div>
             {data.result?.events.map((value, index) => (
-              <PayChatDiv key={index} info={value} handler={onEventPayHandler}></PayChatDiv>
+              <PayChatDiv
+                key={index}
+                info={value}
+                handler={onEventPayHandler}
+                checked={checkedEvents.has(value.id)}
+              ></PayChatDiv>
             ))}
           </div>
         ) : (
@@ -283,6 +295,7 @@ const CreateRequestPage2 = ({
                         onClick={() => {
                           checkUserHandler(value);
                         }}
+                        checked={checkUsers.has(value)}
                       />
                     </Member>
                   ))}
@@ -463,7 +476,6 @@ const CreateRequestPage4 = ({
   checkUsers: Set<SpaceMemberDetail>;
   tabIndex: number;
 }) => {
-  console.log(idToPrice);
   const price = addComma(totalPrice);
   return (
     <>
@@ -575,7 +587,6 @@ const CreateRequestPage = () => {
         ></CreateRequestPage3>
       );
     case 3:
-      // console.log(userInfoData);
       return (
         <CreateRequestPage4
           totalPrice={totalPrice}
