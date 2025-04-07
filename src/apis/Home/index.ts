@@ -2,7 +2,7 @@ import { UseSuspenseQueryOptions, useSuspenseQuery } from "@tanstack/react-query
 import { ApiResponse, client } from "../client";
 
 export interface NoticeDetail {
-  content: string;
+  title: string;
   timePassed: string;
   postId: number;
 }
