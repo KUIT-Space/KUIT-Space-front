@@ -1,6 +1,7 @@
 import ky, { BeforeErrorHook, HTTPError } from "ky";
 import { match } from "ts-pattern";
 
+import { authService } from "@/services/auth";
 import { UnauthorizedError } from "@/utils/HttpErrors";
 
 export interface ApiResponse<T = unknown> {
@@ -39,7 +40,7 @@ export const client = ky.create({
   hooks: {
     beforeRequest: [
       (request) => {
-        const accessToken = localStorage.getItem("accessToken");
+        const accessToken = authService.getAccessToken();
         if (accessToken) {
           request.headers.set("Authorization", accessToken);
         }
@@ -49,13 +50,13 @@ export const client = ky.create({
     afterResponse: [
       async (request, options, response) => {
         if (response.status === 401) {
-          localStorage.removeItem("accessToken");
+          authService.logout();
           return;
         }
 
         const apiResponse = (await response.clone().json()) as ApiResponse;
         if (apiResponse.code === 4001) {
-          localStorage.removeItem("accessToken");
+          authService.logout();
         }
       },
     ],
