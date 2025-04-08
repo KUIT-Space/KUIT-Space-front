@@ -24,16 +24,14 @@ export const PayChatDiv = ({
   onToggle: (id: number) => void;
   checked: boolean;
 }) => {
-  // QR정산 체크박스의 선택
-  const [flag, setFlag] = useState(checked);
-
   const handleClick = () => {
-    setFlag(!flag);
     onToggle(info.id);
   };
+
   const onImageErr: React.ReactEventHandler<HTMLImageElement> = (e) => {
     (e.target as HTMLImageElement).src = PlaceholderIcon;
   };
+
   return (
     <s.ColumnFlexDiv>
       <Member $cursor="default">
@@ -42,11 +40,7 @@ export const PayChatDiv = ({
           <span className="name">{info.name}</span>
           <s.CountText className="count">{info.totalNumberOfParticipants}</s.CountText>
         </section>
-        {flag ? (
-          <CheckBox checked={true} onClick={handleClick}></CheckBox>
-        ) : (
-          <CheckBox checked={false} onClick={handleClick}></CheckBox>
-        )}
+        <CheckBox checked={checked} onClick={handleClick} />
       </Member>
     </s.ColumnFlexDiv>
   );
