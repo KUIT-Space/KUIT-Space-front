@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { SpaceSearchUserProfile, UserProfileResult } from "@/apis";
+import { getEvent, useEventsQuery } from "@/apis/event";
 import {
   BankInfo,
   RequestOfCreatePay,
@@ -11,24 +12,22 @@ import {
 } from "@/apis/Pay";
 import { getAllChatMemberApi, getAllMemberApi, targetInfoList } from "@/apis/Pay/PayPageAPI";
 import { UserInfoInSpace } from "@/apis/Space/SpaceSearchAllUserApi";
+import { useAllMembersQuery } from "@/apis/SpaceMember";
+import { SpaceMemberDetail } from "@/apis/SpaceMember";
 import SearchIcon from "@/assets/PayPage/search_icon.svg";
 import Kookmin from "@/assets/PayPage/test_bank.svg";
 import { BottomBtn } from "@/components/BottomBtn";
 import CheckBox from "@/components/CheckBox";
+import SkeletonDetailPage from "@/components/SkeletonDetailPage";
 import TopBarText, { LeftEnum } from "@/components/TopBarText";
 import { Member } from "@/pages/ChatPage/ChatCreatePage/ChatCreatePage.styled";
 import CompleteCreatePay from "@/pages/PayPage/CompleteCreatePay";
 import { PayChatDiv } from "@/pages/PayPage/CreatePayComponents";
 import * as s from "@/pages/PayPage/PayPage.styled";
-import { SPACE_ID, koreanBanks } from "@/utils/constants";
+import { koreanBanks, SPACE_ID } from "@/utils/constants";
 import { getUserDefaultImageURL } from "@/utils/getUserDefaultImageURL";
 
 import { addComma } from "./PayPage";
-import { useAllMembersQuery } from "@/apis/SpaceMember";
-import { SpaceMemberDetail } from "@/apis/SpaceMember";
-import { check } from "prettier";
-import { getEvent, useEventsQuery } from "@/apis/event";
-import SkeletonDetailPage from "@/components/SkeletonDetailPage";
 
 // type payUserInfo = {
 //   name: number;
@@ -169,17 +168,36 @@ const CreateRequestPage2 = ({
   userInfoData: SpaceMemberDetail[] | undefined;
   setUserInfoData: React.Dispatch<React.SetStateAction<UserInfoInSpace[]>>;
 }) => {
-  let event_id = 1;
+  const event_id = 1;
   const [tabIndex, setTabIndex] = useState(0);
   const [search, setSearch] = useState("");
   const { data } = useEventsQuery(SPACE_ID);
   const [checkedEvents] = useState<Set<number>>(new Set<number>());
 
-  //TODO : Suspense query 해결 (getEvent 사용 X)
-  //모든 event data에 대하여
-  //for each
-  //useEventQuery
-  //모든 hook 또는 hook을 통해 얻은 result 를 배열에 넣어서 관리한다
+  const handleToggle = (id: number) => {
+    const res = data.result?.events.find((value) => value.id === id);
+    if (res !== undefined) {
+      const event_id = res.id;
+      const event = getEvent(SPACE_ID, event_id).then((r) => {
+        const arr: SpaceMemberDetail[] = [];
+        r.result?.participants.forEach((value) => {
+          const d = {
+            spaceMemberId: value.id,
+            nickname: value.name,
+            profileImageUrl: value.profileImageUrl,
+            isManager: false,
+          };
+          arr.push(d);
+        });
+        if (checkedEvents.has(res.id)) {
+          checkedEvents.delete(res.id);
+        } else {
+          checkedEvents.add(id);
+        }
+        checkUsersHandler(arr);
+      });
+    }
+  };
 
   const checkUserHandler = (data: SpaceMemberDetail) => {
     const _checkUsers = new Set(checkUsers);
@@ -211,30 +229,6 @@ const CreateRequestPage2 = ({
     { name: "멤버", content: "Tab menu TWO" },
   ];
 
-  const onEventPayHandler = (id: number) => {
-    const res = data.result?.events.find((value) => value.id === id);
-    if (res !== undefined) {
-      const event_id = res.id;
-      const event = getEvent(SPACE_ID, event_id).then((r) => {
-        const arr: SpaceMemberDetail[] = [];
-        r.result?.participants.forEach((value) => {
-          const d = {
-            spaceMemberId: value.id,
-            nickname: value.name,
-            profileImageUrl: value.profileImageUrl,
-            isManager: false,
-          };
-          arr.push(d);
-        });
-        if (checkedEvents.has(res.id)) {
-          checkedEvents.delete(res.id);
-        } else {
-          checkedEvents.add(id);
-        }
-        checkUsersHandler(arr);
-      });
-    }
-  };
   return (
     <>
       <TopBarText left={LeftEnum.Back} center="" right="" backHandler={prevPage}></TopBarText>
@@ -260,7 +254,7 @@ const CreateRequestPage2 = ({
               <PayChatDiv
                 key={index}
                 info={value}
-                handler={onEventPayHandler}
+                onToggle={handleToggle}
                 checked={checkedEvents.has(value.id)}
               ></PayChatDiv>
             ))}

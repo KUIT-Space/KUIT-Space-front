@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 
+import { ReadEventInfoResponse, ReadEventsInfoResponse } from "@/apis/event";
 import { UserInfoInSpace } from "@/apis/Space/SpaceSearchAllUserApi";
+import PlaceholderIcon from "@/assets/KUIT.svg";
 import CheckBox from "@/components/CheckBox";
 import { Member } from "@/pages/ChatPage/ChatCreatePage/ChatCreatePage.styled";
 import * as s from "@/pages/PayPage/PayPage.styled";
 import { getUserDefaultImageURL } from "@/utils/getUserDefaultImageURL";
-import PlaceholderIcon from "@/assets/KUIT.svg";
+
 import { ChatUserInfoInSpace } from "./CreateRequestPage";
-import { ReadEventInfoResponse, ReadEventsInfoResponse } from "@/apis/event";
 // interface payChatDivtype {
 //   img: string;
 //   name: string;
@@ -16,19 +17,19 @@ import { ReadEventInfoResponse, ReadEventsInfoResponse } from "@/apis/event";
 
 export const PayChatDiv = ({
   info,
-  handler,
+  onToggle,
   checked,
 }: {
   info: ReadEventsInfoResponse;
-  handler: (id: number) => void;
+  onToggle: (id: number) => void;
   checked: boolean;
 }) => {
   // QR정산 체크박스의 선택
   const [flag, setFlag] = useState(checked);
 
-  const controlFlag = () => {
+  const handleClick = () => {
     setFlag(!flag);
-    handler(info.id);
+    onToggle(info.id);
   };
   const onImageErr: React.ReactEventHandler<HTMLImageElement> = (e) => {
     (e.target as HTMLImageElement).src = PlaceholderIcon;
@@ -42,9 +43,9 @@ export const PayChatDiv = ({
           <s.CountText className="count">{info.totalNumberOfParticipants}</s.CountText>
         </section>
         {flag ? (
-          <CheckBox checked={true} onClick={controlFlag}></CheckBox>
+          <CheckBox checked={true} onClick={handleClick}></CheckBox>
         ) : (
-          <CheckBox checked={false} onClick={controlFlag}></CheckBox>
+          <CheckBox checked={false} onClick={handleClick}></CheckBox>
         )}
       </Member>
     </s.ColumnFlexDiv>
