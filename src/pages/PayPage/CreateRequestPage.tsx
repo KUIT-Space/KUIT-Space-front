@@ -172,7 +172,7 @@ const CreateRequestPage2 = ({
   const [tabIndex, setTabIndex] = useState(0);
   const [search, setSearch] = useState("");
   const { data } = useEventsQuery(SPACE_ID);
-  const [checkedEvents] = useState<Set<number>>(new Set<number>());
+  const [checkedEvents, setCheckedEvents] = useState<Set<number>>(new Set<number>());
 
   const handleToggle = (id: number) => {
     const res = data.result?.events.find((value) => value.id === id);
@@ -189,11 +189,15 @@ const CreateRequestPage2 = ({
           };
           arr.push(d);
         });
-        if (checkedEvents.has(res.id)) {
-          checkedEvents.delete(res.id);
-        } else {
-          checkedEvents.add(id);
-        }
+        setCheckedEvents((prev) => {
+          const newSet = new Set(prev);
+          if (newSet.has(res.id)) {
+            newSet.delete(res.id);
+          } else {
+            newSet.add(id);
+          }
+          return newSet;
+        });
         checkUsersHandler(arr);
       });
     }
