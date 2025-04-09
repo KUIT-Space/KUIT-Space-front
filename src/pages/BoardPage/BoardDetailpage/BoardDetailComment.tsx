@@ -125,7 +125,6 @@ const BoardDetailComment = ({
   const [isLikeNew, setIsLikeNew] = useState<boolean>(isLike);
   const toggleLikeMutation = useToggleLike(SPACE_ID, boardId, commentId);
   const onCommentLike = () => {
-    console.log("CLICK", commentId);
     setIsLikeNew((prev) => !prev);
     toggleLikeMutation.mutate({
       changeTo: !isLike,
