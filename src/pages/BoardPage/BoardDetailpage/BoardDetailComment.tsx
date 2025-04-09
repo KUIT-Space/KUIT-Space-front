@@ -4,6 +4,8 @@ import styled from "styled-components";
 import comment from "@/assets/Board/comment.svg";
 import heartLiked from "@/assets/Board/heart_liked.svg";
 import heartUnliked from "@/assets/Board/heart_unliked.svg";
+import { useToggleLike } from "@/apis/Board";
+import { SPACE_ID } from "@/utils/constants";
 
 const BoardDetailCommentContainer = styled.div`
   border-top: 2px solid #222226;
@@ -98,6 +100,8 @@ const BoardPostCommentLikeBtn = styled.div`
 `;
 
 export type BoardDetailCommentProps = {
+  boardId: number;
+  commentId: number;
   profileName: string;
   profileImg: string;
   elapsedTime: string;
@@ -108,6 +112,8 @@ export type BoardDetailCommentProps = {
 };
 
 const BoardDetailComment = ({
+  boardId,
+  commentId,
   profileName,
   profileImg,
   elapsedTime,
@@ -117,7 +123,14 @@ const BoardDetailComment = ({
   commentCount,
 }: BoardDetailCommentProps) => {
   const [isLikeNew, setIsLikeNew] = useState<boolean>(isLike);
-
+  const toggleLikeMutation = useToggleLike(SPACE_ID, boardId, commentId);
+  const onCommentLike = () => {
+    console.log("CLICK", commentId);
+    setIsLikeNew((prev) => !prev);
+    toggleLikeMutation.mutate({
+      changeTo: !isLike,
+    });
+  };
   return (
     <BoardDetailCommentContainer>
       {profileImg ? (
@@ -132,17 +145,15 @@ const BoardDetailComment = ({
         </div>
         <div className="board-post-detail-comment-content">{content}</div>
         <div className="board-post-detail-comment-footer">
-          <BoardPostCommentLikeBtn
-            className={isLikeNew ? "liked" : ""}
-            onClick={() => setIsLikeNew((prev) => !prev)}
-          >
+          <BoardPostCommentLikeBtn className={isLikeNew ? "liked" : ""} onClick={onCommentLike}>
             <img src={isLikeNew ? heartLiked : heartUnliked} alt="좋아요" />
             좋아요 {likeCount}
           </BoardPostCommentLikeBtn>
-          <div className="board-post-detail-comment-footer-item">
+          {/* 대댓글은 복잡성으로 인해 미지원 */}
+          {/* <div className="board-post-detail-comment-footer-item">
             <img src={comment} alt="댓글" />
             대댓글 {commentCount}
-          </div>
+          </div> */}
         </div>
       </BoardDetailCommentContent>
     </BoardDetailCommentContainer>

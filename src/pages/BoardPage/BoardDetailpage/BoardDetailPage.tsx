@@ -110,6 +110,8 @@ const PostDetailContent = ({ spaceId, boardId, postId }: PostDetailContentProps)
           postDetail.result.responseOfCommentDetails.map((comment, i) => (
             <div key={i + comment.content}>
               <BoardDetailComment
+                boardId={boardId}
+                commentId={comment.commentId}
                 profileName={comment.creatorName}
                 profileImg={comment.creatorProfileImageUrl}
                 elapsedTime={comment.createdAt}
