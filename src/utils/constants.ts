@@ -1,4 +1,5 @@
 export const SPACE_ID = 1;
+export const NOTICE_ID = 2;
 
 export const koreanBanks = [
   "국민은행",
