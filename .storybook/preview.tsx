@@ -1,9 +1,20 @@
 import type { Preview } from "@storybook/react";
 import React from "react";
 import { ThemeProvider } from "styled-components";
+import { createGlobalStyle } from "styled-components";
 import { theme } from "../src/styles/Theme";
 import GlobalStyle from "../src/styles/GlobalStyles";
 import "../src/index.css";
+
+const StorybookStyles = createGlobalStyle`
+.sb-main-centered {
+  overflow-x: hidden;
+}
+
+#storybook-root {
+  padding: 0 !important;
+}
+`;
 
 const preview: Preview = {
   parameters: {
@@ -18,6 +29,7 @@ const preview: Preview = {
     (Story) => (
       <ThemeProvider theme={theme}>
         <GlobalStyle />
+        <StorybookStyles />
         <Story />
       </ThemeProvider>
     ),
