@@ -56,6 +56,15 @@ button {
   color: inherit;
   cursor: pointer;
 }
+
+.sb-main-centered {
+  overflow-x: hidden;
+}
+
+#storybook-root {
+  padding: 0 !important;
+}
+
 `;
 
 export default GlobalStyle;
