@@ -6,10 +6,12 @@ import { z } from "zod";
 
 const STORAGE_KEY = "post-draft";
 const DEBOUNCE_DELAY = 500;
+const MAX_TITLE_LENGTH = 200;
+const MAX_CONTENT_LENGTH = 1000;
 
 const postSchema = z.object({
-  title: z.string().max(200, "제목은 200자를 초과할 수 없습니다."),
-  content: z.string().max(1000, "내용은 1000자를 초과할 수 없습니다."),
+  title: z.string().max(MAX_TITLE_LENGTH, "제목은 200자를 초과할 수 없습니다."),
+  content: z.string().max(MAX_CONTENT_LENGTH, "내용은 1000자를 초과할 수 없습니다."),
 });
 
 type PostFormData = z.infer<typeof postSchema>;
@@ -129,6 +131,7 @@ export default function PostComposer() {
   const {
     register,
     watch,
+    setValue,
     formState: { errors },
   } = useForm<PostFormData>({
     resolver: zodResolver(postSchema),
@@ -158,17 +161,46 @@ export default function PostComposer() {
     saveData({ title: watchTitle, content: watchContent });
   }, [watchTitle, watchContent, saveData]);
 
+  // 글자 수 제한 처리
+  const onTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (value.length <= MAX_TITLE_LENGTH) {
+      setValue("title", value);
+    }
+  };
+
+  const onContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const value = e.target.value;
+    if (value.length <= MAX_CONTENT_LENGTH) {
+      setValue("content", value);
+    }
+  };
+
   return (
     <PostContainer>
       <InputWrapper>
-        <TitleInput placeholder="제목을 입력해주세요." {...register("title")} />
-        <CharCount>{watchTitle?.length ?? 0}/200</CharCount>
+        <TitleInput
+          placeholder="제목을 입력해주세요."
+          {...register("title")}
+          onChange={onTitleChange}
+          maxLength={MAX_TITLE_LENGTH}
+        />
+        <CharCount>
+          {watchTitle?.length ?? 0}/{MAX_TITLE_LENGTH}
+        </CharCount>
         {errors.title && <ErrorMessage>{errors.title.message}</ErrorMessage>}
       </InputWrapper>
       <Divider />
       <ContentWrapper>
-        <ContentTextarea placeholder="내용을 입력해주세요." {...register("content")} />
-        <CharCount>{watchContent?.length ?? 0}/1000</CharCount>
+        <ContentTextarea
+          placeholder="내용을 입력해주세요."
+          {...register("content")}
+          onChange={onContentChange}
+          maxLength={MAX_CONTENT_LENGTH}
+        />
+        <CharCount>
+          {watchContent?.length ?? 0}/{MAX_CONTENT_LENGTH}
+        </CharCount>
         {errors.content && <ErrorMessage>{errors.content.message}</ErrorMessage>}
       </ContentWrapper>
     </PostContainer>
