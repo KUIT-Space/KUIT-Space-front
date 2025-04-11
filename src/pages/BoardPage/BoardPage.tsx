@@ -15,6 +15,8 @@ import {
 } from "@/pages/BoardPage/BoardPage.styled";
 import BoardPostItem from "@/pages/BoardPage/BoardPostItem";
 import { SPACE_ID } from "@/utils/constants";
+import { BottomFloatBtn } from "@/components/BottomFloatBtn";
+import createPost from "@/assets/Board/create_post.svg";
 
 export type boardSelectedOptionType = {
   id: string;
@@ -96,7 +98,9 @@ const BoardPage = () => {
   const { id: boardId } = useParams();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(0);
-
+  const onCreateClick = () => {
+    navigate(`/board/${boardId}/register`);
+  };
   return (
     <div>
       <TopBarText left={LeftEnum.Back} center="게시판" right={<img src={search} alt="search" />} />
@@ -107,7 +111,12 @@ const BoardPage = () => {
         setIsModalOpen={setIsModalOpen}
       />
 
-      <BoardFloatingBtn src={floating} onClick={() => navigate(`/board/${boardId}/register`)} />
+      {/* 글쓰기 버튼 변경 */}
+      {/* <BoardFloatingBtn src={floating} onClick={() => navigate(`/board/${boardId}/register`)} /> */}
+      <BottomFloatBtn onClick={onCreateClick}>
+        <img src={createPost}></img>
+        <div>글 쓰기</div>
+      </BottomFloatBtn>
       <BoardBottomModal
         selectedOption={selectedOption}
         onSelect={setSelectedOption}
