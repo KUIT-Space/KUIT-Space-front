@@ -148,6 +148,12 @@ const BoardRegisterPage = () => {
     console.log(selectedImages);
   };
 
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value.length <= 100) {
+      setTitleValue(e.target.value);
+    }
+  };
+
   const handleRegister = () => {
     if (title && content && spaceId != null) {
       createPost(
@@ -197,7 +203,8 @@ const BoardRegisterPage = () => {
         <BoardRegisterTitle
           ref={inputRef}
           placeholder="제목을 입력해주세요."
-          onChange={(e) => setTitleValue(e.target.value)}
+          onChange={handleTitleChange}
+          value={title}
         />
         <BoardRegisterContent
           ref={textareaRef}
