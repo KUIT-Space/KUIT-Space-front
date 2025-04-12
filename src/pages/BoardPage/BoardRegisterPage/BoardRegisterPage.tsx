@@ -1,14 +1,14 @@
 import React, { useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 
-import { CreateBoardPostApi } from "@/apis/Board/BoardPostApi";
+import { useCreatePost } from "@/apis/Board";
 import camera from "@/assets/Board/camera.svg";
 import gallery from "@/assets/Board/gallery.svg";
 import link from "@/assets/Board/link.svg";
 import CheckBox from "@/components/CheckBox";
 import TopBarText, { LeftEnum } from "@/components/TopBarText";
-import { SPACE_ID } from "@/utils/constants";
+import { NOTICE_ID, SPACE_ID } from "@/utils/constants";
 
 const BoardRegisterBtn = styled.button`
   color: var(--Foundation-Gray-gray500, #767681);
@@ -123,8 +123,13 @@ const BoardRegisterPage = () => {
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
 
   const navigate = useNavigate();
+  const { id: boardId } = useParams();
 
   const spaceId = localStorage.getItem("spaceId");
+  const { mutate: createPost } = useCreatePost(
+    Number(spaceId) || SPACE_ID,
+    isNotice ? NOTICE_ID : Number(boardId),
+  );
 
   const inputRef = useRef<HTMLInputElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -145,21 +150,24 @@ const BoardRegisterPage = () => {
 
   const handleRegister = () => {
     if (title && content && spaceId != null) {
-      //채팅방 생성 API 호출
-      CreateBoardPostApi(
-        Number.parseInt(spaceId) || SPACE_ID,
-        title,
-        content,
-        isNotice ? "notice" : "general",
-        selectedImages || [],
-      ).then((res) => {
-        if (res) {
-          console.log("생성 완료: ", res);
-          navigate("/board");
-        }
-      });
+      createPost(
+        {
+          title,
+          content,
+          isAnonymous: false,
+          attachments: selectedImages || [],
+        },
+        {
+          onSuccess: (res) => {
+            console.log("생성 완료: ", res);
+            navigate("/board");
+          },
+          onError: () => {
+            alert("게시글 작성에 실패했습니다.");
+          },
+        },
+      );
     }
-    console.log("register fail..");
   };
 
   return (
