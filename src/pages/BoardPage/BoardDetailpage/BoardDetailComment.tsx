@@ -1,19 +1,13 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
-import comment from "@/assets/Board/comment.svg";
+import { useDeleteComment, useToggleLike, useUpdateComment } from "@/apis/Board";
+import deleteIcon from "@/assets/Board/delete_comment.svg";
+import editIcon from "@/assets/Board/edit_comment.svg";
 import heartLiked from "@/assets/Board/heart_liked.svg";
 import heartUnliked from "@/assets/Board/heart_unliked.svg";
-import { useDeleteComment, useToggleLike, useUpdateComment } from "@/apis/Board";
-import { SPACE_ID } from "@/utils/constants";
-import editIcon from "@/assets/Board/edit_comment.svg";
-import deleteIcon from "@/assets/Board/delete_comment.svg";
-import { RequestButton, StatusButton } from "@/pages/HomePage/HomePage.styled";
-import { StyledButton } from "@/pages/VoiceRoomPage/VoiceRoomListPage.styled";
-import { NormalBtn } from "@/pages/PayPage/NormalBtn";
-import { ToggleBtn } from "@/components/ToggleBtn";
-import { SpaceJoinInfoApi } from "@/apis";
 import Modal from "@/components/Modal";
+import { SPACE_ID } from "@/utils/constants";
 
 const BoardDetailCommentContainer = styled.div`
   border-top: 2px solid #222226;
