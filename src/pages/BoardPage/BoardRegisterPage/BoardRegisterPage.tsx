@@ -94,12 +94,6 @@ const BottomTagDiv = styled.div<BottomTagProps>`
     isSelected
       ? "var(--Foundation-Main-color-Normal, #48ffbd)"
       : "var(--Foundation-Gray-gray500, #767681)"};
-  /* border-radius: 26px;
-  
-  background: var(--Foundation-Gray-gray850, #1b1b1d); */
-
-  /* color: var(--Foundation-Main-color-Normal, #48ffbd);
-  text-align: center; */
 
   /* text/Regular 12pt */
   font-family: Freesentation;
