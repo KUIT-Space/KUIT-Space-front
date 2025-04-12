@@ -164,13 +164,12 @@ export type BoardDetailCommentProps = {
   boardId: number;
   postId: number;
   commentId: number;
-  profileName: string;
-  profileImg: string;
-  elapsedTime: string;
+  creatorName: string;
+  creatorProfileImageUrl: string;
+  createdAt: string;
   content: string;
-  isLike: boolean;
+  isLiked: boolean;
   likeCount: number;
-  commentCount: number;
   isPostOwner: boolean;
   isActiveComment: boolean;
 };
@@ -179,17 +178,16 @@ const BoardDetailComment = ({
   boardId,
   postId,
   commentId,
-  profileName,
-  profileImg,
-  elapsedTime,
+  creatorName,
+  creatorProfileImageUrl,
+  createdAt,
   content,
-  isLike,
+  isLiked,
   likeCount,
-  commentCount,
   isPostOwner,
   isActiveComment,
 }: BoardDetailCommentProps) => {
-  const [isLikeNew, setIsLikeNew] = useState<boolean>(isLike);
+  const [isLikeNew, setIsLikeNew] = useState<boolean>(isLiked);
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [textValue, setTextValue] = useState<string>(content);
   const [isModal, setIsModal] = useState<boolean>(false);
@@ -199,7 +197,7 @@ const BoardDetailComment = ({
   const onCommentLike = () => {
     setIsLikeNew((prev) => !prev);
     toggleLikeMutation.mutate({
-      changeTo: !isLike,
+      changeTo: !isLiked,
     });
   };
   const onCommentEdit = () => {
@@ -237,23 +235,27 @@ const BoardDetailComment = ({
           setIsModal(false);
         }}
       />
-      {profileImg ? (
-        <img src={profileImg} alt="프로필 이미지" className="board-post-detail-comment-img" />
+      {creatorProfileImageUrl ? (
+        <img
+          src={creatorProfileImageUrl}
+          alt="프로필 이미지"
+          className="board-post-detail-comment-img"
+        />
       ) : (
         <div className="board-post-detail-comment-img" />
       )}
       <BoardDetailCommentContent>
         <BoardPostCommentContainer>
           <div className="board-post-detail-comment-profile">
-            <span>{profileName}</span>
-            <span>{elapsedTime}</span>
+            <span>{creatorName}</span>
+            <span>{createdAt}</span>
           </div>
           <div className="board-post-detail-comment-edit-delete">
             {isEdit ? (
               <ConfirmButton onClick={onCommentEditComplete}>완료</ConfirmButton>
             ) : (
               <>
-                {isPostOwner && isActiveComment ? (
+                {isPostOwner && isActiveComment && (
                   <IconContainer>
                     <img src={editIcon} style={{ cursor: "pointer" }} onClick={onCommentEdit}></img>
                     |
@@ -263,8 +265,6 @@ const BoardDetailComment = ({
                       onClick={onCommentDelete}
                     ></img>
                   </IconContainer>
-                ) : (
-                  <></>
                 )}
               </>
             )}

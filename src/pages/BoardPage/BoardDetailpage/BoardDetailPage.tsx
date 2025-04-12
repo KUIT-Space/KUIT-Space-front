@@ -109,20 +109,7 @@ const PostDetailContent = ({ spaceId, boardId, postId }: PostDetailContentProps)
         {postDetail.result && postDetail.result.responseOfCommentDetails.length > 0 ? (
           postDetail.result.responseOfCommentDetails.map((comment, i) => (
             <div key={i + comment.content}>
-              <BoardDetailComment
-                boardId={boardId}
-                postId={postId}
-                commentId={comment.commentId}
-                profileName={comment.creatorName}
-                profileImg={comment.creatorProfileImageUrl}
-                elapsedTime={comment.createdAt}
-                content={comment.content}
-                isLike={comment.isLiked}
-                likeCount={comment.likeCount}
-                commentCount={0}
-                isPostOwner={comment.isPostOwner}
-                isActiveComment={comment.isActiveComment}
-              />
+              <BoardDetailComment boardId={boardId} postId={postId} {...comment} />
             </div>
           ))
         ) : (
