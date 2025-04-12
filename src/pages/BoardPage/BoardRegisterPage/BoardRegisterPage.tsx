@@ -154,6 +154,12 @@ const BoardRegisterPage = () => {
     }
   };
 
+  const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    if (e.target.value.length <= 2000) {
+      setContentValue(e.target.value);
+    }
+  };
+
   const handleRegister = () => {
     if (title && content && spaceId != null) {
       createPost(
@@ -210,7 +216,8 @@ const BoardRegisterPage = () => {
           ref={textareaRef}
           placeholder="내용을 입력해주세요."
           onInput={handleResizeHeight}
-          onChange={(e) => setContentValue(e.target.value)}
+          onChange={handleContentChange}
+          value={content}
         />
         <div className="board-register-selected-image-container">
           {selectedImages.map((image, i) => {
