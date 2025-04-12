@@ -6,6 +6,7 @@ import { ThemeProvider } from "styled-components";
 import { theme } from "../src/styles/Theme";
 import GlobalStyle from "../src/styles/GlobalStyles";
 import "../src/index.css";
+import { withRouter } from "storybook-addon-remix-react-router";
 
 // Initialize MSW
 initialize();
@@ -30,6 +31,7 @@ const preview: Preview = {
         <Story />
       </ThemeProvider>
     ),
+    withRouter,
   ],
   // Provide the MSW addon loader globally
   loaders: [mswLoader],
