@@ -7,6 +7,7 @@ import { theme } from "../src/styles/Theme";
 import GlobalStyle from "../src/styles/GlobalStyles";
 import "../src/index.css";
 import { withRouter } from "storybook-addon-remix-react-router";
+import { QueryProvider } from "../src/apis/query-provider";
 
 // Initialize MSW
 initialize();
@@ -26,10 +27,12 @@ const preview: Preview = {
   },
   decorators: [
     (Story) => (
-      <ThemeProvider theme={theme}>
-        <GlobalStyle />
-        <Story />
-      </ThemeProvider>
+      <QueryProvider>
+        <ThemeProvider theme={theme}>
+          <GlobalStyle />
+          <Story />
+        </ThemeProvider>
+      </QueryProvider>
     ),
     withRouter,
   ],
