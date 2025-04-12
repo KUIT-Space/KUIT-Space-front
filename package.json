@@ -73,11 +73,19 @@
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "eslint-plugin-storybook": "^0.11.2",
     "http-server": "^14.1.1",
+    "msw": "^2.7.4",
     "prettier": "^3.3.3",
     "storybook": "^8.6.3",
+    "storybook-addon-remix-react-router": "^3.1.0",
     "typescript": "^5.2.2",
     "vite": "^5.4.8",
     "vite-tsconfig-paths": "^4.3.2",
     "wait-on": "^8.0.2"
+  },
+  "msw": {
+    "workerDirectory": [
+      ".storybook/public",
+      "public"
+    ]
   }
 }
