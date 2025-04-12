@@ -251,13 +251,9 @@ const BoardDetailComment = ({
               <>
                 {isPostOwner && isActiveComment && (
                   <IconContainer>
-                    <img src={editIcon} style={{ cursor: "pointer" }} onClick={onCommentEdit}></img>
+                    <img src={editIcon} style={{ cursor: "pointer" }} onClick={onCommentEdit} />
                     |
-                    <img
-                      src={deleteIcon}
-                      style={{ cursor: "pointer" }}
-                      onClick={onCommentDelete}
-                    ></img>
+                    <img src={deleteIcon} style={{ cursor: "pointer" }} onClick={onCommentDelete} />
                   </IconContainer>
                 )}
               </>
