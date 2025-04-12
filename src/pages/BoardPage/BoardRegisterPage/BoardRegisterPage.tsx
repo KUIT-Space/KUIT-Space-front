@@ -190,6 +190,7 @@ const BoardRegisterPage = () => {
         right={
           <BoardRegisterBtn
             className={title && content ? "board-register-btn-active" : ""}
+            disabled={!title || !content}
             onClick={handleRegister}
           >
             등록
