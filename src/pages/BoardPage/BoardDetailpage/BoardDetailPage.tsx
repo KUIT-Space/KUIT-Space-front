@@ -111,6 +111,7 @@ const PostDetailContent = ({ spaceId, boardId, postId }: PostDetailContentProps)
             <div key={i + comment.content}>
               <BoardDetailComment
                 boardId={boardId}
+                postId={postId}
                 commentId={comment.commentId}
                 profileName={comment.creatorName}
                 profileImg={comment.creatorProfileImageUrl}
@@ -119,6 +120,8 @@ const PostDetailContent = ({ spaceId, boardId, postId }: PostDetailContentProps)
                 isLike={comment.isLiked}
                 likeCount={comment.likeCount}
                 commentCount={0}
+                isPostOwner={comment.isPostOwner}
+                isActiveComment={comment.isActiveComment}
               />
             </div>
           ))
