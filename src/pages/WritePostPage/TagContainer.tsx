@@ -4,11 +4,18 @@ import styled from "styled-components";
 import Tag from "./Tag";
 
 const StyledTagContainer = styled.div`
-  display: flex;
+  display: block;
   width: 100%;
+  overflow-x: auto;
+  max-width: 100vw;
+`;
+
+const TagList = styled.div`
+  display: inline-flex;
+  white-space: nowrap;
+  gap: 10px;
   padding: 10px;
   align-items: center;
-  gap: 10px;
 `;
 
 interface TagContainerProps {
@@ -25,16 +32,20 @@ export default function TagContainer({ tagTitles }: TagContainerProps) {
   };
 
   return (
-    <StyledTagContainer>
-      {tagTitles.map((title) => (
-        <Tag
-          key={title}
-          isSelected={!!selectedTags.includes(title)}
-          onToggle={() => handleToggle(title)}
-        >
-          {title}
-        </Tag>
-      ))}
-    </StyledTagContainer>
+    <>
+      <StyledTagContainer>
+        <TagList>
+          {tagTitles.map((title) => (
+            <Tag
+              key={title}
+              isSelected={!!selectedTags.includes(title)}
+              onToggle={() => handleToggle(title)}
+            >
+              {title}
+            </Tag>
+          ))}
+        </TagList>
+      </StyledTagContainer>
+    </>
   );
 }
