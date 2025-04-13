@@ -24,6 +24,8 @@ const BoardRegisterBtn = styled.button`
 `;
 
 const BoardRegisterContainer = styled.div`
+  display: flex;
+  flex-direction: column;
   width: 100%;
   height: 100%;
   padding: 0 1.25rem;
@@ -31,10 +33,10 @@ const BoardRegisterContainer = styled.div`
   .board-register-selected-image-container {
     display: flex;
     gap: 0.5rem;
-    overflow-x: scroll;
+    margin-bottom: 4rem;
   }
   .board-register-selected-image {
-    width: 50%;
+    width: 25%;
     height: 9.625rem;
   }
 `;
@@ -87,6 +89,7 @@ const BoardRegisterContent = styled.textarea`
   height: auto;
   border: none;
   background: none;
+  flex-grow: 1;
 
   color: var(--Foundation-Gray-white, #fff);
   font-family: Freesentation;
@@ -198,7 +201,7 @@ const BoardRegisterPage = () => {
         }
       ></TopBarText>
       <BoardRegisterContainer>
-        <BoardRegisterManagerTitle
+        {/* <BoardRegisterManagerTitle
           onClick={() => {
             setIsNotice((prev) => !prev);
             console.log(isNotice);
@@ -206,7 +209,7 @@ const BoardRegisterPage = () => {
         >
           <CheckBox checked={isNotice} />
           <span className={isNotice ? "board-register-manager-active" : ""}>공지로 등록하기</span>
-        </BoardRegisterManagerTitle>
+        </BoardRegisterManagerTitle> */}
         <BoardRegisterTitle
           ref={inputRef}
           placeholder="제목을 입력해주세요."
@@ -241,7 +244,7 @@ const BoardRegisterPage = () => {
           onChange={handleImageImport}
           style={{ display: "none" }}
         />
-        <img src={camera} alt="camera" />
+        {/* <img src={camera} alt="camera" /> */}
         <img src={gallery} onClick={() => inputImgRef.current?.click()} />
         <img src={link} alt="link" />
       </BoardRegisterFooter>
