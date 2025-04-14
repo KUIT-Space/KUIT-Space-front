@@ -256,11 +256,25 @@ const createPost = async (
   boardId: number,
   postData: CreatePostRequest,
 ): Promise<ApiResponse<CreatePostResponse>> => {
-  return client
-    .post(`space/${spaceId}/board/${boardId}/post`, {
-      json: postData,
-    })
-    .json();
+  const formData = new FormData();
+  formData.append("title", postData.title);
+  formData.append("content", postData.content);
+
+  formData.append("isAnonymous", postData.isAnonymous ? "true" : "false");
+  if (postData.tagIds) {
+    postData.tagIds.forEach((tag) => {
+      formData.append("tagIds", String(tag));
+    });
+  }
+
+  if (postData.attachments) {
+    postData.attachments.forEach((file) => {
+      formData.append("attachments", file);
+    });
+  }
+  console.log(await client.post(`space/${spaceId}/board/${boardId}/post`, { body: formData }));
+
+  return client.post(`space/${spaceId}/board/${boardId}/post`, { body: formData }).json();
 };
 
 export const useCreatePost = (spaceId: number, boardId: number) => {
@@ -269,6 +283,7 @@ export const useCreatePost = (spaceId: number, boardId: number) => {
   return useMutation({
     mutationFn: (postData: CreatePostRequest) => createPost(spaceId, boardId, postData),
     onSuccess: () => {
+      console.log("SUCCESS");
       queryClient.invalidateQueries({
         queryKey: postKeys.lists(spaceId, boardId),
       });

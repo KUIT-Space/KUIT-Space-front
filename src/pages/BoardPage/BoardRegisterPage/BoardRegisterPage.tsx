@@ -2,14 +2,53 @@ import React, { useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 
-import { useCreatePost } from "@/apis/Board";
-import camera from "@/assets/Board/camera.svg";
-import gallery from "@/assets/Board/gallery.svg";
-import link from "@/assets/Board/link.svg";
-import CheckBox from "@/components/CheckBox";
+import { useBoardListQuery, useCreatePost } from "@/apis/Board";
+import hashtagIcon from "@/assets/Board/hashtag.svg";
 import TopBarText, { LeftEnum } from "@/components/TopBarText";
 import { NOTICE_ID, SPACE_ID } from "@/utils/constants";
+import fileIcon from "@/assets/Board/file_icon.svg";
+import imageIcon from "@/assets/Board/image_icon.svg";
+const BottomTagContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+`;
 
+interface BottomTagProps {
+  isSelected: boolean;
+}
+const BottomTagDiv = styled.div<BottomTagProps>`
+  cursor: pointer;
+  padding: 4px 12px;
+  border-radius: 26px;
+  text-align: center;
+
+  /* text/Regular 12pt */
+  font-family: Freesentation;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 140%; /* 16.8px */
+  letter-spacing: 0.24px;
+
+  border: ${({ isSelected }) =>
+    isSelected ? "1px solid var(--Foundation-Main-color-Normal, #48ffbd)" : "none"};
+  background: ${({ isSelected }) =>
+    isSelected ? "none" : "var(--Foundation-Gray-gray850, #1b1b1d)"};
+  color: ${({ isSelected }) =>
+    isSelected
+      ? "var(--Foundation-Main-color-Normal, #48ffbd)"
+      : "var(--Foundation-Gray-gray500, #767681)"};
+
+  /* text/Regular 12pt */
+  font-family: Freesentation;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 140%; /* 16.8px */
+  letter-spacing: 0.24px;
+`;
 const BoardRegisterBtn = styled.button`
   color: var(--Foundation-Gray-gray500, #767681);
   /* text/Regular 16pt */
@@ -117,18 +156,51 @@ const BoardRegisterFooter = styled.div`
   padding: 0.25rem 1.25rem;
   gap: 0.5rem;
   background: var(--Foundation-Gray-gray800, #222226);
+  img {
+    cursor: pointer;
+  }
 `;
 
+const BottomTag = ({
+  value,
+  isChecked,
+  onClick,
+}: {
+  value: string;
+  isChecked: boolean;
+  onClick: (selected: string) => void;
+}) => {
+  return (
+    <BottomTagDiv
+      onClick={() => {
+        onClick(value);
+      }}
+      isSelected={isChecked}
+    >
+      {value}
+    </BottomTagDiv>
+  );
+};
 const BoardRegisterPage = () => {
+  const { id } = useParams();
+  const { data } = useBoardListQuery(SPACE_ID);
+
+  const tagList = data.result?.readBoardList
+    .filter((value) => value.boardId == Number(id))
+    .map((value) => value.tagName);
+
   const [title, setTitleValue] = useState<string>("");
   const [content, setContentValue] = useState<string>("");
   const [isNotice, setIsNotice] = useState<boolean>(false);
+
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const [selectedTag, setSelectedTag] = useState<Set<string>>(new Set());
 
   const navigate = useNavigate();
   const { id: boardId } = useParams();
 
-  const spaceId = localStorage.getItem("spaceId");
+  const spaceId = SPACE_ID;
   const { mutate: createPost } = useCreatePost(
     Number(spaceId) || SPACE_ID,
     isNotice ? NOTICE_ID : Number(boardId),
@@ -138,6 +210,17 @@ const BoardRegisterPage = () => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const inputImgRef = useRef<HTMLInputElement>(null);
+  const inputFileRef = useRef<HTMLInputElement>(null);
+
+  const onHashTagClick = (str: string) => {
+    const temp = new Set<string>(selectedTag);
+    if (selectedTag.has(str)) {
+      temp.delete(str);
+    } else {
+      temp.add(str);
+    }
+    setSelectedTag(temp);
+  };
 
   const handleResizeHeight = () => {
     if (textareaRef.current) {
@@ -149,6 +232,12 @@ const BoardRegisterPage = () => {
     const image = e.target.files?.[0];
     image && setSelectedImages((prev) => [...prev, image]);
     console.log(selectedImages);
+  };
+
+  const handleFileImport = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    file && setSelectedFiles((prev) => [...prev, file]);
+    console.log(selectedFiles);
   };
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -164,20 +253,22 @@ const BoardRegisterPage = () => {
   };
 
   const handleRegister = () => {
+    console.log([...selectedImages, ...selectedFiles]);
     if (title && content && spaceId != null) {
       createPost(
         {
           title,
           content,
           isAnonymous: false,
-          attachments: selectedImages || [],
+          attachments: [...selectedImages, ...selectedFiles] || null,
         },
         {
           onSuccess: (res) => {
             console.log("생성 완료: ", res);
             navigate("/board");
           },
-          onError: () => {
+          onError: (err) => {
+            console.log(err);
             alert("게시글 작성에 실패했습니다.");
           },
         },
@@ -236,6 +327,14 @@ const BoardRegisterPage = () => {
           })}
         </div>
       </BoardRegisterContainer>
+      <BottomTagContainer>
+        <img src={hashtagIcon}></img>
+        {tagList?.map((value) => {
+          return (
+            <BottomTag value={value} isChecked={selectedTag.has(value)} onClick={onHashTagClick} />
+          );
+        })}
+      </BottomTagContainer>
       <BoardRegisterFooter>
         <input
           ref={inputImgRef}
@@ -244,9 +343,15 @@ const BoardRegisterPage = () => {
           onChange={handleImageImport}
           style={{ display: "none" }}
         />
+        <input
+          ref={inputFileRef}
+          type="file"
+          onChange={handleFileImport}
+          style={{ display: "none" }}
+        />
         {/* <img src={camera} alt="camera" /> */}
-        <img src={gallery} onClick={() => inputImgRef.current?.click()} />
-        <img src={link} alt="link" />
+        <img src={imageIcon} onClick={() => inputImgRef.current?.click()} />
+        <img src={fileIcon} onClick={() => inputFileRef.current?.click()} />
       </BoardRegisterFooter>
     </>
   );
