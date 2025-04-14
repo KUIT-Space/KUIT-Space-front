@@ -272,18 +272,15 @@ const createPost = async (
       formData.append("attachments", file);
     });
   }
-  console.log(await client.post(`space/${spaceId}/board/${boardId}/post`, { body: formData }));
 
   return client.post(`space/${spaceId}/board/${boardId}/post`, { body: formData }).json();
 };
 
 export const useCreatePost = (spaceId: number, boardId: number) => {
   const queryClient = useQueryClient();
-
   return useMutation({
     mutationFn: (postData: CreatePostRequest) => createPost(spaceId, boardId, postData),
     onSuccess: () => {
-      console.log("SUCCESS");
       queryClient.invalidateQueries({
         queryKey: postKeys.lists(spaceId, boardId),
       });

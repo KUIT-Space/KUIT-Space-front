@@ -9,10 +9,12 @@ import { NOTICE_ID, SPACE_ID } from "@/utils/constants";
 import fileIcon from "@/assets/Board/file_icon.svg";
 import imageIcon from "@/assets/Board/image_icon.svg";
 const BottomTagContainer = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 8px;
+  background: var(--Foundation-Gray-gray900_background, #222226);
 `;
 
 interface BottomTagProps {
@@ -148,6 +150,8 @@ const BoardRegisterContent = styled.textarea`
 `;
 
 const BoardRegisterFooter = styled.div`
+  display: flex;
+  flex-direction: row;
   position: fixed;
   max-width: 720px;
   bottom: 0;
@@ -187,7 +191,8 @@ const BoardRegisterPage = () => {
 
   const tagList = data.result?.readBoardList
     .filter((value) => value.boardId == Number(id))
-    .map((value) => value.tagName);
+    .map((value) => ({ tagName: value.tagName, tagId: value.tagId }));
+  // const tagMap =
 
   const [title, setTitleValue] = useState<string>("");
   const [content, setContentValue] = useState<string>("");
@@ -195,7 +200,7 @@ const BoardRegisterPage = () => {
 
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
-  const [selectedTag, setSelectedTag] = useState<Set<string>>(new Set());
+  const [selectedTag, setSelectedTag] = useState<Set<number>>(new Set());
 
   const navigate = useNavigate();
   const { id: boardId } = useParams();
@@ -212,12 +217,15 @@ const BoardRegisterPage = () => {
   const inputImgRef = useRef<HTMLInputElement>(null);
   const inputFileRef = useRef<HTMLInputElement>(null);
 
-  const onHashTagClick = (str: string) => {
-    const temp = new Set<string>(selectedTag);
-    if (selectedTag.has(str)) {
-      temp.delete(str);
+  const onHashTagClick = (i: string) => {
+    const temp = new Set<number>(selectedTag);
+    const index = tagList!.find((tag) => tag.tagName === i);
+    const tagId = index?.tagId!;
+
+    if (selectedTag.has(tagId)) {
+      temp.delete(tagId);
     } else {
-      temp.add(str);
+      temp.add(tagId);
     }
     setSelectedTag(temp);
   };
@@ -231,13 +239,11 @@ const BoardRegisterPage = () => {
   const handleImageImport = (e: React.ChangeEvent<HTMLInputElement>) => {
     const image = e.target.files?.[0];
     image && setSelectedImages((prev) => [...prev, image]);
-    console.log(selectedImages);
   };
 
   const handleFileImport = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     file && setSelectedFiles((prev) => [...prev, file]);
-    console.log(selectedFiles);
   };
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -253,14 +259,14 @@ const BoardRegisterPage = () => {
   };
 
   const handleRegister = () => {
-    console.log([...selectedImages, ...selectedFiles]);
-    if (title && content && spaceId != null) {
+    if (title && content && spaceId != null && selectedTag.size > 0) {
       createPost(
         {
           title,
           content,
           isAnonymous: false,
           attachments: [...selectedImages, ...selectedFiles] || null,
+          tagIds: Array.from(selectedTag),
         },
         {
           onSuccess: (res) => {
@@ -283,8 +289,8 @@ const BoardRegisterPage = () => {
         center="게시글 작성"
         right={
           <BoardRegisterBtn
-            className={title && content ? "board-register-btn-active" : ""}
-            disabled={!title || !content}
+            className={title && content && selectedTag.size > 0 ? "board-register-btn-active" : ""}
+            disabled={!title || !content || !(selectedTag.size > 0)}
             onClick={handleRegister}
           >
             등록
@@ -327,31 +333,40 @@ const BoardRegisterPage = () => {
           })}
         </div>
       </BoardRegisterContainer>
-      <BottomTagContainer>
-        <img src={hashtagIcon}></img>
-        {tagList?.map((value) => {
-          return (
-            <BottomTag value={value} isChecked={selectedTag.has(value)} onClick={onHashTagClick} />
-          );
-        })}
-      </BottomTagContainer>
+
       <BoardRegisterFooter>
-        <input
-          ref={inputImgRef}
-          type="file"
-          accept="image/*"
-          onChange={handleImageImport}
-          style={{ display: "none" }}
-        />
-        <input
-          ref={inputFileRef}
-          type="file"
-          onChange={handleFileImport}
-          style={{ display: "none" }}
-        />
-        {/* <img src={camera} alt="camera" /> */}
-        <img src={imageIcon} onClick={() => inputImgRef.current?.click()} />
-        <img src={fileIcon} onClick={() => inputFileRef.current?.click()} />
+        <div style={{ width: "100%" }}>
+          <BottomTagContainer>
+            <img src={hashtagIcon}></img>
+            {tagList?.map((value) => {
+              return (
+                <BottomTag
+                  value={value.tagName}
+                  isChecked={selectedTag.has(value.tagId)}
+                  onClick={onHashTagClick}
+                />
+              );
+            })}
+          </BottomTagContainer>
+          <div>
+            <input
+              ref={inputImgRef}
+              type="file"
+              accept="image/*"
+              onChange={handleImageImport}
+              style={{ display: "none" }}
+            />
+            <input
+              ref={inputFileRef}
+              type="file"
+              onChange={handleFileImport}
+              style={{ display: "none" }}
+            />
+            {/* <img src={camera} alt="camera" /> */}
+            <img src={imageIcon} onClick={() => inputImgRef.current?.click()} />
+            <img src={fileIcon} onClick={() => inputFileRef.current?.click()} />
+          </div>
+        </div>
       </BoardRegisterFooter>
     </>
   );

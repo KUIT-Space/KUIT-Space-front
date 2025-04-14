@@ -7,9 +7,9 @@ import App from "./App.tsx";
 
 import "./index.css";
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
-    <QueryProvider>
-      <App />
-    </QueryProvider>
-  </React.StrictMode>,
+  // <React.StrictMode>
+  <QueryProvider>
+    <App />
+  </QueryProvider>,
+  // </React.StrictMode>,
 );
