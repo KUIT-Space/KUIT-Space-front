@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import styled from "styled-components";
 
 import { BoardInfo, useBoardListQuery, useSubscribeBoard, useUnsubscribeBoard } from "@/apis/Board";
@@ -35,15 +35,16 @@ const Divider = styled.div`
 
 const BoardList = () => {
   const navigate = useNavigate();
-  const [searchParams, setSearchParams] = useSearchParams();
-  const mode = searchParams.get("question"); // true || false
+  // const [searchParams, setSearchParams] = useSearchParams();
+  const { mode } = useParams(); //question || board
+  // const mode = searchParams.get("question"); // true || false
   const { data: boardData } = useBoardListQuery(SPACE_ID);
   const subscribeMutation = useSubscribeBoard(SPACE_ID);
   const unsubscribeMutation = useUnsubscribeBoard(SPACE_ID);
 
   const prevId = useRef(boardData.result?.readBoardList[0].boardId || 1);
   const boardList =
-    mode === "true"
+    mode === "question"
       ? boardData.result?.readBoardList.filter((value) => value.boardName.indexOf("질문") !== -1)
       : boardData.result?.readBoardList.filter((value) => value.boardName.indexOf("질문") === -1);
 

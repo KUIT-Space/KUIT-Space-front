@@ -39,12 +39,12 @@ const BottomNavBar = () => {
 
   return (
     <MenuContainer>
-      <Menu to="/boardlist">
-        <BoardIcon fill={getFillColor("/boardlist")} />
+      <Menu to="/boardlist/board">
+        <BoardIcon fill={getFillColor("/boardlist/board")} />
         게시판
       </Menu>
-      <Menu to="/chat">
-        <ChatIcon fill={getFillColor("/chat")} />
+      <Menu to="/boardlist/question">
+        <ChatIcon fill={getFillColor("/boardlist/question")} />
         질문
       </Menu>
       <Menu to="/">

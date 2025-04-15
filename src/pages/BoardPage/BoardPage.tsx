@@ -45,6 +45,7 @@ const BoardContent = ({ selectedOption, isModalOpen, setIsModalOpen }: BoardCont
     tagId ? Number(tagId) : undefined,
   );
   const allPosts = posts?.result?.readPostList || [];
+  console.log(allPosts);
 
   // Client-side filtering based on selected option
   let filteredPosts = allPosts;
@@ -58,10 +59,10 @@ const BoardContent = ({ selectedOption, isModalOpen, setIsModalOpen }: BoardCont
     <>
       <BoardHeader>
         <span>게시글 {filteredPosts.length}개</span>
-        <div className="board-filter-section" onClick={() => setIsModalOpen((prev) => !prev)}>
+        {/* <div className="board-filter-section" onClick={() => setIsModalOpen((prev) => !prev)}>
           {boardSelectedOption[selectedOption].value}
           <img src={arrowDown} alt="arrowDown" />
-        </div>
+        </div> */}
       </BoardHeader>
 
       {filteredPosts.length !== 0 ? (
