@@ -50,6 +50,30 @@ const BoardPostItemContainer = styled.div`
   }
 `;
 
+const BoardPostItemHeader = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  .board-edit-delete {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  .board-edit-delete div {
+    color: var(--Foundation-Gray-gray600, #767681);
+    /* regular/12pt */
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 140%; /* 16.8px */
+    letter-spacing: 0.015rem;
+  }
+`;
 const BoardPostItemContent = styled.section`
   display: flex;
   flex-direction: column;
@@ -201,14 +225,25 @@ const BoardPostItem = ({
       // }
     }
   };
-
+  const onEditClick = () => {};
+  const onDeleteClick = () => {};
   return (
     <BoardPostItemContainer onClick={() => navigate(`/board/${boardId}/post/${postId}`)}>
-      <header className="board-post-item-header">
-        {profileImg ? <img src={profileImg} alt="프로필 이미지" /> : <div />}
-        <span>{profileName}</span>
-        <span>{elapsedTime}</span>
-      </header>
+      <BoardPostItemHeader>
+        <header className="board-post-item-header">
+          {profileImg ? <img src={profileImg} alt="프로필 이미지" /> : <div />}
+          <span>{profileName}</span>
+          <span>{elapsedTime}</span>
+        </header>
+        <div
+          className="board-edit-delete"
+          onClick={(e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation()}
+        >
+          <div onClick={onEditClick}>수정</div>
+          <div onClick={onDeleteClick}>삭제</div>
+        </div>
+      </BoardPostItemHeader>
+
       <BoardPostItemContent>
         <div className="board-post-item-content-text">
           <span>{title}</span>
