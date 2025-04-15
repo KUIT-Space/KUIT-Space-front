@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import styled from "styled-components";
 
 import { BoardInfo, useBoardListQuery, useSubscribeBoard, useUnsubscribeBoard } from "@/apis/Board";
@@ -35,11 +35,17 @@ const Divider = styled.div`
 
 const BoardList = () => {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const mode = searchParams.get("question"); // true || false
   const { data: boardData } = useBoardListQuery(SPACE_ID);
   const subscribeMutation = useSubscribeBoard(SPACE_ID);
   const unsubscribeMutation = useUnsubscribeBoard(SPACE_ID);
 
   const prevId = useRef(boardData.result?.readBoardList[0].boardId || 1);
+  const boardList =
+    mode === "true"
+      ? boardData.result?.readBoardList.filter((value) => value.boardName.indexOf("질문") !== -1)
+      : boardData.result?.readBoardList.filter((value) => value.boardName.indexOf("질문") === -1);
 
   const handlePinClick = (board: BoardInfo, e: React.MouseEvent) => {
     e.stopPropagation();
@@ -59,9 +65,9 @@ const BoardList = () => {
         right={<img src={search} alt="search" />}
       ></TopBarText>
       <BoardListContainer>
-        {boardData.result?.readBoardList.map((board) => (
+        {boardList!.map((board) => (
           <>
-            {prevId.current < board.boardId && <Divider />}
+            {mode === "false" && prevId.current < board.boardId && <Divider />}
             {prevId.current !== board.boardId && (prevId.current = board.boardId) && null}
             <BoardElement>
               <img
