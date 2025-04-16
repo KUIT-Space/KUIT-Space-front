@@ -61,6 +61,7 @@ import InviteSpace from "./pages/SpacePage/InviteSpace";
 import InviteSpace2 from "./pages/SpacePage/InviteSpace2";
 import SpecialVoiceRoom from "./pages/VoiceRoomPage/SpecialVoiceRoom";
 import WritePostPage from "./pages/WritePostPage";
+import BoardRegisterPage from "./pages/BoardPage/BoardRegisterPage/BoardRegisterPage";
 
 const LayoutContainer = styled.div`
   position: relative;
@@ -145,7 +146,7 @@ function App() {
     { path: "/board/:id", element: <BoardPage />, hasBottomBar: true },
     { path: "/board/:id/post/:postId", element: <BoardDetailPage />, hasBottomBar: false },
     // { path: "/board", element: <BoardPage />, hasBottomBar: true },
-    // { path: "/board/:id/register", element: <BoardRegisterPage />, hasBottomBar: false },
+    { path: "/board/:id/register", element: <BoardRegisterPage />, hasBottomBar: false },
   ];
 
   const routes_children_space = [

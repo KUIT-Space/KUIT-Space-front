@@ -37,7 +37,7 @@ const HomePage = () => {
         style={{ alignItems: "center" }}
       >
         <sty.NoticeRoundDiv>공지</sty.NoticeRoundDiv>
-        <div>{data.content}</div>
+        <div>{data.title}</div>
       </sty.RowFlexDiv>
     );
   };
