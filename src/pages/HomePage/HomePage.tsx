@@ -28,11 +28,12 @@ const HomePage = () => {
   const canManageSpace = authSpaceStore((state) => state.canManageSpace);
 
   const NoticeComponent = ({ data }: { data: NoticeDetail }) => {
+    console.log(data);
     return (
       <sty.RowFlexDiv
         onClick={() => {
-          //TODO
-          // navigate(`/board/${data.postId}`);
+          //TODO: NOTICE ID 수정
+          navigate(`/board/${NOTICE_ID}/post/${data.postId}`);
         }}
         style={{ alignItems: "center" }}
       >
@@ -46,13 +47,17 @@ const HomePage = () => {
     return (
       <sty.RowFlexDiv
         onClick={() => {
-          //TODO
-          // navigate(`/board/${data.postId}`);
+          // TODO
+          navigate(`/board/${data.boardId}`);
         }}
-        style={{ alignItems: "center" }}
+        style={{ alignItems: "center", cursor: "pointer" }}
       >
         <sty.BoardNameDiv>{data.boardName}</sty.BoardNameDiv>
-        <sty.BoardTitleDiv>{data.boardTitle}</sty.BoardTitleDiv>
+        {data.postTitle ? (
+          <sty.BoardTitleDiv>{data.postTitle}</sty.BoardTitleDiv>
+        ) : (
+          <sty.BoardNoneTitleDiv>게시물이 아직 없어요</sty.BoardNoneTitleDiv>
+        )}
       </sty.RowFlexDiv>
     );
   };
