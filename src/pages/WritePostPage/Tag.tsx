@@ -15,6 +15,7 @@ const StyledTag = styled.button<{ isSelected?: boolean }>`
     ${({ theme, isSelected }) => (isSelected ? theme.colors.normal : theme.colors.BG850)};
   cursor: pointer;
   outline: none;
+  white-space: nowrap;
 `;
 
 interface TagProps {

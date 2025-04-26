@@ -87,6 +87,7 @@ export type CreatePostResponse = number; // Post ID
 
 // Comment-related interfaces
 export interface CommentDetail {
+  commentId: number;
   creatorName: string;
   creatorProfileImageUrl: string;
   isPostOwner: boolean;

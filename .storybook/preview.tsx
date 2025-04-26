@@ -3,6 +3,7 @@ import { handlers } from "../src/mocks/handlers";
 import type { Preview } from "@storybook/react";
 import React, { Suspense } from "react";
 import { ThemeProvider } from "styled-components";
+import { createGlobalStyle } from "styled-components";
 import { theme } from "../src/styles/Theme";
 import GlobalStyle from "../src/styles/GlobalStyles";
 import "../src/index.css";
@@ -13,6 +14,16 @@ import { ErrorBoundary } from "react-error-boundary";
 import SkeletonDetailPage from "../src/components/SkeletonDetailPage";
 // Initialize MSW
 initialize();
+
+const StorybookStyles = createGlobalStyle`
+.sb-main-centered {
+  overflow-x: hidden;
+}
+
+#storybook-root {
+  padding: 0 !important;
+}
+`;
 
 const preview: Preview = {
   parameters: {
