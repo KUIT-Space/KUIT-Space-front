@@ -146,7 +146,7 @@ function App() {
     { path: "/board/:id", element: <BoardPage />, hasBottomBar: true },
     { path: "/board/:id/post/:postId", element: <BoardDetailPage />, hasBottomBar: false },
     // { path: "/board", element: <BoardPage />, hasBottomBar: true },
-    { path: "/board/:id/register", element: <BoardRegisterPage />, hasBottomBar: false },
+    { path: "/board/:id/register/:mode", element: <BoardRegisterPage />, hasBottomBar: false },
   ];
   // const routes_children_question = [
   //   { path: "/boardlist", element: <BoardList />, hasBottomBar: true },

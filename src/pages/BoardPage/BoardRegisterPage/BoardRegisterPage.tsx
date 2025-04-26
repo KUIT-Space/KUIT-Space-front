@@ -186,7 +186,7 @@ const BottomTag = ({
   );
 };
 const BoardRegisterPage = () => {
-  const { id } = useParams();
+  const { id, mode } = useParams();
   const { data } = useBoardListQuery(SPACE_ID);
 
   const tagList = data.result?.readBoardList
