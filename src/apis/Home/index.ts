@@ -9,7 +9,7 @@ export interface NoticeDetail {
 export interface SubscriptionsDetail {
   boardId: number;
   boardName: string;
-  boardTitle: string;
+  postTitle: string;
   tagName: string;
 }
 export interface ResponseOfHome {
