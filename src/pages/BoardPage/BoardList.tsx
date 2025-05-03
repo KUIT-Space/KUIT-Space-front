@@ -37,7 +37,6 @@ const BoardList = () => {
   const navigate = useNavigate();
   // const [searchParams, setSearchParams] = useSearchParams();
   const { mode } = useParams(); //question || board
-  // const mode = searchParams.get("question"); // true || false
   const { data: boardData } = useBoardListQuery(SPACE_ID);
   const subscribeMutation = useSubscribeBoard(SPACE_ID);
   const unsubscribeMutation = useUnsubscribeBoard(SPACE_ID);
@@ -68,9 +67,9 @@ const BoardList = () => {
       <BoardListContainer>
         {boardList!.map((board) => (
           <>
-            {mode === "false" && prevId.current < board.boardId && <Divider />}
+            {mode === "board" && prevId.current < board.boardId && <Divider />}
             {prevId.current !== board.boardId && (prevId.current = board.boardId) && null}
-            <BoardElement>
+            <BoardElement key={board.boardId}>
               <img
                 src={board.isSubscribed ? onPin : offPin}
                 alt="pin"
@@ -78,7 +77,13 @@ const BoardList = () => {
               />
               <BoardName
                 onClick={() => {
-                  navigate(`/board/${board.boardId}${board.tagId ? `?tagId=${board.tagId}` : ""}`);
+                  mode === "question"
+                    ? navigate(
+                        `/board/${board.boardId}/question${board.tagId ? `?tagId=${board.tagId}` : ""}`,
+                      )
+                    : navigate(
+                        `/board/${board.boardId}${board.tagId ? `?tagId=${board.tagId}` : ""}`,
+                      );
                 }}
               >
                 {board.boardName}
