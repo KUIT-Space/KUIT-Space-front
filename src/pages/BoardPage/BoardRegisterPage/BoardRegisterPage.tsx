@@ -266,7 +266,7 @@ const BoardRegisterPage = () => {
           title,
           content,
           isAnonymous: isAnon,
-          attachments: [...selectedImages, ...selectedFiles] || null,
+          attachments: [...selectedImages, ...selectedFiles],
           tagIds: Array.from(selectedTag),
         },
         {
