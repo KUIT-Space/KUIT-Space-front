@@ -62,6 +62,7 @@ import InviteSpace2 from "./pages/SpacePage/InviteSpace2";
 import SpecialVoiceRoom from "./pages/VoiceRoomPage/SpecialVoiceRoom";
 import WritePostPage from "./pages/WritePostPage";
 import BoardRegisterPage from "./pages/BoardPage/BoardRegisterPage/BoardRegisterPage";
+import BoardEditPage from "./pages/BoardPage/BoardEditPage/BoardEditPage";
 
 const LayoutContainer = styled.div`
   position: relative;
@@ -144,9 +145,19 @@ function App() {
   const routes_children_board = [
     { path: "/boardlist/:mode", element: <BoardList />, hasBottomBar: true },
     { path: "/board/:id", element: <BoardPage />, hasBottomBar: true },
+    { path: "/board/:id/:mode", element: <BoardPage />, hasBottomBar: true },
     { path: "/board/:id/post/:postId", element: <BoardDetailPage />, hasBottomBar: false },
     // { path: "/board", element: <BoardPage />, hasBottomBar: true },
-    { path: "/board/:id/register/:mode", element: <BoardRegisterPage />, hasBottomBar: false },
+    {
+      path: "/board/:id/register/:mode",
+      element: <BoardRegisterPage />,
+      hasBottomBar: false,
+    },
+    {
+      path: "/board/:id/edit/:postId",
+      element: <BoardEditPage />,
+      hasBottomBar: false,
+    },
   ];
   // const routes_children_question = [
   //   { path: "/boardlist", element: <BoardList />, hasBottomBar: true },
