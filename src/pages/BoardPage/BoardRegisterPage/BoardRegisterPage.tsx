@@ -8,6 +8,7 @@ import TopBarText, { LeftEnum } from "@/components/TopBarText";
 import { NOTICE_ID, SPACE_ID } from "@/utils/constants";
 import fileIcon from "@/assets/Board/file_icon.svg";
 import imageIcon from "@/assets/Board/image_icon.svg";
+import CheckBox from "@/components/CheckBox";
 const BottomTagContainer = styled.div`
   width: 100%;
   display: flex;
@@ -187,16 +188,17 @@ const BottomTag = ({
 };
 const BoardRegisterPage = () => {
   const { id, mode } = useParams();
+  console.log(mode);
   const { data } = useBoardListQuery(SPACE_ID);
 
   const tagList = data.result?.readBoardList
-    .filter((value) => value.boardId == Number(id))
+    .filter((value) => value.boardId == Number(id) && value.tagName != null && value.tagId != null)
     .map((value) => ({ tagName: value.tagName, tagId: value.tagId }));
-  // const tagMap =
 
   const [title, setTitleValue] = useState<string>("");
   const [content, setContentValue] = useState<string>("");
-  const [isNotice, setIsNotice] = useState<boolean>(false);
+  // const [isNotice, setIsNotice] = useState<boolean>(false);
+  const [isAnon, setIsAnon] = useState<boolean>(false); //익명인지 체크
 
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
@@ -206,10 +208,7 @@ const BoardRegisterPage = () => {
   const { id: boardId } = useParams();
 
   const spaceId = SPACE_ID;
-  const { mutate: createPost } = useCreatePost(
-    Number(spaceId) || SPACE_ID,
-    isNotice ? NOTICE_ID : Number(boardId),
-  );
+  const { mutate: createPost } = useCreatePost(Number(spaceId) || SPACE_ID, Number(boardId));
 
   const inputRef = useRef<HTMLInputElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -217,6 +216,8 @@ const BoardRegisterPage = () => {
   const inputImgRef = useRef<HTMLInputElement>(null);
   const inputFileRef = useRef<HTMLInputElement>(null);
 
+  if (mode === "edit") {
+  }
   const onHashTagClick = (i: string) => {
     const temp = new Set<number>(selectedTag);
     const index = tagList!.find((tag) => tag.tagName === i);
@@ -259,12 +260,12 @@ const BoardRegisterPage = () => {
   };
 
   const handleRegister = () => {
-    if (title && content && spaceId != null && selectedTag.size > 0) {
+    if ((title && content && spaceId != null && selectedTag.size > 0) || tagList?.length! <= 0) {
       createPost(
         {
           title,
           content,
-          isAnonymous: false,
+          isAnonymous: isAnon,
           attachments: [...selectedImages, ...selectedFiles] || null,
           tagIds: Array.from(selectedTag),
         },
@@ -289,8 +290,11 @@ const BoardRegisterPage = () => {
         center="게시글 작성"
         right={
           <BoardRegisterBtn
-            className={title && content && selectedTag.size > 0 ? "board-register-btn-active" : ""}
-            disabled={!title || !content || !(selectedTag.size > 0)}
+            className={
+              (title && content && selectedTag.size > 0) || tagList?.length! <= 0
+                ? "board-register-btn-active"
+                : ""
+            }
             onClick={handleRegister}
           >
             등록
@@ -298,15 +302,16 @@ const BoardRegisterPage = () => {
         }
       ></TopBarText>
       <BoardRegisterContainer>
-        {/* <BoardRegisterManagerTitle
-          onClick={() => {
-            setIsNotice((prev) => !prev);
-            console.log(isNotice);
-          }}
-        >
-          <CheckBox checked={isNotice} />
-          <span className={isNotice ? "board-register-manager-active" : ""}>공지로 등록하기</span>
-        </BoardRegisterManagerTitle> */}
+        {mode === "question" && (
+          <BoardRegisterManagerTitle
+            onClick={() => {
+              setIsAnon((prev) => !prev);
+            }}
+          >
+            <CheckBox checked={isAnon} />
+            <span className={isAnon ? "board-register-manager-active" : ""}>익명으로 질문하기</span>
+          </BoardRegisterManagerTitle>
+        )}
         <BoardRegisterTitle
           ref={inputRef}
           placeholder="제목을 입력해주세요."
@@ -336,19 +341,21 @@ const BoardRegisterPage = () => {
 
       <BoardRegisterFooter>
         <div style={{ width: "100%" }}>
-          <BottomTagContainer>
-            <img src={hashtagIcon}></img>
-            {tagList?.map((value) => {
-              return (
-                <BottomTag
-                  value={value.tagName}
-                  isChecked={selectedTag.has(value.tagId)}
-                  onClick={onHashTagClick}
-                />
-              );
-            })}
-          </BottomTagContainer>
+          {(tagList === undefined || tagList?.length > 0) && (
+            <BottomTagContainer>
+              <img src={hashtagIcon}></img>
+              {tagList?.map((value) => {
+                return (
+                  <BottomTag
+                    key={value.tagId}
+                    value={value.tagName}
+                    isChecked={selectedTag.has(value.tagId)}
+                    onClick={onHashTagClick}
+                  />
+                );
               })}
+            </BottomTagContainer>
+          )}
           <div>
             <input
               ref={inputImgRef}
