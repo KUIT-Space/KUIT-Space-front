@@ -32,10 +32,9 @@ const HomePage = () => {
     return (
       <sty.RowFlexDiv
         onClick={() => {
-          //TODO: NOTICE ID 수정
-          navigate(`/board/${NOTICE_ID}/post/${data.postId}`);
+          navigate(`/board/${data.boardId}/post/${data.postId}`);
         }}
-        style={{ alignItems: "center" }}
+        style={{ alignItems: "center", cursor: "pointer" }}
       >
         <sty.NoticeRoundDiv>공지</sty.NoticeRoundDiv>
         <div>{data.title}</div>
@@ -142,7 +141,7 @@ const HomePage = () => {
               className="settlementTextContainer"
               onClick={() => {
                 //TODO
-                // navigate("/board");
+                navigate("/boardlist/board");
               }}
             >
               <sty.RowFlexDiv style={{ alignItems: "center" }}>
