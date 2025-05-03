@@ -348,6 +348,7 @@ const BoardRegisterPage = () => {
               );
             })}
           </BottomTagContainer>
+              })}
           <div>
             <input
               ref={inputImgRef}
