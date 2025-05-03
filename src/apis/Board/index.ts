@@ -74,7 +74,7 @@ export interface PostDetail {
 export interface CreatePostRequest {
   title: string;
   content: string;
-  isAnonymous: boolean;
+  isAnonymous?: boolean;
   tagIds?: number[];
   attachments?: File[];
 }
@@ -264,7 +264,7 @@ const createPost = async (
   formData.append("isAnonymous", postData.isAnonymous ? "true" : "false");
   if (postData.tagIds) {
     postData.tagIds.forEach((tag) => {
-      formData.append("tagIds", String(tag));
+      if (tag !== null) formData.append("tagIds", String(tag));
     });
   }
 
@@ -296,7 +296,7 @@ export const useCreatePost = (spaceId: number, boardId: number) => {
  * @param postId Post ID
  * @returns Post details
  */
-const getPostDetail = async (
+export const getPostDetail = async (
   spaceId: number,
   boardId: number,
   postId: number,
@@ -328,7 +328,9 @@ const updatePost = async (
   const formData = new FormData();
   formData.append("title", data.title);
   formData.append("content", data.content);
-  formData.append("isAnonymous", data.isAnonymous.toString());
+  if (data.isAnonymous) {
+    formData.append("isAnonymous", data.isAnonymous.toString());
+  }
   if (data.tagIds) {
     data.tagIds.forEach((tagId) => formData.append("tagIds", tagId.toString()));
   }
