@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { SetStateAction, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 
@@ -177,6 +177,7 @@ export type BoardPostItemProps = {
   isLike: boolean;
   likeCount: number;
   commentCount: number;
+  onPostDelete: (i: number) => void;
 };
 
 const BoardPostItem = ({
@@ -190,6 +191,7 @@ const BoardPostItem = ({
   isLike,
   likeCount,
   commentCount,
+  onPostDelete,
 }: BoardPostItemProps) => {
   const navigate = useNavigate();
   const { id: boardId } = useParams();
@@ -225,8 +227,11 @@ const BoardPostItem = ({
       // }
     }
   };
-  const onEditClick = () => {};
-  const onDeleteClick = () => {};
+  const onEditClick = () => {
+    alert("미구현된 기능입니다");
+    // TODO : 수정 구현 필요
+    // navigate(`/board/${boardId}/edit/${postId}`);
+  };
   return (
     <BoardPostItemContainer onClick={() => navigate(`/board/${boardId}/post/${postId}`)}>
       <BoardPostItemHeader>
@@ -240,7 +245,13 @@ const BoardPostItem = ({
           onClick={(e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation()}
         >
           <div onClick={onEditClick}>수정</div>
-          <div onClick={onDeleteClick}>삭제</div>
+          <div
+            onClick={() => {
+              onPostDelete(postId);
+            }}
+          >
+            삭제
+          </div>
         </div>
       </BoardPostItemHeader>
 
