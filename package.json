@@ -85,11 +85,5 @@
     "vite": "^5.4.8",
     "vite-tsconfig-paths": "^4.3.2",
     "wait-on": "^8.0.2"
-  },
-  "msw": {
-    "workerDirectory": [
-      ".storybook/public",
-      "public"
-    ]
   }
 }
