@@ -35,8 +35,10 @@ const Divider = styled.div`
 
 const BoardList = () => {
   const navigate = useNavigate();
-  // const [searchParams, setSearchParams] = useSearchParams();
-  const { mode } = useParams(); //question || board
+  // const [searchParams] = useSearchParams();
+  // const mode = searchParams.get("mode"); //question || board
+  const { mode } = useParams();
+
   const { data: boardData } = useBoardListQuery(SPACE_ID);
   const subscribeMutation = useSubscribeBoard(SPACE_ID);
   const unsubscribeMutation = useUnsubscribeBoard(SPACE_ID);
