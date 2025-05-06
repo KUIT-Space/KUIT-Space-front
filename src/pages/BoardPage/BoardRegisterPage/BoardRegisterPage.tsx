@@ -188,7 +188,6 @@ const BottomTag = ({
 };
 const BoardRegisterPage = () => {
   const { id, mode } = useParams();
-  console.log(mode);
   const { data } = useBoardListQuery(SPACE_ID);
 
   const tagList = data.result?.readBoardList
@@ -216,8 +215,6 @@ const BoardRegisterPage = () => {
   const inputImgRef = useRef<HTMLInputElement>(null);
   const inputFileRef = useRef<HTMLInputElement>(null);
 
-  if (mode === "edit") {
-  }
   const onHashTagClick = (i: string) => {
     const temp = new Set<number>(selectedTag);
     const index = tagList!.find((tag) => tag.tagName === i);
