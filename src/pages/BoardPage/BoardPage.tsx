@@ -19,6 +19,7 @@ import { BottomFloatBtn } from "@/components/BottomFloatBtn";
 import createPost from "@/assets/Board/create_post.svg";
 import Modal from "@/components/Modal";
 import { ApiResponse } from "@/apis/client";
+import { theme } from "@/styles/Theme";
 
 export type boardSelectedOptionType = {
   id: string;
@@ -72,9 +73,9 @@ const BoardContent = ({ selectedOption, isModalOpen, setIsModalOpen }: BoardCont
         content={[]}
         leftButtonText="취소"
         rightButtonText="삭제"
-        leftButtonColor="#454548"
-        rightButtonColor="#FF5656"
-        rightButtonTextColor="#fff"
+        leftButtonColor={theme.colors.gray_400}
+        rightButtonColor={theme.colors.char_red}
+        rightButtonTextColor={theme.colors.white}
         onClose={() => {
           setIsModalOpen(false);
         }}

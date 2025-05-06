@@ -41,6 +41,7 @@ const colors = {
   char_pink: "#F994FB",
   char_lime: "#5AFE7E",
   char_red: "#FF5656",
+  gray_400: "#45454B",
 };
 
 export type windowSizeTypes = typeof windowSize;
