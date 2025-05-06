@@ -296,7 +296,7 @@ export const useCreatePost = (spaceId: number, boardId: number) => {
  * @param postId Post ID
  * @returns Post details
  */
-export const getPostDetail = async (
+const getPostDetail = async (
   spaceId: number,
   boardId: number,
   postId: number,
