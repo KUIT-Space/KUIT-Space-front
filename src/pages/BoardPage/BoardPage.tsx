@@ -25,13 +25,6 @@ export type boardSelectedOptionType = {
   value: string;
 };
 
-// 이거 deprecated 코드
-export const boardSelectedOption = [
-  { id: "all", value: "전체" },
-  { id: "notice", value: "공지 게시글" },
-  { id: "general", value: "일반 게시글" },
-];
-
 type BoardContentProps = {
   selectedOption: number;
   isModalOpen: boolean;

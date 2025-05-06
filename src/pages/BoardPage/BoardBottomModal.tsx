@@ -1,8 +1,12 @@
 import styled from "styled-components";
 
 import checkModal from "@/assets/Board/check_modal.svg";
-import { boardSelectedOption, boardSelectedOptionType } from "@/pages/BoardPage/BoardPage";
 
+const boardSelectedOption = [
+  { id: "all", value: "전체" },
+  { id: "notice", value: "공지 게시글" },
+  { id: "general", value: "일반 게시글" },
+];
 const BoardBottomModalBackdrop = styled.div`
   position: fixed;
   top: 0;
