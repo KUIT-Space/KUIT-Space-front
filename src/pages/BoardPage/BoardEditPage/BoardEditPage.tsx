@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 
-import { getPostDetail, useBoardListQuery, useCreatePost, useUpdatePost } from "@/apis/Board";
+import { useBoardListQuery, useCreatePost, useUpdatePost } from "@/apis/Board";
 import hashtagIcon from "@/assets/Board/hashtag.svg";
 import TopBarText, { LeftEnum } from "@/components/TopBarText";
 import { NOTICE_ID, SPACE_ID } from "@/utils/constants";
