@@ -46,8 +46,12 @@ const BoardList = () => {
   const prevId = useRef(boardData.result?.readBoardList[0].boardId || 1);
   const boardList =
     mode === "question"
-      ? boardData.result?.readBoardList.filter((value) => value.boardName.indexOf("질문") !== -1)
-      : boardData.result?.readBoardList.filter((value) => value.boardName.indexOf("질문") === -1);
+      ? boardData.result?.readBoardList.filter(
+          (value: BoardInfo) => value.boardName.indexOf("질문") !== -1,
+        )
+      : boardData.result?.readBoardList.filter(
+          (value: BoardInfo) => value.boardName.indexOf("질문") === -1,
+        );
 
   const handlePinClick = (board: BoardInfo, e: React.MouseEvent) => {
     e.stopPropagation();
@@ -67,7 +71,7 @@ const BoardList = () => {
         right={<img src={search} alt="search" />}
       ></TopBarText>
       <BoardListContainer>
-        {boardList!.map((board) => (
+        {boardList!.map((board: BoardInfo) => (
           <>
             {mode === "board" && prevId.current < board.boardId && <Divider />}
             {prevId.current !== board.boardId && (prevId.current = board.boardId) && null}
