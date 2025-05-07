@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSearchParams } from "react-router-dom";
 
-import { usePostsQuery } from "@/apis/Board";
+import { ReadPostListResponse, useDeletePost, usePostsQuery } from "@/apis/Board";
 import arrowDown from "@/assets/Board/chevron_down.svg";
 import floating from "@/assets/Board/floating.svg";
 import search from "@/assets/Board/search.svg";
@@ -17,25 +17,21 @@ import BoardPostItem from "@/pages/BoardPage/BoardPostItem";
 import { SPACE_ID } from "@/utils/constants";
 import { BottomFloatBtn } from "@/components/BottomFloatBtn";
 import createPost from "@/assets/Board/create_post.svg";
+import Modal from "@/components/Modal";
+import { ApiResponse } from "@/apis/client";
+import { theme } from "@/styles/Theme";
 
 export type boardSelectedOptionType = {
   id: string;
   value: string;
 };
 
-// TODO : tag 별로 다른 Option 띄워주고, 하나의 tag Board 안에서 다른 Board로 이동 가능하게
-export const boardSelectedOption = [
-  { id: "all", value: "전체" },
-  { id: "notice", value: "공지 게시글" },
-  { id: "general", value: "일반 게시글" },
-];
-
 type BoardContentProps = {
   selectedOption: number;
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
-
+let _postId = 0;
 const BoardContent = ({ selectedOption, isModalOpen, setIsModalOpen }: BoardContentProps) => {
   const { id: boardId } = useParams();
   const [searchParams] = useSearchParams();
@@ -55,17 +51,39 @@ const BoardContent = ({ selectedOption, isModalOpen, setIsModalOpen }: BoardCont
   } else if (selectedOption === 2) {
     filteredPosts = allPosts.filter((post) => !post.title.includes("[공지]"));
   }
+  const deletePostMutation = useDeletePost(SPACE_ID, Number(boardId));
+  const onPostDelete = (postId: number) => {
+    console.log(postId);
+    _postId = postId;
+    setIsModalOpen(true);
+  };
 
   return (
     <>
       <BoardHeader>
         <span>게시글 {filteredPosts.length}개</span>
-        <div className="board-filter-section" onClick={() => setIsModalOpen((prev) => !prev)}>
+        {/* <div className="board-filter-section" onClick={() => setIsModalOpen((prev) => !prev)}>
           {boardSelectedOption[selectedOption].value}
           <img src={arrowDown} alt="arrowDown" />
-        </div>
+        </div> */}
       </BoardHeader>
-
+      <Modal
+        isOpen={isModalOpen}
+        title={"게시물을 삭제하시겠습니까?"}
+        content={[]}
+        leftButtonText="취소"
+        rightButtonText="삭제"
+        leftButtonColor={theme.colors.gray_400}
+        rightButtonColor={theme.colors.char_red}
+        rightButtonTextColor={theme.colors.white}
+        onClose={() => {
+          setIsModalOpen(false);
+        }}
+        onConfirm={() => {
+          deletePostMutation.mutate(_postId);
+          setIsModalOpen(false);
+        }}
+      />
       {filteredPosts.length !== 0 ? (
         filteredPosts.map((post, i) => (
           <div key={i + post.title}>
@@ -80,6 +98,7 @@ const BoardContent = ({ selectedOption, isModalOpen, setIsModalOpen }: BoardCont
               isLike={false}
               likeCount={post.likeCount}
               commentCount={post.commentCount}
+              onPostDelete={(i: number) => onPostDelete(i)}
             />
           </div>
         ))
@@ -92,14 +111,16 @@ const BoardContent = ({ selectedOption, isModalOpen, setIsModalOpen }: BoardCont
     </>
   );
 };
-
 const BoardPage = () => {
   const navigate = useNavigate();
-  const { id: boardId } = useParams();
+  const { id: boardId, mode } = useParams();
+  console.log(mode);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(0);
   const onCreateClick = () => {
-    navigate(`/board/${boardId}/register`);
+    mode === "question"
+      ? navigate(`/board/${boardId}/register/question`)
+      : navigate(`/board/${boardId}/register`);
   };
   return (
     <div>
@@ -117,14 +138,13 @@ const BoardPage = () => {
         <img src={createPost}></img>
         <div>글 쓰기</div>
       </BottomFloatBtn>
-      <BoardBottomModal
+      {/* <BoardBottomModal
         selectedOption={selectedOption}
         onSelect={setSelectedOption}
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-      />
+      /> */}
     </div>
   );
 };
-
 export default BoardPage;

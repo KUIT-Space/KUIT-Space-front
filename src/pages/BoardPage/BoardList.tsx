@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import styled from "styled-components";
 
 import { BoardInfo, useBoardListQuery, useSubscribeBoard, useUnsubscribeBoard } from "@/apis/Board";
@@ -35,11 +35,23 @@ const Divider = styled.div`
 
 const BoardList = () => {
   const navigate = useNavigate();
+  // const [searchParams] = useSearchParams();
+  // const mode = searchParams.get("mode"); //question || board
+  const { mode } = useParams();
+
   const { data: boardData } = useBoardListQuery(SPACE_ID);
   const subscribeMutation = useSubscribeBoard(SPACE_ID);
   const unsubscribeMutation = useUnsubscribeBoard(SPACE_ID);
 
   const prevId = useRef(boardData.result?.readBoardList[0].boardId || 1);
+  const boardList =
+    mode === "question"
+      ? boardData.result?.readBoardList.filter(
+          (value: BoardInfo) => value.boardName.indexOf("질문") !== -1,
+        )
+      : boardData.result?.readBoardList.filter(
+          (value: BoardInfo) => value.boardName.indexOf("질문") === -1,
+        );
 
   const handlePinClick = (board: BoardInfo, e: React.MouseEvent) => {
     e.stopPropagation();
@@ -59,11 +71,11 @@ const BoardList = () => {
         right={<img src={search} alt="search" />}
       ></TopBarText>
       <BoardListContainer>
-        {boardData.result?.readBoardList.map((board) => (
+        {boardList!.map((board: BoardInfo) => (
           <>
-            {prevId.current < board.boardId && <Divider />}
+            {mode === "board" && prevId.current < board.boardId && <Divider />}
             {prevId.current !== board.boardId && (prevId.current = board.boardId) && null}
-            <BoardElement>
+            <BoardElement key={board.boardId}>
               <img
                 src={board.isSubscribed ? onPin : offPin}
                 alt="pin"
@@ -71,7 +83,13 @@ const BoardList = () => {
               />
               <BoardName
                 onClick={() => {
-                  navigate(`/board/${board.boardId}${board.tagId ? `?tagId=${board.tagId}` : ""}`);
+                  mode === "question"
+                    ? navigate(
+                        `/board/${board.boardId}/question${board.tagId ? `?tagId=${board.tagId}` : ""}`,
+                      )
+                    : navigate(
+                        `/board/${board.boardId}${board.tagId ? `?tagId=${board.tagId}` : ""}`,
+                      );
                 }}
               >
                 {board.boardName}

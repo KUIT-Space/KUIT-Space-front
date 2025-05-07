@@ -21,6 +21,11 @@ export const BoardPostDetailContainer = styled.div`
       border-radius: 50%;
       background-color: #c5c5c5;
     }
+    .board-post-detail-header-img-anon {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 50%;
+    }
 
     .board-post-detail-header-text {
       display: flex;

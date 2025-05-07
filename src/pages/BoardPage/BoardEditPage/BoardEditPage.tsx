@@ -1,14 +1,14 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 
-import { useBoardListQuery, useCreatePost } from "@/apis/Board";
+import { useBoardListQuery, useCreatePost, useUpdatePost } from "@/apis/Board";
 import hashtagIcon from "@/assets/Board/hashtag.svg";
 import TopBarText, { LeftEnum } from "@/components/TopBarText";
 import { NOTICE_ID, SPACE_ID } from "@/utils/constants";
 import fileIcon from "@/assets/Board/file_icon.svg";
 import imageIcon from "@/assets/Board/image_icon.svg";
-import CheckBox from "@/components/CheckBox";
+import { usePostDetailQuery } from "@/apis/Board";
 const BottomTagContainer = styled.div`
   width: 100%;
   display: flex;
@@ -186,19 +186,19 @@ const BottomTag = ({
     </BottomTagDiv>
   );
 };
-const BoardRegisterPage = () => {
-  const { id, mode } = useParams();
+const BoardEditPage = () => {
+  const { id, postId } = useParams();
   const { data } = useBoardListQuery(SPACE_ID);
+  const { data: postDetail } = usePostDetailQuery(SPACE_ID, Number(id), Number(postId));
 
   const tagList = data.result?.readBoardList
     .filter((value) => value.boardId == Number(id) && value.tagName != null && value.tagId != null)
     .map((value) => ({ tagName: value.tagName, tagId: value.tagId }));
 
-  const [title, setTitleValue] = useState<string>("");
-  const [content, setContentValue] = useState<string>("");
-  // const [isNotice, setIsNotice] = useState<boolean>(false);
-  const [isAnon, setIsAnon] = useState<boolean>(false); //익명인지 체크
-
+  console.log(postDetail);
+  const [title, setTitleValue] = useState<string>(postDetail.result?.title!);
+  const [content, setContentValue] = useState<string>(postDetail.result?.content!);
+  const [isNotice, setIsNotice] = useState<boolean>(false);
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [selectedTag, setSelectedTag] = useState<Set<number>>(new Set());
@@ -207,19 +207,43 @@ const BoardRegisterPage = () => {
   const { id: boardId } = useParams();
 
   const spaceId = SPACE_ID;
-  const { mutate: createPost } = useCreatePost(Number(spaceId) || SPACE_ID, Number(boardId));
+  const { mutate: createPost } = useCreatePost(
+    Number(spaceId) || SPACE_ID,
+    isNotice ? NOTICE_ID : Number(boardId),
+  );
+  const { mutate: updatePost } = useUpdatePost(
+    Number(spaceId) || SPACE_ID,
+    isNotice ? NOTICE_ID : Number(boardId),
+    Number(postId),
+  );
 
   const inputRef = useRef<HTMLInputElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const inputImgRef = useRef<HTMLInputElement>(null);
   const inputFileRef = useRef<HTMLInputElement>(null);
-
+  const postData = postDetail.result;
+  // if (postData?.title !== null) {
+  //   setTitleValue(postData?.title!);
+  // }
+  // if (postData?.content !== null) {
+  //   setContentValue(postData?.content!);
+  // }
+  // useEffect(() => {
+  //   const postResponse = getPostDetail(SPACE_ID, Number(boardId), Number(postId)).then((res) => {
+  //     const postData = res.result;
+  //     if (postData?.title !== null) {
+  //       setTitleValue(postData?.title!);
+  //     }
+  //     if (postData?.title !== null) {
+  //       setContentValue(postData?.content!);
+  //     }
+  //   });
+  // }, []);
   const onHashTagClick = (i: string) => {
     const temp = new Set<number>(selectedTag);
     const index = tagList!.find((tag) => tag.tagName === i);
     const tagId = index?.tagId!;
-
     if (selectedTag.has(tagId)) {
       temp.delete(tagId);
     } else {
@@ -257,29 +281,29 @@ const BoardRegisterPage = () => {
   };
 
   const handleRegister = () => {
-    if ((title && content && spaceId != null && selectedTag.size > 0) || tagList?.length! <= 0) {
-      createPost(
-        {
-          title,
-          content,
-          isAnonymous: isAnon,
-          attachments: [...selectedImages, ...selectedFiles],
-          tagIds: Array.from(selectedTag),
-        },
-        {
-          onSuccess: (res) => {
-            console.log("생성 완료: ", res);
-            navigate("/board");
-          },
-          onError: (err) => {
-            console.log(err);
-            alert("게시글 작성에 실패했습니다.");
-          },
-        },
-      );
-    }
+    alert("미구현된 기능입니다");
+    //TODO : 수정 기능 구현
+    // if ((title && content && spaceId != null && selectedTag.size > 0) || tagList?.length! <= 0) {
+    //   updatePost(
+    //     {
+    //       title,
+    //       content,
+    //       tagIds: Array.from(selectedTag),
+    //     },
+    //     {
+    //       onSuccess: (res) => {
+    //         console.log("생성 완료: ", res);
+    //         navigate("/board");
+    //       },
+    //       onError: (err) => {
+    //         console.log(err);
+    //         alert("게시글 작성에 실패했습니다.");
+    //       },
+    //     },
+    //   );
+    // }
   };
-
+  console.log(tagList);
   return (
     <>
       <TopBarText
@@ -299,16 +323,15 @@ const BoardRegisterPage = () => {
         }
       ></TopBarText>
       <BoardRegisterContainer>
-        {mode === "question" && (
-          <BoardRegisterManagerTitle
-            onClick={() => {
-              setIsAnon((prev) => !prev);
-            }}
-          >
-            <CheckBox checked={isAnon} />
-            <span className={isAnon ? "board-register-manager-active" : ""}>익명으로 질문하기</span>
-          </BoardRegisterManagerTitle>
-        )}
+        {/* <BoardRegisterManagerTitle
+          onClick={() => {
+            setIsNotice((prev) => !prev);
+            console.log(isNotice);
+          }}
+        >
+          <CheckBox checked={isNotice} />
+          <span className={isNotice ? "board-register-manager-active" : ""}>공지로 등록하기</span>
+        </BoardRegisterManagerTitle> */}
         <BoardRegisterTitle
           ref={inputRef}
           placeholder="제목을 입력해주세요."
@@ -344,7 +367,6 @@ const BoardRegisterPage = () => {
               {tagList?.map((value) => {
                 return (
                   <BottomTag
-                    key={value.tagId}
                     value={value.tagName}
                     isChecked={selectedTag.has(value.tagId)}
                     onClick={onHashTagClick}
@@ -377,4 +399,4 @@ const BoardRegisterPage = () => {
   );
 };
 
-export default BoardRegisterPage;
+export default BoardEditPage;

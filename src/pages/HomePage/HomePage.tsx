@@ -28,13 +28,13 @@ const HomePage = () => {
   const canManageSpace = authSpaceStore((state) => state.canManageSpace);
 
   const NoticeComponent = ({ data }: { data: NoticeDetail }) => {
+    console.log(data);
     return (
       <sty.RowFlexDiv
         onClick={() => {
-          //TODO
-          // navigate(`/board/${data.postId}`);
+          navigate(`/board/${data.boardId}/post/${data.postId}`);
         }}
-        style={{ alignItems: "center" }}
+        style={{ alignItems: "center", cursor: "pointer" }}
       >
         <sty.NoticeRoundDiv>공지</sty.NoticeRoundDiv>
         <div>{data.title}</div>
@@ -46,13 +46,17 @@ const HomePage = () => {
     return (
       <sty.RowFlexDiv
         onClick={() => {
-          //TODO
-          // navigate(`/board/${data.postId}`);
+          // TODO
+          navigate(`/board/${data.boardId}`);
         }}
-        style={{ alignItems: "center" }}
+        style={{ alignItems: "center", cursor: "pointer" }}
       >
         <sty.BoardNameDiv>{data.boardName}</sty.BoardNameDiv>
-        <sty.BoardTitleDiv>{data.boardTitle}</sty.BoardTitleDiv>
+        {data.postTitle ? (
+          <sty.BoardTitleDiv>{data.postTitle}</sty.BoardTitleDiv>
+        ) : (
+          <sty.BoardNoneTitleDiv>게시물이 아직 없어요</sty.BoardNoneTitleDiv>
+        )}
       </sty.RowFlexDiv>
     );
   };
@@ -137,7 +141,7 @@ const HomePage = () => {
               className="settlementTextContainer"
               onClick={() => {
                 //TODO
-                // navigate("/board");
+                navigate("/boardlist/board");
               }}
             >
               <sty.RowFlexDiv style={{ alignItems: "center" }}>

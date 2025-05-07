@@ -14,6 +14,7 @@ import BoardDetailComment from "@/pages/BoardPage/BoardDetailpage/BoardDetailCom
 import { SPACE_ID } from "@/utils/constants";
 
 import * as S from "./BoardDetailPage.styled";
+import { getUserDefaultImageURL } from "@/utils/getUserDefaultImageURL";
 
 // 실제 게시물 내용을 표시하는 컴포넌트
 interface PostDetailContentProps {
@@ -54,19 +55,25 @@ const PostDetailContent = ({ spaceId, boardId, postId }: PostDetailContentProps)
       );
     }
   };
+  console.log(postDetail.result?.creatorName.indexOf("익명"));
 
   return (
     <>
       <S.BoardPostDetailContainer>
         <header className="board-post-detail-header">
-          {postDetail.result?.creatorProfileImageUrl ? (
+          {postDetail.result?.creatorProfileImageUrl &&
+          postDetail.result.creatorName.indexOf("익명") === -1 ? (
             <img
               src={postDetail.result?.creatorProfileImageUrl}
               alt="프로필 이미지"
               className="board-post-detail-header-img"
             />
           ) : (
-            <div className="board-post-detail-header-img" />
+            <img
+              src={getUserDefaultImageURL(8)}
+              alt="프로필 이미지"
+              className="board-post-detail-header-img-anon"
+            />
           )}
           <div className="board-post-detail-header-text">
             <span>{postDetail.result?.creatorName}</span>

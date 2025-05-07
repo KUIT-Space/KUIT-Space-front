@@ -214,7 +214,7 @@ const BoardDetailComment = ({
     <BoardDetailCommentContainer>
       <Modal
         isOpen={isModal}
-        title={"행사를 삭제하시겠습니까?"}
+        title={"댓글을 삭제하시겠습니까?"}
         content={[]}
         leftButtonText="취소"
         rightButtonText="삭제"
