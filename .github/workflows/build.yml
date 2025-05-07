@@ -15,8 +15,9 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: '22.11.0'
-        
-    - name: Clean install
+        cache: 'npm'
+
+    - name: Npm install
       run: |
         rm -rf node_modules package-lock.json
         npm install
